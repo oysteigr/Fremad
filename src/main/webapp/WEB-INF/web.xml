@@ -2,17 +2,21 @@
   <display-name>Archetype Created Web Application</display-name>
 
 	<servlet>
-	  <servlet-name>Jersey REST Service</servlet-name>
-	  <servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
+	  <servlet-name>REST Service</servlet-name>
+	  <servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
 	  <init-param>
-	    <param-name>javax.ws.rs.Application</param-name>
+	    <param-name>com.sun.jersey.config.property.packages</param-name>
 	    <param-value>fremad.gui</param-value>
 	  </init-param>
 	  <load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-	  <servlet-name>Jersey REST Service</servlet-name>
+	  <servlet-name>REST Service</servlet-name>
 	  <url-pattern>/api/*</url-pattern>
 	</servlet-mapping>
+	
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
 	
 </web-app>
