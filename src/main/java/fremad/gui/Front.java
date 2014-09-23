@@ -1,16 +1,20 @@
 package fremad.gui;
 
 
-import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 import org.springframework.web.bind.annotation.RestController;
 
 import fremad.domain.TestObject;
+ 
 
 
-
-@Path("/front")
+@Path("/hello")
 public class Front {
 	
 	private static final String api_version = "00.01.00"; //version of the api
@@ -23,21 +27,15 @@ public class Front {
 	 */
 	
 	@GET
-	@Produces(MediaType.TEXT_HTML)
-	public String returnTitle() {
-		return "<p>Java Webbbb Service</p>";
+	@Path("/{param}")
+	public Response getMsg(@PathParam("param") String msg) {
+ 
+		String output = "Jersey say : " + msg;
+ 
+		return Response.status(200).entity(output).build();
+ 
 	}
 	
-	/**
-	 * This method will return the version number of the api
-	 * Note: this is nested one down from the root.  You will need to add version
-	 * into the URL path.
-	 * 
-	 * Example:
-	 * http://localhost:7001/com.youtube.rest/api/v1/status/version
-	 * 
-	 * @return String - version number of the api
-	 */
 	@Path("/version")
 	@GET
 	@Produces(MediaType.TEXT_HTML)

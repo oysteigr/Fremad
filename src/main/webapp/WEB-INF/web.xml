@@ -3,7 +3,7 @@
 
 	<servlet>
 	  <servlet-name>REST Service</servlet-name>
-	  <servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
+	  <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
 	  <init-param>
 	    <param-name>com.sun.jersey.config.property.packages</param-name>
 	    <param-value>fremad.gui</param-value>
