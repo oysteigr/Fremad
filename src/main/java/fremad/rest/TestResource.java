@@ -1,4 +1,4 @@
-package fremad.gui;
+package fremad.rest;
 
 
 import javax.ws.rs.core.MediaType;
@@ -15,8 +15,8 @@ import fremad.domain.TestObject;
 
 
 @Path("/hello")
-public class Front {
-	
+public class TestResource {
+
 	private static final String api_version = "00.01.00"; //version of the api
 
 	/**
