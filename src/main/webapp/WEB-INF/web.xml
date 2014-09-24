@@ -2,12 +2,12 @@
   <display-name>Archetype Created Web Application</display-name>
 
 	<servlet>
-	  <servlet-name>REST Service</servlet-name>
-	  <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
-	  <init-param>
-	    <param-name>com.sun.jersey.config.property.packages</param-name>
-	    <param-value>fremad.rest/param-value>
-	  </init-param>
+		<servlet-name>REST Service</servlet-name>
+		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+		<init-param>
+			<param-name>com.sun.jersey.config.property.packages</param-name>
+			<param-value>fremad.rest</param-value>
+		</init-param>
 	  <load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
@@ -22,5 +22,4 @@
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
 
-	
 </web-app>
