@@ -67,6 +67,14 @@
 			<version>1.18.1</version>
 		</dependency>
 		
+ <!-- mySQL -->
+		
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.32</version>
+		</dependency>
+		
  <!-- Other -->
 		<dependency>
 			<groupId>asm</groupId>
@@ -79,6 +87,9 @@
 			<artifactId>guava</artifactId>
 			<version>12.0</version>
 		</dependency>
+		
+
+		
 
 
 	 </dependencies>

@@ -54,4 +54,14 @@ public class TestResource {
 		return testObject;
 	}
 	
+	@Path("/add")
+	@GET
+	@Produces(MediaType.TEXT_HTML)
+	public String AddDummy(){
+		fremad.dao.TestDao dao = new fremad.dao.TestDao();
+		String msg = dao.insertArticle();
+		
+		return "<p>"+msg+"</p>";
+	}
+	
 }
