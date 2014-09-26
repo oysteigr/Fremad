@@ -8,13 +8,17 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fremad.domain.TestObject;
  
 
-
-@Path("/hello")
+@RestController
+@Scope("request")
+@RequestMapping("/hello")
 public class TestResource {
 
 	private static final String api_version = "00.01.00"; //version of the api
@@ -27,7 +31,7 @@ public class TestResource {
 	 */
 	
 	@GET
-	@Path("/{param}")
+	@RequestMapping("/{param}")
 	public Response getMsg(@PathParam("param") String msg) {
  
 		String output = "Jersey say : " + msg;
@@ -36,14 +40,14 @@ public class TestResource {
  
 	}
 	
-	@Path("/version")
+	@RequestMapping("/version")
 	@GET
 	@Produces(MediaType.TEXT_HTML)
 	public String returnVersion() {
 		return "<p>Version:</p>" + api_version;
 	}
 	
-	@Path("/json")
+	@RequestMapping("/json")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public TestObject checkRest(){
@@ -53,15 +57,4 @@ public class TestResource {
 		
 		return testObject;
 	}
-	
-	@Path("/add")
-	@GET
-	@Produces(MediaType.TEXT_HTML)
-	public String AddDummy(){
-		fremad.dao.TestDao dao = new fremad.dao.TestDao();
-		String msg = dao.insertArticle();
-		
-		return "<p>"+msg+"</p>";
-	}
-	
 }

@@ -24,7 +24,7 @@ public interface SqlTablesConstants {
 	String SQL_TABLE_VARIABLES_ARTICLE = ""
 		    + "ArticleId INT(64) NOT NULL AUTO_INCREMENT, "
 		    + "AuthorId INT(64), "
-		    + "ArticleDate DATE, "
+		    + "ArticleDate TIMESTAMP, "
 		    + "ArticleType VARCHAR(32), "
 		    + "ArticleHeader VARCHAR(64), "
 		    + "ArticleContext VARCHAR(256), "
