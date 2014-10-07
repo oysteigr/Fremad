@@ -25,4 +25,5 @@
 /.idea/libraries/Maven__org_scannotation_scannotation_1_0_3.xml
 /target/**
 /dart_dev/build/
+/dart_dev/packages/
 /target/

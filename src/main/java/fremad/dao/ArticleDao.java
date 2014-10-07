@@ -1,6 +1,7 @@
 package fremad.dao;
 
 import java.sql.Connection;
+
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Repository;
 
 import fremad.dao.SqlTablesConstants;
 import fremad.domain.*;
-
 
 
 @Repository
