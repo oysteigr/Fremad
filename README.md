@@ -51,7 +51,7 @@ Merk alt og lim inn det som ligger i setup/settings.xml:
 	$ /usr/local/apache-tomcat-7.0.54/bin/startup.sh
   
 
-Sjekk at det funker ved å logge inn på http://localhost:8080/manager/text
+Sjekk at det funker ved å logge inn på http://localhost:8080/manager/html
 
 User: amdin pw: admin
 
