@@ -26,9 +26,4 @@ public class TeamObject {
 	public void setOnlineId(int onlineId) {
 		this.onlineId = onlineId;
 	}
-	
-	
-	
-		
-	}
 }
