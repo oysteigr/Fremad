@@ -10,9 +10,12 @@ public class MatchObject {
 	private int league;
 	private int fremad_team;
 	private boolean homeMatch;
+	private int homeGoals;
 	private String opposingTeamName;
 	private int opposingTeamId;
+	private int opposingTeamGoals;
 	private Date date;
+	private String field;
 	
 	public int getId() {
 		return id;
@@ -38,6 +41,12 @@ public class MatchObject {
 	public void setHomeMatch(boolean homeMatch) {
 		this.homeMatch = homeMatch;
 	}
+	public int getHomeGoals() {
+		return homeGoals;
+	}
+	public void setHomeGoals(int homeGoals) {
+		this.homeGoals = homeGoals;
+	}
 	public String getOpposingTeamName() {
 		return opposingTeamName;
 	}
@@ -49,12 +58,24 @@ public class MatchObject {
 	}
 	public void setOpposingTeamId(int opposingTeamId) {
 		this.opposingTeamId = opposingTeamId;
+	}	
+	public int getOpposingTeamGoals() {
+		return opposingTeamGoals;
+	}
+	public void setOpposingTeamGoals(int opposingTeamGoals) {
+		this.opposingTeamGoals = opposingTeamGoals;
 	}
 	public Date getDate() {
 		return date;
 	}
 	public void setDate(Date date) {
 		this.date = date;
+	}
+	public String getField() {
+		return field;
+	}
+	public void setField(String field) {
+		this.field = field;
 	}
 	
 	

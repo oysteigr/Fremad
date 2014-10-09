@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import fremad.domain.LeagueObject;
+import fremad.domain.MatchListObject;
 import fremad.domain.TableEntryListObject;
 import fremad.domain.TableEntryObject;
+import fremad.domain.TeamObject;
 import fremad.domain.TestObject;
 import fremad.utils.UrlParser;
  
@@ -97,5 +99,20 @@ public class TestResource {
 		tableEntryListObject = UrlParser.getTableEntryListObject(leagueObject);
 		
 		return tableEntryListObject.get(1);
+	}
+	@RequestMapping("/fixture")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public @ResponseBody MatchListObject getFixture(){
+		
+		TeamObject teamObject = new TeamObject();
+		teamObject.setOnlineId(30296);
+		teamObject.setName("Fremad Famagusta");
+		
+		MatchListObject matchListObject = new MatchListObject();
+//		
+		matchListObject = UrlParser.getMatchListObject(teamObject);
+		
+		return matchListObject;
 	}
 }

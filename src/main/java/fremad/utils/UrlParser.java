@@ -1,11 +1,19 @@
 package fremad.utils;
 
 import fremad.domain.LeagueObject;
+import fremad.domain.MatchListObject;
+import fremad.domain.MatchObject;
 import fremad.domain.TableEntryListObject;
 import fremad.domain.TableEntryObject;
+import fremad.domain.TeamObject;
 import fremad.utils.UrlConstants;
 
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -13,8 +21,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public final class UrlParser  extends UrlConstants{
-	
-	
 
 	// final int teamId = 30296;
 	// final int leagueId = 138835;
@@ -28,14 +34,25 @@ public final class UrlParser  extends UrlConstants{
 		Elements rows = getRowsFromTable(leagueObject.getId());
 		
 		for (int i = 2; i < rows.size(); i++) { 
-			
 			tableEntryListObject.add(getTableEntryFromRow(rows.get(i)));
-			
-			Element row = rows.get(i);
-			
 		}
 		
 		return tableEntryListObject;
+	}
+	
+	public static MatchListObject getMatchListObject(TeamObject teamObject){
+		
+		MatchListObject matchListObject = new MatchListObject();
+		
+		matchListObject.setTeamObject(teamObject);
+		
+		Elements rows = getRowsFromFixture(teamObject.getOnlineId());
+		
+		for (int i = 2; i < rows.size(); i++) { 
+			matchListObject.add(getMatchFromRow(rows.get(i), teamObject));
+		}
+		
+		return matchListObject;
 	}
 	
 	private static TableEntryObject getTableEntryFromRow(Element row){
@@ -44,32 +61,61 @@ public final class UrlParser  extends UrlConstants{
 		
 		Elements cols = row.select("td");
 		
-//		String link = cols.get(URL_TABLE_TEAM).select("a").first().attr("href");
-//		String pattern = "fiksId=";
-//		tableEntryObject.setTeamId(Integer.parseInt(link.substring(link.lastIndexOf(pattern)+ pattern.length())));
-		
 		tableEntryObject.setPos(Integer.parseInt(cols.get(URL_TABLE_POS).text()));		
 		tableEntryObject.setTeamId(getTeamIdFromUrl(cols.get(URL_TABLE_TEAM)));
 		tableEntryObject.setTeamName(cols.get(URL_TABLE_TEAM).text());
 		tableEntryObject.setMatchCount(Integer.parseInt(cols.get(URL_TABLE_MATCHES).text()));
-		//(cols.get(URL_TABLE_HOME_WIN).text());
-		//(cols.get(URL_TABLE_HOME_TIED).text());
-		//(cols.get(URL_TABLE_HOME_LOST).text());
-		//(cols.get(URL_TABLE_HOME_GOALS).text());
-		//(cols.get(URL_TABLE_AWAY_WIN).text());
-		//(cols.get(URL_TABLE_AWAY_TIED).text());
-		//(cols.get(URL_TABLE_AWAY_LOST).text());
-		//(cols.get(URL_TABLE_AWAY_GOALS).text());
 		tableEntryObject.setGamesWon(Integer.parseInt(cols.get(URL_TABLE_WIN).text()));
 		tableEntryObject.setGamesTied(Integer.parseInt(cols.get(URL_TABLE_TIED).text()));
 		tableEntryObject.setGamesLost(Integer.parseInt(cols.get(URL_TABLE_LOST).text()));
 		tableEntryObject.setGoalsScored(Integer.parseInt(cols.get(URL_TABLE_GOALS).text().split("-")[0].trim()));
 		tableEntryObject.setGoalsConceded(Integer.parseInt(cols.get(URL_TABLE_GOALS).text().split("-")[1].trim()));
-		//(cols.get(URL_TABLE_DIFF).text());
 		tableEntryObject.setPoints(Integer.parseInt(cols.get(URL_TABLE_POINTS).text()));
 		
 
 		return tableEntryObject;
+	}
+	
+	private static MatchObject getMatchFromRow(Element row, TeamObject teamObject){
+		
+		MatchObject matchObject = new MatchObject();
+		
+		Elements cols = row.select("td");
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");	
+		
+		try {
+			matchObject.setDate(formatter.parse(cols.get(URL_FIXTURES_DATE).text() + " " + cols.get(URL_FIXTURES_TIME).text()));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		matchObject.setFremad_team(teamObject.getId());
+		matchObject.setHomeMatch(teamObject.getOnlineId() == getTeamIdFromUrl(cols.get(URL_FIXTURES_HOMETEAM)));
+		matchObject.setField(cols.get(URL_FIXTURES_FIELD).text());
+		matchObject.setLeague(getTournementIdFromUrl(cols.get(URL_FIXTURES_TOURNEMENT)));
+		
+		if(matchObject.isHomeMatch()){
+			matchObject.setOpposingTeamId(getTeamIdFromUrl(cols.get(URL_FIXTURES_AWAYTEAM)));
+			matchObject.setOpposingTeamName(cols.get(URL_FIXTURES_AWAYTEAM).text());
+		}else{
+			matchObject.setOpposingTeamId(getTeamIdFromUrl(cols.get(URL_FIXTURES_HOMETEAM)));
+			matchObject.setOpposingTeamName(cols.get(URL_FIXTURES_HOMETEAM).text());		
+		}
+		
+		if(cols.get(URL_FIXTURES_RESULT).text().equals("Ikke klart")){
+			return matchObject;
+		}
+		
+		if(matchObject.isHomeMatch()){
+			matchObject.setHomeGoals(Integer.parseInt(cols.get(URL_FIXTURES_RESULT).text().split(":")[0].trim()));
+			matchObject.setOpposingTeamGoals(Integer.parseInt(cols.get(URL_FIXTURES_RESULT).text().split(":")[1].trim()));
+		}else{
+			matchObject.setHomeGoals(Integer.parseInt(cols.get(URL_FIXTURES_RESULT).text().split(":")[1].trim()));
+			matchObject.setOpposingTeamGoals(Integer.parseInt(cols.get(URL_FIXTURES_RESULT).text().split(":")[0].trim()));		
+		}
+
+		return matchObject;
+		
 	}
 	
 	private static Elements getRowsFromTable(int leagueId){
@@ -107,6 +153,12 @@ public final class UrlParser  extends UrlConstants{
 	private static int getTeamIdFromUrl(Element col){
 		String link = col.select("a").first().attr("href");
 		String pattern = "fiksId=";
+		return Integer.parseInt(link.substring(link.lastIndexOf(pattern)+ pattern.length()));
+	}
+	
+	private static int getTournementIdFromUrl(Element col){
+		String link = col.select("a").first().attr("href");
+		String pattern = "tournamentId=";
 		return Integer.parseInt(link.substring(link.lastIndexOf(pattern)+ pattern.length()));
 	}
 }
