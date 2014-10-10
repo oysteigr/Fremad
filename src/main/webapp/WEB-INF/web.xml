@@ -29,7 +29,16 @@
 		<servlet-name>spring-rest</servlet-name>
 		<url-pattern>/rest/*</url-pattern>
 	</servlet-mapping>
-
+	
+	<servlet>
+		<servlet-name>ViewStatusMessages</servlet-name>
+		<servlet-class>ch.qos.logback.classic.ViewStatusMessagesServlet</servlet-class>
+	 </servlet>
+	
+	 <servlet-mapping>
+		<servlet-name>ViewStatusMessages</servlet-name>
+		<url-pattern>/logging</url-pattern>
+	</servlet-mapping>
+	
+	
 </web-app>
-
-

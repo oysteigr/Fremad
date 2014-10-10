@@ -8,6 +8,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +29,8 @@ import fremad.utils.UrlParser;
 @Scope("request")
 @RequestMapping("/hello")
 public class TestResource {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(TestResource.class);
 
 	private static final String api_version = "00.01.00"; //version of the api
 
@@ -87,6 +91,8 @@ public class TestResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public @ResponseBody TableEntryObject getTableItem(){
+		
+		LOG.info("getTableItem");
 		
 		LeagueObject leagueObject = new LeagueObject();
 		leagueObject.setId(138835);

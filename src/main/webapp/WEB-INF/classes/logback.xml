@@ -1,0 +1,26 @@
+<configuration>
+
+  <property name="USER_HOME" value="$HOME/DevLog" />
+
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+		<file>${user.home}/DevLogs/fremadDebugger.log</file>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="ERRORS" class="ch.qos.logback.core.FileAppender">
+		<file>${user.home}/DevLogs/fremadError.log</file>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<logger name="errorLogger" level="ERROR" >
+		<appender-ref ref="ERRORS" />
+	</logger>
+
+	<root level="debug">
+		<appender-ref ref="FILE" />
+	</root>
+</configuration>

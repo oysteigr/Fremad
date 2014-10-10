@@ -6,6 +6,7 @@ import fremad.domain.MatchObject;
 import fremad.domain.TableEntryListObject;
 import fremad.domain.TableEntryObject;
 import fremad.domain.TeamObject;
+import fremad.rest.TestResource;
 import fremad.utils.UrlConstants;
 
 import java.net.URL;
@@ -19,13 +20,17 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class UrlParser  extends UrlConstants{
+	private static final Logger LOG = LoggerFactory.getLogger(UrlParser.class);
 
 	// final int teamId = 30296;
 	// final int leagueId = 138835;
 	
 	public static TableEntryListObject getTableEntryListObject(LeagueObject leagueObject){
+		LOG.info("In getTableEntryListObject");
 		
 		TableEntryListObject tableEntryListObject = new TableEntryListObject();
 		
@@ -77,6 +82,7 @@ public final class UrlParser  extends UrlConstants{
 	}
 	
 	private static MatchObject getMatchFromRow(Element row, TeamObject teamObject){
+		LOG.info("In getMatchListObject");
 		
 		MatchObject matchObject = new MatchObject();
 		
