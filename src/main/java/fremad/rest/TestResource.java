@@ -72,7 +72,7 @@ public class TestResource {
 	@RequestMapping("/table")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public @ResponseBody TableEntryListObject getTable(){
+	public TableEntryListObject getTable(){
 		
 		LeagueObject leagueObject = new LeagueObject();
 		leagueObject.setId(138835);
@@ -90,7 +90,7 @@ public class TestResource {
 	@RequestMapping("/tableitem")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public @ResponseBody TableEntryObject getTableItem(){
+	public TableEntryObject getTableItem(){
 		
 		LOG.info("getTableItem");
 		
@@ -109,7 +109,7 @@ public class TestResource {
 	@RequestMapping("/fixture")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public @ResponseBody MatchListObject getFixture(){
+	public MatchListObject getFixture(){
 		
 		TeamObject teamObject = new TeamObject();
 		teamObject.setOnlineId(30296);
