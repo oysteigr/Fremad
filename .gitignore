@@ -1,4 +1,5 @@
-/src/main/webapp/index._b.html
+/src/main/dart/web/packages
+/src/main/web/index._b.html
 /.classpath
 /.idea/.name
 /.idea/compiler.xml
@@ -26,4 +27,5 @@
 /target/**
 /dart_dev/build/
 /dart_dev/packages/
+/target/
 /target/
