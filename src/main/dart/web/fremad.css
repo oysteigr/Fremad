@@ -59,30 +59,30 @@ header {
   padding: 0px;
 }
 
-nav {
+#main-menu {
   background-color: #020c90;
   padding: 0;
   margin: 0 0;
 }
 
-nav ul {
+#main-menu ul {
   margin: 0;
   padding: 0;
   list-style: none;
   font-weight: bold;
 }
 
-nav ul li {
+#main-menu ul li {
   display: block;
   position: relative;
   float: left;
 }
 
-nav li ul {
+#main-menu li ul {
   display: none;
 }
 
-nav ul li a {
+#main-menu ul li a {
   display: block;
   text-decoration: none;
   padding: 20px;
@@ -94,28 +94,28 @@ nav ul li a {
   text-transform: uppercase;
 }
 
-nav ul li a:hover {
+#main-menu ul li a:hover {
   background: #000000;
 }
 
-nav li:hover ul {
+#main-menu li:hover ul {
   display: block;
   position: absolute;
 }
 
-nav li:hover li {
+#main-menu li:hover li {
   float: none;
 }
 
-nav li:hover a {
+#main-menu li:hover a {
   background: #020c90;
 }
 
-nav li:hover li a:hover {
+#main-menu li:hover li a:hover {
   background: #000000;
 }
 
-nav ul li ul li a {
+#main-menu ul li ul li a {
   text-align: left;
   /* Top-level items are centered, but nested list items are left-aligned */
 }
@@ -255,6 +255,40 @@ footer {
 .table-points {
   text-align: right;
   padding-right: 4%;
+}
+
+.tab-pane {
+  display: none;
+}
+
+.tab-pane.active {
+  display: block;
+}
+
+#team-nav{
+  z-index: -1;
+}
+
+#team-nav ul li{
+    list-style: none;
+}
+
+#team-nav a{
+    text-decoration: none;
+    float: left;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 10px;
+    margin: 0 5px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    background-color: #FFFFFF;
+    font-size: 20px;
+    color: #000000;
+}
+
+#team-nav a:hover{
+    background-color: #E9EFF5;
 }
 
 /*-------Media------*/

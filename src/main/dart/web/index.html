@@ -6,44 +6,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fremad</title>
 
-<script async type="application/dart" src="fremad.dart"></script>
-<script async src="packages/browser/dart.js"></script>
-
 <link rel="stylesheet" href="fremad.css">
+
 </head>
 <body>
   <div id="wrapper">
 
-    <header>
-      <h1>
-        <a href="home"><img src="images/606242_N3_10.jpg" /></a>
-      </h1>
-    </header>
-    <nav>
-      <div id="nav-wrapper">
-        <ul>
-          <li class='active'><a href="#/home">Home</a></li>
-          <li><a href="#/theClub">The club</a></li>
-          <li><a href="#/team">Team</a>
-            <ul>
-              <li><a href="#/team/fremad1">Fremad Famagusta</a></li>
-              <li><a href="#/team/fremad2">Fremad Famagusta 2</a></li>
-            </ul></li>
-          <li><a href="#/sponsors">Sponsors</a></li>
-          <li><a href="#/loggIn">Logg in</a></li>
-        </ul>
-        <div class="clearfix"></div>
-      </div>
-    </nav>
+    <header-item></header-item>
+    <main-menu></main-menu>
     <div id="wrapper-body">
+    
       <ng-view></ng-view>
 
       <div class="clearfix"></div>
     </div>
-    <footer>
-      <h3>Fremad Famagusta, FK</h3>
-    </footer>
+    <footer-item></footer-item>
   </div>
+  
+<script async type="application/dart" src="fremad_main.dart"></script>
+<script async src="packages/browser/dart.js"></script>
 
 </body>
 </html>
