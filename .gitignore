@@ -1,3 +1,5 @@
+/.springBeans
+/src/main/webapp/fremad_static_type_to_uri_mapper.dart
 /src/main/dart/web/packages
 /src/main/web/index._b.html
 /.classpath

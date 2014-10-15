@@ -2,7 +2,7 @@ name: fremad
 description: A sample web application
 homepage: fremad.no
 dependencies:
-  angular: 0.14.0
+  angular: 1.0.0
   browser: any
 transformers:
 - angular

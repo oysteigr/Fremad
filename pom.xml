@@ -165,7 +165,14 @@
 			<version>3.0.8</version>
 			<type>maven-plugin</type>
 		</dependency>
-
+		
+ <!-- Url rewrite -->
+		
+		<dependency>
+			<groupId>org.tuckey</groupId>
+			<artifactId>urlrewritefilter</artifactId>
+			<version>4.0.3</version>
+		</dependency>
 		
  <!-- Other -->
 		<dependency>
