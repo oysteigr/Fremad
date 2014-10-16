@@ -8,7 +8,6 @@ part of fremad;
 )
 class ShowTeamComponent {
   void create() {
-    print("In this func");
+    html.window.console.info("Is in ShowTeamComponent");
   }
-
 }
