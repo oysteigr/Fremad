@@ -20,6 +20,6 @@ class ShowAdminTeamsComponent {
   void add(){
     Team team = new Team(-1, name, onlineId);
     _http(method: 'POST', url: 'rest/team/add', data: JSON.encode(team));
-    html.window.console.info("Added team: " + name);
+    html.window.console.info("Added team: " + name + " succeded!");
   }
 }
