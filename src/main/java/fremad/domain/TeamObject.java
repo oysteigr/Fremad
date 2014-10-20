@@ -8,6 +8,15 @@ public class TeamObject {
 	private String name;
 	private int onlineId;
 	
+	public TeamObject(int id, String name, int onlineId) {
+		this.id = id;
+		this.name = name;
+		this.onlineId = onlineId;
+	}
+	
+	public TeamObject() {
+	}
+	
 	public int getId() {
 		return id;
 	}

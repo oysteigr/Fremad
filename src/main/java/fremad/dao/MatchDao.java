@@ -7,4 +7,5 @@ public interface MatchDao {
 	public boolean delete(int id);
 	public List<MatchObject> listMatches();
 	public void saveMatch(MatchObject match);
+	public MatchObject getMatch(int id);
 }

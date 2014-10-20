@@ -3,7 +3,7 @@ package fremad.rest;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +25,7 @@ public class LeagueResource {
 	private static final Logger LOG = LoggerFactory.getLogger(LeagueResource.class);
 	
 	@RequestMapping("/add")
-	@GET
+	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void add(LeagueObject league){
 		LeagueDao dao = new JdbcLeagueDao();

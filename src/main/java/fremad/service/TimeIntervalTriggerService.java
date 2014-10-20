@@ -14,12 +14,13 @@ import fremad.utils.UrlParser;
 @Scope("singleton")
 public class TimeIntervalTriggerService {
 	private static final Logger LOG = LoggerFactory.getLogger(TimeIntervalTriggerService.class);
+	private static final int updateFrequency = 1000 * 60 * 60 * 3;
 	
 	public TimeIntervalTriggerService() {
 		super();
 		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(new UpdateTable(),0,1000*100);
-		timer.scheduleAtFixedRate(new UpdateFixture(),0,1000*90);
+		timer.scheduleAtFixedRate(new UpdateTable(),0,updateFrequency);
+		timer.scheduleAtFixedRate(new UpdateFixture(),0,updateFrequency);
 	}
 	
 	class UpdateTable extends TimerTask{

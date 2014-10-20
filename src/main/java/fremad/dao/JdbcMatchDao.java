@@ -6,10 +6,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import fremad.domain.MatchObject;
 import fremad.dao.SqlTablesConstants;
+import fremad.rest.MatchResource;
 
 public class JdbcMatchDao extends JdbcConnection implements MatchDao {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(MatchResource.class);
 	
 	public JdbcMatchDao() {
 		super();
@@ -22,6 +28,15 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 		}
 		
 		return false;
+	}
+	
+	@Override
+	public MatchObject getMatch(int id) {
+		List<MatchObject> matchList = listMatches();
+		if (matchList.size() > id) {
+			return matchList.get(id);
+		}
+		return null;
 	}
 	
 	@Override
@@ -40,6 +55,8 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 			prpstm.setInt(7, match.getOpposingTeamGoals());
 			prpstm.setDate(8, new java.sql.Date(match.getDate().getTime()));
 			prpstm.setString(9, match.getField());
+			
+			prpstm.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -48,24 +65,28 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 
 	@Override
 	public List<MatchObject> listMatches() {
+		
 		List<MatchObject> matchList = new ArrayList<MatchObject>();
-		ResultSet res = select("SELECT * FROM match");
+		ResultSet res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_MATCH);
 		try {
 			while (res.next()) {
+				LOG.debug("Adding match");
 				matchList.add(new MatchObject(res.getInt("id"),
 												res.getInt("league"),
 												res.getInt("fremad_team"), 
 												res.getBoolean("home_match"), 
 												res.getInt("home_goals"),
-												res.getString("opposingTeamName"), 
+												res.getString("opposing_team_name"), 
 												res.getInt("opposing_team_id"), 
-												res.getInt("opposingTeamGoals"),
+												res.getInt("opposing_team_goals"),
 												res.getDate("date"),
 												res.getString("field")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		LOG.debug("Found " + matchList.size() + " matches");
 		
 		return matchList;
 	}
