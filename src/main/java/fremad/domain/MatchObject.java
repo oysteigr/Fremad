@@ -17,6 +17,26 @@ public class MatchObject {
 	private Date date;
 	private String field;
 	
+	
+	
+	public MatchObject(int id, int league, int fremad_team, boolean homeMatch,
+			int homeGoals, String opposingTeamName, int opposingTeamId,
+			int opposingTeamGoals, Date date, String field) {
+		this.id = id;
+		this.league = league;
+		this.fremad_team = fremad_team;
+		this.homeMatch = homeMatch;
+		this.homeGoals = homeGoals;
+		this.opposingTeamName = opposingTeamName;
+		this.opposingTeamId = opposingTeamId;
+		this.opposingTeamGoals = opposingTeamGoals;
+		this.date = date;
+		this.field = field;
+	}
+	
+	public MatchObject() {
+	}
+
 	public int getId() {
 		return id;
 	}
