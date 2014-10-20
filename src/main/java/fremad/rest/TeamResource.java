@@ -10,6 +10,7 @@ import javax.ws.rs.Produces;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,10 +31,12 @@ public class TeamResource {
 	@RequestMapping("/add")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void add(TeamObject team){
+	@Produces(MediaType.APPLICATION_JSON)
+	public TeamObject add(@RequestBody TeamObject team){
 		TeamDao dao = new JdbcTeamDao();
 		LOG.debug("Adding team ' " + team.getName() + "'");
 		dao.addTeam(team);
+		return team;
 	}
 	
 	@RequestMapping("/getTeams")
