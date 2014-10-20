@@ -31,7 +31,6 @@ public class JdbcTeamDao extends JdbcConnection implements TeamDao {
 			LOG.debug("Executing: " + prpstm.toString());
 			
 			prpstm.executeUpdate();
-			conn.commit();
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 		}
