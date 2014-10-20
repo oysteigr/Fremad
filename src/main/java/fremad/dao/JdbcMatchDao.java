@@ -15,7 +15,7 @@ import fremad.rest.MatchResource;
 
 public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 	
-	private static final Logger LOG = LoggerFactory.getLogger(MatchResource.class);
+	private static final Logger LOG = LoggerFactory.getLogger(JdbcMatchDao.class);
 	
 	public JdbcMatchDao() {
 		super();
@@ -58,7 +58,7 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 			
 			prpstm.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error(e.toString());
 		}
 		
 	}
@@ -83,7 +83,7 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 												res.getString("field")));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error(e.toString());
 		}
 		
 		LOG.debug("Found " + matchList.size() + " matches");

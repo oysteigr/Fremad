@@ -31,12 +31,10 @@ public class TeamResource {
 	@RequestMapping("/add")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public TeamObject add(@RequestBody TeamObject team){
+	public void add(@RequestBody TeamObject team){
 		TeamDao dao = new JdbcTeamDao();
 		LOG.debug("Adding team ' " + team.getName() + "'");
 		dao.addTeam(team);
-		return team;
 	}
 	
 	@RequestMapping("/getTeams")

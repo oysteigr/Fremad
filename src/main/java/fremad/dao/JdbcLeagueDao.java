@@ -3,10 +3,15 @@ package fremad.dao;
 
 import java.sql.SQLException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import fremad.domain.LeagueObject;
 import fremad.dao.SqlTablesConstants;
 
 public class JdbcLeagueDao extends JdbcConnection implements LeagueDao {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(JdbcLeagueDao.class);
 	
 	public JdbcLeagueDao() {
 		super();
@@ -23,7 +28,7 @@ public class JdbcLeagueDao extends JdbcConnection implements LeagueDao {
 			prpstm.setInt(2, league.getTeam());
 			prpstm.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error(e.toString());
 		}
 	}
 }

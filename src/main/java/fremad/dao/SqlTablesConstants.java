@@ -19,6 +19,7 @@ public interface SqlTablesConstants {
 	String SQL_TABLE_NAME_ARTICLE = "articles";
 	String SQL_TABLE_NAME_MATCH = "matches";
 	String SQL_TABLE_NAME_LEAGUE = "league";
+	String SQL_TABLE_NAME_TEAM = "team";
 	
 	
 	// Table values
