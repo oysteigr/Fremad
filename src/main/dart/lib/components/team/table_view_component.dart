@@ -37,19 +37,4 @@ class ShowTeamTableComponent {
         message = "Could not load table.json";
       });
   }
-  String get dud => "ei";
-  List<String> get _app{
-    return appointments;
-  }
-  
-  var thing = 0;
-  final items = [];
-
-  void addItem() {
-    items.add("Thing ${thing++}");
-  }
-
-  void removeItem() {
-    if (items.isNotEmpty) items.removeLast();
-  }
 }
