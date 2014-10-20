@@ -1,0 +1,21 @@
+#admin-nav{
+  z-index: -1;
+}
+
+#admin-nav ul li{
+    list-style: none;
+}
+
+#admin-nav a{
+    text-decoration: none;
+    float: left;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 10px;
+    margin: 0 5px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    background-color: #FFFFFF;
+    font-size: 20px;
+    color: #000000;
+}

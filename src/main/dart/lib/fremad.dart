@@ -10,6 +10,8 @@ import 'package:angular/animate/module.dart';
 
 import 'models/table.dart';
 import 'models/table_entry.dart';
+import 'models/team.dart';
+
 
 part 'components/header_component.dart';
 part 'components/main_menu_component.dart';
@@ -20,6 +22,7 @@ part 'components/home_view_component.dart';
 part 'components/loggin_view_component.dart';
 part 'components/sponsors_view_component.dart';
 part 'components/team_view_component.dart';
+part 'components/admin_view_component.dart';
 
 part 'components/front/front_article_list_component.dart';
 part 'components/front/front_article_component.dart';
@@ -28,6 +31,11 @@ part 'components/team/about_view_component.dart';
 part 'components/team/players_view_component.dart';
 part 'components/team/fixture_view_component.dart';
 part 'components/team/table_view_component.dart';
+
+part 'components/admin/articles_view_component.dart';
+part 'components/admin/players_view_component.dart';
+part 'components/admin/matches_view_component.dart';
+part 'components/admin/teams_view_component.dart';
 
 part 'services/messages.dart';
 
@@ -47,6 +55,7 @@ class FremadApp extends Module {
     bind(ShowLogginComponent);
     bind(ShowSponsorsComponent);
     bind(ShowTeamComponent);
+    bind(ShowAdminComponent);
     
     bind(FrontArticleComponent);
     bind(FrontArticleListComponent);
@@ -55,6 +64,11 @@ class FremadApp extends Module {
     bind(ShowTeamPlayersComponent);
     bind(ShowTeamFixtureComponent);
     bind(ShowTeamTableComponent);
+    
+    bind(ShowAdminArticlesComponent);
+    bind(ShowAdminTeamsComponent);
+    bind(ShowAdminMatchesComponent);
+    bind(ShowAdminPlayersComponent);
     
     bind(Messages);
     
