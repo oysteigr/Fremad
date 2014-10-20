@@ -28,13 +28,27 @@ public class TeamResource {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(TeamResource.class);
 	
-	@RequestMapping("/add")
+	@RequestMapping("/addTeam")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void add(@RequestBody TeamObject team){
+	public void addTeam(@RequestBody TeamObject team){
 		TeamDao dao = new JdbcTeamDao();
 		LOG.debug("Adding team ' " + team.getName() + "'");
 		dao.addTeam(team);
+	}
+	
+	@RequestMapping("/updateTeam")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void updateTeam(@RequestBody TeamObject team){
+
+	}
+	
+	@RequestMapping("/deleteTeam")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void deleteTeam(@RequestBody TeamObject team){
+
 	}
 	
 	@RequestMapping("/getTeams")
