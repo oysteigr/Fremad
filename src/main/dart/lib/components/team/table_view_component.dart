@@ -10,10 +10,9 @@ class ShowTeamTableComponent {
   Table table;
   bool tableLoaded;
   String message;
-  Router router;
   List<TableEntry> tableEntryListe;
   
-  ShowTeamTableComponent(this._http, this.router){
+  ShowTeamTableComponent(this._http){
     _loadData();
   }
   
