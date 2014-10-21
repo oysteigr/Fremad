@@ -12,7 +12,7 @@ public class JdbcDbSetupDao extends JdbcConnection {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(JdbcDbSetupDao.class);
 	
-	public JdbcLeagueDao() {
+	public JdbcDbSetupDao() {
 		super();
 	}
 	

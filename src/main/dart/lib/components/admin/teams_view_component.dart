@@ -49,4 +49,8 @@ class ShowAdminTeamsComponent {
     });
     html.window.console.info("Added team: " + name + " succeded!");
   }
+  
+  void update(int id){
+    
+  }
 }
