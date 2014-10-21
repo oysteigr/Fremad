@@ -1,0 +1,40 @@
+#team-list{
+  width: 100%;
+  font-size: 18px;
+  list-style-type: none;
+  padding: 0 0 0 0;
+}
+
+#team-list li{
+  width: 100%;
+  background-color: #FFFFFF;
+  margin-bottom: 20px;
+}
+
+#team-list input{
+  font-size: 18px;
+}
+
+#add-element{
+  background-color: #FFFFFF;
+  font-size: 18px;
+  padding: 0 0 0 0;
+  width: 100%;
+}
+
+#add-element input{
+  font-size: 18px;
+}
+
+.item-name{
+  padding: 10px 30px 10px 10px;
+  border-style: solid;
+  border-color: #AAAAAA;
+  border-width: 1px;
+  cursor: pointer;
+  
+}
+
+.item-edit{
+  padding: 10px 30px 10px 10px;
+}

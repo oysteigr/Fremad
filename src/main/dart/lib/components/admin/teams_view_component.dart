@@ -3,6 +3,7 @@ part of fremad;
 @Component(
     selector: 'admin-teams-view',
     templateUrl: 'packages/fremad/components/admin/teams_view.html',
+    cssUrl: 'packages/fremad/components/admin/teams_view.css',
     useShadowDom: false
 )
 class ShowAdminTeamsComponent {
@@ -12,13 +13,15 @@ class ShowAdminTeamsComponent {
   int onlineId = 0;
   TeamList teamListObject;
   List<Team> teamList;
+  int selectedTeam = -1;
+  bool isEditing = false;
   
   ShowAdminTeamsComponent(this._http){
     loadData();
   }
   
   void loadData() {
-    html.window.console.info("Is in _loadData");
+    html.window.console.info("Is in loadData");
     tableLoaded = false;
     _http.get('rest/team/getTeams.json')
       .then((HttpResponse response) {
@@ -52,5 +55,26 @@ class ShowAdminTeamsComponent {
   
   void update(int id){
     
+  }
+  
+  void selectTeam(int id){
+    html.window.console.info("Selected team: " + id.toString());
+    if(selectedTeam == id){
+      selectedTeam = -1;
+    } else {
+      selectedTeam = id;
+    }
+  }
+  
+  void setEditingMode(){
+    isEditing = !isEditing;
+  }
+  
+  bool isActive(int id){
+    return selectedTeam != id;
+  }
+  
+  bool isAdding(){
+    return !isEditing;
   }
 }
