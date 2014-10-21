@@ -17,9 +17,13 @@ public interface SqlTablesConstants {
 	// Table names
 	
 	String SQL_TABLE_NAME_ARTICLE = "articles";
-	String SQL_TABLE_NAME_MATCH = "matches";
+
+	String SQL_TABLE_NAME_MATCH = "match";
 	String SQL_TABLE_NAME_LEAGUE = "league";
 	String SQL_TABLE_NAME_TEAM = "team";
+	String SQL_TABLE_NAME_EVENT = "event";
+	String SQL_TABLE_NAME_EVENT_TYPE = "event_type";
+	String SQL_TABLE_NAME_PLAYER = "player";
 	
 	
 	// Table values
@@ -34,5 +38,67 @@ public interface SqlTablesConstants {
 		    + "ArticleContent TEXT, "
 		    + "ArticleImageUrl VARCHAR(64), "
 		    + "PRIMARY KEY ( ArticleId )";
+
+    String[] SQL_CREATE_TABLE_STRINGS = {
+        "CREATE TABLE `team` ("
+            + " `id` int(11) NOT NULL AUTO_INCREMENT,"
+            + " `name` varchar(255) DEFAULT NULL,"
+            + " `online_id` int(11) DEFAULT NULL,"
+            + "PRIMARY KEY (`id`)"
+            + ") ENGINE=InnoDB DEFAULT CHARSET=utf8",
+        "CREATE TABLE `player` ("
+            + " `id` int(11) NOT NULL,"
+            + " `name` varchar(255) NOT NULL,"
+            + " `position` varchar(64) NOT NULL,"
+            + " `preferred_foot` enum('left', 'right'),"
+            + " `team` int(11) NOT NULL,"
+            + " CONSTRAINT `fk_player_team` FOREIGN KEY (`team`) REFERENCES `team` (`id`)"
+            + ") ENGINE=InnoDB DEFAULT CHARSET=utf8",
+        "CREATE TABLE `league` ("
+            + " `id` int(11) NOT NULL AUTO_INCREMENT,"
+            + " `year` year(4) DEFAULT NULL,"
+            + " `team` int(11) DEFAULT NULL,"
+            + " CONSTRAINT `fk_league_team` FOREIGN KEY (`team`) REFERENCES `team` (`id`),"
+            + " PRIMARY KEY (`id`)"
+            + " ) ENGINE=InnoDB DEFAULT CHARSET=utf8",
+        "CREATE TABLE `match` ("
+            + " `id` int(11) NOT NULL AUTO_INCREMENT,"
+            + " `league` int(11) NOT NULL,"
+            + " `team` int(11) NOT NULL,"
+            + " `home_match` tinyint(1) NOT NULL,"
+            + " `home_goals` tinyint DEFAULT NULL,"
+            + " `opposing_team_name` varchar(255) NOT NULL,"
+            + " `opposing_team_id` int(11) NOT NULL,"
+            + " `opposing_team_goals` tinyint DEFAULT NULL,"
+            + " `date` date NOT NULL,"
+            + " `field` varchar(255) NOT NULL,"
+            + " CONSTRAINT `fk_match_team` FOREIGN KEY (`team`) REFERENCES `team` (`id`),"
+            + " CONSTRAINT `fk_match_league` FOREIGN KEY (`league`) REFERENCES `league` (`id`),"
+            + " PRIMARY KEY (`id`)"
+            + " ) ENGINE=InnoDB DEFAULT CHARSET=utf8",
+        "CREATE TABLE `event_type` ("
+            + " `id` int(4) NOT NULL,"
+            + " `name` varchar(255) NOT NULL,"
+            + " PRIMARY KEY (`id`)"
+            + " ) ENGINE=InnoDB DEFAULT CHARSET=utf8",
+        "CREATE TABLE `event` ("
+            + " `id` int(11) NOT NULL AUTO_INCREMENT,"
+            + " `type` int(4) NOT NULL,"
+            + " `match` int(11) NOT NULL,"
+            + " `time` tinyint NOT NULL,"
+            + " CONSTRAINT `fk_event_event_type` FOREIGN KEY (`type`) REFERENCES `event_type` (`id`),"
+            + " CONSTRAINT `fk_event_match` FOREIGN KEY (`match`) REFERENCES `match` (`id`),"
+            + " PRIMARY KEY (`id`)"
+            + " ) ENGINE=InnoDB DEFAULT CHARSET=utf8"
+    };
+
+    String[] SQL_DROP_TABLE_STRINGS = {
+        "DROP TABLE `player`",
+        "DROP TABLE `event`",
+        "DROP TABLE `event_type`",
+        "DROP TABLE `match`",
+        "DROP TABLE `league`",
+        "DROP TABLE `team`"
+    };
 }
 
