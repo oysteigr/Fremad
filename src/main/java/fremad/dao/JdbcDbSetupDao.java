@@ -1,6 +1,7 @@
 package fremad.dao;
 
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.slf4j.Logger;
@@ -45,13 +46,14 @@ public class JdbcDbSetupDao extends JdbcConnection {
             while (res.next()) {
                 count++;
             }   
-            if (count != length(SqlTablesConstants.SQL_CREATE_TABLE_STRINGS)) {
+            if (count != SqlTablesConstants.SQL_CREATE_TABLE_STRINGS.length) {
                 return false;
             } else {
                 return true;
             }
         } catch (SQLException e) {
             LOG.error(e.toString());
+            return false;
         }
     }
 }
