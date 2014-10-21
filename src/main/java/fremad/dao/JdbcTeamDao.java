@@ -40,10 +40,10 @@ public class JdbcTeamDao extends JdbcConnection implements TeamDao {
 	public TeamListObject getTeams() {
 		TeamListObject teams = new TeamListObject();
 		
-		ResultSet res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_MATCH);
+		ResultSet res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_TEAM);
 		try {
 			while (res.next()) {
-				teams.add(new TeamObject(-1, res.getString("name"), res.getInt("online_id")));
+				teams.add(new TeamObject(res.getInt("id"), res.getString("name"), res.getInt("online_id")));
 			}
 		} catch (SQLException e) {
 			LOG.error(e.toString());

@@ -1,4 +1,8 @@
 
+<ul id="team-list">
+  <li ng-repeat="team in teamList">{{team.name}}</li>
+</ul>
+
 <form ng-submit="add()">
   Name:
   <input type="text" ng-model="name"><br>

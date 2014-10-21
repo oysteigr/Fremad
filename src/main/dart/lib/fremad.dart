@@ -11,6 +11,7 @@ import 'package:angular/animate/module.dart';
 import 'models/table.dart';
 import 'models/table_entry.dart';
 import 'models/team.dart';
+import 'models/team_list.dart';
 
 
 part 'components/header_component.dart';
