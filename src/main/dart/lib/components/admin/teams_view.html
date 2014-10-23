@@ -1,30 +1,39 @@
 
 <ul id="team-list">
-  <li ng-repeat="team in teamList">
-  <div class="item-name" ng-click="selectTeam(team.id)">
-    {{team.name}}
-  </div>
-  <div class="item-edit" ng-hide="isActive(team.id)">
-    <form ng-submit="update(team.id)">
-    Name:
-    <input type="text" size="35" ng-model="team.name">
-    Online ID:
-    <input type="number" size="15" ng-model="team.onlineId">
-    <input type="submit" value="update"> 
+    <li ng-repeat="team in teamList">
+    <div class="item-name" ng-click="selectTeam(team.id)">
+      {{team.name}}
+    </div>
+    <div class="item-edit" ng-hide="isActive(team.id)">
+      <form>
+      Name:
+      <input type="text" size="35" ng-model="team.name">
+      Online ID:
+      <input type="number" size="15" ng-model="team.onlineId">
+      <input type="button" class="adminButton greenButton" value="update" ng-click="update(team.id, team.name, team.onlineId)"> 
+      <input type="button" class="adminButton redButton" value="delete" ng-click="delete(team.id, team.name, team.onlineId)">
   </form>
   </div>
   </li>
 </ul>
 
-<div id="add-element">
-  <div class="item-name" ng-click="setEditingMode()">Add new team: {{name}}</div>
-  <div class="item-edit" ng-hide="isAdding()">
-  <form ng-submit="add()">
-    Name:
-    <input type="text" size="35" ng-model="name">
-    Online ID:
-    <input type="number" size="15" ng-model="onlineId">
-    <input type="submit" value="add"> 
+<div id="add-element">  
+  <form>
+    <input type="button" ng-show="isAdding()" class="adminButton greenButton" value="add new team" ng-click="setEditingMode()">
   </form>
+  <div id="add-active" ng-hide="isAdding()">  
+    <div class="item-name">Add new team: {{name}}</div>
+    <div class="item-edit">
+    <form>
+      Name:
+      <input type="text" size="35" ng-model="name">
+      Online ID:
+      <input type="number" size="15" ng-model="onlineId">
+      <input type="button" class="adminButton greenButton" value="add" ng-click="add()">
+      <input type="button" class="adminButton redButton" value="cancel" ng-click="cancel()"> 
+    </form>
+    </div>
   </div>
 </div>
+
+
