@@ -157,15 +157,6 @@
 			<version>1.7.7</version>
 		</dependency>
 		
-<!--  Dart plugin -->
-
-		<dependency>
-			<groupId>com.github.dzwicker.dart</groupId>
-			<artifactId>dart-maven-plugin</artifactId>
-			<version>3.0.8</version>
-			<type>maven-plugin</type>
-		</dependency>
-		
  <!-- Url rewrite -->
 		
 		<dependency>
@@ -186,10 +177,6 @@
 			<artifactId>guava</artifactId>
 			<version>12.0</version>
 		</dependency>
-		
-
-		
-
 
 	 </dependencies>
 	 
@@ -223,16 +210,28 @@
 	<build>
 		<finalName>fremad</finalName>
 		<plugins>
-			<plugin>		
-				<groupId>com.github.dzwicker.dart</groupId>
-				<artifactId>dart-maven-plugin</artifactId>
-				<configuration>
-					<checkedMode>true</checkedMode>
-					<dartSdk>${user.home}/dart/dart-sdk</dartSdk>
-					<compileSourceRoots>
-						<file>${project.basedir}/src/main/dart</file>
-					</compileSourceRoots>
-				</configuration>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.7</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<!-- here the phase you need -->
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.basedir}/src/main/webapp/</outputDirectory>
+							<resources>          
+								<resource>
+									<directory>${project.basedir}/src/main/dart/build/web/</directory>
+									<filtering>false</filtering>
+								</resource>
+							</resources>              
+						</configuration>            
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -260,51 +259,6 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>copy</phase>
-						<configuration>
-							<tasks>
-				
-				      <!--
-				Place any Ant task here. You can add anything
-				you can add between <target> and </target> in a
-				build.xml.
-				-->
-				
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						</execution>
-					</executions>
-				</plugin>
-				<plugin>
-					<artifactId>maven-resources-plugin</artifactId>
-					<version>2.7</version>
-					<executions>
-						<execution>
-							<id>copy-resources</id>
-							<!-- here the phase you need -->
-							<phase>package</phase>
-							<goals>
-								<goal>copy-resources</goal>
-							</goals>
-							<configuration>
-								<outputDirectory>${project.basedir}/src/main/webapp/</outputDirectory>
-								<resources>          
-									<resource>
-										<directory>${project.basedir}/src/main/dart/build/web/</directory>
-										<filtering>false</filtering>
-									</resource>
-								</resources>              
-							</configuration>            
-							</execution>
-						</executions>
-					</plugin>
 		</plugins>
 
 	</build>

@@ -12,7 +12,8 @@ import 'models/table.dart';
 import 'models/table_entry.dart';
 import 'models/team.dart';
 import 'models/team_list.dart';
-
+import 'models/league.dart';
+import 'models/league_list.dart';
 
 part 'components/header_component.dart';
 part 'components/main_menu_component.dart';
@@ -35,8 +36,9 @@ part 'components/team/table_view_component.dart';
 
 part 'components/admin/articles_view_component.dart';
 part 'components/admin/players_view_component.dart';
-part 'components/admin/matches_view_component.dart';
+part 'components/admin/leagues_view_component.dart';
 part 'components/admin/teams_view_component.dart';
+part 'components/admin/events_view_component.dart';
 
 part 'services/messages.dart';
 
@@ -68,7 +70,8 @@ class FremadApp extends Module {
     
     bind(ShowAdminArticlesComponent);
     bind(ShowAdminTeamsComponent);
-    bind(ShowAdminMatchesComponent);
+    bind(ShowAdminLeaguesComponent);
+    bind(ShowAdminEventsComponent);
     bind(ShowAdminPlayersComponent);
     
     bind(Messages);

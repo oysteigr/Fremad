@@ -34,17 +34,19 @@ public class LeagueResource {
 	
 	@RequestMapping("/addLeague")
 	@POST
+	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void addLeague(LeagueObject league){
+	public LeagueObject addLeague(@RequestBody LeagueObject league){
 		LeagueDao dao = new JdbcLeagueDao();
 		LOG.debug("Adding league ' " + league.getTeam() + "'");
 		dao.addLeague(league);
+		return league;
 	}
 	
 	@RequestMapping("/updateLeague")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void updateTeam(@RequestBody LeagueObject league){
+	public void updateLeague(@RequestBody LeagueObject league){
 
 	}
 	
@@ -59,7 +61,18 @@ public class LeagueResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public LeagueListObject getLeagues() {
+		LeagueListObject dummy = new LeagueListObject();
+		LeagueObject dummyItem = new LeagueObject();
+		dummyItem.setId(242424);
+		dummyItem.setTeam(3);
+		dummyItem.setYear(2014);
+		dummy.add(dummyItem);
+		dummyItem = new LeagueObject();
+		dummyItem.setId(323232);
+		dummyItem.setTeam(4);
+		dummyItem.setYear(2014);
+		dummy.add(dummyItem);
 
-		return null;
+		return dummy;
 	}
 }

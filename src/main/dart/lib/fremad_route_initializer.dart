@@ -59,9 +59,13 @@ void fremadRouteInitializer(Router router, RouteViewFactory view) {
             path: '/players',
             viewHtml: '<admin-players-view></admin-players-view>'
          ),
-         "matches" : ngRoute(
-            path: '/matches',
-            viewHtml: '<admin-matches-view></admin-matches-view>'
+         "events" : ngRoute(
+            path: '/events',
+            viewHtml: '<admin-events-view></admin-events-view>'
+         ),
+         "leagues" : ngRoute(
+            path: '/leagues',
+            viewHtml: '<admin-leagues-view></admin-leagues-view>'
          )
       }
     )

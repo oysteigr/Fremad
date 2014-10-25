@@ -86,6 +86,9 @@ part of fremad;
   void delete(int id, String name, int onlineId){
     html.window.console.info("In delete()");
     Team tempTeam = new Team(id, name, onlineId);
+    html.window.console.info("Before");
+    Team team1 = teamList.firstWhere((Team team) => onlineId == team.id);
+    html.window.console.info("After");
  /*   for(int i = 0; i < teamList.length; i++){
       if(teamList.elementAt(i).id == selectedTeam){
         tempTeam = teamList.elementAt(i);
