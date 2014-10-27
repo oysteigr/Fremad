@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import fremad.domain.LeagueListObject;
 import fremad.domain.LeagueObject;
 import fremad.processor.LeagueProcessor;
+import fremad.utils.UrlParser;
 
  
 
@@ -61,5 +62,16 @@ public class LeagueResource {
 		LOG.debug("Getting leagues..");
 
 		return leagueProcessor.getLeagues();
+	}
+	
+	@RequestMapping("/getNameFromId")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String getNameFromId(@RequestBody String id) {
+		LOG.debug("Getting name from id= " + id);
+		String name = UrlParser.getLeagueNameFromId(Integer.parseInt(id));
+		LOG.debug("Getting name from id= " + Integer.parseInt(id) + " and got name = " + name);
+		return name;
 	}
 }

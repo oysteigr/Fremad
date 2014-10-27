@@ -11,11 +11,10 @@
           <option ng-repeat="team in teamList" ng-value="team.id">{{team.name}}</option>
         </select>
       </div><br>
-      Id:
-      <input type="number" size="35" ng-model="league.id">
+      Id: {{league.id}}
       Year:
       <input type="number" size="15" ng-model="league.year">
-      <input type="button" class="adminButton greenButton" value="update" ng-click="updateLeague(league.id, league.name, league.year, league.team)"> 
+      <input type="button" class="adminButton greenButton" value="update" ng-click="updateLeague(league.id, league.name, league.year, league.team)">
       <input type="button" class="adminButton redButton" value="delete" ng-click="deleteLeague(league.id, league.name, league.year, league.team)">
   </form>
   </div>
@@ -37,10 +36,11 @@
         </select>
       </div><br>
       Id:
-      <input type="number" size="35" ng-model="id">
+      <input type="number" ng-change="idChanged()" size="35" ng-model="id">
       Year:
       <input type="number" size="15" ng-model="year">
-      <input type="button" class="adminButton greenButton" value="add" ng-click="addLeague()">
+      <input type="button" ng-show="isValidated" class="adminButton greenButton" value="add" ng-click="addLeague()">
+      <input type="button" ng-hide="isValidated" class="adminButton greenButton" value="validate" ng-click="getName(id)">  
       <input type="button" class="adminButton redButton" value="cancel" ng-click="cancel()"> 
     </form>
     </div>

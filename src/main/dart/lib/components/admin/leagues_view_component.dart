@@ -9,6 +9,7 @@ part of fremad;
 class ShowAdminLeaguesComponent {
   final Http _http;
   bool tableLoaded;
+  bool isValidated = true;
   int id = 0;
   String name = "no name";
   int year = 0;
@@ -108,6 +109,7 @@ class ShowAdminLeaguesComponent {
     year = 0;
     team = -1;
     isEditing = false;
+    isValidated = true;
     html.window.console.info("Cancel");
   }
   
@@ -131,6 +133,20 @@ class ShowAdminLeaguesComponent {
     html.window.console.info("Deleting league: " + id.toString() + " succeded!");
   }
   
+  void getName(id){
+    html.window.console.info("In getName");
+    _http.post('rest/league/getNameFromId', JSON.encode(id))
+    .then((HttpResponse response) {
+      name = response.data.toString();
+      if (name == "ID_ERROR"){
+        isValidated = false;
+      } else {
+        isValidated = true;
+      }
+    });
+    
+  }
+  
   void selectLeague(int id){
     html.window.console.info("Selected team: " + id.toString());
     if(selectedLeague == id){
@@ -138,17 +154,30 @@ class ShowAdminLeaguesComponent {
     } else {
       selectedLeague = id;
     }
+    isValidated = true;
+    isEditing = false;
   }
   
   void setEditingMode(){
+    html.window.console.info("In setEditingMode");
+    isValidated = false;
+    selectedLeague = -1;
     isEditing = !isEditing;
   }
   
   bool isActive(int id){
+    html.window.console.info("In isActive");
    return selectedLeague != id;
   }
   
   bool isAdding(){
+    html.window.console.info("In isAdding");
     return !isEditing;
   }
+  
+  void idChanged(){
+    html.window.console.info("In idChanged");
+    isValidated = false;
+  }
+  
 }

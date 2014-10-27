@@ -25,9 +25,6 @@ import org.slf4j.LoggerFactory;
 
 public final class UrlParser  extends UrlConstants{
 	private static final Logger LOG = LoggerFactory.getLogger(UrlParser.class);
-
-	// final int teamId = 30296;
-	// final int leagueId = 138835;
 	
 	public static TableEntryListObject getTableEntryListObject(LeagueObject leagueObject){
 		LOG.info("In getTableEntryListObject");
@@ -58,6 +55,41 @@ public final class UrlParser  extends UrlConstants{
 		}
 		
 		return matchListObject;
+	}
+	
+	public static String getLeagueNameFromId(int id){
+		try {
+			String urlString = "http://www.fotball.no/System-pages/Tabell/?tournamentId=" + id;
+			URL url = new URL(urlString);
+			Document doc = Jsoup.parse(url, 1000000);
+			
+			Element header = doc.select("h2").get(0); //select the first h2 header.
+			
+			return header.text();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "ID_ERROR";
+		}
+		
+	}
+	
+	public static String getTeamNameFromId(int id){
+		
+		try {
+			String urlString = "http://www.fotball.no/Community/Lag/Hjem/?fiksId=" + id;
+			URL url = new URL(urlString);
+			Document doc1 = Jsoup.parse(url, 1000000);
+			
+			Element header = doc1.select("h1").get(0); //select the h1 header.
+			
+			return header.text();
+	
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "ID_ERROR";
+		}
+		
 	}
 	
 	private static TableEntryObject getTableEntryFromRow(Element row){
