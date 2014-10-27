@@ -55,7 +55,8 @@ public interface SqlTablesConstants {
             + " CONSTRAINT `fk_player_team` FOREIGN KEY (`team`) REFERENCES `team` (`id`)"
             + ") ENGINE=InnoDB DEFAULT CHARSET=utf8",
         "CREATE TABLE `league` ("
-            + " `id` int(11) NOT NULL AUTO_INCREMENT,"
+            + " `id` int(11) NOT NULL,"
+            + " `name` varchar(255),"
             + " `year` year(4) DEFAULT NULL,"
             + " `team` int(11) DEFAULT NULL,"
             + " CONSTRAINT `fk_league_team` FOREIGN KEY (`team`) REFERENCES `team` (`id`),"
