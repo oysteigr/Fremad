@@ -9,19 +9,15 @@ import javax.ws.rs.Produces;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import fremad.dao.JdbcLeagueDao;
-import fremad.dao.JdbcTeamDao;
-import fremad.dao.LeagueDao;
-import fremad.dao.TeamDao;
 import fremad.domain.LeagueListObject;
 import fremad.domain.LeagueObject;
-import fremad.domain.TeamListObject;
-import fremad.domain.TeamObject;
+import fremad.processor.LeagueProcessor;
 
  
 
@@ -32,15 +28,16 @@ public class LeagueResource {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(LeagueResource.class);
 	
+	@Autowired
+	LeagueProcessor leagueProcessor;
+	
 	@RequestMapping("/addLeague")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public LeagueObject addLeague(@RequestBody LeagueObject league){
-		LeagueDao dao = new JdbcLeagueDao();
 		LOG.debug("Adding league ' " + league.getTeam() + "'");
-		dao.addLeague(league);
-		return league;
+		return leagueProcessor.addLeague(league);
 	}
 	
 	@RequestMapping("/updateLeague")
@@ -61,18 +58,8 @@ public class LeagueResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public LeagueListObject getLeagues() {
-		LeagueListObject dummy = new LeagueListObject();
-		LeagueObject dummyItem = new LeagueObject();
-		dummyItem.setId(242424);
-		dummyItem.setTeam(3);
-		dummyItem.setYear(2014);
-		dummy.add(dummyItem);
-		dummyItem = new LeagueObject();
-		dummyItem.setId(323232);
-		dummyItem.setTeam(4);
-		dummyItem.setYear(2014);
-		dummy.add(dummyItem);
+		LOG.debug("Getting leagues..");
 
-		return dummy;
+		return leagueProcessor.getLeagues();
 	}
 }

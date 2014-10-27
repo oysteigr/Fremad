@@ -5,9 +5,27 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "LeagueObject")
 public class LeagueObject {
 	private int id;
+	private String name;
 	private int year;
 	private int team;
 	
+	public LeagueObject(int id, String name, int year, int team) {
+		this.id = id;
+		this.name = name;
+		this.year = year;
+		this.team = team;
+	}
+	
+	public LeagueObject() {
+	}
+	
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public int getId() {
 		return id;
 	}

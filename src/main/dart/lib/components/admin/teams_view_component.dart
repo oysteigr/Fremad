@@ -87,13 +87,15 @@ part of fremad;
     html.window.console.info("In delete()");
     Team tempTeam = new Team(id, name, onlineId);
     html.window.console.info("Before");
-    Team team1 = teamList.firstWhere((Team team) => onlineId == team.id);
+ //   Team team1 = teamList.firstWhere((Team team) => onlineId == team.id);
     html.window.console.info("After");
- /*   for(int i = 0; i < teamList.length; i++){
-      if(teamList.elementAt(i).id == selectedTeam){
-        tempTeam = teamList.elementAt(i);
-      }
-    }*/
+    for(int i = 0; i < teamList.length; i++){
+      print(teamList[i]);
+      print(teamList[i].name);
+ /*     if(teamList[i].id == selectedTeam){
+        html.window.console.info("in");
+      }*/
+    }
     _http.post('rest/team/deleteTeam.json', JSON.encode(tempTeam))
     .catchError((e) {
       print(e);

@@ -10,6 +10,7 @@ class ShowAdminLeaguesComponent {
   final Http _http;
   bool tableLoaded;
   int id = 0;
+  String name = "no name";
   int year = 0;
   int team = -1;
   
@@ -64,8 +65,8 @@ class ShowAdminLeaguesComponent {
       });
   } 
   
-  void add(){
-    League league = new League(id, year, team);
+  void addLeague(){
+    League league = new League(id, name, year, team);
     _http.post('rest/league/addLeague.json', JSON.encode(league))
     .then((HttpResponse response) {
       leagueList.add(new League.fromJson(response.data));
@@ -81,9 +82,9 @@ class ShowAdminLeaguesComponent {
     html.window.console.info("Added league: " + id.toString() + " succeded!");
   }
   
-  void update(int id, int year, int team){
+  void updateLeague(int id, String name, int year, int team){
     html.window.console.info("In update()");
-    League tempLeague = new League(id, year, team);
+    League tempLeague = new League(id, name, year, team);
     /*   for(int i = 0; i < teamList.length; i++){
       html.window.console.info("For in updateTeam size=" + teamList.length.toString());
       if(teamList.elementAt(i).id == selectedTeam){
@@ -110,9 +111,9 @@ class ShowAdminLeaguesComponent {
     html.window.console.info("Cancel");
   }
   
-  void delete(int id, int year, int team){
+  void deleteLeague(int id, String name, int year, int team){
     html.window.console.info("In delete()");
-    League tempLeague = new League(id, year, team);
+    League tempLeague = new League(id, name, year, team);
     html.window.console.info("Before");
     League league1 = leagueList.firstWhere((League league) => id == league.id);
     html.window.console.info("After");
