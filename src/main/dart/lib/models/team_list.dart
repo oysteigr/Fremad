@@ -14,5 +14,5 @@ class TeamList {
   };
 
   TeamList.fromJson(Map<String, dynamic> json) : this( 
-      json['empty'], json['listObject']);
+      json['empty'], new List<Team>.from(json['listObject'].map((x) => new Team.fromJson(x))));
 }

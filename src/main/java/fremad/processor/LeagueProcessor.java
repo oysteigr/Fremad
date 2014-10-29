@@ -15,11 +15,18 @@ public class LeagueProcessor {
 	@Autowired
 	LeagueService leagueService;
 	
+	public LeagueListObject getLeagues(){
+		return leagueService.getLeagues();
+	}
 	public LeagueObject addLeague(LeagueObject leagueObject){
 		return leagueService.addLeague(leagueObject);
 	}
 	
-	public LeagueListObject getLeagues(){
-		return leagueService.getLeagues();
+	public LeagueObject updateLeague(LeagueObject leagueObject){
+		return leagueService.updateLeague(leagueObject);
+	}
+	
+	public LeagueObject deleteLeague(LeagueObject leagueObject){
+		return leagueService.deleteLeague(leagueObject);
 	}
 }

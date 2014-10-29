@@ -7,6 +7,8 @@ class League {
   int team;
 
   League(this.id, this.name, this.year, this.team);
+  
+  int get getID => this.id;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
     "id": id,

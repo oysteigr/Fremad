@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import fremad.domain.LeagueListObject;
 import fremad.domain.LeagueObject;
+import fremad.domain.TeamObject;
 import fremad.dao.SqlTablesConstants;
 
 @Repository
@@ -20,31 +21,6 @@ public class JdbcLeagueDao extends JdbcConnection implements LeagueDao {
 	
 	public JdbcLeagueDao() {
 		super();
-	}
-	
-	@Override
-	public LeagueObject addLeague(LeagueObject league) {
-		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_LEAGUE + " "
-				+ "(id, name, year, team) "
-				+ "VALUES (?, ?, ?, ?)";
-//		int key = -1;
-		LOG.debug("In addLeague with sql: " + sql);
-		try {
-			prpstm = conn.prepareStatement(sql);
-//			prpstm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			prpstm.setInt(1, league.getId());
-			prpstm.setString(2, league.getName());
-			prpstm.setInt(3, league.getYear());
-			prpstm.setInt(4, league.getTeam());
-			prpstm.executeUpdate();
-//			ResultSet keys = prpstm.getGeneratedKeys();
-//			keys.next();
-//			key = keys.getInt(1);
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-		}
-//		league.setId(key);
-		return league;
 	}
 	
 	@Override
@@ -62,4 +38,64 @@ public class JdbcLeagueDao extends JdbcConnection implements LeagueDao {
 		
 		return leagues;
 	}
+	
+	@Override
+	public LeagueObject addLeague(LeagueObject league) {
+		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_LEAGUE + " "
+				+ "(id, name, year, team) "
+				+ "VALUES (?, ?, ?, ?)";
+		LOG.debug("In addLeague with sql: " + sql);
+		try {
+			prpstm = conn.prepareStatement(sql);
+			prpstm.setInt(1, league.getId());
+			prpstm.setString(2, league.getName());
+			prpstm.setInt(3, league.getYear());
+			prpstm.setInt(4, league.getTeam());
+			prpstm.executeUpdate();
+		} catch (SQLException e) {
+			LOG.error(e.toString());
+		}
+		return league;
+	}
+	
+	@Override
+	public LeagueObject updateLeague(LeagueObject league) {
+		String sql = "UPDATE " + SqlTablesConstants.SQL_TABLE_NAME_LEAGUE + " SET "
+				+ " name = ?, "
+				+ " year = ?, "
+				+ " team = ? "
+				+ " WHERE id = ?";
+		
+		LOG.debug("In addLeague with sql: " + sql);
+		try {
+			prpstm = conn.prepareStatement(sql);
+			prpstm.setString(1, league.getName());
+			prpstm.setInt(2, league.getYear());
+			prpstm.setInt(3, league.getTeam());
+			prpstm.setInt(4, league.getId());
+			prpstm.executeUpdate();
+		} catch (SQLException e) {
+			LOG.error(e.toString());
+			return null;
+		}
+		return league;
+	}
+	
+	@Override
+	public LeagueObject deleteLeague(LeagueObject league) {
+		String sql = "DELETE FROM " + SqlTablesConstants.SQL_TABLE_NAME_LEAGUE + " WHERE "
+				+ " id = ?";
+		
+		LOG.debug("In addLeague with sql: " + sql);
+		try {
+			prpstm = conn.prepareStatement(sql);
+			prpstm.setInt(1, league.getId());
+			prpstm.executeUpdate();
+		} catch (SQLException e) {
+			LOG.error(e.toString());
+			return null;
+		}
+		return league;
+	}
+	
 }

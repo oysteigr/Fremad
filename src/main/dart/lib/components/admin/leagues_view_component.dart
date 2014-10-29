@@ -83,19 +83,18 @@ class ShowAdminLeaguesComponent {
     html.window.console.info("Added league: " + id.toString() + " succeded!");
   }
   
-  void updateLeague(int id, String name, int year, int team){
+  void updateLeague(int id){
     html.window.console.info("In update()");
-    League tempLeague = new League(id, name, year, team);
-    /*   for(int i = 0; i < teamList.length; i++){
-      html.window.console.info("For in updateTeam size=" + teamList.length.toString());
-      if(teamList.elementAt(i).id == selectedTeam){
-        html.window.console.info("For in updateTeam2");
-        tempTeam = teamList.elementAt(i);
-      }
-    }*/
-    html.window.console.info("After for in updateTeam");
-    html.window.console.info("Where in updateTeam: " + tempLeague.id.toString() + " succeded!");
-    _http.post('rest/league/updateLeague.json', JSON.encode(tempLeague))
+    int index = leagueList.indexOf(leagueList.where((League) => League.id == selectedLeague).first);
+    League response;
+
+    _http.post('rest/league/updateLeague.json', JSON.encode(leagueList.elementAt(index)))
+    .then((HttpResponse response) {
+      League leagueResponse = new League.fromJson(response.data);
+      assert(leagueResponse.id == leagueList.where((League) => League.id == selectedLeague).first.id);
+      assert(leagueResponse.year == leagueList.where((League) => League.id == selectedLeague).first.year);
+      assert(leagueResponse.team == leagueList.where((League) => League.id == selectedLeague).first.team);
+    })
     .catchError((e) {
       print(e);
       html.window.console.info("Could not load rest/league/updateLeague.json");
@@ -113,24 +112,24 @@ class ShowAdminLeaguesComponent {
     html.window.console.info("Cancel");
   }
   
-  void deleteLeague(int id, String name, int year, int team){
+  void deleteLeague(int id){
     html.window.console.info("In delete()");
-    League tempLeague = new League(id, name, year, team);
-    html.window.console.info("Before");
-    League league1 = leagueList.firstWhere((League league) => id == league.id);
-    html.window.console.info("After");
-    /*   for(int i = 0; i < teamList.length; i++){
-      if(teamList.elementAt(i).id == selectedTeam){
-        tempTeam = teamList.elementAt(i);
-      }
-    }*/
-    _http.post('rest/league/deleteLeague.json', JSON.encode(tempLeague))
+    int index = leagueList.indexOf(leagueList.where((League) => League.id == selectedLeague).first);
+    
+    _http.post('rest/league/deleteLeague.json', JSON.encode(leagueList.elementAt(index)))
+    .then((HttpResponse response) {
+      League leagueResponse = new League.fromJson(response.data);
+      assert(leagueResponse.id == leagueList.where((League) => League.id == selectedLeague).first.id);
+      assert(leagueResponse.year == leagueList.where((League) => League.id == selectedLeague).first.year);
+      assert(leagueResponse.team == leagueList.where((League) => League.id == selectedLeague).first.team);
+      leagueList.removeAt(index);
+    })
     .catchError((e) {
       print(e);
       html.window.console.info("Could not load rest/league/deleteLeague.json");
     });
     selectedLeague = -1;
-    html.window.console.info("Deleting league: " + id.toString() + " succeded!");
+    html.window.console.info("Deleting league: " + name + " succeded!");
   }
   
   void getName(id){
@@ -166,12 +165,10 @@ class ShowAdminLeaguesComponent {
   }
   
   bool isActive(int id){
-    html.window.console.info("In isActive");
    return selectedLeague != id;
   }
   
   bool isAdding(){
-    html.window.console.info("In isAdding");
     return !isEditing;
   }
   

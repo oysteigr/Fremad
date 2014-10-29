@@ -31,30 +31,7 @@ public class LeagueResource {
 	
 	@Autowired
 	LeagueProcessor leagueProcessor;
-	
-	@RequestMapping("/addLeague")
-	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	public LeagueObject addLeague(@RequestBody LeagueObject league){
-		LOG.debug("Adding league ' " + league.getTeam() + "'");
-		return leagueProcessor.addLeague(league);
-	}
-	
-	@RequestMapping("/updateLeague")
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	public void updateLeague(@RequestBody LeagueObject league){
 
-	}
-	
-	@RequestMapping("/deleteLeague")
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	public void deleteTeam(@RequestBody LeagueObject league){
-
-	}
-	
 	@RequestMapping("/getLeagues")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -63,7 +40,32 @@ public class LeagueResource {
 
 		return leagueProcessor.getLeagues();
 	}
-	
+
+	@RequestMapping("/addLeague")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public LeagueObject addLeague(@RequestBody LeagueObject league){
+		LOG.debug("Adding league ' " + league.getTeam() + "'");
+		return leagueProcessor.addLeague(league);
+	}
+
+	@RequestMapping("/updateLeague")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public LeagueObject updateLeague(@RequestBody LeagueObject league){
+		return leagueProcessor.updateLeague(league);
+	}
+
+	@RequestMapping("/deleteLeague")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public LeagueObject deleteTeam(@RequestBody LeagueObject league){
+		return leagueProcessor.deleteLeague(league);
+	}
+
 	@RequestMapping("/getNameFromId")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)

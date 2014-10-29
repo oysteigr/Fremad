@@ -16,6 +16,6 @@ class MatchList {
     "listObject": matchEntryList
   };
 
-  MatchList.fromJson(Map<String, dynamic> json) : this(json['teamObject'], 
-      json['empty'], json['listObject']);
+  MatchList.fromJson(Map<String, dynamic> json) : this(new Team.fromJson(json['teamObject']), 
+      json['empty'], new List<MatchEntry>.from(json['listObject'].map((x) => new MatchEntry.fromJson(x))));
 }

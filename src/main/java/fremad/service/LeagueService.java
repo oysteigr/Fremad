@@ -15,12 +15,20 @@ public class LeagueService {
 	@Autowired
 	JdbcLeagueDao leagueDao;
 	
+	public LeagueListObject getLeagues(){
+		return leagueDao.getLeagues();
+	}
+
 	public LeagueObject addLeague(LeagueObject leagueObject){
 		return leagueDao.addLeague(leagueObject);
 	}
-	
-	public LeagueListObject getLeagues(){
-		return leagueDao.getLeagues();
+
+	public LeagueObject updateLeague(LeagueObject leagueObject){
+		return leagueDao.updateLeague(leagueObject);
+	}
+
+	public LeagueObject deleteLeague(LeagueObject leagueObject){
+		return leagueDao.deleteLeague(leagueObject);
 	}
 
 }

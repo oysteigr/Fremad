@@ -26,7 +26,6 @@ part of fremad;
     tableLoaded = false;
     _http.get('rest/team/getTeams.json')
       .then((HttpResponse response) {
-        print(response);
         teamListObject = new TeamList.fromJson(response.data);
         teamList = teamListObject.teamList;
         tableLoaded = true;
@@ -57,17 +56,12 @@ part of fremad;
   
   void update(int id, String name, int onlineId){
     html.window.console.info("In update()");
-    Team tempTeam = new Team(id, name, onlineId);
-/*   for(int i = 0; i < teamList.length; i++){
-      html.window.console.info("For in updateTeam size=" + teamList.length.toString());
-      if(teamList.elementAt(i).id == selectedTeam){
-        html.window.console.info("For in updateTeam2");
-        tempTeam = teamList.elementAt(i);
-      }
-    }*/
-    html.window.console.info("After for in updateTeam");
-    html.window.console.info("Where in updateTeam: " + tempTeam.name + " succeded!");
-    _http.post('rest/team/updateTeam.json', JSON.encode(tempTeam))
+    int index = teamList.indexOf(teamList.where((Team) => Team.id == selectedTeam).first);
+
+    _http.post('rest/team/updateTeam.json', JSON.encode(teamList.elementAt(index)))
+    .then((HttpResponse response) {
+      //do some checks here
+    })
     .catchError((e) {
       print(e);
       html.window.console.info("Could not load rest/team/updateTeam.json");
@@ -84,19 +78,14 @@ part of fremad;
   }
   
   void delete(int id, String name, int onlineId){
-    html.window.console.info("In delete()");
-    Team tempTeam = new Team(id, name, onlineId);
-    html.window.console.info("Before");
- //   Team team1 = teamList.firstWhere((Team team) => onlineId == team.id);
-    html.window.console.info("After");
-    for(int i = 0; i < teamList.length; i++){
-      print(teamList[i]);
-      print(teamList[i].name);
- /*     if(teamList[i].id == selectedTeam){
-        html.window.console.info("in");
-      }*/
-    }
-    _http.post('rest/team/deleteTeam.json', JSON.encode(tempTeam))
+    html.window.console.info("In delete()");   
+    int index = teamList.indexOf(teamList.where((Team) => Team.id == selectedTeam).first);
+
+    _http.post('rest/team/deleteTeam.json', JSON.encode(teamList.elementAt(index)))
+    .then((HttpResponse response) {
+      //do some checks here
+      teamList.removeAt(index);
+    })
     .catchError((e) {
       print(e);
       html.window.console.info("Could not load rest/team/deleteTeam.json");

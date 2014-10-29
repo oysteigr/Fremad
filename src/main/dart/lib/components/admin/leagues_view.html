@@ -5,6 +5,8 @@
     </div>
     <div class="item-edit" ng-hide="isActive(league.id)">
       <form>
+      Name :
+        <input type="text" size="35" ng-model="league.name">
       <div class="admin-select"> 
         Team:
         <select name="team-id" ng-model="league.team">
@@ -14,8 +16,8 @@
       Id: {{league.id}}
       Year:
       <input type="number" size="15" ng-model="league.year">
-      <input type="button" class="adminButton greenButton" value="update" ng-click="updateLeague(league.id, league.name, league.year, league.team)">
-      <input type="button" class="adminButton redButton" value="delete" ng-click="deleteLeague(league.id, league.name, league.year, league.team)">
+      <input type="button" class="adminButton greenButton" value="update" ng-click="updateLeague(league.id)">
+      <input type="button" class="adminButton redButton" value="delete" ng-click="deleteLeague(league.id)">
   </form>
   </div>
   </li>
@@ -26,9 +28,13 @@
     <input type="button" ng-show="isAdding()" class="adminButton greenButton" value="add new league" ng-click="setEditingMode()">
   </form>
   <div id="add-active" ng-hide="isAdding()">  
-    <div class="item-name">Add new league: {{name}}</div>
+    <div class="item-name" >Add new league: {{name}}</div>
     <div class="item-edit">
     <form>
+      <div ng-show="isValidated">
+      Name :
+        <input type="text" size="35" ng-model="name">
+      </div>
       <div class="admin-select">
       Team:
         <select name="team-id" ng-model="team">
