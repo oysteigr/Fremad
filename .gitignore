@@ -41,4 +41,4 @@
 /dart_dev/build/
 /dart_dev/packages/
 /target/
-/target/
+/src/main/dart/.pub/

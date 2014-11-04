@@ -6,9 +6,11 @@ import java.util.Date;
 @XmlRootElement(name = "PlayerObject")
 public class PlayerObject {
 	private int id;
-	private String name;
+	private String firstName;
+	private String lastName;
 	private String possition;
 	private String prefferedFoot;
+	private int memberSince;
 	private int team;
 	
 	
@@ -18,11 +20,17 @@ public class PlayerObject {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return firstName;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 	public String getPossition() {
 		return possition;
@@ -42,5 +50,10 @@ public class PlayerObject {
 	public void setTeam(int team) {
 		this.team = team;
 	}
-
+	public int getMemberSince() {
+		return memberSince;
+	}
+	public void setMemberSince(int memberSince) {
+		this.memberSince = memberSince;
+	}
 }
