@@ -18,6 +18,7 @@ import fremad.dao.JdbcTeamDao;
 import fremad.dao.TeamDao;
 import fremad.domain.TeamListObject;
 import fremad.domain.TeamObject;
+import fremad.utils.UrlParser;
 
  
 
@@ -59,6 +60,17 @@ public class TeamResource {
 	public TeamListObject getTeams() {
 		TeamDao dao = new JdbcTeamDao();
 		return dao.getTeams();
+	}
+	
+	@RequestMapping("/getNameFromId")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String getNameFromId(@RequestBody String id) {
+		LOG.debug("Getting name from id= " + id);
+		String name = UrlParser.getTeamNameFromId(Integer.parseInt(id));
+		LOG.debug("Getting name from id= " + Integer.parseInt(id) + " and got name = " + name);
+		return name;
 	}
 
 }

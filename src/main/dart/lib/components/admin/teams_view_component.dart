@@ -15,6 +15,7 @@ part of fremad;
       List<Team> teamList;
       int selectedTeam = -1;
       bool isEditing = false;
+      bool isValidated = true;
       
       
   ShowAdminTeamsComponent(this._http){
@@ -38,7 +39,7 @@ part of fremad;
       });
   } 
   
-  void add(){
+  void addTeam(){
     Team team = new Team(-1, name, onlineId);
     _http.post('rest/team/addTeam.json', JSON.encode(team))
     .then((HttpResponse response) {
@@ -54,7 +55,7 @@ part of fremad;
     html.window.console.info("Added team: " + name + " succeded!");
   }
   
-  void update(int id, String name, int onlineId){
+  void updateTeam(int id, String name, int onlineId){
     html.window.console.info("In update()");
     int index = teamList.indexOf(teamList.where((Team) => Team.id == selectedTeam).first);
 
@@ -74,6 +75,7 @@ part of fremad;
     name = '';
     onlineId = 0;
     isEditing = false;
+    isValidated = true;
     html.window.console.info("Cancel");
   }
   
@@ -101,17 +103,43 @@ part of fremad;
     } else {
       selectedTeam = id;
     }
+    isValidated = true;
+    isEditing = false;
+  }
+  
+  void getName(id){
+    html.window.console.info("In getName");
+    _http.post('rest/team/getNameFromId', JSON.encode(id))
+    .then((HttpResponse response) {
+      if(isEditing){
+        html.window.console.info("getName by adding team ");
+        name = response.data.toString();
+     }else{
+       html.window.console.info("getName by selected team ");
+       teamList.where((Team) => Team.id == selectedTeam).first.name = response.data.toString();
+      }
+      if (response.data.toString() == "ID_ERROR"){
+        isValidated = false;
+      } else {
+        isValidated = true;
+      }
+    });
+    
+    
   }
   
   void setEditingMode(){
-    isEditing = !isEditing;
+    isEditing = true;
+    isValidated = false;
+    selectedTeam = -1;
   }
   
   bool isActive(int id){
     return selectedTeam != id;
   }
-  
-  bool isAdding(){
-    return !isEditing;
+
+  void idChanged(){
+    html.window.console.info("In idChanged");
+    isValidated = false;
   }
 }
