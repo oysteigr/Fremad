@@ -1,1 +1,46 @@
-PLAYERS!!
+<div id="add-element"> 
+  <form>
+    <input type="button" class="adminButton greenButton" value="add new player" ng-click="setEditingMode()">
+  </form>
+
+
+  <dialog open id="player-edit" ng-show="isEditing"> 
+      <div class="black_overlay"></div>
+      <div class="white_content">
+        <div class="item-edit">
+          <h3>Add player</h3> 
+          First name:
+          <input type="text" size="35"><br>
+          Last name:
+          <input type="text" size="35"><br>
+          <div class="admin-select">
+          Team:
+            <select name="team-id" ng-model="team">
+              <option ng-repeat="team in teamList" ng-value="team.id">{{team.name}}</option>
+            </select>
+          </div><br>
+          <div class="admin-select">
+          Preffered foot:
+            <select name="pos">
+              <option value="goalkeeper">Goalkeeper</option>
+              <option value="defender">Defender</option>
+              <option value="midfielder">Midfielder</option>
+              <option value="attacker">Attacker</option>
+            </select>
+          </div><br> 
+          <div class="admin-select">
+          Preffered foot:
+            <select name="pref-foot">
+              <option value="none">Left</option>
+              <option value="right">Left</option>
+              <option value="left">Left</option>
+            </select>
+          </div><br> 
+          <form>
+            <input type="button" class="adminButton greenButton" value="add" ng-click="addPlayer()">
+            <input type="button" class="adminButton redButton" value="cancel" ng-click="cancel()">
+          </form>
+        </div> 
+      </div>
+  </dialog>  
+</div>

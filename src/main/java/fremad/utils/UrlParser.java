@@ -83,6 +83,10 @@ public final class UrlParser  extends UrlConstants{
 			
 			Element header = doc1.select("h1").get(0); //select the h1 header.
 			
+			if(header.text().equals("Feil på siden")){
+				throw new Exception("No such team");
+			}
+			
 			return header.text();
 	
 		} catch (Exception e) {
