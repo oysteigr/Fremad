@@ -1,11 +1,10 @@
 package fremad.processor;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import fremad.domain.MatchListObject;
 import fremad.domain.MatchObject;
 import fremad.service.MatchService;
 
@@ -22,7 +21,7 @@ public class MatchProcessor {
 		return matchService.getMatch(matchId);
 		
 	}
-	public List<MatchObject> getMatches(int leagueId){
+	public MatchListObject getMatches(int leagueId){
 		return matchService.getMatches(leagueId);
 	}
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import fremad.domain.MatchListObject;
 import fremad.domain.MatchObject;
 import fremad.processor.MatchProcessor;
  
@@ -43,7 +44,7 @@ public class MatchResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public List<MatchObject> getMatches(@RequestBody String leagueId){
+	public MatchListObject getMatches(@RequestBody String leagueId){
 		LOG.debug("Getting match " + leagueId);
 		return matchProcessor.getMatches(Integer.parseInt(leagueId));
 	}
