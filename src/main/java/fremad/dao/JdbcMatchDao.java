@@ -3,6 +3,7 @@ package fremad.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -29,12 +30,31 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 	}
 	
 	@Override
-	public MatchObject getMatch(int id) {
-		List<MatchObject> matchList = listMatches();
-		if (matchList.size() > id) {
-			return matchList.get(id);
+	public MatchObject getMatch(int matchId) {
+		String sql = "SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_MATCH	+ " WHERE id = ?";
+		
+		try {
+			this.prpstm = this.conn.prepareStatement(sql);
+			prpstm.setInt(0, matchId);
+			ResultSet res = prpstm.executeQuery();
+			if (res != null && res.next()) {
+				return new MatchObject( res.getInt(0), 
+										res.getInt(1), 
+										res.getInt(2),
+										res.getBoolean(3), 
+										res.getInt(4), 
+										res.getString(5),
+										res.getInt(6),
+										res.getInt(7),
+										res.getDate(8),
+										res.getString(9));
+			} else {
+				return null;
+			}
+		} catch (SQLException e) {
+			LOG.error(e.toString());
+			return null;
 		}
-		return null;
 	}
 	
 	@Override
@@ -62,10 +82,10 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 	}
 
 	@Override
-	public List<MatchObject> listMatches() {
+	public List<MatchObject> listMatches(int leagueId) {
 		
 		List<MatchObject> matchList = new ArrayList<MatchObject>();
-		ResultSet res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_MATCH);
+		ResultSet res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_MATCH + "WHERE league = " + leagueId);
 		try {
 			while (res.next()) {
 				LOG.debug("Adding match");
