@@ -4,8 +4,9 @@ import java.util.List;
 import fremad.domain.MatchObject;
 
 public interface MatchDao {
-	public boolean delete(int id);
-	public List<MatchObject> listMatches();
+	public int deleteMatch(int matchId);
+	public int deleteMatches(int leagueId);
+	public List<MatchObject> getMatches(int leagueId);
 	public void saveMatch(MatchObject match);
-	public MatchObject getMatch(int id);
+	public MatchObject getMatch(int matchId);
 }

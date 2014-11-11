@@ -68,7 +68,7 @@ public final class UrlParser  extends UrlConstants{
 			return header.text();
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error(e.toString());
 			return "ID_ERROR";
 		}
 		
@@ -90,7 +90,7 @@ public final class UrlParser  extends UrlConstants{
 			return header.text();
 	
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error(e.toString());
 			return "ID_ERROR";
 		}
 		

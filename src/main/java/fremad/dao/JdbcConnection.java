@@ -1,5 +1,7 @@
 package fremad.dao;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -13,6 +15,7 @@ import fremad.dao.SqlTablesConstants;
 @Repository
 public class JdbcConnection {
 
+	private static final Logger LOG = LoggerFactory.getLogger(JdbcConnection.class);
 	Connection conn;
 	PreparedStatement prpstm;
 	
@@ -20,13 +23,13 @@ public class JdbcConnection {
 		try {
 			Class.forName(SqlTablesConstants.JDBC_DRIVER);
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			LOG.error(e.toString());
 		}
 		
 		try {
 			conn = DriverManager.getConnection(SqlTablesConstants.DB_URL, SqlTablesConstants.USER, SqlTablesConstants.PASS);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error(e.toString());
 		}
 	}
 	
@@ -35,7 +38,7 @@ public class JdbcConnection {
 			prpstm = conn.prepareStatement(sql);
 			return prpstm.executeQuery();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error(e.toString());
 			return null;
 		}
 	}
@@ -45,7 +48,7 @@ public class JdbcConnection {
 			prpstm = conn.prepareStatement(sql);
 			return prpstm.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG.error(e.toString());
 			return -1;
 		}
 	}
