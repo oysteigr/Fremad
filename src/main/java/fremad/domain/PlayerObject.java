@@ -1,7 +1,6 @@
 package fremad.domain;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.Date;
 
 @XmlRootElement(name = "PlayerObject")
 public class PlayerObject {
@@ -9,7 +8,7 @@ public class PlayerObject {
 	private String firstName;
 	private String lastName;
 	private String possition;
-	private String prefferedFoot;
+	private String preferredFoot;
 	private int memberSince;
 	private int team;
 	
@@ -38,11 +37,11 @@ public class PlayerObject {
 	public void setPossition(String possition) {
 		this.possition = possition;
 	}
-	public String getPrefferedFoot() {
-		return prefferedFoot;
+	public String getPreferredFoot() {
+		return preferredFoot;
 	}
-	public void setPrefferedFoot(String prefferedFoot) {
-		this.prefferedFoot = prefferedFoot;
+	public void setPreferredFoot(String preferredFoot) {
+		this.preferredFoot = preferredFoot;
 	}
 	public int getTeam() {
 		return team;

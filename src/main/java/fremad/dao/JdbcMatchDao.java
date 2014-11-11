@@ -46,7 +46,7 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 			prpstm = conn.prepareStatement(sql);
 			prpstm.setInt(1, match.getLeague());
 			prpstm.setInt(2, match.getFremad_team());
-			// prpstm.setBoolean(3, HOME_MATCH);
+			prpstm.setBoolean(3, match.isHomeMatch());
 			prpstm.setInt(4, match.getHomeGoals());
 			prpstm.setString(5,  match.getOpposingTeamName());
 			prpstm.setInt(6, match.getOpposingTeamId());
