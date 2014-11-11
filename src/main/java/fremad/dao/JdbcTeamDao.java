@@ -7,12 +7,14 @@ import java.sql.Statement;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import fremad.domain.LeagueObject;
 import fremad.domain.TeamListObject;
 import fremad.domain.TeamObject;
 import fremad.dao.SqlTablesConstants;
 
+@Repository
 public class JdbcTeamDao extends JdbcConnection implements TeamDao {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(JdbcTeamDao.class);
