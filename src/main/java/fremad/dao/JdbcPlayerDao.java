@@ -31,19 +31,61 @@ public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
 
 	@Override
 	public PlayerObject addPlayer(PlayerObject player) {
-		// TODO Auto-generated method stub
+		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER 
+				+ "(id, first_name, last_name, member_since, position, preferred_foot, team) "
+				+ "VALUES("
+				+ player.getId()
+				+ player.getFirstName()
+				+ player.getLastName()
+				+ player.getMemberSince()
+				+ player.getPossition()
+				+ player.getPreferredFoot()
+				+ player.getTeam();
+		try {
+			this.prpstm = this.conn.prepareStatement(sql);
+		} catch (SQLException e) {
+			LOG.error(e.toString());
+			return null;
+		}
+		
 		return player;
 	}
 
 	@Override
 	public PlayerObject updatePlayer(PlayerObject player) {
-		// TODO Auto-generated method stub
+		String sql = "UPDATE " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER 
+				+ "SET id=?, first_name=?, last_name=?, member_since=?, position=?, preferred_foot=?, team=?";
+		try {
+			this.prpstm = this.conn.prepareStatement(sql);
+			prpstm.setInt(1, player.getId());
+			prpstm.setString(2, player.getFirstName());
+			prpstm.setString(3, player.getLastName());
+			prpstm.setInt(4, player.getMemberSince());
+			prpstm.setString(5, player.getPossition());
+			prpstm.setString(6, player.getPreferredFoot());
+			prpstm.setInt(7, player.getTeam());
+			
+			prpstm.executeUpdate();
+		} catch (SQLException e) {
+			LOG.error(e.toString());
+			return null;
+		}
 		return player;
 	}
 
 	@Override
 	public PlayerObject deletePlayer(PlayerObject player) {
-		// TODO Auto-generated method stub
+		String sql = "DELETE FROM " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER
+				+ "WHERE id=?";
+		
+		try {
+			this.prpstm = this.conn.prepareStatement(sql);
+			prpstm.setInt(0, player.getId());
+		} catch (SQLException e) {
+			LOG.error(e.toString());
+			return null;
+		}
+		
 		return player;
 	}
 	
