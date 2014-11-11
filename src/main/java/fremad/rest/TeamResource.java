@@ -9,6 +9,7 @@ import javax.ws.rs.Produces;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,8 @@ import fremad.dao.JdbcTeamDao;
 import fremad.dao.TeamDao;
 import fremad.domain.TeamListObject;
 import fremad.domain.TeamObject;
+import fremad.processor.TeamProcessor;
+import fremad.service.TeamService;
 import fremad.utils.UrlParser;
 
  
@@ -27,41 +30,45 @@ import fremad.utils.UrlParser;
 @RequestMapping("/team")
 public class TeamResource {
 	
+	@Autowired
+	TeamProcessor teamProcessor;
+	
 	private static final Logger LOG = LoggerFactory.getLogger(TeamResource.class);
 	
+	@RequestMapping("/getTeams")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public TeamListObject getTeams() {
+		return teamProcessor.getTeams();
+	}
+		
 	@RequestMapping("/addTeam")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public TeamObject addTeam(@RequestBody TeamObject team){
-		TeamDao dao = new JdbcTeamDao();
 		LOG.debug("Adding team ' " + team.getName() + "'");
-		dao.addTeam(team);
-		return team;
+		return teamProcessor.addTeam(team);
 	}
 	
 	@RequestMapping("/updateTeam")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void updateTeam(@RequestBody TeamObject team){
+	@Produces(MediaType.APPLICATION_JSON)
+	public TeamObject updateTeam(@RequestBody TeamObject team){
+		return teamProcessor.updateTeam(team);
 
 	}
 	
 	@RequestMapping("/deleteTeam")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void deleteTeam(@RequestBody TeamObject team){
+	@Produces(MediaType.APPLICATION_JSON)
+	public TeamObject deleteTeam(@RequestBody TeamObject team){
+		return teamProcessor.deleteTeam(team);
 
 	}
-	
-	@RequestMapping("/getTeams")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public TeamListObject getTeams() {
-		TeamDao dao = new JdbcTeamDao();
-		return dao.getTeams();
-	}
-	
+
 	@RequestMapping("/getNameFromId")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)

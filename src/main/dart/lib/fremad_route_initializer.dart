@@ -17,20 +17,20 @@ void fremadRouteInitializer(Router router, RouteViewFactory view) {
       viewHtml: '<team-view></team-view>',
       mount: {
         "about" : ngRoute(
-           path: '/about',
+           path: '/:teamId/about',
            viewHtml: '<team-about-view></team-about-view>',
            defaultRoute: true
         ),
         "players" : ngRoute(
-           path: '/players',
+           path: '/:teamId/players',
            viewHtml: '<team-players-view></team-players-view>'
         ),
         "fixture" : ngRoute(
-           path: '/fixture',
+           path: '/:teamId/fixture',
            viewHtml: '<team-fixture-view></team-fixture-view>'
         ),
         "table" : ngRoute(
-           path: '/table',
+           path: '/:teamId/table',
            viewHtml: '<team-table-view></team-table-view>'
         )
       }),

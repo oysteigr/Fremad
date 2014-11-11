@@ -4,6 +4,8 @@ import fremad.domain.TeamObject;
 import fremad.domain.TeamListObject;
 
 public interface TeamDao {
-	public void addTeam(TeamObject team);
-	public TeamListObject getTeams();
+	public TeamListObject getTeams();	
+	public TeamObject addTeam(TeamObject teamObject);
+	public TeamObject updateTeam(TeamObject teamObject);
+	public TeamObject deleteTeam(TeamObject teamObject);
 }
