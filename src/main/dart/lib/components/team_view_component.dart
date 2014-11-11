@@ -7,7 +7,12 @@ part of fremad;
     useShadowDom: false
 )
 class ShowTeamComponent {
-  void create() {
-    html.window.console.info("Is in ShowTeamComponent");
+  int teamId = 0;
+  
+  ShowTeamComponent(RouteProvider routeProvider){
+    teamId =_teamId(routeProvider);
+    html.window.console.info("RouteProvider found id: " + teamId);
   }
+  
+  int _teamId(routeProvider) => routeProvider.parameters["teamId"];
 }
