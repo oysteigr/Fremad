@@ -3,15 +3,16 @@ package fremad.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import fremad.domain.MatchObject;
 import fremad.dao.SqlTablesConstants;
 
+@Repository
 public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(JdbcMatchDao.class);
@@ -21,12 +22,31 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 	}
 	
 	@Override
-	public boolean delete(int id) {
-		if (update("DELETE FROM match WHERE id = " + id) > 0) {
-			return true;
-		}
+	public int deleteMatch(int matchId) {
+		String sql = "DELETE FROM match WHERE id = ?";
 		
-		return false;
+		try {
+			this.prpstm = this.conn.prepareStatement(sql);
+			prpstm.setInt(0, matchId);
+			return prpstm.executeUpdate();
+		} catch (SQLException e) {
+			LOG.error(e.toString());
+			return -1;
+		}
+	}
+	
+	@Override
+	public int deleteMatches(int leagueId) {
+		String sql = "DELETE FROM match WHERE league = ?";
+		
+		try {
+			this.prpstm = this.conn.prepareStatement(sql);
+			prpstm.setInt(0, leagueId);
+			return prpstm.executeUpdate();
+		} catch (SQLException e) {
+			LOG.error(e.toString());
+			return -1;
+		}
 	}
 	
 	@Override
@@ -82,7 +102,7 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 	}
 
 	@Override
-	public List<MatchObject> listMatches(int leagueId) {
+	public List<MatchObject> getMatches(int leagueId) {
 		
 		List<MatchObject> matchList = new ArrayList<MatchObject>();
 		ResultSet res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_MATCH + "WHERE league = " + leagueId);
