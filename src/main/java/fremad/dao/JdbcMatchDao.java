@@ -59,16 +59,16 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 			prpstm.setInt(0, matchId);
 			ResultSet res = prpstm.executeQuery();
 			if (res != null && res.next()) {
-				return new MatchObject( res.getInt(0), 
-										res.getInt(1), 
-										res.getInt(2),
-										res.getBoolean(3), 
-										res.getInt(4), 
-										res.getString(5),
-										res.getInt(6),
+				return new MatchObject( res.getInt(1), 
+										res.getInt(2), 
+										res.getInt(3),
+										res.getBoolean(4), 
+										res.getInt(5), 
+										res.getString(6),
 										res.getInt(7),
-										res.getDate(8),
-										res.getString(9));
+										res.getInt(8),
+										res.getDate(9),
+										res.getString(10));
 			} else {
 				return null;
 			}
@@ -79,27 +79,30 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 	}
 	
 	@Override
-	public void saveMatch(MatchObject match) {
-		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_MATCH
-						+ "(league, fremad_team, home_match, home_goals, opposing_team_name, opposing_team_id, opposing_team_goals, date, field "
+	public boolean addMatch(MatchObject match) {
+		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_MATCH + " "
+						+ "(league, team, home_match, home_goals, opposing_team_name, opposing_team_id, opposing_team_goals, date, field) "
 						+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		
 		try {
 			prpstm = conn.prepareStatement(sql);
 			prpstm.setInt(1, match.getLeague());
 			prpstm.setInt(2, match.getFremad_team());
-			prpstm.setBoolean(3, match.isHomeMatch());
+			prpstm.setInt(3, match.isHomeMatch() ? 1 : 0);
 			prpstm.setInt(4, match.getHomeGoals());
-			prpstm.setString(5,  match.getOpposingTeamName());
+			prpstm.setString(5, match.getOpposingTeamName());
 			prpstm.setInt(6, match.getOpposingTeamId());
 			prpstm.setInt(7, match.getOpposingTeamGoals());
 			prpstm.setDate(8, new java.sql.Date(match.getDate().getTime()));
 			prpstm.setString(9, match.getField());
 			
 			prpstm.executeUpdate();
+			
+			return true;
 		} catch (SQLException e) {
 			LOG.error(e.toString());
+			return false;
 		}
-		
 	}
 
 	@Override

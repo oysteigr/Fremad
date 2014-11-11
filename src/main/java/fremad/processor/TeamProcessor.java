@@ -18,6 +18,10 @@ public class TeamProcessor {
 	public TeamListObject getTeams(){
 		return teamService.getTeams();
 	}
+	
+	public TeamObject getTeam(int teamId) {
+		return teamService.getTeam(teamId);
+	}
 
 	public TeamObject addTeam(TeamObject teamObject){
 		return teamService.addTeam(teamObject);

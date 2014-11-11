@@ -38,7 +38,7 @@ public class JdbcConnection {
 			prpstm = conn.prepareStatement(sql);
 			return prpstm.executeQuery();
 		} catch (SQLException e) {
-			LOG.error(e.toString());
+			LOG.error("Select failed: "+ e.toString());
 			return null;
 		}
 	}
@@ -48,7 +48,7 @@ public class JdbcConnection {
 			prpstm = conn.prepareStatement(sql);
 			return prpstm.executeUpdate();
 		} catch (SQLException e) {
-			LOG.error(e.toString());
+			LOG.error("Update failed: " + e.toString());
 			return -1;
 		}
 	}

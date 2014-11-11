@@ -46,8 +46,6 @@ public final class UrlParser  extends UrlConstants{
 		
 		MatchListObject matchListObject = new MatchListObject();
 		
-		matchListObject.setTeamObject(teamObject);
-		
 		Elements rows = getRowsFromFixture(teamObject.getOnlineId());
 		
 		for (int i = 2; i < rows.size(); i++) { 

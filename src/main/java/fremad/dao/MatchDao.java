@@ -7,6 +7,6 @@ public interface MatchDao {
 	public int deleteMatch(int matchId);
 	public int deleteMatches(int leagueId);
 	public MatchListObject getMatches(int leagueId);
-	public void saveMatch(MatchObject match);
+	public boolean addMatch(MatchObject match);
 	public MatchObject getMatch(int matchId);
 }

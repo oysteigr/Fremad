@@ -39,6 +39,20 @@ public class JdbcTeamDao extends JdbcConnection implements TeamDao {
 	}
 	
 	@Override
+	public TeamObject getTeam(int teamId) {
+		ResultSet res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_TEAM + " WHERE id = " + teamId);
+		try {
+			if (res.next()) {
+				return new TeamObject(res.getInt("id"), res.getString("name"), res.getInt("online_id"));
+			}
+		} catch (SQLException e) {
+			LOG.error(e.toString());
+		}
+		
+		return null;
+	}
+	
+	@Override
 	public TeamObject addTeam(TeamObject teamObject) {
 		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_TEAM + " "
 				+ "(name, online_id) "

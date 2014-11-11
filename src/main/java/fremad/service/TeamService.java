@@ -18,6 +18,10 @@ public class TeamService {
 	public TeamListObject getTeams(){
 		return teamDao.getTeams();
 	}
+	
+	public TeamObject getTeam(int teamId) {
+		return teamDao.getTeam(teamId);
+	}
 
 	public TeamObject addTeam(TeamObject teamObject){
 		return teamDao.addTeam(teamObject);
