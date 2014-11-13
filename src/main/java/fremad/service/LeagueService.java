@@ -9,7 +9,6 @@ import fremad.domain.LeagueListObject;
 import fremad.domain.LeagueObject;
 
 @Service
-@Scope("singleton")
 public class LeagueService {
 	
 	@Autowired

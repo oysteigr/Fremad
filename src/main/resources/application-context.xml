@@ -2,16 +2,53 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
-	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
-	http://www.springframework.org/schema/tx http://www.springframework.org/schema/context-3.2.xsd
-	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/mvc		http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd
+	http://www.springframework.org/schema/beans 	http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+	http://www.springframework.org/schema/tx 		http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+	http://www.springframework.org/schema/context 	http://www.springframework.org/schema/context/spring-context-4.1.xsd
+	http://www.springframework.org/schema/task 		http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
 
-    <!-- Activates scanning of @Autowired -->
-    <context:annotation-config/>
-
-    <!-- Activates scanning of @Repository and @Service -->
-    <context:component-scan base-package="fremad"/>
+	<!-- Activates scanning of @Autowired -->
+	<context:annotation-config/>
 	
+	<!-- Activates scanning of @Repository and @Service -->
+	<context:component-scan base-package="fremad"/>
+	
+	<task:annotation-driven />
+	
+	<context:component-scan base-package="org.webapp.services.tasks"/>
+<!--  	
+	<bean name="exampleJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+	  <property name="jobClass" value="fremad.ExampleJob" />
+	  <property name="jobDataAsMap">
+	    <map>
+	      <entry key="timeout" value="5" />
+	    </map>
+	  </property>
+	</bean>
+	
+	<bean id="exampleBusinessObject" class="fremad.processor.TimerProcessor"/>
+	
+	<bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="exampleBusinessObject" />
+		<property name="targetMethod" value="doIt" />
+	</bean>
+	
+	<bean id="ranchTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+		<property name="jobDetail" ref="exampleJob" />
+		<property name="startDelay" value="0" />
+		<property name="repeatInterval" value="10000" />
+	</bean>
+	
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+    <property name="triggers">
+        <list>
+            <ref bean="ranchTrigger" />
+        </list>
+    </property>
+</bean>	
+-->
 </beans>

@@ -14,21 +14,21 @@ import fremad.domain.PlayerObject;
 public class PlayerService {
 	
 	@Autowired
-	JdbcPlayerDao playerDao;
+	JdbcPlayerDao jdbcPlayerDao;
 	
 	public PlayerListObject getPlayers(){
-		return playerDao.getPlayers();
+		return jdbcPlayerDao.getPlayers();
 	}
 	public PlayerObject addPlayer(PlayerObject playerObject){
-		return playerDao.addPlayer(playerObject);
+		return jdbcPlayerDao.addPlayer(playerObject);
 	}
 	
 	public PlayerObject updatePlayer(PlayerObject playerObject){
-		return playerDao.updatePlayer(playerObject);
+		return jdbcPlayerDao.updatePlayer(playerObject);
 	}
 	
 	public PlayerObject deletePlayer(PlayerObject playerObject){
-		return playerDao.deletePlayer(playerObject);
+		return jdbcPlayerDao.deletePlayer(playerObject);
 	}
 
 }
