@@ -10,17 +10,17 @@ class ShowTeamTableComponent {
   Table table;
   bool tableLoaded;
   String message;
+  int teamID;
   List<TableEntry> tableEntryListe;
   
-  ShowTeamTableComponent(this._http){
-    _loadData();
+  ShowTeamTableComponent(this._http, RouteProvider routeProvider){
+    teamID = int.parse(routeProvider.parameters["teamId"]);
+    html.window.console.info("RouteProvider in table found id: " + teamID.toString());
+    loadTable();
   }
   
-  void create() {
-    print("In this func");
-  }
-  void _loadData() {
-    html.window.console.info("Is in _loadData");
+  void loadTable() {
+    html.window.console.info("Is in loadTable");
     tableLoaded = false;
     _http.get('table.json')
       .then((HttpResponse response) {

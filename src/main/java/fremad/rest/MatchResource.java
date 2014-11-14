@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
 
 import org.slf4j.Logger;
@@ -32,7 +33,7 @@ public class MatchResource {
 	MatchProcessor matchProcessor;
 	
 	@RequestMapping("/getMatch")
-	@GET
+	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public MatchObject getMatch(@RequestBody String matchId){
@@ -41,7 +42,7 @@ public class MatchResource {
 	}
 	
 	@RequestMapping("/getMatches")
-	@GET
+	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public MatchListObject getMatches(@RequestBody String leagueId){

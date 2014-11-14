@@ -20,35 +20,5 @@
 	<task:annotation-driven />
 	
 	<context:component-scan base-package="org.webapp.services.tasks"/>
-<!--  	
-	<bean name="exampleJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
-	  <property name="jobClass" value="fremad.ExampleJob" />
-	  <property name="jobDataAsMap">
-	    <map>
-	      <entry key="timeout" value="5" />
-	    </map>
-	  </property>
-	</bean>
 	
-	<bean id="exampleBusinessObject" class="fremad.processor.TimerProcessor"/>
-	
-	<bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject" ref="exampleBusinessObject" />
-		<property name="targetMethod" value="doIt" />
-	</bean>
-	
-	<bean id="ranchTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
-		<property name="jobDetail" ref="exampleJob" />
-		<property name="startDelay" value="0" />
-		<property name="repeatInterval" value="10000" />
-	</bean>
-	
-	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-    <property name="triggers">
-        <list>
-            <ref bean="ranchTrigger" />
-        </list>
-    </property>
-</bean>	
--->
 </beans>

@@ -5,8 +5,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:angular/angular.dart';
-//import 'package:angular/routing/module.dart';
-import 'package:angular/animate/module.dart';
 
 import 'models/table.dart';
 import 'models/table_entry.dart';
@@ -14,6 +12,8 @@ import 'models/team.dart';
 import 'models/team_list.dart';
 import 'models/league.dart';
 import 'models/league_list.dart';
+import 'models/match_list.dart';
+import 'models/match_entry.dart';
 
 part 'components/header_component.dart';
 part 'components/main_menu_component.dart';

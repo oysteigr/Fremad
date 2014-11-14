@@ -5,8 +5,7 @@
       <li><a href="#/theClub">The club</a></li>
       <li><a href="#/team">Team</a>
         <ul>
-          <li><a href="#/team/fremad1">Fremad Famagusta</a></li>
-          <li><a href="#/team/fremad2">Fremad Famagusta 2</a></li>
+          <li ng-repeat="team in teamList" ><a href="#/team/{{team.id}}/about">{{team.name}}</a></li>
         </ul></li>
       <li><a href="#/sponsors">Sponsors</a></li>
       <li><a href="#/loggIn">Logg in</a></li>

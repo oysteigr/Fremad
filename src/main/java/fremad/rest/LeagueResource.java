@@ -40,6 +40,16 @@ public class LeagueResource {
 
 		return leagueProcessor.getLeagues();
 	}
+	
+	@RequestMapping("/getLeaguesByTeam")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public LeagueListObject getLeagues(@RequestBody String teamId) {
+		LOG.debug("Getting leagues for teamId: " + teamId);
+
+		return leagueProcessor.getLeagues(Integer.parseInt(teamId));
+	}
 
 	@RequestMapping("/addLeague")
 	@POST

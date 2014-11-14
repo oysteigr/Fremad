@@ -6,8 +6,11 @@ part of fremad;
     useShadowDom: false
 )
 class ShowTeamPlayersComponent {
-  void create() {
-    print("In this func");
-  }
 
+  int teamID;
+  
+  ShowTeamPlayersComponent(RouteProvider routeProvider){
+    teamID = int.parse(routeProvider.parameters["teamId"]);
+    html.window.console.info("RouteProvider in players found id: " + teamID.toString());
+  }
 }

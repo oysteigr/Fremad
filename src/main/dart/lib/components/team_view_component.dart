@@ -7,12 +7,12 @@ part of fremad;
     useShadowDom: false
 )
 class ShowTeamComponent {
-  int teamId = 0;
+  String teamId = null;
   
   ShowTeamComponent(RouteProvider routeProvider){
     teamId =_teamId(routeProvider);
-    html.window.console.info("RouteProvider found id: " + teamId);
+    html.window.console.info("RouteProvider found id: " + teamId.toString());
   }
   
-  int _teamId(routeProvider) => routeProvider.parameters["teamId"];
+  String _teamId(routeProvider) => routeProvider.parameters["teamId"];
 }

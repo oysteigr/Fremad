@@ -38,6 +38,22 @@ public class JdbcLeagueDao extends JdbcConnection implements LeagueDao {
 	}
 	
 	@Override
+	public LeagueListObject getLeagues(int teamId) {
+		LeagueListObject leagues = new LeagueListObject();
+		
+		ResultSet res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_LEAGUE + " WHERE team = " + teamId);
+		try {
+			while (res.next()) {
+				leagues.add(new LeagueObject(res.getInt("id"), res.getString("name"), res.getInt("year"), res.getInt("team")));
+			}
+		} catch (SQLException e) {
+			LOG.error(e.toString());
+		}
+		
+		return leagues;
+	}
+	
+	@Override
 	public LeagueObject addLeague(LeagueObject league) {
 		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_LEAGUE + " "
 				+ "(id, name, year, team) "

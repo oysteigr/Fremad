@@ -109,13 +109,15 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 	public MatchListObject getMatches(int leagueId) {
 		
 		MatchListObject matchList = new MatchListObject();
-		ResultSet res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_MATCH + "WHERE league = " + leagueId);
+		String sql = "SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_MATCH + " WHERE league = " + leagueId;
+		LOG.debug(sql);
+		ResultSet res = select(sql);
 		try {
 			while (res.next()) {
 				LOG.debug("Adding match");
 				matchList.add(new MatchObject(res.getInt("id"),
 												res.getInt("league"),
-												res.getInt("fremad_team"), 
+												res.getInt("team"), 
 												res.getBoolean("home_match"), 
 												res.getInt("home_goals"),
 												res.getString("opposing_team_name"), 

@@ -18,6 +18,9 @@ public class LeagueProcessor {
 	public LeagueListObject getLeagues(){
 		return leagueService.getLeagues();
 	}
+	public LeagueListObject getLeagues(int teamId){
+		return leagueService.getLeagues(teamId);
+	}
 	public LeagueObject addLeague(LeagueObject leagueObject){
 		return leagueService.addLeague(leagueObject);
 	}
