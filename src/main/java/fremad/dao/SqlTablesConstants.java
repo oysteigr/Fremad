@@ -78,6 +78,7 @@ public interface SqlTablesConstants {
             + " `field` varchar(255) NOT NULL,"
             + " CONSTRAINT `fk_match_team` FOREIGN KEY (`team`) REFERENCES `team` (`id`),"
             + " CONSTRAINT `fk_match_league` FOREIGN KEY (`league`) REFERENCES `league` (`id`),"
+            + " CONSTRAINT `uc_foreign_team` UNIQUE (`date`, `opposing_team_id`),"
             + " PRIMARY KEY (`id`)"
             + " ) ENGINE=InnoDB DEFAULT CHARSET=utf8",
         "CREATE TABLE `event_type` ("
