@@ -1,0 +1,54 @@
+#fixture-list{
+  width: 100%;
+  list-style-type: none;
+  padding: 0 0 0 0;
+}
+
+#fixture-list li{
+  width: 100%;
+  background-color: #FFFFFF;
+  margin-bottom: 5px;
+  border-style: solid;
+  border-color: #AAAAAA;
+  border-width: 1px;
+  border-radius: 8px;
+}
+
+.item-head{
+  padding: 10px 20px 0px 10px;
+}
+
+.item-body{
+  padding: 10px 20px 30px 10px;
+  color: #444444;
+}
+
+.fixture-teams{
+  font-size: 20px;
+  float: left;
+}
+.fixture-score{
+  font-size: 20px;
+  float: right;
+}
+
+.fixture-date{
+  font-size: 18px;
+  float: left;
+}
+.fixture-field{
+  font-size: 18px;
+  float: right;
+}
+
+.win{
+  color: green;
+}
+
+.tied{
+  color: orange;
+}
+
+.loss{
+  color: red;
+}
