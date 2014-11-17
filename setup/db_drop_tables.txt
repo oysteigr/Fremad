@@ -1,3 +1,4 @@
+DROP TABLE `table_entry`;
 DROP TABLE `player`;
 DROP TABLE `event`;
 DROP TABLE `event_type`;

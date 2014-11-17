@@ -6,7 +6,7 @@ import 'dart:convert';
 
 import 'package:angular/angular.dart';
 
-import 'models/table.dart';
+import 'models/table_entry_list.dart';
 import 'models/table_entry.dart';
 import 'models/team.dart';
 import 'models/team_list.dart';

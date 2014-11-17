@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import fremad.domain.LeagueObject;
+import fremad.domain.MatchObject;
 import fremad.domain.TeamListObject;
 import fremad.domain.TeamObject;
 import fremad.dao.SqlTablesConstants;
@@ -40,16 +41,25 @@ public class JdbcTeamDao extends JdbcConnection implements TeamDao {
 	
 	@Override
 	public TeamObject getTeam(int teamId) {
-		ResultSet res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_TEAM + " WHERE id = " + teamId);
+		String sql = "SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_TEAM	+ " WHERE id = ?";
+		
+		LOG.debug(sql);
+		
 		try {
-			if (res.next()) {
-				return new TeamObject(res.getInt("id"), res.getString("name"), res.getInt("online_id"));
+			this.prpstm = this.conn.prepareStatement(sql);
+			prpstm.setInt(1, teamId);
+			ResultSet res = prpstm.executeQuery();
+			if (res != null && res.next()) {
+				return new TeamObject( res.getInt(1), 
+										res.getString(2), 
+										res.getInt(3));
+			} else {
+				return null;
 			}
 		} catch (SQLException e) {
 			LOG.error(e.toString());
+			return null;
 		}
-		
-		return null;
 	}
 	
 	@Override
@@ -81,10 +91,10 @@ public class JdbcTeamDao extends JdbcConnection implements TeamDao {
 	public TeamObject updateTeam(TeamObject teamObject) {
 		String sql = "UPDATE " + SqlTablesConstants.SQL_TABLE_NAME_TEAM + " SET "
 				+ " name = ?, "
-				+ " online_id = ?, "
+				+ " online_id = ? "
 				+ " WHERE id = ?";
 		
-		LOG.debug("In addLeague with sql: " + sql);
+		LOG.debug("In updateTeam with sql: " + sql);
 		try {
 			prpstm = conn.prepareStatement(sql);
 			prpstm.setString(1, teamObject.getName());

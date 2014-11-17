@@ -24,6 +24,7 @@ public interface SqlTablesConstants {
 	String SQL_TABLE_NAME_EVENT = "event";
 	String SQL_TABLE_NAME_EVENT_TYPE = "event_type";
 	String SQL_TABLE_NAME_PLAYER = "player";
+	String SQL_TABLE_NAME_TABLE_ENTRY = "table_entry";
 	
 	
 	// Table values
@@ -73,7 +74,7 @@ public interface SqlTablesConstants {
             + " `opposing_team_name` varchar(255) NOT NULL,"
             + " `opposing_team_id` int(11) NOT NULL,"
             + " `opposing_team_goals` tinyint DEFAULT NULL,"
-            + " `date` date NOT NULL,"
+            + " `date` timestamp NOT NULL,"
             + " `field` varchar(255) NOT NULL,"
             + " CONSTRAINT `fk_match_team` FOREIGN KEY (`team`) REFERENCES `team` (`id`),"
             + " CONSTRAINT `fk_match_league` FOREIGN KEY (`league`) REFERENCES `league` (`id`),"
@@ -92,10 +93,27 @@ public interface SqlTablesConstants {
             + " CONSTRAINT `fk_event_event_type` FOREIGN KEY (`type`) REFERENCES `event_type` (`id`),"
             + " CONSTRAINT `fk_event_match` FOREIGN KEY (`match`) REFERENCES `match` (`id`),"
             + " PRIMARY KEY (`id`)"
+            + " ) ENGINE=InnoDB DEFAULT CHARSET=utf8",
+        "CREATE TABLE `table_entry` ("
+            + " `id` int(11) NOT NULL AUTO_INCREMENT,"
+            + " `league` int(11) NOT NULL,"
+            + " `pos` tinyint NOT NULL,"
+            + " `team_name` varchar(255) NOT NULL,"
+            + " `team_id` int(11) NOT NULL,"
+            + " `match_count` tinyint NOT NULL,"
+            + " `goals_scored` int(8) NOT NULL,"
+            + " `goals_conceded` int(8) NOT NULL,"
+            + " `points` int(8) NOT NULL,"
+            + " `games_won` int(6) NOT NULL,"
+            + " `games_tied` int(6) NOT NULL,"
+            + " `games_lost` int(6) NOT NULL,"
+            + " CONSTRAINT `fk_table_entry_league` FOREIGN KEY (`league`) REFERENCES `league` (`id`),"
+            + " PRIMARY KEY (`id`)"
             + " ) ENGINE=InnoDB DEFAULT CHARSET=utf8"
     };
 
     String[] SQL_DROP_TABLE_STRINGS = {
+        "DROP TABLE `table_entry`",
         "DROP TABLE `player`",
         "DROP TABLE `event`",
         "DROP TABLE `event_type`",

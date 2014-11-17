@@ -41,12 +41,23 @@ public class TeamResource {
 	public TeamListObject getTeams() {
 		return teamProcessor.getTeams();
 	}
+	
+	@RequestMapping("/getTeam")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public TeamObject getTeam(@RequestBody String id) {
+		LOG.debug("Looking for team with id= " + id);
+		TeamObject response = teamProcessor.getTeam(Integer.parseInt(id));
+		LOG.debug("Found : " + response.toString());
+		return response;
+	}
 		
 	@RequestMapping("/addTeam")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public TeamObject addTeam(@RequestBody TeamObject team){
+	public  TeamObject addTeam(@RequestBody TeamObject team){
 		LOG.debug("Adding team ' " + team.getName() + "'");
 		return teamProcessor.addTeam(team);
 	}

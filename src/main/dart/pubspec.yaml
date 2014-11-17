@@ -5,5 +5,6 @@ dependencies:
   angular: ">=1.0.0 <2.0.0"
   web_components: any
   html5lib: ">=0.10.0 <2.0.0"
+  intl: any
 transformers:
   - angular

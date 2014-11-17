@@ -10,6 +10,7 @@ import fremad.rest.TestResource;
 import fremad.utils.UrlConstants;
 
 import java.net.URL;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,7 +37,7 @@ public final class UrlParser  extends UrlConstants{
 		Elements rows = getRowsFromTable(leagueObject.getId());
 		
 		for (int i = 2; i < rows.size(); i++) { 
-			tableEntryListObject.add(getTableEntryFromRow(rows.get(i)));
+			tableEntryListObject.add(getTableEntryFromRow(rows.get(i), leagueObject.getId()));
 		}
 		
 		return tableEntryListObject;
@@ -94,12 +95,13 @@ public final class UrlParser  extends UrlConstants{
 		
 	}
 	
-	private static TableEntryObject getTableEntryFromRow(Element row){
+	private static TableEntryObject getTableEntryFromRow(Element row, int leagueId){
 		
 		TableEntryObject tableEntryObject = new TableEntryObject();
 		
 		Elements cols = row.select("td");
 		
+		tableEntryObject.setLeagueId(leagueId);
 		tableEntryObject.setPos(Integer.parseInt(cols.get(URL_TABLE_POS).text()));		
 		tableEntryObject.setTeamId(getTeamIdFromUrl(cols.get(URL_TABLE_TEAM)));
 		tableEntryObject.setTeamName(cols.get(URL_TABLE_TEAM).text());
@@ -125,7 +127,8 @@ public final class UrlParser  extends UrlConstants{
 		SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");	
 		
 		try {
-			matchObject.setDate(formatter.parse(cols.get(URL_FIXTURES_DATE).text() + " " + cols.get(URL_FIXTURES_TIME).text()));
+			Date date = formatter.parse(cols.get(URL_FIXTURES_DATE).text() + " " + cols.get(URL_FIXTURES_TIME).text());
+			matchObject.setDate(new Timestamp(date.getTime()));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -147,10 +150,10 @@ public final class UrlParser  extends UrlConstants{
 		}
 		
 		if(matchObject.isHomeMatch()){
-			matchObject.setHomeGoals(Integer.parseInt(cols.get(URL_FIXTURES_RESULT).text().split(":")[0].trim()));
+			matchObject.setFremadGoals(Integer.parseInt(cols.get(URL_FIXTURES_RESULT).text().split(":")[0].trim()));
 			matchObject.setOpposingTeamGoals(Integer.parseInt(cols.get(URL_FIXTURES_RESULT).text().split(":")[1].trim()));
 		}else{
-			matchObject.setHomeGoals(Integer.parseInt(cols.get(URL_FIXTURES_RESULT).text().split(":")[1].trim()));
+			matchObject.setFremadGoals(Integer.parseInt(cols.get(URL_FIXTURES_RESULT).text().split(":")[1].trim()));
 			matchObject.setOpposingTeamGoals(Integer.parseInt(cols.get(URL_FIXTURES_RESULT).text().split(":")[0].trim()));		
 		}
 

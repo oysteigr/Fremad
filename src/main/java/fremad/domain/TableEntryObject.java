@@ -1,6 +1,7 @@
 package fremad.domain;
 
 import javax.xml.bind.annotation.XmlRootElement;
+
 import java.util.Date;
 
 @XmlRootElement(name = "TableEntryObject")
@@ -18,7 +19,27 @@ public class TableEntryObject {
 	private int gamesTied;
 	private int gamesLost;
 	
+	public TableEntryObject() {
+		super();
+	}
 	
+	public TableEntryObject(int id, int leagueId, int pos, String teamName,
+			int teamId, int matchCount, int goalsScored, int goalsConceded,
+			int points, int gamesWon, int gamesTied, int gamesLost) {
+		super();
+		this.id = id;
+		this.leagueId = leagueId;
+		this.pos = pos;
+		this.teamName = teamName;
+		this.teamId = teamId;
+		this.matchCount = matchCount;
+		this.goalsScored = goalsScored;
+		this.goalsConceded = goalsConceded;
+		this.points = points;
+		this.gamesWon = gamesWon;
+		this.gamesTied = gamesTied;
+		this.gamesLost = gamesLost;
+	}
 	public int getId() {
 		return id;
 	}

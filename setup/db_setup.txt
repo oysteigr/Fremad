@@ -14,7 +14,7 @@ CREATE TABLE `matches` (
   `opposing_team_name` varchar(255) DEFAULT NULL,
   `opposing_team_id` int(11) DEFAULT NULL,
   `opposing_team_goals` int(11) DEFAULT NULL,
-  `date` date DEFAULT NULL,
+  `date` timestamp DEFAULT NULL,
   `field` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
