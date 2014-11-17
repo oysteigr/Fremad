@@ -1,5 +1,6 @@
 package fremad.domain;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -10,23 +11,23 @@ public class MatchObject {
 	private int league;
 	private int fremad_team;
 	private boolean homeMatch;
-	private int homeGoals;
+	private int fremadGoals;
 	private String opposingTeamName;
 	private int opposingTeamId;
 	private int opposingTeamGoals;
-	private Date date;
+	private Timestamp date;
 	private String field;
 	
 	
 	
 	public MatchObject(int id, int league, int fremad_team, boolean homeMatch,
-			int homeGoals, String opposingTeamName, int opposingTeamId,
-			int opposingTeamGoals, Date date, String field) {
+			int fremadGoals, String opposingTeamName, int opposingTeamId,
+			int opposingTeamGoals, Timestamp date, String field) {
 		this.id = id;
 		this.league = league;
 		this.fremad_team = fremad_team;
 		this.homeMatch = homeMatch;
-		this.homeGoals = homeGoals;
+		this.fremadGoals = fremadGoals;
 		this.opposingTeamName = opposingTeamName;
 		this.opposingTeamId = opposingTeamId;
 		this.opposingTeamGoals = opposingTeamGoals;
@@ -61,11 +62,11 @@ public class MatchObject {
 	public void setHomeMatch(boolean homeMatch) {
 		this.homeMatch = homeMatch;
 	}
-	public int getHomeGoals() {
-		return homeGoals;
+	public int getFremadGoals() {
+		return fremadGoals;
 	}
-	public void setHomeGoals(int homeGoals) {
-		this.homeGoals = homeGoals;
+	public void setFremadGoals(int fremadGoals) {
+		this.fremadGoals = fremadGoals;
 	}
 	public String getOpposingTeamName() {
 		return opposingTeamName;
@@ -85,10 +86,10 @@ public class MatchObject {
 	public void setOpposingTeamGoals(int opposingTeamGoals) {
 		this.opposingTeamGoals = opposingTeamGoals;
 	}
-	public Date getDate() {
+	public Timestamp getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(Timestamp date) {
 		this.date = date;
 	}
 	public String getField() {

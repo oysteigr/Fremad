@@ -1,7 +1,69 @@
-FIXTURE
-
-<div id="recipe-list">
-  <ul>
-    <li ng-repeat="matchEntry in matchEntryList">{{matchEntry.opposingTeamName}} - Fremad</li>
-  </ul>
+<ul id="fixture-list">
+  
+  <li ng-repeat="matchEntry in matchEntryList">
+    <div class="item-head">
+      <div class = "fixture-teams">
+        <span class="fixture-home-team item-name" ng-if="matchEntry.homeMatch">{{team.name}}</span>
+        <span class="fixture-home-team" ng-unless="matchEntry.homeMatch">{{matchEntry.opposingTeamName}}</span>
+        -
+        <span class="fixture-away-team" ng-if="matchEntry.homeMatch">{{matchEntry.opposingTeamName}}</span>
+        <span class="fixture-away-team" ng-unless="matchEntry.homeMatch">{{team.name}}</span>
+      </div>
+      <div class = "fixture-score">
+        <span ng-class="matchEntry.resultClass()" ng-if="matchEntry.homeMatch">{{matchEntry.fremadGoals}} - {{matchEntry.opposingTeamGoals}}</span>
+        <span ng-class="matchEntry.resultClass()" ng-unless="matchEntry.homeMatch">{{matchEntry.opposingTeamGoals}} - {{matchEntry.fremadGoals}}</span>
+      </div>
+    </div>
+    <br>
+    <div class="item-body">  
+      <div class = "fixture-date">
+        <span>{{matchEntry.getDateAsString()}}</span>
+        <span>{{matchEntry.getTimeAsString()}}</span>
+      </div>
+      <div class="fixture-field">
+        <span>{{matchEntry.field}}</span>
+      </div>
+    </div>
+  </li>
+  
+</ul>
+<!--
+<div id="fixture-table">
+  <table class="naviTable">
+    <thead>
+      <tr class="primary">
+        <th class="fixture-date"><span>Date</span></th>
+        <th class="fixture-time"><span>Time</span></th>
+        <th class="fixture-home-team"><span>Home</span></th>
+        <th class="fixture-score"><span>Result</span></th>
+        <th class="fixture-away-team"><span>Away</span></th>
+        <th class="fixture-field"><span>Field</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="matchEntry in matchEntryList">
+        <td>{{matchEntry.getDateAsString()}}</td>
+        <td>{{matchEntry.getTimeAsString()}}</td>
+        <td ng-if="matchEntry.homeMatch">Fremad</td>
+        <td ng-unless="matchEntry.homeMatch">{{matchEntry.opposingTeamName}}</td>
+        <td ng-if="matchEntry.homeMatch">{{matchEntry.fremadGoals}} - {{matchEntry.opposingTeamGoals}}</td>
+        <td ng-unless="matchEntry.homeMatch">{{matchEntry.opposingTeamGoals}} - {{matchEntry.fremadGoals}}</td>
+        <td ng-if="matchEntry.homeMatch">{{matchEntry.opposingTeamName}}</td>
+        <td ng-unless="matchEntry.homeMatch">Fremad</td>
+        <td>{{matchEntry.field}}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
+-->
+<!--
+  int league;
+  fremad_team;
+  homeMatch;
+  fremadGoals;
+  opposingTeamName;
+  opposingTeamId;
+  opposingTeamGoals;
+  date;
+  field;
+-->

@@ -3,13 +3,17 @@ part of fremad;
 @Component(
     selector: 'team-fixture-view',
     templateUrl: 'packages/fremad/components/team/fixture_view.html',
+    cssUrl: 'packages/fremad/components/team/fixture_view.css',
     useShadowDom: false
 )
 class ShowTeamFixtureComponent {
   
   Http _http;
   int teamID;
-  bool tableLoaded = false;
+  bool fixturesLoaded = false;
+  bool leaguesLoaded = false;
+  bool teamLoaded = false;
+  Team team;
   MatchList matchListObject;
   List<MatchEntry> matchEntryList;
   LeagueList leagueListObject;
@@ -18,42 +22,60 @@ class ShowTeamFixtureComponent {
   ShowTeamFixtureComponent(this._http, RouteProvider routeProvider){
     teamID = int.parse(routeProvider.parameters["teamId"]);
     html.window.console.info("RouteProvider in fixture found id: " + teamID.toString());
+    loadTeam();
     loadLeagues();
   }
   
   void loadFixtures() {
     html.window.console.info("Is in loadLeagues");
-    tableLoaded = false;
+    fixturesLoaded = false;
     _http.post('rest/match/getMatches.json', JSON.encode(leagueList.first.getID))
       .then((HttpResponse response) {
         print(response);
         matchListObject = new MatchList.fromJson(response.data);
         matchEntryList = matchListObject.matchEntryList;
-        tableLoaded = true;
+        fixturesLoaded = true;
         html.window.console.info("Success on loading fixtures");
       })
       .catchError((e) {
         print(e);
-        tableLoaded = false;
+        fixturesLoaded = false;
         html.window.console.info("Could not load rest/league/getLeagues.json");
       });
   } 
   void loadLeagues() {
     html.window.console.info("Is in loadLeagues");
-    tableLoaded = false;
+    leaguesLoaded = false;
     _http.post('rest/league/getLeaguesByTeam.json', JSON.encode(teamID))
       .then((HttpResponse response) {
         print(response);
         leagueListObject = new LeagueList.fromJson(response.data);
         leagueList = leagueListObject.leagueList;
-        tableLoaded = true;
+        leaguesLoaded = true;
         html.window.console.info("Success on loading leagues");
         loadFixtures();
       })
       .catchError((e) {
         print(e);
-        tableLoaded = false;
+        leaguesLoaded = false;
         html.window.console.info("Could not load rest/league/getLeagues.json");
       });
   } 
+  
+  void loadTeam(){
+    html.window.console.info("Is in loadTeam");
+    teamLoaded = false;
+    _http.post('rest/team/getTeam.json', JSON.encode(teamID))
+      .then((HttpResponse response) {
+        print(response);
+        team = new Team.fromJson(response.data);
+        teamLoaded = true;
+        html.window.console.info("Success on loading team");
+      })
+      .catchError((e) {
+        print(e);
+        teamLoaded = false;
+        html.window.console.info("Could not load rest/team/getTeam.json");
+      });    
+  }
 }

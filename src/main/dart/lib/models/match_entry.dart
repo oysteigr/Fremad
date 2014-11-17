@@ -1,5 +1,8 @@
 library match_entry;
 
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
+
 class MatchEntry{
   int id;
   int league;
@@ -9,7 +12,7 @@ class MatchEntry{
   String opposingTeamName;
   int opposingTeamId;
   int opposingTeamGoals;
-  int date;
+  DateTime date;
   String field;
  
   MatchEntry(this.id, this.league, this.fremad_team, this.homeMatch, this.fremadGoals, this.opposingTeamName, 
@@ -31,6 +34,29 @@ class MatchEntry{
   MatchEntry.fromJson(Map<String, dynamic> json) : this(json['id'],
       json['league'], json['fremad_team'], json['homeMatch'], json['fremadGoals'], 
       json['opposingTeamName'], json['opposingTeamId'], json['opposingTeamGoals'], 
-      json['date'], json['field']);
+      new DateTime.fromMillisecondsSinceEpoch(json['date'], isUtc: false), json['field']);
+  
+  String getDateAsString(){
+    return asDate.format(date);
+  }
+  
+  String getTimeAsString(){
+      return asTime.format(date);
+    }
+  
+  String resultClass(){
+    if(fremadGoals > opposingTeamGoals){
+      return "win";
+    } else if (fremadGoals == opposingTeamGoals){
+      return "tied";
+    }
+    else{
+      return "loss";
+    }
+  }
+  
+  final DateFormat asDate = new DateFormat('dd.MM.yyyy', 'fr_FR');
+  
+  final DateFormat asTime = new DateFormat('HH:mm', 'fr_FR');
   
 }

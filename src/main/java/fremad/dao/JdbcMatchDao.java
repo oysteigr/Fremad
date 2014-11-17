@@ -24,7 +24,7 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 	
 	@Override
 	public int deleteMatch(int matchId) {
-		String sql = "DELETE FROM match WHERE id = ?";
+		String sql = "DELETE FROM " + SqlTablesConstants.SQL_TABLE_NAME_MATCH + " WHERE id = ?";
 		
 		try {
 			this.prpstm = this.conn.prepareStatement(sql);
@@ -38,7 +38,7 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 	
 	@Override
 	public int deleteMatches(int leagueId) {
-		String sql = "DELETE FROM match WHERE league = ?";
+		String sql = "DELETE FROM " + SqlTablesConstants.SQL_TABLE_NAME_MATCH + " WHERE league = ?";
 		
 		try {
 			this.prpstm = this.conn.prepareStatement(sql);
@@ -56,7 +56,7 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 		
 		try {
 			this.prpstm = this.conn.prepareStatement(sql);
-			prpstm.setInt(0, matchId);
+			prpstm.setInt(1, matchId);
 			ResultSet res = prpstm.executeQuery();
 			if (res != null && res.next()) {
 				return new MatchObject( res.getInt(1), 
@@ -67,7 +67,7 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 										res.getString(6),
 										res.getInt(7),
 										res.getInt(8),
-										res.getDate(9),
+										res.getTimestamp(9),
 										res.getString(10));
 			} else {
 				return null;
@@ -81,7 +81,7 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 	@Override
 	public boolean addMatch(MatchObject match) {
 		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_MATCH + " "
-						+ "(league, team, home_match, home_goals, opposing_team_name, opposing_team_id, opposing_team_goals, date, field) "
+						+ "(league, team, home_match, fremad_goals, opposing_team_name, opposing_team_id, opposing_team_goals, date, field) "
 						+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try {
@@ -89,13 +89,12 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 			prpstm.setInt(1, match.getLeague());
 			prpstm.setInt(2, match.getFremad_team());
 			prpstm.setInt(3, match.isHomeMatch() ? 1 : 0);
-			prpstm.setInt(4, match.getHomeGoals());
+			prpstm.setInt(4, match.getFremadGoals());
 			prpstm.setString(5, match.getOpposingTeamName());
 			prpstm.setInt(6, match.getOpposingTeamId());
 			prpstm.setInt(7, match.getOpposingTeamGoals());
-			prpstm.setDate(8, new java.sql.Date(match.getDate().getTime()));
+			prpstm.setTimestamp(8, match.getDate());
 			prpstm.setString(9, match.getField());
-			
 			prpstm.executeUpdate();
 			
 			return true;
@@ -119,11 +118,11 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 												res.getInt("league"),
 												res.getInt("team"), 
 												res.getBoolean("home_match"), 
-												res.getInt("home_goals"),
+												res.getInt("fremad_goals"),
 												res.getString("opposing_team_name"), 
 												res.getInt("opposing_team_id"), 
 												res.getInt("opposing_team_goals"),
-												res.getDate("date"),
+												res.getTimestamp("date"),
 												res.getString("field")));
 			}
 		} catch (SQLException e) {

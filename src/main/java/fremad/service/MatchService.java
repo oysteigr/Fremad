@@ -16,6 +16,7 @@ public class MatchService {
 	@Autowired
 	JdbcMatchDao jdbcMatchDao;
 	
+	
 	public MatchObject getMatch(int matchId){
 		return jdbcMatchDao.getMatch(matchId);
 		
