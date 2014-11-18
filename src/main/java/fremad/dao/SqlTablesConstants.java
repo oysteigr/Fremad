@@ -109,6 +109,7 @@ public interface SqlTablesConstants {
             + " `games_tied` int(6) NOT NULL,"
             + " `games_lost` int(6) NOT NULL,"
             + " CONSTRAINT `fk_table_entry_league` FOREIGN KEY (`league`) REFERENCES `league` (`id`),"
+            + " CONSTRAINT `uc_league_team` UNIQUE (`league`, `team_id`),"
             + " PRIMARY KEY (`id`)"
             + " ) ENGINE=InnoDB DEFAULT CHARSET=utf8"
     };

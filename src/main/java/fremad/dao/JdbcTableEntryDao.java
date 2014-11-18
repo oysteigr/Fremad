@@ -80,7 +80,7 @@ public class JdbcTableEntryDao extends JdbcConnection implements TableEntryDao {
 	
 	@Override
 	public boolean addTableEntry(TableEntryObject tableEntry) {
-		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_TABLE_ENTRY + " "
+		String sql = "INSERT IGNORE INTO " + SqlTablesConstants.SQL_TABLE_NAME_TABLE_ENTRY + " "
 						+ "(league, pos, team_name, team_id, match_count, goals_scored, "
 						+ "goals_conceded, points, games_won, games_tied, games_lost) "
 						+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
