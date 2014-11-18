@@ -81,7 +81,7 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 	@Override
 	public boolean addMatch(MatchObject match) {
 		String sql = "INSERT IGNORE INTO " + SqlTablesConstants.SQL_TABLE_NAME_MATCH + " "
-						+ "(league, team, home_match, home_goals, opposing_team_name, opposing_team_id, opposing_team_goals, date, field) "
+						+ "(league, team, home_match, fremad_goals, opposing_team_name, opposing_team_id, opposing_team_goals, date, field) "
 						+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try {

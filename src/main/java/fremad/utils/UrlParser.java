@@ -49,7 +49,7 @@ public final class UrlParser  extends UrlConstants{
 		
 		Elements rows = getRowsFromFixture(teamObject.getOnlineId());
 		
-		for (int i = 2; i < rows.size(); i++) { 
+		for (int i = 1; i < rows.size(); i++) { 
 			matchListObject.add(getMatchFromRow(rows.get(i), teamObject));
 		}
 		
