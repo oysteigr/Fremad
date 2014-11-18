@@ -8,7 +8,7 @@ part of fremad;
 )
 class MainMenuComponent {
   final Http _http;
-  bool tableLoaded = false;
+  bool teamsLoaded = false;
   List<Team> teamList;
   TeamList teamListObject;
   
@@ -17,18 +17,18 @@ class MainMenuComponent {
   }
   void loadTeams() {
     html.window.console.info("Is in loadTeams");
-    tableLoaded = false;
+    teamsLoaded = false;
     _http.get('rest/team/getTeams.json')
       .then((HttpResponse response) {
         print(response);
         teamListObject = new TeamList.fromJson(response.data);
         teamList = teamListObject.teamList;
-        tableLoaded = true;
+        teamsLoaded = true;
         html.window.console.info("Success on loading table");
       })
       .catchError((e) {
         print(e);
-        tableLoaded = false;
+        teamsLoaded = false;
         html.window.console.info("Could not load rest/team/getTeams.json");
       });
   } 

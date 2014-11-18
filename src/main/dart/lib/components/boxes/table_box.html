@@ -1,0 +1,18 @@
+<div id="fixture-table">
+  <table class="naviTable">
+    <thead>
+      <tr class="primary">
+        <th class="table-pos"><span>pos</span></th>
+        <th class="table-teamName"><span>teamName</span></th>
+        <th class="table-points"><span>points</span></th>             
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="tableEntry in tableEntryList">
+        <td>{{tableEntry.pos}}</td>
+        <td>{{tableEntry.teamName}}</td>
+        <td>{{tableEntry.points}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -40,6 +40,8 @@ part 'components/admin/leagues_view_component.dart';
 part 'components/admin/teams_view_component.dart';
 part 'components/admin/events_view_component.dart';
 
+part 'components/boxes/table_box_component.dart';
+
 part 'services/messages.dart';
 
 part 'fremad_route_initializer.dart';
@@ -73,6 +75,8 @@ class FremadApp extends Module {
     bind(ShowAdminLeaguesComponent);
     bind(ShowAdminEventsComponent);
     bind(ShowAdminPlayersComponent);
+    
+    bind(ShowBoxTableComponent);
     
     bind(Messages);
     

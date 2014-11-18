@@ -1,29 +1,29 @@
 part of fremad;
 
 @Component(
-    selector: 'team-table-view',
-    templateUrl: 'packages/fremad/components/team/table_view.html',
-    cssUrl: 'packages/fremad/components/team/table_view.css',
+    selector: 'box-table-view',
+    templateUrl: 'packages/fremad/components/boxes/table_box.html',
+    cssUrl: 'packages/fremad/components/boxes/table_box.css',
     useShadowDom: false
 )
-class ShowTeamTableComponent {
+class ShowBoxTableComponent implements AttachAware{
+  
+  @NgOneWayOneTime("teamId")
+  int ID;
+  
   final Http _http;
   bool tableEntriesLoaded = false;
   bool leaguesLoaded = false;
   bool teamLoaded = false;
   String message;
-  int teamID;
   Team team;
   TableEntryList tableEntryListObject;
   List<TableEntry> tableEntryList;
   LeagueList leagueListObject;
   List<League> leagueList;
   
-  ShowTeamTableComponent(this._http, RouteProvider routeProvider){
-    teamID = int.parse(routeProvider.parameters["teamId"]);
-    html.window.console.info("RouteProvider in table found id: " + teamID.toString());
-    loadTeam();
-    loadLeagues();
+  ShowBoxTableComponent(this._http, RouteProvider routeProvider){
+ 
   }
   
   void loadTableEntries() {
@@ -35,7 +35,7 @@ class ShowTeamTableComponent {
         tableEntryListObject = new TableEntryList.fromJson(response.data);
         tableEntryList = tableEntryListObject.tableEntryList;
         tableEntriesLoaded = true;
-        html.window.console.info("Success on loading fixtures");
+        html.window.console.info("Success on loading tableEntries");
       })
       .catchError((e) {
         print(e);
@@ -46,7 +46,7 @@ class ShowTeamTableComponent {
   void loadLeagues() {
     html.window.console.info("Is in loadLeagues");
     leaguesLoaded = false;
-    _http.post('rest/league/getLeaguesByTeam.json', JSON.encode(teamID))
+    _http.post('rest/league/getLeaguesByTeam.json', JSON.encode(ID))
       .then((HttpResponse response) {
         print(response);
         leagueListObject = new LeagueList.fromJson(response.data);
@@ -65,7 +65,7 @@ class ShowTeamTableComponent {
   void loadTeam(){
     html.window.console.info("Is in loadTeam");
     teamLoaded = false;
-    _http.post('rest/team/getTeam.json', JSON.encode(teamID))
+    _http.post('rest/team/getTeam.json', JSON.encode(ID))
       .then((HttpResponse response) {
         print(response);
         team = new Team.fromJson(response.data);
@@ -77,5 +77,12 @@ class ShowTeamTableComponent {
         teamLoaded = false;
         html.window.console.info("Could not load rest/team/getTeam.json");
       });    
+  }
+
+  @override
+  void attach() {
+    html.window.console.info("Constructor: teamId=" + ID.toString());
+     loadTeam();
+     loadLeagues();
   }
 }
