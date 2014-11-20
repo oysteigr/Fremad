@@ -1,7 +1,15 @@
 library fremad;
 
+@MirrorsUsed(targets: const[
+    'fremad'
+],
+override: '*')
+import 'dart:mirrors';
+
 import 'dart:html' as html;
+
 import 'dart:async';
+
 import 'dart:convert';
 
 import 'package:angular/angular.dart';
