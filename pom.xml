@@ -8,13 +8,16 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>fremad Maven Webapp</name>
 	<url>http://maven.apache.org</url>
-   <properties>
+	<properties>
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
 		<org.springframework.version>4.0.6.RELEASE</org.springframework.version>
 		<jersey-spring-version>1.18.1</jersey-spring-version>
 		<maven.tomcat.url>http://localhost:8080/manager/text</maven.tomcat.url>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+
+</project>
 
 	<dependencies>
 		
@@ -257,6 +260,15 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>tomcat-maven-plugin</artifactId>
+				<configuration>
+					<server>mytomcat</server>
+					<url>http://localhost:8080/manager/text</url>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
 				<configuration>
 					<server>mytomcat</server>
 					<url>http://localhost:8080/manager/text</url>
