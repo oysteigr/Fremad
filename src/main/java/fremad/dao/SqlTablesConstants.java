@@ -70,7 +70,7 @@ public interface SqlTablesConstants {
             + " `league` int(11) NOT NULL,"
             + " `team` int(11) NOT NULL,"
             + " `home_match` tinyint(1) NOT NULL,"
-            + " `home_goals` tinyint DEFAULT NULL,"
+            + " `fremad_goals` tinyint DEFAULT NULL,"
             + " `opposing_team_name` varchar(255) NOT NULL,"
             + " `opposing_team_id` int(11) NOT NULL,"
             + " `opposing_team_goals` tinyint DEFAULT NULL,"
