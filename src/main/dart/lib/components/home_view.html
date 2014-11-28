@@ -28,9 +28,15 @@
               </tr>
             </div>
           </aside>
-  
-          <aside class="sidebar-item" ng-repeat="team in teamList">
-            <box-table-view teamID="team.id"></box-table-view>
+
+          <aside class="sidebar-item" ng-repeat="teamObject in teamList">
+            <box-match-view ng-if="teamsLoaded" teamObject="teamObject"></box-match-view>
           </aside>
+          
+          <aside class="sidebar-item" ng-repeat="teamObject in teamList">
+            <box-table-view ng-if="teamsLoaded" teamObject="teamObject"></box-table-view>
+          </aside>
+
+          
   
         </aside>

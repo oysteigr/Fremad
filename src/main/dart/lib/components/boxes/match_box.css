@@ -1,0 +1,19 @@
+.match-content{
+  padding: 10px 20px 0px 10px;
+}
+
+.win{
+  color: green;
+}
+
+.tied{
+  color: orange;
+}
+
+.loss{
+  color: red;
+}
+
+.score{
+  float: right;
+}

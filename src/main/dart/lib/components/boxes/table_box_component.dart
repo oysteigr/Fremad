@@ -8,15 +8,15 @@ part of fremad;
 )
 class ShowBoxTableComponent implements AttachAware{
   
-  @NgOneWayOneTime("teamId")
-  int ID;
+  @NgOneWayOneTime("teamObject")
+  Team team;
   
   final Http _http;
   bool tableEntriesLoaded = false;
   bool leaguesLoaded = false;
   bool teamLoaded = false;
   String message;
-  Team team;
+
   TableEntryList tableEntryListObject;
   List<TableEntry> tableEntryList;
   LeagueList leagueListObject;
@@ -46,7 +46,7 @@ class ShowBoxTableComponent implements AttachAware{
   void loadLeagues() {
     html.window.console.info("Is in loadLeagues");
     leaguesLoaded = false;
-    _http.post('rest/league/getLeaguesByTeam.json', JSON.encode(ID))
+    _http.post('rest/league/getLeaguesByTeam.json', JSON.encode(team.id))
       .then((HttpResponse response) {
         print(response);
         leagueListObject = new LeagueList.fromJson(response.data);
@@ -61,11 +61,11 @@ class ShowBoxTableComponent implements AttachAware{
         html.window.console.info("Could not load rest/league/getLeagues.json");
       });
   } 
-  
+/*  
   void loadTeam(){
     html.window.console.info("Is in loadTeam");
     teamLoaded = false;
-    _http.post('rest/team/getTeam.json', JSON.encode(ID))
+    _http.post('rest/team/getTeam.json', JSON.encode(team.id))
       .then((HttpResponse response) {
         print(response);
         team = new Team.fromJson(response.data);
@@ -78,11 +78,10 @@ class ShowBoxTableComponent implements AttachAware{
         html.window.console.info("Could not load rest/team/getTeam.json");
       });    
   }
-
+*/
   @override
   void attach() {
-    html.window.console.info("Constructor: teamId=" + ID.toString());
-     loadTeam();
+    html.window.console.info("Constructor: teamId=" + team.id.toString());
      loadLeagues();
   }
 }

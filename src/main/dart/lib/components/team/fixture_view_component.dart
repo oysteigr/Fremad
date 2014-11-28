@@ -24,12 +24,13 @@ class ShowTeamFixtureComponent {
     html.window.console.info("RouteProvider in fixture found id: " + teamID.toString());
     loadTeam();
     loadLeagues();
+    loadFixtures();
   }
   
   void loadFixtures() {
     html.window.console.info("Is in loadLeagues");
     fixturesLoaded = false;
-    _http.post('rest/match/getMatches.json', JSON.encode(leagueList.first.getID))
+    _http.post('rest/match/getMatches.json', JSON.encode(teamID))
       .then((HttpResponse response) {
         print(response);
         matchListObject = new MatchList.fromJson(response.data);
@@ -40,7 +41,7 @@ class ShowTeamFixtureComponent {
       .catchError((e) {
         print(e);
         fixturesLoaded = false;
-        html.window.console.info("Could not load rest/league/getLeagues.json");
+        html.window.console.info("Could not load rest/match/getMatches.json");
       });
   } 
   void loadLeagues() {
@@ -53,7 +54,6 @@ class ShowTeamFixtureComponent {
         leagueList = leagueListObject.leagueList;
         leaguesLoaded = true;
         html.window.console.info("Success on loading leagues");
-        loadFixtures();
       })
       .catchError((e) {
         print(e);

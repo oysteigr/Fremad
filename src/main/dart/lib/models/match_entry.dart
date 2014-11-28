@@ -1,12 +1,11 @@
 library match_entry;
 
 import 'package:intl/intl.dart';
-import 'package:intl/date_symbol_data_local.dart';
 
 class MatchEntry{
   int id;
   int league;
-  int fremad_team;
+  int fremadTeam;
   bool homeMatch;
   int fremadGoals;
   String opposingTeamName;
@@ -15,13 +14,13 @@ class MatchEntry{
   DateTime date;
   String field;
  
-  MatchEntry(this.id, this.league, this.fremad_team, this.homeMatch, this.fremadGoals, this.opposingTeamName, 
+  MatchEntry(this.id, this.league, this.fremadTeam, this.homeMatch, this.fremadGoals, this.opposingTeamName, 
       this.opposingTeamId, this.opposingTeamGoals, this.date, this.field);
 
   Map<String, dynamic> toJson() => <String, dynamic>{
     "id": id,
     "league": league,
-    "fremad_team": fremad_team,
+    "fremadTeam": fremadTeam,
     "homeMatch": homeMatch,
     "fremadGoals": fremadGoals,
     "opposingTeamName": opposingTeamName,
@@ -32,7 +31,7 @@ class MatchEntry{
   };
 
   MatchEntry.fromJson(Map<String, dynamic> json) : this(json['id'],
-      json['league'], json['fremad_team'], json['homeMatch'], json['fremadGoals'], 
+      json['league'], json['fremadTeam'], json['homeMatch'], json['fremadGoals'], 
       json['opposingTeamName'], json['opposingTeamId'], json['opposingTeamGoals'], 
       new DateTime.fromMillisecondsSinceEpoch(json['date'], isUtc: false), json['field']);
   

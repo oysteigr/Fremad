@@ -21,8 +21,8 @@ public class MatchService {
 		return jdbcMatchDao.getMatch(matchId);
 		
 	}
-	public MatchListObject getMatches(int leagueId){
-		return jdbcMatchDao.getMatches(leagueId);
+	public MatchListObject getMatches(int teamId){
+		return jdbcMatchDao.getMatches(teamId);
 	}
 	public boolean addMatch(MatchObject match) {
 		return jdbcMatchDao.addMatch(match);

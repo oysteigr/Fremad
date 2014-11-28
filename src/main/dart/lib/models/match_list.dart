@@ -1,6 +1,5 @@
 library match_list;
 
-import 'team.dart';
 import 'match_entry.dart';
 
 class MatchList {

@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class MatchObject {
 	private int id;
 	private int league;
-	private int fremad_team;
+	private int fremadTeam;
 	private boolean homeMatch;
 	private int fremadGoals;
 	private String opposingTeamName;
@@ -20,12 +20,12 @@ public class MatchObject {
 	
 	
 	
-	public MatchObject(int id, int league, int fremad_team, boolean homeMatch,
+	public MatchObject(int id, int league, int fremadTeam, boolean homeMatch,
 			int fremadGoals, String opposingTeamName, int opposingTeamId,
 			int opposingTeamGoals, Timestamp date, String field) {
 		this.id = id;
 		this.league = league;
-		this.fremad_team = fremad_team;
+		this.fremadTeam = fremadTeam;
 		this.homeMatch = homeMatch;
 		this.fremadGoals = fremadGoals;
 		this.opposingTeamName = opposingTeamName;
@@ -50,11 +50,11 @@ public class MatchObject {
 	public void setLeague(int league) {
 		this.league = league;
 	}
-	public int getFremad_team() {
-		return fremad_team;
+	public int getFremadTeam() {
+		return fremadTeam;
 	}
-	public void setFremad_team(int fremad_team) {
-		this.fremad_team = fremad_team;
+	public void setFremadTeam(int fremadTeam) {
+		this.fremadTeam = fremadTeam;
 	}
 	public boolean isHomeMatch() {
 		return homeMatch;

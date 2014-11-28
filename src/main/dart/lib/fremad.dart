@@ -49,6 +49,7 @@ part 'components/admin/teams_view_component.dart';
 part 'components/admin/events_view_component.dart';
 
 part 'components/boxes/table_box_component.dart';
+part 'components/boxes/match_box_component.dart';
 
 part 'services/messages.dart';
 
@@ -85,6 +86,7 @@ class FremadApp extends Module {
     bind(ShowAdminPlayersComponent);
     
     bind(ShowBoxTableComponent);
+    bind(ShowBoxMatchComponent);
     
     bind(Messages);
     

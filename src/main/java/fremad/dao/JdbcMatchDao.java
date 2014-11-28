@@ -87,7 +87,7 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 		try {
 			prpstm = conn.prepareStatement(sql);
 			prpstm.setInt(1, match.getLeague());
-			prpstm.setInt(2, match.getFremad_team());
+			prpstm.setInt(2, match.getFremadTeam());
 			prpstm.setInt(3, match.isHomeMatch() ? 1 : 0);
 			prpstm.setInt(4, match.getFremadGoals());
 			prpstm.setString(5, match.getOpposingTeamName());
@@ -105,10 +105,10 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 	}
 
 	@Override
-	public MatchListObject getMatches(int leagueId) {
+	public MatchListObject getMatches(int teamId) {
 		
 		MatchListObject matchList = new MatchListObject();
-		String sql = "SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_MATCH + " WHERE league = " + leagueId;
+		String sql = "SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_MATCH + " WHERE team = " + teamId;
 		LOG.debug(sql);
 		ResultSet res = select(sql);
 		try {
