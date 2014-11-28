@@ -8,6 +8,7 @@ public class EventObject {
 	private int player;
 	private int eventType;
 	private int matchTime;
+	private int matchId;
 	
 	public int getId() {
 		return id;
@@ -32,6 +33,12 @@ public class EventObject {
 	}
 	public void setMatchTime(int matchTime) {
 		this.matchTime = matchTime;
+	}
+	public int getMatchId() {
+		return matchId;
+	}
+	public void setMatchId(int matchId) {
+		this.matchId = matchId;
 	}
 	
 	
