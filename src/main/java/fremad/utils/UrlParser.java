@@ -44,6 +44,7 @@ public final class UrlParser  extends UrlConstants{
 	}
 	
 	public static MatchListObject getMatchListObject(TeamObject teamObject){
+		LOG.info("In getMatchListObject");
 		
 		MatchListObject matchListObject = new MatchListObject();
 		
@@ -118,7 +119,6 @@ public final class UrlParser  extends UrlConstants{
 	}
 	
 	private static MatchObject getMatchFromRow(Element row, TeamObject teamObject){
-		LOG.info("In getMatchListObject");
 		
 		MatchObject matchObject = new MatchObject();
 		
@@ -132,7 +132,7 @@ public final class UrlParser  extends UrlConstants{
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		matchObject.setFremad_team(teamObject.getId());
+		matchObject.setFremadTeam(teamObject.getId());
 		matchObject.setHomeMatch(teamObject.getOnlineId() == getTeamIdFromUrl(cols.get(URL_FIXTURES_HOMETEAM)));
 		matchObject.setField(cols.get(URL_FIXTURES_FIELD).text());
 		matchObject.setLeague(getTournementIdFromUrl(cols.get(URL_FIXTURES_TOURNEMENT)));
