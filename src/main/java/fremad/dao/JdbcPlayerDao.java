@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import fremad.domain.PlayerListObject;
 import fremad.domain.PlayerObject;
+import fremad.domain.TeamListObject;
+import fremad.domain.TeamObject;
 import fremad.dao.SqlTablesConstants;
 
 @Repository
@@ -25,68 +27,122 @@ public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
 	@Override
 	public PlayerListObject getPlayers() {
 		PlayerListObject playerListObject = new PlayerListObject();
-		// TODO Auto-generated method stub
+		
+		ResultSet res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER);
+		try {
+			while (res.next()) {
+				playerListObject.add(new PlayerObject(
+					res.getInt("id"), 
+					res.getString("first_name"),
+					res.getString("last_name"),
+					res.getInt("number"),
+					res.getInt("member_since"),
+					res.getString("position"),
+					res.getString("preferred_foot"),
+					res.getInt("team")));
+			}
+		} catch (SQLException e) {
+			LOG.error(e.toString());
+		}
+		
 		return playerListObject;
 	}
 
 	@Override
-	public PlayerObject addPlayer(PlayerObject player) {
-		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER 
-				+ "(id, first_name, last_name, member_since, position, preferred_foot, team) "
-				+ "VALUES("
-				+ player.getId()
-				+ player.getFirstName()
-				+ player.getLastName()
-				+ player.getMemberSince()
-				+ player.getPossition()
-				+ player.getPreferredFoot()
-				+ player.getTeam();
+	public PlayerListObject getPlayersByTeam(int teamId) {
+		PlayerListObject playerListObject = new PlayerListObject();
+		
+		ResultSet res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER + " WHERE team = " + teamId);
 		try {
-			this.prpstm = this.conn.prepareStatement(sql);
+			while (res.next()) {
+				playerListObject.add(new PlayerObject(
+					res.getInt("id"), 
+					res.getString("first_name"),
+					res.getString("last_name"),
+					res.getInt("number"),
+					res.getInt("member_since"),
+					res.getString("position"),
+					res.getString("preferred_foot"),
+					res.getInt("team")));
+			}
+		} catch (SQLException e) {
+			LOG.error(e.toString());
+		}
+		
+		return playerListObject;
+	}
+	
+	@Override
+	public PlayerObject addPlayer(PlayerObject playerObject) {
+		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER 
+				+ "(first_name, last_name, number, member_since, position, preferred_foot, team) "
+				+ "VALUES(?,?,?,?,?,?,?)";
+		int key = -1;
+
+		try {
+			prpstm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			prpstm.setString(1, playerObject.getFirstName());
+			prpstm.setString(2, playerObject.getLastName());
+			prpstm.setInt(3, playerObject.getNumber());
+			prpstm.setInt(4, playerObject.getMemberSince());
+			prpstm.setString(5, playerObject.getPossition());
+			prpstm.setString(6, playerObject.getPreferredFoot());
+			prpstm.setInt(7, playerObject.getTeam());
+			
+			LOG.debug("Executing: " + prpstm.toString());
+			
+			prpstm.execute();
+			ResultSet rs = prpstm.getGeneratedKeys();
+			if (rs != null && rs.next()) {
+				key = rs.getInt(1);
+			}
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 			return null;
 		}
+		playerObject.setId(key);
 		
-		return player;
+		return playerObject;
 	}
 
 	@Override
-	public PlayerObject updatePlayer(PlayerObject player) {
+	public PlayerObject updatePlayer(PlayerObject playerObject) {
 		String sql = "UPDATE " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER 
-				+ "SET id=?, first_name=?, last_name=?, member_since=?, position=?, preferred_foot=?, team=?";
+				+ "SET first_name=?, last_name=?, number=?, member_since=?, position=?, preferred_foot=?, team=? WHERE id=?";
 		try {
 			this.prpstm = this.conn.prepareStatement(sql);
-			prpstm.setInt(1, player.getId());
-			prpstm.setString(2, player.getFirstName());
-			prpstm.setString(3, player.getLastName());
-			prpstm.setInt(4, player.getMemberSince());
-			prpstm.setString(5, player.getPossition());
-			prpstm.setString(6, player.getPreferredFoot());
-			prpstm.setInt(7, player.getTeam());
+			prpstm.setString(1, playerObject.getFirstName());
+			prpstm.setString(2, playerObject.getLastName());
+			prpstm.setInt(3, playerObject.getNumber());
+			prpstm.setInt(4, playerObject.getMemberSince());
+			prpstm.setString(5, playerObject.getPossition());
+			prpstm.setString(6, playerObject.getPreferredFoot());
+			prpstm.setInt(7, playerObject.getTeam());
+			prpstm.setInt(8, playerObject.getId());
 			
 			prpstm.executeUpdate();
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 			return null;
 		}
-		return player;
+		return playerObject;
 	}
 
 	@Override
-	public PlayerObject deletePlayer(PlayerObject player) {
+	public PlayerObject deletePlayer(PlayerObject playerObject) {
 		String sql = "DELETE FROM " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER
-				+ "WHERE id=?";
-		
+				+ " WHERE id = ?";
+		LOG.debug("In deletePlayer with sql: " + sql + " and id=" + playerObject.getId());
 		try {
 			this.prpstm = this.conn.prepareStatement(sql);
-			prpstm.setInt(0, player.getId());
+			prpstm.setInt(1, playerObject.getId());
+			prpstm.executeUpdate();
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 			return null;
 		}
 		
-		return player;
+		return playerObject;
 	}
 	
 }

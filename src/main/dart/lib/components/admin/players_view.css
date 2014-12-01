@@ -40,6 +40,14 @@
   
 }
 
+.item-edit{
+  padding: 10px 10px 10px 10px;
+  border-top-style: solid;
+  border-top-color: #AAAAAA;
+  color: #AAAAAA;
+  border-top-width: 1px;
+}
+
 .adminButton{
   -moz-border-radius:5px;
   -webkit-border-radius:5px;
@@ -50,6 +58,7 @@
   color:#ffffff;
   float: right;
   margin-left: 10px;
+  font-size: 18px;
 }
 
 .adminButton:active {

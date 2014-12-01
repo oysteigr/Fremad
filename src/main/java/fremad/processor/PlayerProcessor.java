@@ -1,9 +1,14 @@
 package fremad.processor;
 
+import java.util.Collections;
+import java.util.Comparator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import fremad.domain.MatchListObject;
+import fremad.domain.MatchObject;
 import fremad.domain.PlayerListObject;
 import fremad.domain.PlayerObject;
 import fremad.service.PlayerService;
@@ -17,8 +22,32 @@ public class PlayerProcessor {
 	PlayerService playerService;
 	
 	public PlayerListObject getPlayers(){
-		return playerService.getPlayers();
+		PlayerListObject response = playerService.getPlayers();
+		if (response.size() > 0){
+			Collections.sort(response.getList(), new Comparator<PlayerObject>(){
+				@Override
+				public int compare(final PlayerObject obj1, final PlayerObject obj2){
+					return obj1.getLastName().compareTo(obj2.getLastName());
+				}
+			});
+		}
+		return response;
 	}
+	
+	public PlayerListObject getPlayersByTeam(int teamId){
+		PlayerListObject response = playerService.getPlayersByTeam(teamId);
+		if (response.size() > 0){
+			Collections.sort(response.getList(), new Comparator<PlayerObject>(){
+				@Override
+				public int compare(final PlayerObject obj1, final PlayerObject obj2){
+					return obj1.getLastName().compareTo(obj2.getLastName());
+				}
+			});
+		}
+		return response;
+	}
+	
+	
 	public PlayerObject addPlayer(PlayerObject player){
 		return playerService.addPlayer(player);
 	}

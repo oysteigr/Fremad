@@ -19,6 +19,9 @@ public class PlayerService {
 	public PlayerListObject getPlayers(){
 		return jdbcPlayerDao.getPlayers();
 	}
+	public PlayerListObject getPlayersByTeam(int teamId){
+		return jdbcPlayerDao.getPlayersByTeam(teamId);
+	}
 	public PlayerObject addPlayer(PlayerObject playerObject){
 		return jdbcPlayerDao.addPlayer(playerObject);
 	}

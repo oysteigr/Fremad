@@ -1,6 +1,21 @@
+<ul id="player-list">
+    <li ng-repeat="player in playerList">
+    <div class="item-name" ng-click="selectPlayer(player.id)">
+      {{player.lastName}}, {{player.firstName}}
+    </div>
+    <div class="item-edit" ng-show="isActive(player.id)">
+      <form>
+        Possition: {{player.possition}}
+        <input type="button" class="adminButton greenButton" value="edit" ng-click="setEditingMode(player.id)">
+        <input type="button" class="adminButton redButton" value="delete" ng-click="deletePlayer()">
+      </form>
+    </div>
+  </li>
+</ul>
+
 <div id="add-element"> 
   <form>
-    <input type="button" class="adminButton greenButton" value="add new player" ng-click="setEditingMode()">
+    <input type="button" class="adminButton greenButton" value="add new player" ng-click="setAddingMode()">
   </form>
 
 
@@ -8,20 +23,24 @@
       <div class="black_overlay"></div>
       <div class="white_content">
         <div class="item-edit">
-          <h3>Add player</h3> 
+        <h3>Add player</h3> 
           First name:
-          <input type="text" size="35"><br>
+          <input type="text" size="35" ng-model="currentPlayer.firstName"><br>
           Last name:
-          <input type="text" size="35"><br>
+          <input type="text" size="35" ng-model="currentPlayer.lastName"><br>
+          Player number:
+          <input type="number" size="15" ng-model="currentPlayer.number"><br>
+          Member since:
+          <input type="number" size="15" ng-model="currentPlayer.memberSince"><br>
           <div class="admin-select">
-          Team:
-            <select name="team-id" ng-model="team">
+         Team:
+            <select name="team-id" ng-model="currentPlayer.team">
               <option ng-repeat="team in teamList" ng-value="team.id">{{team.name}}</option>
             </select>
           </div><br>
           <div class="admin-select">
-          Preffered foot:
-            <select name="pos">
+          Possition:
+            <select name="pos" ng-model="currentPlayer.possition">
               <option value="goalkeeper">Goalkeeper</option>
               <option value="defender">Defender</option>
               <option value="midfielder">Midfielder</option>
@@ -30,17 +49,27 @@
           </div><br> 
           <div class="admin-select">
           Preffered foot:
-            <select name="pref-foot">
-              <option value="none">Left</option>
-              <option value="right">Left</option>
+            <select name="pref-foot" ng-model="currentPlayer.preferredFoot">
+              <option value="right">Right</option>
               <option value="left">Left</option>
             </select>
           </div><br> 
           <form>
-            <input type="button" class="adminButton greenButton" value="add" ng-click="addPlayer()">
+            <input type="button" ng-show="isAdding" class="adminButton greenButton" value="add" ng-click="addPlayer()">
+            <input type="button" ng-hide="isAdding" class="adminButton greenButton" value="update" ng-click="updatePlayer()">
             <input type="button" class="adminButton redButton" value="cancel" ng-click="cancel()">
           </form>
         </div> 
-      </div>
+      </div> 
   </dialog>  
 </div>
+<!--
+  int id;
+  String firstName;
+  String lastName;
+  int number;
+  int memberSince;
+  String possition;
+  String preferredFoot;
+  int team;
+ -->

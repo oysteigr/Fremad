@@ -7,6 +7,7 @@ part of fremad;
 )
 class ShowTeamAboutComponent {
   int teamID;
+  String teamString = "testing";
   
   ShowTeamAboutComponent(RouteProvider routeProvider){
     teamID = int.parse(routeProvider.parameters["teamId"]);

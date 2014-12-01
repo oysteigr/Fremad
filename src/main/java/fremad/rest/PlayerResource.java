@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fremad.domain.PlayerListObject;
 import fremad.domain.PlayerObject;
+import fremad.domain.TeamObject;
 import fremad.processor.PlayerProcessor;
 
  
@@ -37,6 +38,15 @@ public class PlayerResource {
 		LOG.debug("Getting players..");
 
 		return playerProcessor.getPlayers();
+	}
+	
+	@RequestMapping("/getPlayersByTeam")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public PlayerListObject getPlayersByTeam(@RequestBody String teamId) {
+		LOG.debug("Getting players from team: " + teamId);
+
+		return playerProcessor.getPlayersByTeam(Integer.parseInt(teamId));
 	}
 
 	@RequestMapping("/addPlayer")

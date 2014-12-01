@@ -48,14 +48,16 @@ public interface SqlTablesConstants {
             + "PRIMARY KEY (`id`)"
             + ") ENGINE=InnoDB DEFAULT CHARSET=utf8",
         "CREATE TABLE `player` ("
-            + " `id` int(11) NOT NULL,"
+            + " `id` int(11) NOT NULL AUTO_INCREMENT,"
             + " `first_name` varchar(255) NOT NULL,"
             + " `last_name` varchar(255) NOT NULL,"
+            + " `number` int(6) NOT NULL,"
             + " `member_since` year(4) NOT NULL,"
             + " `position` varchar(64) NOT NULL,"
             + " `preferred_foot` enum('left', 'right'),"
             + " `team` int(11) NOT NULL,"
-            + " CONSTRAINT `fk_player_team` FOREIGN KEY (`team`) REFERENCES `team` (`id`)"
+            + " CONSTRAINT `fk_player_team` FOREIGN KEY (`team`) REFERENCES `team` (`id`),"
+            + " PRIMARY KEY (`id`)"
             + ") ENGINE=InnoDB DEFAULT CHARSET=utf8",
         "CREATE TABLE `league` ("
             + " `id` int(11) NOT NULL,"

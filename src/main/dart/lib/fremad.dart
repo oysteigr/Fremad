@@ -20,6 +20,8 @@ import 'models/team.dart';
 import 'models/team_list.dart';
 import 'models/league.dart';
 import 'models/league_list.dart';
+import 'models/player.dart';
+import 'models/player_list.dart';
 import 'models/match_list.dart';
 import 'models/match_entry.dart';
 

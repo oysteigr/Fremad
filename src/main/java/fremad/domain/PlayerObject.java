@@ -7,11 +7,26 @@ public class PlayerObject {
 	private int id;
 	private String firstName;
 	private String lastName;
+	private int number;
+	private int memberSince;
 	private String possition;
 	private String preferredFoot;
-	private int memberSince;
 	private int team;
 	
+	public PlayerObject(int id, String firstName, String lastName, int number,
+			int memberSince, String possition, String preferredFoot, int team) {
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.number = number;
+		this.memberSince = memberSince;
+		this.possition = possition;
+		this.preferredFoot = preferredFoot;
+		this.team = team;
+	}
+	
+	public PlayerObject(){
+	}
 	
 	public int getId() {
 		return id;
@@ -30,6 +45,12 @@ public class PlayerObject {
 	}
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+	public int getNumber() {
+		return number;
+	}
+	public void setNumber(int number) {
+		this.number = number;
 	}
 	public String getPossition() {
 		return possition;
