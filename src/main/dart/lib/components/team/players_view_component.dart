@@ -3,6 +3,7 @@ part of fremad;
 @Component(
     selector: 'team-players-view',
     templateUrl: 'packages/fremad/components/team/players_view.html',
+    cssUrl: 'packages/fremad/components/team/players_view.css',
     useShadowDom: false
 )
 class ShowTeamPlayersComponent {

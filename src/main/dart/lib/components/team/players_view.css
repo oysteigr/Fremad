@@ -1,0 +1,25 @@
+.player-item{
+  width: 14%;
+  background-color: #FFFFFF;
+  float: left;
+  margin: 2% 2% 1% 0%;
+  padding: 2% 1% 2% 1%;
+  min-width: 140px;
+}
+
+.player-image{
+  width: 100%;
+  position: relative;
+}
+
+.player-number{
+  color: #FFFFFF;
+  position: absolute;
+  top: 30%;
+  width: 100%;
+  text-align: center;
+  font-size: 50px;
+  font-weight: bolder;
+  font-family: inherit;
+
+}

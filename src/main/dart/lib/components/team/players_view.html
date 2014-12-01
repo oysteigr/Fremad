@@ -1,7 +1,11 @@
-<ul id="player-list">
-    <li ng-repeat="player in playerList">
+<div id="player-list">
+  <div class="player-item" ng-repeat="player in playerList">
+  <div class="player-image">
+    <img src="images/drakt.png" />
+    <span class="player-number">{{player.number}}</span>
+  </div>
     <div class="item-name" ng-click="selectPlayer(player.id)">
       {{player.lastName}}, {{player.firstName}}
     </div>
-  </li>
-</ul>
+  </div>
+</div>
