@@ -4,8 +4,20 @@
     <img src="images/drakt.png" />
     <span class="player-number">{{player.number}}</span>
   </div>
-    <div class="item-name" ng-click="selectPlayer(player.id)">
-      {{player.lastName}}, {{player.firstName}}
+    <div class="player-name" ng-click="selectPlayer(player.id)">
+      {{player.getNameString()}}
+    </div>
+    <div class="player-stats">
+      <img src="images/icons/match.png" /> <span>0</span>
+    </div>
+    <div class="player-stats">
+      <img src="images/icons/ball.png" /> <span>0</span>
+    </div>
+    <div class="player-stats">
+      <img src="images/icons/yellow.png" /> <span>0</span>
+    </div>
+    <div class="player-stats">
+      <img src="images/icons/red.png" /> <span>0</span>
     </div>
   </div>
 </div>

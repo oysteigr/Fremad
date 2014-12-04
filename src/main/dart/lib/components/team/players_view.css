@@ -3,8 +3,9 @@
   background-color: #FFFFFF;
   float: left;
   margin: 2% 2% 1% 0%;
-  padding: 2% 1% 2% 1%;
+  padding: 2% 1% 1% 1%;
   min-width: 140px;
+  border-radius: 15px;
 }
 
 .player-image{
@@ -21,5 +22,26 @@
   font-size: 50px;
   font-weight: bolder;
   font-family: inherit;
+}
 
+.player-name{
+  width: 100%;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 4%;
+}
+
+.player-stats{
+  width: 50%;
+  vertical-align: middle;
+  float: left;
+  text-align: center;
+  font-size: 18px;
+}
+.player-stats img{
+  width: 35%;
+}
+.player-stats span{
+  vertical-align: super;
 }

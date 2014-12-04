@@ -28,4 +28,14 @@ class Player {
   Player.fromJson(Map<String, dynamic> json) : this(json['id'],
       json['firstName'], json['lastName'], json['number'], json['memberSince'], 
       json['possition'], json['preferredFoot'], json['team']);
+  
+  String getNameString(){
+    String nameString = "";
+    List<String> stringList = firstName.split(" "); 
+    for (String t in stringList) {
+      nameString += t.substring(0,1) + ". ";
+    };
+    nameString += lastName;
+    return nameString;
+  }
 }
