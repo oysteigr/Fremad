@@ -1,4 +1,4 @@
-package fremad.domain;
+package fremad.domain.list;
 
 import java.util.Iterator;
 import java.util.List;
