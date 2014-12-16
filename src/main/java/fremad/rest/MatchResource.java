@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import fremad.domain.MatchListObject;
 import fremad.domain.MatchObject;
+import fremad.domain.list.MatchListObject;
 import fremad.processor.MatchProcessor;
  
 

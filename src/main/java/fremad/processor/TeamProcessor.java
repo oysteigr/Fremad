@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import fremad.domain.TeamListObject;
+import fremad.annotation.UseRoleAnnotation;
 import fremad.domain.TeamObject;
+import fremad.domain.list.TeamListObject;
+import fremad.domain.user.UserRoleEnum;
 import fremad.service.TeamService;
 
 @Component
@@ -15,6 +17,7 @@ public class TeamProcessor {
 	@Autowired
 	TeamService teamService;
 	
+	@UseRoleAnnotation(role = UserRoleEnum.SUPPORTER)
 	public TeamListObject getTeams(){
 		return teamService.getTeams();
 	}

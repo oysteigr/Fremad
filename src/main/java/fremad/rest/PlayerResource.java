@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import fremad.domain.PlayerListObject;
 import fremad.domain.PlayerObject;
 import fremad.domain.TeamObject;
+import fremad.domain.list.PlayerListObject;
 import fremad.processor.PlayerProcessor;
 
  

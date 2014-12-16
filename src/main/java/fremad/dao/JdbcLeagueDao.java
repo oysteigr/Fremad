@@ -8,8 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import fremad.domain.LeagueListObject;
 import fremad.domain.LeagueObject;
+import fremad.domain.list.LeagueListObject;
 import fremad.dao.SqlTablesConstants;
 
 @Repository

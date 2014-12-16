@@ -1,7 +1,7 @@
 package fremad.dao;
 
-import fremad.domain.TableEntryListObject;
 import fremad.domain.TableEntryObject;
+import fremad.domain.list.TableEntryListObject;
 
 
 public interface TableEntryDao {

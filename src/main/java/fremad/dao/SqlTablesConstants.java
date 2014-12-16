@@ -25,7 +25,9 @@ public interface SqlTablesConstants {
 	String SQL_TABLE_NAME_EVENT_TYPE = "event_type";
 	String SQL_TABLE_NAME_PLAYER = "player";
 	String SQL_TABLE_NAME_TABLE_ENTRY = "table_entry";
-	
+	String SQL_TABLE_NAME_USER = "user";
+	String SQL_TABLE_NAME_USER_ROLE_REQUEST = "user_role_request";	
+	String SQL_TABLE_NAME_USER_LOGIN = "user_login";
 	
 	// Table values
 	
@@ -113,17 +115,47 @@ public interface SqlTablesConstants {
             + " CONSTRAINT `fk_table_entry_league` FOREIGN KEY (`league`) REFERENCES `league` (`id`),"
             + " CONSTRAINT `uc_league_team` UNIQUE (`league`, `team_id`),"
             + " PRIMARY KEY (`id`)"
-            + " ) ENGINE=InnoDB DEFAULT CHARSET=utf8"
+            + " ) ENGINE=InnoDB DEFAULT CHARSET=utf8",
+        "CREATE TABLE `user` ("
+            + " `id` int(11) NOT NULL AUTO_INCREMENT,"
+            + " `user_name` varchar(255) NOT NULL,"
+            + " `password` varchar(255) NOT NULL,"
+            + " `salt` varchar(255) NOT NULL,"
+            + " `role` ENUM('SUPPORTER', 'PLAYER', 'AUTHOR', 'EDITOR', 'ADMIN') NOT NULL DEFAULT 'SUPPORTER',"
+            + " `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,"
+            + " `validated` tinyint(1) NOT NULL DEFAULT 0,"
+            + " CONSTRAINT `uc_user_name` UNIQUE (`user_name`),"
+            + " PRIMARY KEY (`id`)"
+            + " ) ENGINE=InnoDB DEFAULT CHARSET=utf8",
+        "CREATE TABLE `user_role_request` ("
+            + " `id` int(11) NOT NULL AUTO_INCREMENT,"
+            + " `user_id` int(11) NOT NULL,"
+            + " `requested_role` ENUM('SUPPORTER', 'PLAYER', 'AUTHOR', 'EDITOR', 'ADMIN') NOT NULL,"
+            + " `date` timestamp NOT NULL,"
+            + " `accepted` tinyint(1) NOT NULL DEFAULT 0,"
+            + " CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),"
+            + " PRIMARY KEY (`id`)"
+            + " ) ENGINE=InnoDB DEFAULT CHARSET=utf8",
+        "CREATE TABLE `user_login` ("
+    		+ "`id` int(16) NOT NULL AUTO_INCREMENT,"
+    		+ "`user_id` int(11) NOT NULL,"
+    		+ "`date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,"
+    		+ "CONSTRAINT `fk_login_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),"
+    		+ "PRIMARY KEY (`id`)"
+    		+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;"
     };
 
     String[] SQL_DROP_TABLE_STRINGS = {
-        "DROP TABLE `table_entry`",
-        "DROP TABLE `player`",
-        "DROP TABLE `event`",
-        "DROP TABLE `event_type`",
-        "DROP TABLE `match`",
-        "DROP TABLE `league`",
-        "DROP TABLE `team`"
-    };
+		"DROP TABLE `user_login`",
+		"DROP TABLE `user_role_request`",
+		"DROP TABLE `user`",
+		"DROP TABLE `table_entry`",
+		"DROP TABLE `player`",
+		"DROP TABLE `event`",
+		"DROP TABLE `event_type`",
+		"DROP TABLE `match`",
+		"DROP TABLE `league`",
+		"DROP TABLE `team`"
+	};
 }
 

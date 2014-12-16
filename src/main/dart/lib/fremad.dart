@@ -1,11 +1,19 @@
 library fremad;
-
+/*
 @MirrorsUsed(targets: const[
-    'fremad'
-],
-override: '*')
+    'fremad',
+    'angular',
+    'angular.core',
+    'angular.core.dom',
+    'angular.filter',
+    'angular.perf',
+    'angular.directive',
+    'angular.routing',
+    'angular.core.parser'],
+  override: '*')
+  
 import 'dart:mirrors';
-
+*/
 import 'dart:html' as html;
 
 import 'dart:async';
@@ -24,6 +32,9 @@ import 'models/player.dart';
 import 'models/player_list.dart';
 import 'models/match_list.dart';
 import 'models/match_entry.dart';
+import 'models/user.dart';
+import 'models/user_logon.dart';
+import 'models/user_role_enum.dart';
 
 part 'components/header_component.dart';
 part 'components/main_menu_component.dart';
@@ -53,14 +64,19 @@ part 'components/admin/events_view_component.dart';
 part 'components/boxes/table_box_component.dart';
 part 'components/boxes/match_box_component.dart';
 
+part 'services/user_handler.dart';
 part 'services/messages.dart';
 
 part 'fremad_route_initializer.dart';
 part 'global_http_interceptors.dart';
 
+UserHandler USER = new UserHandler(); 
+
 class FremadApp extends Module {
   FremadApp(){
     
+    
+    bind(UserHandler);
     
     bind(HeaderComponent);
     bind(MainMenuComponent);
@@ -94,6 +110,7 @@ class FremadApp extends Module {
     
     bind(RouteInitializerFn, toValue: fremadRouteInitializer);
     bind(NgRoutingUsePushState, toValue: new NgRoutingUsePushState.value(false));
+    
 
 //    bind(UrlRewriter, toImplementation: FremadUrlRewriter);
   }

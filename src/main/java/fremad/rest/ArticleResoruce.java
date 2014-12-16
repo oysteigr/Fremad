@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import fremad.domain.ArticleListObject;
 import fremad.domain.ArticleObject;
+import fremad.domain.list.ArticleListObject;
 import fremad.processor.ArticleProcessor;
 
 @RestController
@@ -72,7 +72,7 @@ public class ArticleResoruce {
 		obj3.setContent("");
 		obj3.setContext("");
 		obj3.setDate(new Date(1409270400));
-		obj3.setHeader("Romsås 2 - Fremad Famagusta 2 7-1");
+		obj3.setHeader("Romsas 2 - Fremad Famagusta 2 7-1");
 		obj3.setImageURL("/images/kamp2.jpg");
 		obj3.setAuthorId(3);
 		

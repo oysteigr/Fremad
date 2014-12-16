@@ -5,15 +5,15 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import fremad.dao.JdbcTeamDao;
-import fremad.domain.TeamListObject;
 import fremad.domain.TeamObject;
+import fremad.domain.list.TeamListObject;
 
 @Service
 @Scope("singleton")
 public class TeamService {
 	
 	@Autowired
-	JdbcTeamDao teamDao;
+	private JdbcTeamDao teamDao;
 	
 	public TeamListObject getTeams(){
 		return teamDao.getTeams();

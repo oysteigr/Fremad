@@ -7,8 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import fremad.domain.TableEntryListObject;
 import fremad.domain.TableEntryObject;
+import fremad.domain.list.TableEntryListObject;
 import fremad.dao.SqlTablesConstants;
 
 @Repository

@@ -11,8 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import fremad.domain.LeagueObject;
 import fremad.domain.MatchObject;
-import fremad.domain.TeamListObject;
 import fremad.domain.TeamObject;
+import fremad.domain.list.TeamListObject;
 import fremad.dao.SqlTablesConstants;
 
 @Repository

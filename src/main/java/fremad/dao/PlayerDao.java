@@ -1,7 +1,7 @@
 package fremad.dao;
 
-import fremad.domain.PlayerListObject;
 import fremad.domain.PlayerObject;
+import fremad.domain.list.PlayerListObject;
 
 public interface PlayerDao {
 	public PlayerListObject getPlayers();

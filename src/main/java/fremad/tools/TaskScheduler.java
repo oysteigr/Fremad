@@ -9,13 +9,13 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import fremad.domain.LeagueListObject;
 import fremad.domain.LeagueObject;
-import fremad.domain.MatchListObject;
 import fremad.domain.MatchObject;
-import fremad.domain.TableEntryListObject;
 import fremad.domain.TableEntryObject;
 import fremad.domain.TeamObject;
+import fremad.domain.list.LeagueListObject;
+import fremad.domain.list.MatchListObject;
+import fremad.domain.list.TableEntryListObject;
 import fremad.service.LeagueService;
 import fremad.service.MatchService;
 import fremad.service.TableEntryService;

@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import fremad.domain.TableEntryListObject;
 import fremad.domain.TableEntryObject;
+import fremad.domain.list.TableEntryListObject;
 import fremad.processor.TableEntryProcessor;
 
 @RestController

@@ -5,8 +5,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import fremad.dao.JdbcLeagueDao;
-import fremad.domain.LeagueListObject;
 import fremad.domain.LeagueObject;
+import fremad.domain.list.LeagueListObject;
 
 @Service
 public class LeagueService {

@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import fremad.dao.JdbcMatchDao;
-import fremad.domain.MatchListObject;
 import fremad.domain.MatchObject;
+import fremad.domain.list.MatchListObject;
 
 @Service
 @Scope("singleton")

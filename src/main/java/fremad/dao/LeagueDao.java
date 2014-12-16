@@ -1,7 +1,7 @@
 package fremad.dao;
 
-import fremad.domain.LeagueListObject;
 import fremad.domain.LeagueObject;
+import fremad.domain.list.LeagueListObject;
 
 public interface LeagueDao {
 	public LeagueListObject getLeagues();

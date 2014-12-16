@@ -1,10 +1,5 @@
 library fremad_main;
 
-@MirrorsUsed(targets: const[
-    'fremad_main'
-],
-override: '*')
-import 'dart:mirrors';
 
 import 'package:angular/application_factory.dart';
 import 'package:logging/logging.dart';

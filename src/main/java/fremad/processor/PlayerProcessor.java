@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import fremad.domain.MatchListObject;
 import fremad.domain.MatchObject;
-import fremad.domain.PlayerListObject;
 import fremad.domain.PlayerObject;
+import fremad.domain.list.MatchListObject;
+import fremad.domain.list.PlayerListObject;
 import fremad.service.PlayerService;
 
 

@@ -1,7 +1,7 @@
 package fremad.dao;
 
-import fremad.domain.EventListObject;
 import fremad.domain.EventObject;
+import fremad.domain.list.EventListObject;
 
 public interface EventDao {
 	public EventListObject getEvents(int matchId);

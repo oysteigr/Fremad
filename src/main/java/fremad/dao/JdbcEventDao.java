@@ -8,8 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import fremad.domain.EventListObject;
 import fremad.domain.EventObject;
+import fremad.domain.list.EventListObject;
 import fremad.dao.SqlTablesConstants;
 
 @Repository

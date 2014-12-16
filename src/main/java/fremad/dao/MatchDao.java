@@ -1,7 +1,7 @@
 package fremad.dao;
 
-import fremad.domain.MatchListObject;
 import fremad.domain.MatchObject;
+import fremad.domain.list.MatchListObject;
 
 public interface MatchDao {
 	public int deleteMatch(int matchId);

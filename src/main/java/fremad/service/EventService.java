@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fremad.dao.JdbcEventDao;
-import fremad.domain.EventListObject;
 import fremad.domain.EventObject;
+import fremad.domain.list.EventListObject;
 
 @Service
 public class EventService {

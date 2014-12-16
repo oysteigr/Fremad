@@ -8,9 +8,83 @@
           <li ng-repeat="team in teamList" ><a href="#/team/{{team.id}}/about">{{team.name}}</a></li>
         </ul></li>
       <li><a href="#/sponsors">Sponsors</a></li>
-      <li><a href="#/loggIn">Logg in</a></li>
-      <li><a href="#/admin">Admin</a></li>
+      <li ng-show="showBasedOnRole(1)"><a href="#/admin">Admin</a></li>
+      <li ng-click="setShowLogin(true)" ng-hide="showBasedOnRole(1)"><a href="#/">Login</a></li>
+      <li ng-click="logoutUser()" ng-show="showBasedOnRole(1)"><a href="#/">Log out</a></li>
     </ul>
     <div class="clearfix"></div>
   </div>
 </nav>
+
+<!--login modal-->
+<div id="loginModal" ng-show="showLogin" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content">
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" ng-click="setShowLogin(false)" aria-hidden="true">×</button>
+          <h1 class="text-center">Login</h1>
+      </div>
+      <div class="modal-body">
+          <form class="form col-md-12 center-block">
+            <div class="form-group">
+              <input type="text" class="form-control input-lg" ng-model="userLogon.userName" placeholder="Email" autofocus>
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control input-lg" ng-model="userLogon.password" placeholder="Password">
+            </div>
+            <div class="form-group">
+              <button ng-click="loginUser()" class="btn btn-primary btn-lg btn-block">Sign In</button>
+              <span ng-click="setShowSignup(true)" class="pull-right"><a href="#">Register</a></span><span><a href="#">Need help?</a></span>
+            </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+          <div class="col-md-12">
+          <button class="btn" data-dismiss="modal" ng-click="setShowLogin(false)" aria-hidden="true">Cancel</button>
+      </div>  
+      </div>
+  </div>
+  </div>
+</div>
+
+<!--register modal-->
+<div id="loginModal" ng-show="showSignup" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content">
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" ng-click="setShowSignup(false)" aria-hidden="true">×</button>
+          <h1 class="text-center">Signup</h1>
+      </div>
+      <div class="modal-body">
+          <form class="form col-md-12 center-block">
+            <div class="form-group">
+              <input type="text" class="form-control input-lg" placeholder="First name">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control input-lg" placeholder="Last name">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control input-lg" ng-model="currentUser.userName" placeholder="Email">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control input-lg" placeholder="Repeat email">
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control input-lg" ng-model="currentUser.password" placeholder="Password">
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control input-lg" placeholder="Repeat password">
+            </div>
+            <div class="form-group">
+              <button ng-click="registerNewUser()" class="btn btn-primary btn-lg btn-block">Register</button>
+            </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+          <div class="col-md-12">
+          <button class="btn" data-dismiss="modal" ng-click="setShowSignup(false)" aria-hidden="true">Cancel</button>
+      </div>  
+      </div>
+  </div>
+  </div>
+</div>

@@ -1,11 +1,11 @@
 package fremad.utils;
 
 import fremad.domain.LeagueObject;
-import fremad.domain.MatchListObject;
 import fremad.domain.MatchObject;
-import fremad.domain.TableEntryListObject;
 import fremad.domain.TableEntryObject;
 import fremad.domain.TeamObject;
+import fremad.domain.list.MatchListObject;
+import fremad.domain.list.TableEntryListObject;
 import fremad.rest.TestResource;
 import fremad.utils.UrlConstants;
 

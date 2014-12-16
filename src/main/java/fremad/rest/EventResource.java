@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import fremad.domain.EventListObject;
 import fremad.domain.EventObject;
-import fremad.domain.LeagueListObject;
 import fremad.domain.LeagueObject;
+import fremad.domain.list.EventListObject;
+import fremad.domain.list.LeagueListObject;
 import fremad.processor.EventProcessor;
 import fremad.processor.LeagueProcessor;
 import fremad.utils.UrlParser;

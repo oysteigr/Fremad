@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fremad.dao.JdbcTeamDao;
 import fremad.dao.TeamDao;
-import fremad.domain.TeamListObject;
 import fremad.domain.TeamObject;
+import fremad.domain.list.TeamListObject;
 import fremad.processor.TeamProcessor;
 import fremad.service.TeamService;
 import fremad.utils.UrlParser;

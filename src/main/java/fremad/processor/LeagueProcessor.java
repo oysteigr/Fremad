@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import fremad.domain.LeagueListObject;
 import fremad.domain.LeagueObject;
+import fremad.domain.list.LeagueListObject;
 import fremad.service.LeagueService;
 
 @Component
