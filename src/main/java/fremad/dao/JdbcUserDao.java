@@ -127,6 +127,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		return userObject;
 	}
 
+
 	@Override
 	public UserObject deleteUser(UserObject userObject) {
 		String sql = "DELETE FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER + " WHERE "
@@ -143,7 +144,25 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		}
 		return userObject;
 	}
-
+	
+	@Override
+	public void validateUser(String username) {
+		String sql = "UPDATE " + SqlTablesConstants.SQL_TABLE_NAME_USER + " SET "
+				+ " validated = ? "
+				+ " WHERE user_name = ?";
+		
+		LOG.debug("In updateUser with sql: " + sql);
+		try {
+			prpstm = conn.prepareStatement(sql);
+			prpstm.setBoolean(1, true);
+			prpstm.setString(2, username);
+			prpstm.executeUpdate();
+		} catch (SQLException e) {
+			LOG.error(e.toString());
+			return;
+		}
+		return;
+	}
 	@Override
 	public void loggUserLogin(int userId) {
 		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_USER_LOGIN + " "

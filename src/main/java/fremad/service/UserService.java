@@ -33,6 +33,11 @@ public class UserService {
 		return userDao.deleteUser(userObject);
 	}
 	
+	public void validateUser(String username){
+		userDao.validateUser(username);
+		return;
+	}
+	
 	public void loggUserLogin(int userId){
 		userDao.loggUserLogin(userId);
 		return;

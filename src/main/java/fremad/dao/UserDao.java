@@ -12,6 +12,7 @@ public interface UserDao {
 	UserObject getUser(int userId);
 	UserObject updateUser(UserObject userObject);
 	UserObject deleteUser(UserObject userObject);
+	void validateUser(String username);
 	
 	void loggUserLogin(int userId);
 	UserLoginLogListObject getUserLogins(int user_id);

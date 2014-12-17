@@ -36,6 +36,10 @@ public class UserProcessor {
 			
 			userService.addUser(userObject);
 			
+			
+			//TODO: Move this!
+			userService.validateUser(userObject.getUserName());
+			
 			if(UserRoleEnum.getUserRoleEnum(userObject.getRole()).getRoleValue() != UserRoleEnum.SUPPORTER.getRoleValue()){
 				userService.addUserRoleRequest(userObject.getId(), UserRoleEnum.getUserRoleEnum(userObject.getRole()));
 			}
