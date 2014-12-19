@@ -12,7 +12,8 @@ public enum UserRoleEnum {
 	PLAYER (2), 
 	AUTHOR (3), 
 	EDITOR (4), 
-	ADMIN (5);
+	ADMIN (5),
+	SUPER (6);
 	
 	private int roleValue;
 	

@@ -3,7 +3,7 @@ part of fremad;
 @Injectable()
 class UserHandler{
   static final UserHandler _singleton = new UserHandler._internal();
-  int _userRole = 0;
+  int _userRole = 5;
   String _userName = null;
 
   factory UserHandler() {

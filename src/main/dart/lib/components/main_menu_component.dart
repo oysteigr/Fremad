@@ -15,8 +15,15 @@ class MainMenuComponent {
   bool loginSuccess = false;
   List<Team> teamList;
   TeamList teamListObject;
-  User currentUser;
+  
   UserLogon userLogon;
+  
+  //Sign in data
+  User currentUser;
+  String repeatPassword = "";
+  String repeatEmail = "";
+  
+
   
   MainMenuComponent(this._http){
     getUserRole();
