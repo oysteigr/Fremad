@@ -1,0 +1,12 @@
+.box-table{
+  padding: 2px 8px 2px 8px;
+  margin-bottom: 0px;
+}
+
+.box-table tbody tr td{
+    padding: 2px 8px 2px 8px;
+}
+
+.box-table thead tr th{
+    padding: 3px 8px 3px 8px;
+}

@@ -40,6 +40,8 @@ class User{
         return 4;
       case "ADMIN":
         return 5;
+      case "SUPER":
+        return 6;
     }
     return 0;
   }

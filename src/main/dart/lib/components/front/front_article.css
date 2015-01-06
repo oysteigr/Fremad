@@ -2,31 +2,24 @@
   background: #fff;
   float: left;
   margin-bottom: 2%;
-  border-radius: 0px;
-  width: 50%;
+  width: 100%;
   box-shadow: none;
   position: relative;
+  border-style: solid;
+  border-color: #AAAAAA;
+  border-width: 1px;
+  border-radius: 10px;
+  padding: 1%;
 
 }
 .front-article img{ 
-  border-style: solid;
-  border-width: 1px;
+  width: 35%;
+  float: left;
+  padding: 1%;
+  margin-right: 1%;
 }
 .front-article h4 {
-  text-align: left;
-  font-weight: normal;
-  font-size: 16px;
-  padding: 0 4% 0 4%;
-  margin: 1% 0 1% 0;
-  position: absolute;
-  top: 80%;
-  left: 10%;
-  z-index: 100;
-  color: white; 
-  letter-spacing: -1px;  
-  background: rgb(0, 0, 0); /* fallback color */
-  background: rgba(0, 0, 0, 0.7);
-  padding: 10px; 
+  padding: 1%; 
 
 }
 

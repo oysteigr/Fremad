@@ -18,7 +18,7 @@ body {
 }
 
 h1 {
-  margin: 0 0 10px 0px;
+  margin: 0px 0px 10px 0px;
 }
 
 h3 {
@@ -210,9 +210,11 @@ header {
   background: #fff;
   float: right;
   margin-bottom: 7%;
-  border-radius: 0px;
+  border-radius: 10px;
   width: 100%;
-  box-shadow: 4px 4px 2px #888888;
+  border-style: solid;
+  border-color: #AAAAAA;
+  border-width: 1px;
 }
 
 .vid {
@@ -252,8 +254,7 @@ footer {
 }
 
 .naviTable th, thead {
-  background: #020c90;
-  color: #fff;
+
 }
 
 .table-pos {
@@ -266,12 +267,9 @@ footer {
 }
 
 .table-played {
-  text-align: right;
 }
 
 .table-points {
-  text-align: right;
-  padding-right: 4%;
 }
 
 .tab-pane {

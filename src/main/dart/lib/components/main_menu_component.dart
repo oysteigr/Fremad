@@ -4,6 +4,7 @@ part of fremad;
     selector: 'main-menu',
     publishAs: 'ctrl',
     templateUrl: 'packages/fremad/components/main_menu.html',
+    cssUrl: 'packages/fremad/components/main_menu.css',
     useShadowDom: false
 )
 class MainMenuComponent {
@@ -18,11 +19,7 @@ class MainMenuComponent {
   
   UserLogon userLogon;
   
-  //Sign in data
-  User currentUser;
-  String repeatPassword = "";
-  String repeatEmail = "";
-  
+
 
   
   MainMenuComponent(this._http){
@@ -45,7 +42,7 @@ class MainMenuComponent {
         showLogin = false;
       } else{
         loginSuccess = false;
-        html.window.console.info("user is not log in");
+        html.window.console.info("user is not logged in");
       }
     })
     .catchError((e) {
@@ -88,12 +85,24 @@ class MainMenuComponent {
   
   void registerNewUser(){
     html.window.console.info("Is in registerNewUser");
+    if(!verifyAll()){
+      showErrors = true;
+      html.window.console.info("Validation failed");
+      return;
+    }
     
     _http.post('rest/user/createUser.json', JSON.encode(currentUser))
       .then((HttpResponse response) {
         print(response);
-        registerSuccess = response.data.toString == "true";
+        html.window.console.info(response.data.toString());
+        registerSuccess = response.data.toString().contains("true");
         html.window.console.info("registerNewUser: " + registerSuccess.toString());
+        if(!registerSuccess){
+          userNameTaken = true;
+          takenUserName = currentUser.userName;
+        } else{
+          showSignup = false;
+        }
       })
       .catchError((e) {
         print(e);
@@ -155,5 +164,101 @@ class MainMenuComponent {
   
   bool showBasedOnRole(int role){
     return USER.checkUserRole(role);
+  }
+  
+  //Signup in data
+  User currentUser;
+  String firstName = "";
+  String lastName = "";
+  String repeatPassword = "";
+  String repeatEmail = "";
+  String takenUserName = "";
+  bool showErrors = false;
+  bool userNameTaken = false;
+  
+  bool verifyFistName(){
+    if(currentUser == null){
+      return false;
+    }
+    if(currentUser == ""){
+      return false;
+    }
+    if(firstName.length < 3){
+      return false;
+    }
+    return true;
+  }
+  
+  bool verifyLastName(){
+    if(currentUser == null){
+      return false;
+    }
+    if(currentUser.userName == ""){
+      return false;
+    }
+    if(lastName.split(" ").length != 1){
+      return false;
+    }
+    return true;
+  }
+  
+  bool verifyEmail(){
+    if(currentUser == null){
+      return false;
+    }
+    if(currentUser.userName == ""){
+      return false;
+    }
+    if(takenUserName != currentUser.userName){
+      userNameTaken = false;
+    }
+    String p = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+
+    RegExp regExp = new RegExp(p);
+
+    return regExp.hasMatch(currentUser.userName);
+  }
+  
+  bool verifyRepeatedEmail(){
+    if(currentUser == null){
+      return false;
+    }
+    if(repeatEmail == ""){
+      return false;
+    }
+    return repeatEmail == currentUser.userName;
+  }
+  
+  bool verifyPassword(){
+    if(currentUser == null){
+      return false;
+    }
+    if(currentUser.password == ""){
+      return false;
+    }
+    if(currentUser.password.length < 7){
+      return false;
+    }
+
+    return true;
+  }
+  
+  bool verifyRepeatedPassword(){
+    if(currentUser == null){
+      return false;
+    }
+    if(repeatPassword == ""){
+      return false;
+    }
+    return repeatPassword == currentUser.password;
+  }
+  
+  bool verifyAll(){
+    return verifyFistName() && 
+        verifyLastName() &&
+        verifyEmail() &&
+        verifyRepeatedEmail() &&
+        verifyPassword() &&
+        verifyRepeatedPassword();
   }
 }

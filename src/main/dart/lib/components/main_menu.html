@@ -58,31 +58,64 @@
       <div class="modal-body">
           <form class="form col-md-12 center-block">
             <div class="form-group">
-              <input type="text" class="form-control input-lg" placeholder="First name">
+              <img ng-show="verifyFistName() && showErrors" src="images/icons/green_tick.png" />
+              <img ng-hide="verifyFistName() || !showErrors" src="images/icons/red_cross.png" />
+              <input type="text" class="form-control input-lg" ng-model="firstName" placeholder="First and middle name">
             </div>
             <div class="form-group">
-              <input type="text" class="form-control input-lg" placeholder="Last name">
+              <img ng-show="verifyLastName() && showErrors" src="images/icons/green_tick.png" />
+              <img ng-hide="verifyLastName() || !showErrors" src="images/icons/red_cross.png" />
+              <input type="text" class="form-control input-lg" ng-model="lastName" placeholder="Last name">
+            </div>
+            <div ng-hide="verifyLastName() || !showErrors" class="alert alert-danger">
+              <strong>Oh snap!</strong> You need to give one last name. 
             </div>
             <div class="form-group">
+              <img ng-show="verifyEmail() && showErrors" src="images/icons/green_tick.png" />
+              <img ng-hide="verifyEmail() || !showErrors" src="images/icons/red_cross.png" />
               <input type="text" class="form-control input-lg" ng-model="currentUser.userName" placeholder="Email">
             </div>
+            <div ng-show="userNameTaken" class="alert alert-danger">
+              <strong>Oh snap!</strong> This user name is taken. 
+            </div>
+            <div ng-hide="verifyEmail() || !showErrors" class="alert alert-danger">
+              <strong>Oh snap!</strong> This is not a valid email. 
+            </div>
             <div class="form-group">
+              <img ng-show="verifyRepeatedEmail() && showErrors" src="images/icons/green_tick.png" />
+              <img ng-hide="verifyRepeatedEmail() || !showErrors" src="images/icons/red_cross.png" />
               <input type="text" class="form-control input-lg" ng-model="repeatEmail" placeholder="Repeat email">
             </div>
-            <div class="form-group">
-              <input type="password" class="form-control input-lg" ng-model="currentUser.password" placeholder="Password">
+            <div ng-hide="verifyRepeatedEmail() || !showErrors" class="alert alert-danger">
+              <strong>Oh snap!</strong> The two emails does not match. 
             </div>
             <div class="form-group">
+              <img ng-show="verifyPassword() && showErrors" src="images/icons/green_tick.png" />
+              <img ng-hide="verifyPassword() || !showErrors" src="images/icons/red_cross.png" />
+              <input type="password" class="form-control input-lg" ng-model="currentUser.password" placeholder="Password">
+            </div>
+            <div ng-hide="verifyPassword() || !showErrors" class="alert alert-danger">
+              <strong>Oh snap!</strong> The password needs have a length of 7 or more. 
+            </div>
+            <div class="form-group">
+              <img ng-show="verifyRepeatedPassword() && showErrors" src="images/icons/green_tick.png" />
+              <img ng-hide="verifyRepeatedPassword() || !showErrors" src="images/icons/red_cross.png" />
               <input type="password" class="form-control input-lg" ng-model="repeatPassword" placeholder="Repeat password">
+            </div>
+            <div ng-hide="verifyRepeatedPassword() || !showErrors" class="alert alert-danger">
+              <strong>Oh snap!</strong> The two passwords does not match. 
             </div>
             <div class="form-group">
                 <label for="sel1">User role:</label>
-                  <select class="form-control" id="role">
-                    <option>Supporter</option>
-                    <option>Player</option>
-                    <option>Editor</option>
-                    <option>Admin</option>
+                  <select class="form-control" ng-model="currentUser.role">
+                    <option ng-value="1">Supporter</option>
+                    <option ng-value="2">Player</option>
+                    <option ng-value="3">Editor</option>
+                    <option ng-value="4">Admin</option>
                   </select>
+            </div>
+            <div ng-show="currentUser.role != 1" class="alert alert-warning">
+              <strong>Heads up!</strong> An admin needs to approve this role before it is applied. You are in the meantime registered as a supporter. 
             </div>
             <div class="form-group">
               <button ng-click="registerNewUser()" class="btn btn-primary btn-lg btn-block">Register</button>

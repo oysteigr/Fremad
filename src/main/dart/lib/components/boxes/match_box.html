@@ -1,32 +1,5 @@
-
-<!--
-<div  ng-if="prevMatchLoaded" id="fixture-table">
-  <table  class="naviTable">
-    <tr><th>Previous match:</th><th>{{prevMatch.getDateAsString()}}</th></tr>
-    <tr ng-if="prevMatch.homeMatch"><td>{{team.name}}</td><td>{{prevMatch.fremadGoals}}</td></tr>
-    <tr ng-if="prevMatch.homeMatch"><td>{{prevMatch.opposingTeamName}}</td><td>{{prevMatch.opposingTeamGoals}}</td></tr>
-    <tr ng-unless="prevMatch.homeMatch"><td>{{prevMatch.opposingTeamName}}</td><td>{{prevMatch.opposingTeamGoals}}</td></tr>
-    <tr ng-unless="prevMatch.homeMatch"><td>{{team.name}}</td><td>{{prevMatch.fremadGoals}}</td></tr>
-  </table>
-</div>
-<div  ng-if="prevMatchLoaded" id="fixture-table">
-  <table  class="naviTable">
-    <tr><th>Next match:</th><th>{{prevMatch.getDateAsString()}}</th></tr>
-    <tr ng-if="prevMatch.homeMatch"><td>{{team.name}}</td><td>{{prevMatch.fremadGoals}}</td></tr>
-    <tr ng-if="prevMatch.homeMatch"><td>{{prevMatch.opposingTeamName}}</td><td>{{prevMatch.opposingTeamGoals}}</td></tr>
-    <tr ng-unless="prevMatch.homeMatch"><td>{{prevMatch.opposingTeamName}}</td><td>{{prevMatch.opposingTeamGoals}}</td></tr>
-    <tr ng-unless="prevMatch.homeMatch"><td>{{team.name}}</td><td>{{prevMatch.fremadGoals}}</td></tr>
-  </table>
-</div>
--->
-<!--   ###############    -->
-
-
-
-<div class="match">
-  <table  class="naviTable">
-    <tr><th>Previous match:</th><th ng-unless="prevMatch == null">{{prevMatch.getDateAsString()}}</th></tr>
-  </table>
+<div class="match prev-match">
+  <h4>Previous match: <span>{{prevMatch.getDateAsString()}}</span></h4>
   <div class="match-content">
     <div ng-unless="prevMatch == null">
       <div ng-if="prevMatch.homeMatch">
@@ -47,12 +20,9 @@
     </div>
   </div>
 </div>
-<br>
 
-<div class="match">
-  <table  class="naviTable">
-    <tr><th>Next match:</th><th ng-unless="nextMatch == null">{{nextMatch.getDateAsString()}}</th></tr>
-  </table>
+<div class="match next-match">
+    <h4>Previous match: <span>{{nextMatch.getDateAsString()}}</span></h4>
   <div class="match-content">
     <div ng-unless="nextMatch == null">
       <div ng-if="nextMatch.homeMatch">
@@ -73,43 +43,3 @@
     </div>
   </div>
 </div>
-<br>
-<!--
-<div class="item-body">  
-  <div class = "fixture-date">
-    <span>{{prevMatch.getDateAsString()}}</span>
-    <span>{{prevMatch.getTimeAsString()}}</span>
-  </div>
-  <div class="fixture-field">
-    <span>{{prevMatch.field}}</span>
-  </div>
-</div>
--->
-<!--
-  <li ng-repeat="matchEntry in matchEntryList">
-    <div class="item-head">
-      <div class = "fixture-teams">
-        <span class="fixture-home-team item-name" ng-if="matchEntry.homeMatch">{{team.name}}</span>
-        <span class="fixture-home-team" ng-unless="matchEntry.homeMatch">{{matchEntry.opposingTeamName}}</span>
-        -
-        <span class="fixture-away-team" ng-if="matchEntry.homeMatch">{{matchEntry.opposingTeamName}}</span>
-        <span class="fixture-away-team" ng-unless="matchEntry.homeMatch">{{team.name}}</span>
-      </div>
-      <div class = "fixture-score">
-        <span ng-class="matchEntry.resultClass()" ng-if="matchEntry.homeMatch">{{matchEntry.fremadGoals}} - {{matchEntry.opposingTeamGoals}}</span>
-        <span ng-class="matchEntry.resultClass()" ng-unless="matchEntry.homeMatch">{{matchEntry.opposingTeamGoals}} - {{matchEntry.fremadGoals}}</span>
-      </div>
-    </div>
-    <br>
-    <div class="item-body">  
-      <div class = "fixture-date">
-        <span>{{matchEntry.getDateAsString()}}</span>
-        <span>{{matchEntry.getTimeAsString()}}</span>
-      </div>
-      <div class="fixture-field">
-        <span>{{matchEntry.field}}</span>
-      </div>
-    </div>
-  </li>
-  
-  -->

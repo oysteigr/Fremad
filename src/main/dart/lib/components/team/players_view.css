@@ -41,6 +41,7 @@
 }
 .player-stats img{
   width: 35%;
+  vertical-align: initial;
 }
 .player-stats span{
   vertical-align: super;

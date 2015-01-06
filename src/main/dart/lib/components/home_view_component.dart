@@ -4,6 +4,7 @@ part of fremad;
     selector: 'home-view',
     publishAs: 'ctrl',
     templateUrl: 'packages/fremad/components/home_view.html',
+    cssUrl: 'packages/fremad/components/home_view.css',
     useShadowDom: false
 )
 class ShowHomeComponent {

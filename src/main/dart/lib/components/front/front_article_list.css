@@ -1,16 +1,65 @@
-<!DOCTYPE html>
+        
+.article-teaser{
+    width: 100%;
+    background-color: #FFFFFF;
+    border-style: solid;
+    border-color: #AAAAAA;
+    border-width: 1px;
+    border-radius: 8px;
+    margin-bottom: 2%;
+}
 
-<html>
-  <head>
-  	<meta charset="utf-8">
-  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>front_article_list</title>
-  </head>
- 
-  <body>   
-    <p id="text"></p>
-    <script type="application/dart" src="front_article_list.dart"></script>
-    <!-- for this next line to work, your pubspec.yaml file must have a dependency on 'browser' -->
-    <script src="packages/browser/dart.js"></script>
-  </body>
-</html>
+.article-teaser-image{
+    width: 70%;
+    float: left;
+    padding: 1%;
+            
+}
+
+.article-teaser-list{
+    width: 30%;
+    float: left;
+    height: 523px;
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-left-color: #AAAAAA;
+    overflow-y: scroll;
+    overflow-x:hidden;
+  
+}
+        
+.article-teaser-list ul{
+    list-style: none;
+    padding: 0;
+    margin-bottom: 0
+}
+        
+.article-teaser-list ul li{
+    display:inline-block;
+    padding: 0 8px;
+    height: 84px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: #AAAAAA;
+    width: 100%;
+    cursor:pointer;
+}
+
+li.ng-binding:hover{
+    background-color: #679eaa
+}
+
+.teaser-span{
+    color: #317eac;
+}
+              
+.teaser-text{
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+        
+.teaser{
+    height: 100%;
+}

@@ -1,3 +1,7 @@
+.match{
+  padding: 2% 5%;
+}
+
 .match-content{
   padding: 10px 20px 0px 10px;
 }
@@ -16,4 +20,12 @@
 
 .score{
   float: right;
+}
+
+h4{
+  font-size: 18px;
+}
+
+.prev-match{
+  border-bottom: solid 1px #AAAAAA;
 }

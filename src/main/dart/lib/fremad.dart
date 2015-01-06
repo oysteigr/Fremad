@@ -22,6 +22,9 @@ import 'dart:convert';
 
 import 'package:angular/angular.dart';
 
+
+import 'models/article.dart';
+import 'models/article_list.dart';
 import 'models/table_entry_list.dart';
 import 'models/table_entry.dart';
 import 'models/team.dart';
