@@ -22,7 +22,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 	private static final Logger LOG = LoggerFactory.getLogger(JdbcUserDao.class);
 
 	@Override
-	public int addUser(UserObject userObject) {
+	public int addUser(UserObject userObject) throws SQLException {
 		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_USER + " "
 				+ "(user_name, password, salt) "
 				+ "VALUES (?, ?, ?)";
@@ -42,6 +42,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 			}
 		} catch (SQLException e) {
 			LOG.error(e.toString());
+			throw new SQLException("Sql error");
 		}
 		return key;
 	}
@@ -151,7 +152,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 				+ " validated = ? "
 				+ " WHERE user_name = ?";
 		
-		LOG.debug("In updateUser with sql: " + sql);
+		LOG.debug("In validateUser with sql: " + sql);
 		try {
 			prpstm = conn.prepareStatement(sql);
 			prpstm.setBoolean(1, true);
@@ -213,13 +214,13 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 	
 	@Override
 	public boolean addUserRoleRequest(int userId, UserRoleEnum role) {
-		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_USER_LOGIN + " "
-				+ "(user_id) "
-				+ "VALUES (?)";
+		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_USER_ROLE_REQUEST + " "
+				+ "(user_id, requested_role) "
+				+ "VALUES (?, ?)";
 		try {
 			prpstm = conn.prepareStatement(sql);
 			prpstm.setInt(1, userId);
-			prpstm.setString(1, role.name());
+			prpstm.setString(2, role.name());
 			
 			LOG.debug("Executing: " + prpstm.toString());
 			
@@ -239,7 +240,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		try {
 			while (res.next()) {
 				userRequests.add(new UserRoleRequestObject(res.getInt("id"), res.getInt("user_id"), 
-						UserRoleEnum.valueOf(res.getString("requestedRole")), res.getTimestamp("date"), res.getBoolean("validated")));
+						res.getString("requestedRole"), res.getTimestamp("date"), res.getBoolean("validated")));
 			} 
 		} catch (SQLException e) {
 			LOG.error(e.toString());

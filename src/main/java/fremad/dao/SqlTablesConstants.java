@@ -131,7 +131,7 @@ public interface SqlTablesConstants {
             + " `id` int(11) NOT NULL AUTO_INCREMENT,"
             + " `user_id` int(11) NOT NULL,"
             + " `requested_role` ENUM('SUPPORTER', 'PLAYER', 'AUTHOR', 'EDITOR', 'ADMIN', 'SUPER') NOT NULL,"
-            + " `date` timestamp NOT NULL,"
+            + " `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,"
             + " `accepted` tinyint(1) NOT NULL DEFAULT 0,"
             + " CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),"
             + " PRIMARY KEY (`id`)"

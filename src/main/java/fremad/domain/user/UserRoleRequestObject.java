@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class UserRoleRequestObject {
 	private int id;
 	private int userId;
-	private UserRoleEnum requestedRole;
+	private int requestedRole;
 	private Timestamp date;
 	private boolean validated;
 	
@@ -17,11 +17,21 @@ public class UserRoleRequestObject {
 		super();
 	}
 	public UserRoleRequestObject(int id, int userId,
-			UserRoleEnum requestedRole, Timestamp date, boolean validated) {
+			int requestedRole, Timestamp date, boolean validated) {
 		super();
 		this.id = id;
 		this.userId = userId;
 		this.requestedRole = requestedRole;
+		this.date = date;
+		this.validated = validated;
+	}
+	
+	public UserRoleRequestObject(int id, int userId,
+			String requestedRole, Timestamp date, boolean validated) {
+		super();
+		this.id = id;
+		this.userId = userId;
+		this.setRequestedRole(requestedRole);
 		this.date = date;
 		this.validated = validated;
 	}
@@ -37,14 +47,14 @@ public class UserRoleRequestObject {
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-	public UserRoleEnum getRequestedRole() {
+	public int getRequestedRole() {
 		return requestedRole;
 	}
-	public void setRequestedRole(UserRoleEnum requestedRole) {
+	public void setRequestedRole(int requestedRole) {
 		this.requestedRole = requestedRole;
 	}
 	public void setRequestedRole(String requestedRole) {
-		this.requestedRole = UserRoleEnum.valueOf(requestedRole);
+		this.requestedRole = UserRoleEnum.valueOf(requestedRole).getRoleValue();
 	}
 	public Timestamp getDate() {
 		return date;

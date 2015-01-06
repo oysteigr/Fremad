@@ -1,5 +1,7 @@
 package fremad.service;
 
+import java.sql.SQLException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,7 @@ public class UserService {
 	@Autowired
 	private JdbcUserDao userDao;
 	
-	public int addUser(UserObject userObject){
+	public int addUser(UserObject userObject) throws SQLException{
 		return userDao.addUser(userObject);
 	}
 	public UserObject getUser(String userName){

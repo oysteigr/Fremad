@@ -2,11 +2,13 @@ package fremad.rest;
 
 import java.sql.Timestamp;
 
+import javax.annotation.Resource;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import fremad.domain.user.UserLogonObject;
 import fremad.domain.user.UserObject;
 import fremad.domain.user.UserRoleEnum;
+import fremad.domain.user.UserRoleRequestListObject;
+import fremad.exception.AbstractRestException;
+import fremad.exception.InputException;
 import fremad.processor.UserProcessor;
 
 @RestController
@@ -44,7 +49,8 @@ public class UserResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public int loginUser(@RequestBody UserLogonObject userLogonObject){
+	public int loginUser(@RequestBody UserLogonObject userLogonObject) throws AbstractRestException{
+//		throw new InputException(new Exception("dud"), 101, "Username allready taken");
 		LOG.debug("Login user ' " + userLogonObject.getUserName() + "'");
 		return userProcessor.loginUser(userLogonObject).getRoleValue();
 	}
@@ -63,4 +69,14 @@ public class UserResource {
 		LOG.debug("getUserRole");
 		return userProcessor.getUserRole().getRoleValue();
 	}
+	
+	@RequestMapping("/getUserRoleRequests")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public UserRoleRequestListObject getUserRoleRequests(){
+		LOG.debug("getUserRole");
+		return userProcessor.getUserRoleRequests();
+	}
+	
+	
 }

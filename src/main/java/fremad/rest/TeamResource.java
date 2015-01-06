@@ -1,6 +1,7 @@
 package fremad.rest;
 
 
+import javax.annotation.Resource;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -27,6 +28,7 @@ import fremad.utils.UrlParser;
 
 @RestController
 @Scope("request")
+@Resource
 @RequestMapping("/team")
 public class TeamResource {
 	

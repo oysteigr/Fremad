@@ -2,16 +2,21 @@ package fremad.processor;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.sql.SQLException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import fremad.domain.user.UserLogonObject;
 import fremad.domain.user.UserObject;
 import fremad.domain.user.UserRoleEnum;
+import fremad.domain.user.UserRoleRequestListObject;
+import fremad.domain.user.UserRoleRequestObject;
+import fremad.exception.InputException;
 import fremad.security.PasswordManager;
 import fremad.security.SessionSecurityContext;
 import fremad.service.UserService;
@@ -34,8 +39,8 @@ public class UserProcessor {
 			userObject.setPassword(params[2]);
 			userObject.setSalt(params[1]);
 			
-			userService.addUser(userObject);
-			
+			int id = userService.addUser(userObject);
+			userObject.setId(id);
 			
 			//TODO: Move this!
 			userService.validateUser(userObject.getUserName());
@@ -44,6 +49,9 @@ public class UserProcessor {
 				userService.addUserRoleRequest(userObject.getId(), UserRoleEnum.getUserRoleEnum(userObject.getRole()));
 			}
 				
+		}catch(SQLException e){
+			LOG.debug(e.toString());
+			throw new InputException(e, 101, "Username allready taken");
 		}catch(Exception e){
 			LOG.debug(e.toString());
 			return false;
@@ -86,6 +94,18 @@ public class UserProcessor {
 		return securityContext.getUserRole();
 	}
 	
+	public UserRoleRequestListObject getUserRoleRequests(){
+		int userRole = getUserRole().getRoleValue();
+		UserRoleRequestListObject response = userService.getUserRoleRequests();
+		UserRoleRequestListObject filteredResponse = new UserRoleRequestListObject();
+		for(UserRoleRequestObject request : response){
+			if (request.getRequestedRole() < userRole){
+				filteredResponse.add(request);
+			}
+		}
+		return filteredResponse;
+	}
+	
 	private void userIsValidated(UserObject userObject) throws Exception{
 		if(!userObject.isValidated()){
 			throw new Exception("Not validated");
@@ -101,4 +121,6 @@ public class UserProcessor {
 		}
 		
 	}
+	
+	
 }
