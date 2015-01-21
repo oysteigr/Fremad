@@ -7,4 +7,5 @@ dependencies:
   html5lib: ">=0.10.0 <2.0.0"
   intl: any
 transformers:
-  - angular 
+  - angular:
+      dart_sdk: "/urs/lib/dart/bin"
