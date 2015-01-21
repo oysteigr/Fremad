@@ -8,4 +8,3 @@ dependencies:
   intl: any
 transformers:
   - angular:
-      dart_sdk: "/urs/lib/dart/bin"
