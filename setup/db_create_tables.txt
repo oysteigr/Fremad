@@ -107,3 +107,17 @@ CREATE TABLE `user_login` (
 	CONSTRAINT `fk_login_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `article` (
+	`id` INT(64) NOT NULL AUTO_INCREMENT, 
+	`author_id` INT(64) NOT NULL , 
+	`date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`type` VARCHAR(32) NOT NULL , 
+	`header` VARCHAR(64) NOT NULL , 
+	`context` VARCHAR(256) NOT NULL , 
+	`content` TEXT NOT NULL , 
+	`image_url` VARCHAR(64) NOT NULL , 
+	`published` tinyint(1) NOT NULL,
+	CONSTRAINT `fk_author_id` FOREIGN KEY (`author_id`) REFERENCES `user` (`id`),
+	PRIMARY KEY ( `id` )
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

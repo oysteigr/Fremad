@@ -1,5 +1,5 @@
 
-<section class="article-teaser ng-binding">
+<section ng-show="checkWidth(500)" class="article-teaser ng-binding">
   <div class="article-teaser-image">
     <img src="{{selectedArticle.imageURL}}">
     <h4>{{selectedArticle.header}}</h4>
@@ -19,94 +19,6 @@
               <span class="teaser-span">{{article.header}} </span>
             </div>
          </div>
-    
- <!--       </li>
-                  <li front-article-list="">
-          <div class="teaser" front-article-list="">
-            <div class="teaser-text" front-article-list="">
-              <a href="/news/article/l422lbpyn0p71n6vtlzscsoub/title/hauge---er-vanvittig-motivert-for-dette" front-article-list="" class="ng-binding">
-                    Murphys lov på Voksen kunstgress  
-              </a>
-            </div>
-         </div>
-    
-        </li>
-                  <li front-article-list="">
-          <div class="teaser" front-article-list="">
-            <div class="teaser-text" front-article-list="">
-              <a href="/news/article/l422lbpyn0p71n6vtlzscsoub/title/hauge---er-vanvittig-motivert-for-dette" front-article-list="" class="ng-binding">
-                    Klubbrekord!  
-              </a>
-            </div>
-         </div>
-    
-        </li>
-        </li>
-                  <li front-article-list="">
-          <div class="teaser" front-article-list="">
-            <div class="teaser-text" front-article-list="">
-              <a href="/news/article/l422lbpyn0p71n6vtlzscsoub/title/hauge---er-vanvittig-motivert-for-dette" front-article-list="" class="ng-binding">
-                    Klubbrekord!  
-              </a>
-            </div>
-         </div>
-    
-        </li>
-        </li>
-                  <li front-article-list="">
-          <div class="teaser" front-article-list="">
-            <div class="teaser-text" front-article-list="">
-              <a href="/news/article/l422lbpyn0p71n6vtlzscsoub/title/hauge---er-vanvittig-motivert-for-dette" front-article-list="" class="ng-binding">
-                    Klubbrekord!  
-              </a>
-            </div>
-         </div>
-    
-        </li>
-        </li>
-                  <li front-article-list="">
-          <div class="teaser" front-article-list="">
-            <div class="teaser-text" front-article-list="">
-              <a href="/news/article/l422lbpyn0p71n6vtlzscsoub/title/hauge---er-vanvittig-motivert-for-dette" front-article-list="" class="ng-binding">
-                    Klubbrekord!  
-              </a>
-            </div>
-         </div>
-    
-        </li>
-        </li>
-                  <li front-article-list="">
-          <div class="teaser" front-article-list="">
-            <div class="teaser-text" front-article-list="">
-              <a href="/news/article/l422lbpyn0p71n6vtlzscsoub/title/hauge---er-vanvittig-motivert-for-dette" front-article-list="" class="ng-binding">
-                    Klubbrekord!  
-              </a>
-            </div>
-         </div>
-    
-        </li>
-        </li>
-                  <li front-article-list="">
-          <div class="teaser" front-article-list="">
-            <div class="teaser-text" front-article-list="">
-              <a href="/news/article/l422lbpyn0p71n6vtlzscsoub/title/hauge---er-vanvittig-motivert-for-dette" front-article-list="" class="ng-binding">
-                    Klubbrekord!  
-              </a>
-            </div>
-         </div>
-    
-        </li>
-        </li>
-                  <li front-article-list="">
-          <div class="teaser" front-article-list="">
-            <div class="teaser-text" front-article-list="">
-              <a href="/news/article/l422lbpyn0p71n6vtlzscsoub/title/hauge---er-vanvittig-motivert-for-dette" front-article-list="" class="ng-binding">
-                    Klubbrekord!  
-              </a>
-            </div>
-         </div>
-    
-        </li> -->
     </ul>
   
   </div>
@@ -114,10 +26,11 @@
   <br style="clear: left;">
 </section>
      
-     
+<section ng-hide="checkWidth(500)" class="article-teaser-mobile">
       <front-article></front-article>
       <front-article></front-article>
       <front-article></front-article>
       <front-article></front-article>
       <front-article></front-article>
       <front-article></front-article>
+</section>
