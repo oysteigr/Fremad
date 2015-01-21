@@ -1,19 +1,5 @@
 library fremad;
-/*
-@MirrorsUsed(targets: const[
-    'fremad',
-    'angular',
-    'angular.core',
-    'angular.core.dom',
-    'angular.filter',
-    'angular.perf',
-    'angular.directive',
-    'angular.routing',
-    'angular.core.parser'],
-  override: '*')
-  
-import 'dart:mirrors';
-*/
+
 import 'dart:html' as html;
 
 import 'dart:async';

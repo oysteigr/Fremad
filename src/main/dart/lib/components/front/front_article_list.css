@@ -13,7 +13,6 @@
     width: 70%;
     float: left;
     padding: 1%;
-            
 }
 
 .article-teaser-list{
@@ -25,7 +24,6 @@
     border-left-color: #AAAAAA;
     overflow-y: scroll;
     overflow-x:hidden;
-  
 }
         
 .article-teaser-list ul{
@@ -62,4 +60,17 @@ li.ng-binding:hover{
         
 .teaser{
     height: 100%;
+}
+
+.article-teaser-mobile{
+  visibility: : hidden;
+}
+
+@media screen and (max-width: 500px) {
+  .article-teaser-mobile{
+      visibility: : visible;
+  }
+    .article-teaser{
+      visibility: : hidden;
+  }
 }
