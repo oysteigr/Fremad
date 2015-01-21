@@ -45,3 +45,4 @@
 /src/main/dart/.pub/
 /target/
 /target/
+/deploy/FremadDeploy/*
