@@ -9,8 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import fremad.domain.LeagueObject;
-import fremad.domain.MatchObject;
 import fremad.domain.TeamObject;
 import fremad.domain.list.TeamListObject;
 import fremad.dao.SqlTablesConstants;

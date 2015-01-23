@@ -2,8 +2,6 @@ package fremad.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +31,8 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 			return -1;
+		} finally {
+			close();
 		}
 	}
 	
@@ -47,6 +47,8 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 			return -1;
+		} finally {
+			close();
 		}
 	}
 	
@@ -75,6 +77,8 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 			return null;
+		} finally {
+			close();
 		}
 	}
 	
@@ -101,6 +105,8 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 			return false;
+		} finally {
+			close();
 		}
 	}
 
@@ -127,6 +133,8 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 			}
 		} catch (SQLException e) {
 			LOG.error(e.toString());
+		} finally {
+			close();
 		}
 		
 		LOG.debug("Found " + matchList.size() + " matches");

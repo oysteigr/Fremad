@@ -52,4 +52,12 @@ public class JdbcConnection {
 			return -1;
 		}
 	}
+	
+	public void close() {
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			LOG.error("Connection could not close");
+		}
+	}
 }

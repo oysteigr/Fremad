@@ -16,7 +16,7 @@ public interface SqlTablesConstants {
 	
 	// Table names
 	
-	String SQL_TABLE_NAME_ARTICLE = "articles";
+
 
 	String SQL_TABLE_NAME_MATCH = "`match`";
 	String SQL_TABLE_NAME_LEAGUE = "league";
@@ -28,20 +28,10 @@ public interface SqlTablesConstants {
 	String SQL_TABLE_NAME_USER = "user";
 	String SQL_TABLE_NAME_USER_ROLE_REQUEST = "user_role_request";	
 	String SQL_TABLE_NAME_USER_LOGIN = "user_login";
+	String SQL_TABLE_NAME_ARTICLE = "article";
 	
 	// Table values
 	
-	String SQL_TABLE_VARIABLES_ARTICLE = ""
-		    + "ArticleId INT(64) NOT NULL AUTO_INCREMENT, "
-		    + "AuthorId INT(64), "
-		    + "ArticleDate TIMESTAMP, "
-		    + "ArticleType VARCHAR(32), "
-		    + "ArticleHeader VARCHAR(64), "
-		    + "ArticleContext VARCHAR(256), "
-		    + "ArticleContent TEXT, "
-		    + "ArticleImageUrl VARCHAR(64), "
-		    + "PRIMARY KEY ( ArticleId )";
-
     String[] SQL_CREATE_TABLE_STRINGS = {
         "CREATE TABLE `team` ("
             + " `id` int(11) NOT NULL AUTO_INCREMENT,"
@@ -142,10 +132,24 @@ public interface SqlTablesConstants {
     		+ "`date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,"
     		+ "CONSTRAINT `fk_login_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),"
     		+ "PRIMARY KEY (`id`)"
-    		+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;"
+    		+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8",
+        "CREATE TABLE `article` ("
+		    + " `id` INT(64) NOT NULL AUTO_INCREMENT, "
+		    + " `author_id` INT(64) NOT NULL , "
+		    + " `date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,"
+		    + " `type` VARCHAR(32) NOT NULL , "
+		    + " `header` VARCHAR(64) NOT NULL , "
+		    + " `context` VARCHAR(256) NOT NULL , "
+		    + " `content` TEXT NOT NULL , "
+		    + " `image_url` VARCHAR(64) NOT NULL , "
+		    + " `published` tinyint(1) NOT NULL,"
+		    + " CONSTRAINT `fk_author_id` FOREIGN KEY (`author_id`) REFERENCES `user` (`id`),"
+		    + "PRIMARY KEY ( `id` )"
+            + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;"
     };
 
     String[] SQL_DROP_TABLE_STRINGS = {
+		"DROP TABLE `article`",
 		"DROP TABLE `user_login`",
 		"DROP TABLE `user_role_request`",
 		"DROP TABLE `user`",

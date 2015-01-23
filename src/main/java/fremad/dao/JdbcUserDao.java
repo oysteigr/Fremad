@@ -3,7 +3,6 @@ package fremad.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +22,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 
 	@Override
 	public int addUser(UserObject userObject) throws SQLException {
+		LOG.debug("in addUser");
 		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_USER + " "
 				+ "(user_name, password, salt) "
 				+ "VALUES (?, ?, ?)";
@@ -43,6 +43,8 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 			throw new SQLException("Sql error");
+		} finally {
+			close();
 		}
 		return key;
 	}
@@ -71,6 +73,8 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 			return null;
+		} finally {
+			close();
 		}
 	}
 	
@@ -98,6 +102,8 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 			return null;
+		} finally {
+			close();
 		}
 	}
 
@@ -124,6 +130,8 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 			return null;
+		} finally {
+			close();
 		}
 		return userObject;
 	}
@@ -142,6 +150,8 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 			return null;
+		} finally {
+			close();
 		}
 		return userObject;
 	}
@@ -161,6 +171,8 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 			return;
+		} finally {
+			close();
 		}
 		return;
 	}
@@ -178,6 +190,8 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 			prpstm.execute();
 		} catch (SQLException e) {
 			LOG.error(e.toString());
+		} finally {
+			close();
 		}
 		return;
 	}
@@ -193,6 +207,8 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 			}
 		} catch (SQLException e) {
 			LOG.error(e.toString());
+		} finally {
+			close();
 		}
 		return userLogins;
 	}
@@ -208,6 +224,8 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 			}
 		} catch (SQLException e) {
 			LOG.error(e.toString());
+		} finally {
+			close();
 		}
 		return userLogins;
 	}
@@ -228,6 +246,8 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 			return false;
+		} finally {
+			close();
 		}
 		return true;
 	}
@@ -244,6 +264,8 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 			} 
 		} catch (SQLException e) {
 			LOG.error(e.toString());
+		} finally {
+			close();
 		}
 		return userRequests;
 	}
@@ -262,6 +284,8 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 			return false;
+		} finally {
+			close();
 		}
 		return true;
 	}
@@ -279,11 +303,10 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 			return false;
+		} finally {
+			close();
 		}
 		return true;
 	}
-
-
-
 
 }

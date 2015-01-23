@@ -10,9 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import fremad.domain.PlayerObject;
-import fremad.domain.TeamObject;
 import fremad.domain.list.PlayerListObject;
-import fremad.domain.list.TeamListObject;
 import fremad.dao.SqlTablesConstants;
 
 @Repository
@@ -28,9 +26,11 @@ public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
 	public PlayerListObject getPlayers() {
 		PlayerListObject playerListObject = new PlayerListObject();
 		
-		ResultSet res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER);
+		String sql = "SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER + " WHERE team = ?";
 		try {
-			while (res.next()) {
+			this.prpstm = this.conn.prepareStatement(sql);
+			ResultSet res = prpstm.executeQuery();
+			while (res != null && res.next()) {
 				playerListObject.add(new PlayerObject(
 					res.getInt("id"), 
 					res.getString("first_name"),
@@ -43,18 +43,24 @@ public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
 			}
 		} catch (SQLException e) {
 			LOG.error(e.toString());
+		} finally {
+			close();
 		}
-		
+
 		return playerListObject;
 	}
 
 	@Override
 	public PlayerListObject getPlayersByTeam(int teamId) {
+		
 		PlayerListObject playerListObject = new PlayerListObject();
 		
-		ResultSet res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER + " WHERE team = " + teamId);
+		String sql = "SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER + " WHERE team = ?";
 		try {
-			while (res.next()) {
+			this.prpstm = this.conn.prepareStatement(sql);
+			prpstm.setInt(1, teamId);
+			ResultSet res = prpstm.executeQuery();
+			while (res != null && res.next()) {
 				playerListObject.add(new PlayerObject(
 					res.getInt("id"), 
 					res.getString("first_name"),
@@ -67,6 +73,8 @@ public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
 			}
 		} catch (SQLException e) {
 			LOG.error(e.toString());
+		} finally {
+			close();
 		}
 		
 		return playerListObject;
@@ -99,6 +107,8 @@ public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 			return null;
+		} finally {
+			close();
 		}
 		playerObject.setId(key);
 		
@@ -124,6 +134,8 @@ public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 			return null;
+		} finally {
+			close();
 		}
 		return playerObject;
 	}
@@ -140,6 +152,8 @@ public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 			return null;
+		} finally {
+			close();
 		}
 		
 		return playerObject;
