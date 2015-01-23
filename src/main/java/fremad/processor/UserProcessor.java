@@ -34,6 +34,7 @@ public class UserProcessor {
 	private SessionSecurityContext securityContext;
 	
 	public boolean createUser(UserObject userObject){
+		LOG.debug("in createUser");
 		try{
 			String[] params = PasswordManager.createHash(userObject.getPassword()).split(":");
 			userObject.setPassword(params[2]);

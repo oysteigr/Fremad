@@ -1,7 +1,6 @@
 package fremad.dao;
 
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -26,10 +25,10 @@ public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
 	public PlayerListObject getPlayers() {
 		PlayerListObject playerListObject = new PlayerListObject();
 		
-		String sql = "SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER + " WHERE team = ?";
+		connect();
+		
+		res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER);
 		try {
-			this.prpstm = this.conn.prepareStatement(sql);
-			ResultSet res = prpstm.executeQuery();
 			while (res != null && res.next()) {
 				playerListObject.add(new PlayerObject(
 					res.getInt("id"), 
@@ -55,11 +54,14 @@ public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
 		
 		PlayerListObject playerListObject = new PlayerListObject();
 		
+		connect();
+		
+		
 		String sql = "SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER + " WHERE team = ?";
 		try {
 			this.prpstm = this.conn.prepareStatement(sql);
 			prpstm.setInt(1, teamId);
-			ResultSet res = prpstm.executeQuery();
+			res = prpstm.executeQuery();
 			while (res != null && res.next()) {
 				playerListObject.add(new PlayerObject(
 					res.getInt("id"), 
@@ -86,6 +88,9 @@ public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
 				+ "(first_name, last_name, number, member_since, position, preferred_foot, team) "
 				+ "VALUES(?,?,?,?,?,?,?)";
 		int key = -1;
+		
+		connect();
+		
 
 		try {
 			prpstm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -100,9 +105,9 @@ public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
 			LOG.debug("Executing: " + prpstm.toString());
 			
 			prpstm.execute();
-			ResultSet rs = prpstm.getGeneratedKeys();
-			if (rs != null && rs.next()) {
-				key = rs.getInt(1);
+			res = prpstm.getGeneratedKeys();
+			if (res != null && res.next()) {
+				key = res.getInt(1);
 			}
 		} catch (SQLException e) {
 			LOG.error(e.toString());
@@ -117,8 +122,11 @@ public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
 
 	@Override
 	public PlayerObject updatePlayer(PlayerObject playerObject) {
+		LOG.debug("in updatePlayer");
 		String sql = "UPDATE " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER 
-				+ "SET first_name=?, last_name=?, number=?, member_since=?, position=?, preferred_foot=?, team=? WHERE id=?";
+				+ " SET first_name=?, last_name=?, number=?, member_since=?, position=?, preferred_foot=?, team=? WHERE id=?";
+		connect();
+		
 		try {
 			this.prpstm = this.conn.prepareStatement(sql);
 			prpstm.setString(1, playerObject.getFirstName());
@@ -145,6 +153,9 @@ public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
 		String sql = "DELETE FROM " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER
 				+ " WHERE id = ?";
 		LOG.debug("In deletePlayer with sql: " + sql + " and id=" + playerObject.getId());
+		
+		connect();
+		
 		try {
 			this.prpstm = this.conn.prepareStatement(sql);
 			prpstm.setInt(1, playerObject.getId());

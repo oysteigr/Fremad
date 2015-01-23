@@ -1,17 +1,13 @@
 package fremad.rest;
 
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,7 +70,7 @@ public class MatchResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public MatchObject getPrevMatch(@RequestBody String teamId, @Context final HttpServletResponse response){
-		LOG.debug("Getting next match " + teamId);
+		LOG.debug("Getting prev match " + teamId);
 		MatchObject prevMatch = matchProcessor.getPrevMatch(Integer.parseInt(teamId));
 		
 		

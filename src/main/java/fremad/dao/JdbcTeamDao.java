@@ -1,7 +1,6 @@
 package fremad.dao;
 
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -24,14 +23,19 @@ public class JdbcTeamDao extends JdbcConnection implements TeamDao {
 	@Override
 	public TeamListObject getTeams() {
 		TeamListObject teams = new TeamListObject();
+		connect();		
+		res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_TEAM);
 		
-		ResultSet res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_TEAM);
+
+		
 		try {
-			while (res.next()) {
+			while (res!= null && res.next()) {
 				teams.add(new TeamObject(res.getInt("id"), res.getString("name"), res.getInt("online_id")));
 			}
 		} catch (SQLException e) {
 			LOG.error(e.toString());
+		} finally {
+			close();
 		}
 		
 		return teams;
@@ -43,10 +47,13 @@ public class JdbcTeamDao extends JdbcConnection implements TeamDao {
 		
 		LOG.debug(sql);
 		
+		connect();
+
+		
 		try {
 			this.prpstm = this.conn.prepareStatement(sql);
 			prpstm.setInt(1, teamId);
-			ResultSet res = prpstm.executeQuery();
+			res = prpstm.executeQuery();
 			if (res != null && res.next()) {
 				return new TeamObject( res.getInt(1), 
 										res.getString(2), 
@@ -57,6 +64,8 @@ public class JdbcTeamDao extends JdbcConnection implements TeamDao {
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 			return null;
+		} finally {
+			close();
 		}
 	}
 	
@@ -65,6 +74,9 @@ public class JdbcTeamDao extends JdbcConnection implements TeamDao {
 		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_TEAM + " "
 				+ "(name, online_id) "
 				+ "VALUES (?, ?)";
+		
+		connect();
+		
 		int key = -1;
 		try {
 			prpstm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -74,12 +86,14 @@ public class JdbcTeamDao extends JdbcConnection implements TeamDao {
 			LOG.debug("Executing: " + prpstm.toString());
 			
 			prpstm.execute();
-			ResultSet rs = prpstm.getGeneratedKeys();
-			if (rs != null && rs.next()) {
-				key = rs.getInt(1);
+			res = prpstm.getGeneratedKeys();
+			if (res != null && res.next()) {
+				key = res.getInt(1);
 			}
 		} catch (SQLException e) {
 			LOG.error(e.toString());
+		} finally {
+			close();
 		}
 		teamObject.setId(key);
 		return teamObject;
@@ -92,6 +106,9 @@ public class JdbcTeamDao extends JdbcConnection implements TeamDao {
 				+ " online_id = ? "
 				+ " WHERE id = ?";
 		
+		connect();
+		
+		
 		LOG.debug("In updateTeam with sql: " + sql);
 		try {
 			prpstm = conn.prepareStatement(sql);
@@ -102,6 +119,8 @@ public class JdbcTeamDao extends JdbcConnection implements TeamDao {
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 			return null;
+		} finally {
+			close();
 		}
 		return teamObject;
 	}
@@ -111,6 +130,9 @@ public class JdbcTeamDao extends JdbcConnection implements TeamDao {
 		String sql = "DELETE FROM " + SqlTablesConstants.SQL_TABLE_NAME_TEAM + " WHERE "
 				+ " id = ?";
 		
+		connect();
+		
+		
 		LOG.debug("In deleteTeam with sql: " + sql);
 		try {
 			prpstm = conn.prepareStatement(sql);
@@ -119,6 +141,8 @@ public class JdbcTeamDao extends JdbcConnection implements TeamDao {
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 			return null;
+		} finally {
+			close();
 		}
 		return teamObject;
 	}

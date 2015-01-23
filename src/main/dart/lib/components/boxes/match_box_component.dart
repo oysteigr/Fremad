@@ -38,6 +38,7 @@ class ShowBoxMatchComponent implements AttachAware{
         }
         nextMatchLoaded = true;
         html.window.console.info("Success on loading nextMatch");
+        loadPrevMatch();
       })
       .catchError((e) {
         print(e);
@@ -73,6 +74,6 @@ class ShowBoxMatchComponent implements AttachAware{
   void attach() {
     html.window.console.info("Constructor in ShowBoxLastNextMatchComponent : teamId=" + team.id.toString());
      loadNextMatch();
-     loadPrevMatch();
+
   }
 }

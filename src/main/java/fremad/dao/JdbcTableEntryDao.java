@@ -1,6 +1,5 @@
 package fremad.dao;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.slf4j.Logger;
@@ -24,6 +23,9 @@ public class JdbcTableEntryDao extends JdbcConnection implements TableEntryDao {
 	public int deleteTableEntry (int tableEntryId) {
 		String sql = "DELETE FROM " + SqlTablesConstants.SQL_TABLE_NAME_TABLE_ENTRY + " WHERE id = ?";
 		
+		connect();
+		
+		
 		try {
 			this.prpstm = this.conn.prepareStatement(sql);
 			prpstm.setInt(0, tableEntryId);
@@ -39,6 +41,9 @@ public class JdbcTableEntryDao extends JdbcConnection implements TableEntryDao {
 	@Override
 	public int deleteTableEntries(int leagueId) {
 		String sql = "DELETE FROM " + SqlTablesConstants.SQL_TABLE_NAME_TABLE_ENTRY + " WHERE league = ?";
+		
+		connect();
+		
 		
 		try {
 			this.prpstm = this.conn.prepareStatement(sql);
@@ -56,10 +61,12 @@ public class JdbcTableEntryDao extends JdbcConnection implements TableEntryDao {
 	public TableEntryObject getTableEntry(int tableEntryId) {
 		String sql = "SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_TABLE_ENTRY	+ " WHERE id = ?";
 		
+		connect();
+
 		try {
 			this.prpstm = this.conn.prepareStatement(sql);
 			prpstm.setInt(1, tableEntryId);
-			ResultSet res = prpstm.executeQuery();
+			res = prpstm.executeQuery();
 			if (res != null && res.next()) {
 				return new TableEntryObject( res.getInt(1), 
 										res.getInt(2), 
@@ -91,6 +98,9 @@ public class JdbcTableEntryDao extends JdbcConnection implements TableEntryDao {
 						+ "goals_conceded, points, games_won, games_tied, games_lost) "
 						+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
+		connect();
+		
+		
 		try {
 			prpstm = conn.prepareStatement(sql);
 			prpstm.setInt(1, tableEntry.getLeagueId());
@@ -121,7 +131,13 @@ public class JdbcTableEntryDao extends JdbcConnection implements TableEntryDao {
 		TableEntryListObject tableEntryList = new TableEntryListObject();
 		String sql = "SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_TABLE_ENTRY + " WHERE league = " + leagueId;
 		LOG.debug(sql);
-		ResultSet res = select(sql);
+		
+		connect();
+		
+		res = select(sql);
+		
+
+		
 		try {
 			while (res.next()) {
 				LOG.debug("Adding TableEntryObject");

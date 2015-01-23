@@ -1,7 +1,6 @@
 package fremad.dao;
 
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.slf4j.Logger;
@@ -25,7 +24,9 @@ public class JdbcLeagueDao extends JdbcConnection implements LeagueDao {
 	public LeagueListObject getLeagues() {
 		LeagueListObject leagues = new LeagueListObject();
 		
-		ResultSet res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_LEAGUE);
+		connect();
+		
+		res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_LEAGUE);
 		try {
 			while (res.next()) {
 				leagues.add(new LeagueObject(res.getInt("id"), res.getString("name"), res.getInt("year"), res.getInt("team")));
@@ -43,7 +44,9 @@ public class JdbcLeagueDao extends JdbcConnection implements LeagueDao {
 	public LeagueListObject getLeagues(int teamId) {
 		LeagueListObject leagues = new LeagueListObject();
 		
-		ResultSet res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_LEAGUE + " WHERE team = " + teamId);
+		connect();
+		
+		res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_LEAGUE + " WHERE team = " + teamId);
 		try {
 			while (res.next()) {
 				leagues.add(new LeagueObject(res.getInt("id"), res.getString("name"), res.getInt("year"), res.getInt("team")));
@@ -63,6 +66,9 @@ public class JdbcLeagueDao extends JdbcConnection implements LeagueDao {
 				+ "(id, name, year, team) "
 				+ "VALUES (?, ?, ?, ?)";
 		LOG.debug("In addLeague with sql: " + sql);
+		
+		connect();
+		
 		try {
 			prpstm = conn.prepareStatement(sql);
 			prpstm.setInt(1, league.getId());
@@ -87,6 +93,9 @@ public class JdbcLeagueDao extends JdbcConnection implements LeagueDao {
 				+ " WHERE id = ?";
 		
 		LOG.debug("In addLeague with sql: " + sql);
+		
+		connect();
+		
 		try {
 			prpstm = conn.prepareStatement(sql);
 			prpstm.setString(1, league.getName());
@@ -109,6 +118,9 @@ public class JdbcLeagueDao extends JdbcConnection implements LeagueDao {
 				+ " id = ?";
 		
 		LOG.debug("In addLeague with sql: " + sql);
+		
+		connect();
+		
 		try {
 			prpstm = conn.prepareStatement(sql);
 			prpstm.setInt(1, league.getId());

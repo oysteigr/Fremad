@@ -1,7 +1,6 @@
 package fremad.dao;
 
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.slf4j.Logger;
@@ -19,16 +18,24 @@ public class JdbcDbSetupDao extends JdbcConnection {
 	
 	public void create() {
 		try {
+
+			connect();
+			
             for (String sql : SqlTablesConstants.SQL_CREATE_TABLE_STRINGS) {
                 prpstm = conn.prepareStatement(sql);
                 prpstm.executeUpdate();
             }
 		} catch (SQLException e) {
 			LOG.error(e.toString());
+		} finally {
+			close();
 		}
 	}
 
     public void delete() {
+
+		connect();
+		
 		try {
             for (String sql : SqlTablesConstants.SQL_DROP_TABLE_STRINGS) {
                 prpstm = conn.prepareStatement(sql);
@@ -36,11 +43,16 @@ public class JdbcDbSetupDao extends JdbcConnection {
             }
 		} catch (SQLException e) {
 			LOG.error(e.toString());
+		} finally {
+			close();
 		}
     }
 
     public boolean isCreated() {
-        ResultSet res = select("show tables");
+
+		connect();
+		
+        res = select("show tables");
         try {
             int count = 0;
             while (res.next()) {
@@ -54,6 +66,8 @@ public class JdbcDbSetupDao extends JdbcConnection {
         } catch (SQLException e) {
             LOG.error(e.toString());
             return false;
-        }
+        } finally {
+			close();
+		}
     }
 }

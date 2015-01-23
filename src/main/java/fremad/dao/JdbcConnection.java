@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
@@ -16,8 +15,10 @@ import fremad.dao.SqlTablesConstants;
 public class JdbcConnection {
 
 	private static final Logger LOG = LoggerFactory.getLogger(JdbcConnection.class);
-	Connection conn;
-	PreparedStatement prpstm;
+	Connection conn = null;
+	PreparedStatement prpstm = null;
+	HikariGFXDPool pool = HikariGFXDPool.getInstance();  
+	ResultSet res;
 	
 	public JdbcConnection() {
 		try {
@@ -26,8 +27,12 @@ public class JdbcConnection {
 			LOG.error(e.toString());
 		}
 		
+
+	}
+	
+	public void connect(){
 		try {
-			conn = DriverManager.getConnection(SqlTablesConstants.DB_URL, SqlTablesConstants.USER, SqlTablesConstants.PASS);
+			conn = pool.getConnection();  
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 		}
@@ -55,7 +60,16 @@ public class JdbcConnection {
 	
 	public void close() {
 		try {
-			conn.close();
+
+			if(prpstm != null){
+				prpstm.close();
+			}
+			if(res != null){
+				res.close();
+			}
+			if(conn != null){
+				conn.close();
+			}
 		} catch (SQLException e) {
 			LOG.error("Connection could not close");
 		}

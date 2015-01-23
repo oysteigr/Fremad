@@ -1,6 +1,5 @@
 package fremad.dao;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -27,6 +26,9 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 				+ "(user_name, password, salt) "
 				+ "VALUES (?, ?, ?)";
 		int key = -1;
+		
+		connect();
+		
 		try {
 			prpstm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			prpstm.setString(1, userObject.getUserName());
@@ -36,9 +38,9 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 			LOG.debug("Executing: " + prpstm.toString());
 			
 			prpstm.execute();
-			ResultSet rs = prpstm.getGeneratedKeys();
-			if (rs != null && rs.next()) {
-				key = rs.getInt(1);
+			res = prpstm.getGeneratedKeys();
+			if (res != null && res.next()) {
+				key = res.getInt(1);
 			}
 		} catch (SQLException e) {
 			LOG.error(e.toString());
@@ -55,10 +57,13 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		
 		LOG.debug(sql);
 		
+		connect();
+		
+		
 		try {
 			this.prpstm = this.conn.prepareStatement(sql);
 			prpstm.setString(1, userName);
-			ResultSet res = prpstm.executeQuery();
+			res = prpstm.executeQuery();
 			if (res != null && res.next()) {
 				return new UserObject( res.getInt("id"), 
 										res.getString("user_name"),
@@ -84,10 +89,13 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		
 		LOG.debug(sql);
 		
+		connect();
+		
+		
 		try {
 			this.prpstm = this.conn.prepareStatement(sql);
 			prpstm.setInt(1, userId);
-			ResultSet res = prpstm.executeQuery();
+			res = prpstm.executeQuery();
 			if (res != null && res.next()) {
 				return new UserObject( res.getInt("id"), 
 										res.getString("user_name"),
@@ -117,6 +125,9 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 				+ " validated = ? "
 				+ " WHERE id = ?";
 		
+		connect();
+		
+		
 		LOG.debug("In updateUser with sql: " + sql);
 		try {
 			prpstm = conn.prepareStatement(sql);
@@ -142,6 +153,9 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		String sql = "DELETE FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER + " WHERE "
 				+ " id = ?";
 		
+		connect();
+		
+		
 		LOG.debug("In deleteUser with sql: " + sql);
 		try {
 			prpstm = conn.prepareStatement(sql);
@@ -162,6 +176,9 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 				+ " validated = ? "
 				+ " WHERE user_name = ?";
 		
+		connect();
+		
+		
 		LOG.debug("In validateUser with sql: " + sql);
 		try {
 			prpstm = conn.prepareStatement(sql);
@@ -181,6 +198,9 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_USER_LOGIN + " "
 				+ "(user_id) "
 				+ "VALUES (?)";
+		
+		connect();
+		
 		try {
 			prpstm = conn.prepareStatement(sql);
 			prpstm.setInt(1, userId);
@@ -200,7 +220,10 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 	public UserLoginLogListObject getUserLogins(int user_id) {
 		UserLoginLogListObject userLogins = new UserLoginLogListObject();
 		
-		ResultSet res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_LOGIN + " WHERE user_id = " + user_id);
+		connect();
+		
+		
+		res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_LOGIN + " WHERE user_id = " + user_id);
 		try {
 			while (res.next()) {
 				userLogins.add(new UserLoginLogObject(res.getInt("id"), res.getInt("user_id"), res.getTimestamp("date")));
@@ -217,7 +240,10 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 	public UserLoginLogListObject getUserLogins() {
 		UserLoginLogListObject userLogins = new UserLoginLogListObject();
 		
-		ResultSet res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_LOGIN);
+		connect();
+		
+		
+		res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_LOGIN);
 		try {
 			while (res.next()) {
 				userLogins.add(new UserLoginLogObject(res.getInt("id"), res.getInt("user_id"), res.getTimestamp("date")));
@@ -235,6 +261,9 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_USER_ROLE_REQUEST + " "
 				+ "(user_id, requested_role) "
 				+ "VALUES (?, ?)";
+		
+		connect();
+		
 		try {
 			prpstm = conn.prepareStatement(sql);
 			prpstm.setInt(1, userId);
@@ -256,7 +285,10 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 	public UserRoleRequestListObject getUserRoleRequests() {
 		UserRoleRequestListObject userRequests = new UserRoleRequestListObject();
 		
-		ResultSet res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_ROLE_REQUEST);
+		connect();
+		
+		
+		res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_ROLE_REQUEST);
 		try {
 			while (res.next()) {
 				userRequests.add(new UserRoleRequestObject(res.getInt("id"), res.getInt("user_id"), 
@@ -276,6 +308,9 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 				+ " accepted = ? "
 				+ " WHERE id = ?";
 		LOG.debug("In updateUser with sql: " + sql);
+		
+		connect();
+		
 		try {
 			prpstm = conn.prepareStatement(sql);
 			prpstm.setBoolean(1,true);
@@ -296,6 +331,9 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 				+ " id = ?";
 		
 		LOG.debug("In deleteUserRoleRequest with sql: " + sql);
+		
+		connect();
+		
 		try {
 			prpstm = conn.prepareStatement(sql);
 			prpstm.setInt(1, id);
