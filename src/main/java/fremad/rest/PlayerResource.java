@@ -41,6 +41,7 @@ public class PlayerResource {
 	}
 	
 	@RequestMapping("/getPlayersByTeam")
+	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public PlayerListObject getPlayersByTeam(@RequestBody String teamId) {

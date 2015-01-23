@@ -6,7 +6,6 @@ import fremad.domain.user.UserLoginLogListObject;
 import fremad.domain.user.UserObject;
 import fremad.domain.user.UserRoleEnum;
 import fremad.domain.user.UserRoleRequestListObject;
-import fremad.domain.user.UserRoleRequestObject;
 
 public interface UserDao {
 	int addUser(UserObject userObject) throws SQLException;

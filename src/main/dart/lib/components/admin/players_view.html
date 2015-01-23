@@ -20,20 +20,73 @@
     <input type="button" class="adminButton greenButton" value="add new player" ng-click="setAddingMode()">
   </form>
 
-
-  <dialog open id="player-edit" ng-show="isEditing"> 
+<div id="loginModal" ng-show="isEditing" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content">
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" ng-click="setShowLogin(false)" aria-hidden="true">×</button>
+          <h1 class="text-center">Add player</h1>
+      </div>
+      <div class="modal-body">
+          <form class="form col-md-12 center-block">
+            <div class="form-group">
+              <input type="text" class="form-control input-lg" placeholder="First name" ng-model="currentPlayer.firstName" autofocus>
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control input-lg" placeholder="Last name" ng-model="currentPlayer.lastName">
+            </div>
+            <div class="form-group">
+              Player number
+              <input type="text" class="form-control input-lg" placeholder="Player number" ng-model="currentPlayer.number">
+            </div>
+            <div class="form-group">
+              Member since
+              <input type="text" class="form-control input-lg" placeholder="Member since" ng-model="currentPlayer.memberSince">
+            </div>
+          <div class="admin-select">
+           Team:
+              <select name="team-id" ng-model="currentPlayer.team" >
+                <option ng-repeat="team in teamList" ng-value="team.id">{{team.name}}</option> 
+              </select>
+            </div><br>
+            <div class="admin-select">
+            Position:
+              <select name="pos" ng-model="currentPlayer.possition">
+                <option value="goalkeeper">Goalkeeper</option>
+                <option value="defender">Defender</option>
+                <option value="midfielder">Midfielder</option>
+                <option value="attacker">Attacker</option>
+              </select>
+            </div><br> 
+            <div class="admin-select">
+            Preferred foot:
+              <select name="pref-foot" ng-model="currentPlayer.preferredFoot">
+                <option value="right">Right</option>
+                <option value="left">Left</option>
+              </select>
+            </div><br> 
+          </form>
+      </div>
+      <div class="modal-footer">
+          <form>
+            <input type="button" ng-show="isAdding" class="adminButton greenButton" value="add" ng-click="addPlayer()">
+            <input type="button" ng-hide="isAdding" class="adminButton greenButton" value="update" ng-click="updatePlayer()">
+            <input type="button" class="adminButton redButton" value="cancel" ng-click="cancel()">
+          </form>
+      </div>  
+      </div>
+  </div>
+  </div>
+</div>
+<!--  <dialog open id="player-edit" ng-show="isEditing"> 
       <div class="black_overlay"></div>
       <div class="white_content">
         <div class="item-edit">
         <h3>Add player</h3> 
-          First name:
-          <input type="text" size="35" ng-model="currentPlayer.firstName"><br>
-          Last name:
-          <input type="text" size="35" ng-model="currentPlayer.lastName"><br>
-          Player number:
-          <input type="number" size="15" ng-model="currentPlayer.number"><br>
-          Member since:
-          <input type="number" size="15" ng-model="currentPlayer.memberSince"><br>
+          <input type="text" size="35" class="form-control input-lg" placeholder="First name" ng-model="currentPlayer.firstName"><br>
+          <input type="text" size="35" class="form-control input-lg" placeholder="Last name" ng-model="currentPlayer.lastName"><br>
+          <input type="number" size="15" class="form-control input-lg" placeholder="Player number" ng-model="currentPlayer.number"><br>
+          <input type="number" size="15" class="form-control input-lg" placeholder="Member since" ng-model="currentPlayer.memberSince"><br>
           <div class="admin-select">
          Team:
             <select name="team-id" ng-model="currentPlayer.team">
@@ -63,8 +116,8 @@
           </form>
         </div> 
       </div> 
-  </dialog>  
-</div>
+  </dialog> 
+</div> -->
 <!--
   int id;
   String firstName;

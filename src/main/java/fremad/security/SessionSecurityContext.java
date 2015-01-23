@@ -83,6 +83,7 @@ public class SessionSecurityContext implements SecurityContext {
 	public UserRoleEnum getUserRole(){
 		HttpSession session = httpServletRequest.getSession(false);
 		if(session == null){
+			LOG.debug("User has no session");
 			return UserRoleEnum.UNAUTH;
 		}
 
