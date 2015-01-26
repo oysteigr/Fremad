@@ -9,6 +9,7 @@
         </ul></li>
       <li><a href="#/sponsors">Sponsors</a></li>
       <li ng-show="showBasedOnRole(1)"><a href="#/admin">Admin</a></li>
+      <li ng-show="showBasedOnRole(1)"><a href="#/profile">Profile</a></li>
       <li ng-click="setShowLogin(true)" ng-hide="showBasedOnRole(1)"><a href="#/">Login</a></li>
       <li ng-click="logoutUser()" ng-show="showBasedOnRole(1)"><a href="#/">Log out</a></li>
     </ul>
@@ -60,12 +61,12 @@
             <div class="form-group">
               <img ng-show="verifyFistName() && showErrors" src="images/icons/green_tick.png" />
               <img ng-hide="verifyFistName() || !showErrors" src="images/icons/red_cross.png" />
-              <input type="text" class="form-control input-lg" ng-model="firstName" placeholder="First and middle name">
+              <input type="text" class="form-control input-lg" ng-model="userMeta.fistName" placeholder="First and middle name">
             </div>
             <div class="form-group">
               <img ng-show="verifyLastName() && showErrors" src="images/icons/green_tick.png" />
               <img ng-hide="verifyLastName() || !showErrors" src="images/icons/red_cross.png" />
-              <input type="text" class="form-control input-lg" ng-model="lastName" placeholder="Last name">
+              <input type="text" class="form-control input-lg" ng-model="userMeta.lastName" placeholder="Last name">
             </div>
             <div ng-hide="verifyLastName() || !showErrors" class="alert alert-danger">
               <strong>Oh snap!</strong> You need to give one last name. 

@@ -4,6 +4,7 @@ part of fremad;
 class UserHandler{
   static final UserHandler _singleton = new UserHandler._internal();
   int _userRole = 0;
+  int _userId = -1;
   String _userName = null;
 
   factory UserHandler() {
@@ -16,8 +17,16 @@ class UserHandler{
     this._userRole = userRole;
   }
   
-  int getUserRole(int userRole){
+  int getUserRole(){
     return this._userRole;
+  }
+  
+  void setUserId(int userId){
+    this._userId = userId;
+  }
+  
+  int getUserId(){
+    return this._userId;
   }
   
   void setUserName(String userName){

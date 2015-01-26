@@ -1,6 +1,8 @@
 library user;
 
+import 'package:intl/intl.dart';
 import 'user_role_enum.dart';
+
 
 //enum UserRoleEnum {ZERO, SUPPORTER, PLAYER, AUTHOR , EDITOR, ADMIN}
 
@@ -21,7 +23,7 @@ class User{
     "password": password,
     "salt": salt,
     "role": role,
-    "created": created,
+    "created": created.millisecondsSinceEpoch,
     "validated": validated
   };
 
@@ -46,4 +48,8 @@ class User{
     return 0;
   }
   
+  final DateFormat asDate = new DateFormat('dd.MM.yyyy', 'fr_FR');
+  
+  final DateFormat asTime = new DateFormat('HH:mm', 'fr_FR');
+    
 }

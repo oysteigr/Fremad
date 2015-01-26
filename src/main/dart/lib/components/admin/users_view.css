@@ -1,0 +1,100 @@
+#user-list{
+  width: 100%;
+  font-size: 18px;
+  list-style-type: none;
+  padding: 0 0 0 0;
+}
+
+#user-list li{
+  width: 100%;
+  background-color: #FFFFFF;
+  margin-bottom: 5px;
+  border-style: solid;
+  border-color: #AAAAAA;
+  border-width: 1px;
+  border-radius: 8px;
+}
+
+#user-list input{
+  font-size: 18px;
+}
+
+#add-element{
+  font-size: 18px;
+  padding: 0 0 0 0;
+  width: 100%;
+
+}
+
+#add-element input{
+  font-size: 18px;
+}
+
+#add-active{
+  border-style: solid;
+  border-color: #AAAAAA;
+  border-width: 1px;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+}
+
+.item-name{
+  padding: 10px 30px 10px 10px;
+  cursor: pointer;
+  color: #000000;
+  
+}
+
+.item-edit{
+  padding: 10px 10px 10px 10px;
+  border-top-style: solid;
+  border-top-color: #AAAAAA;
+  border-top-width: 1px;
+}
+
+.adminButton{
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+  border-radius:5px;
+  text-decoration:none;
+  display:inline-block;
+  cursor:pointer;
+  color:#ffffff;
+  float: right;
+  margin-left: 10px;
+  font-size: 20px;
+}
+
+.adminButton:active {
+  position:relative;
+  top:1px;
+}
+
+.greenButton {
+  background-color:#44c767;
+  border:1px solid #18ab29;
+  text-shadow:0px 1px 0px #2f6627;
+}
+
+.redButton {
+  background-color:#fc8d83;
+  border:1px solid #d83526;
+  text-shadow:0px 1px 0px #b23e35;
+}
+
+.admin-select select {
+  background: transparent;
+  padding: 5px;
+  font-size: 18px;
+  line-height: 1;
+  border: 0;
+  border-radius: 0;
+  cursor:pointer;
+}
+
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 16px;
+}

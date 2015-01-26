@@ -1,0 +1,38 @@
+<h1>Users</h1>
+
+<ul id="user-list">
+    <li ng-repeat="user in userList">
+    <div class="item-name" ng-click="selectUser(user.id)">
+      {{user.userName}} 
+    </div>
+    <div class="item-edit" ng-show="isActive(user.id)">
+      <form>
+      Id: {{user.id}}
+      Year:
+      <input type="button" class="adminButton redButton" value="delete" ng-click="setConfirmDelete()">
+  </form>
+  </div>
+  </li>
+</ul>
+
+<div id="loginModal" ng-show="confirmDelete" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-hidden="true">×</button>
+          <h3 class="text-center">Really delete?</h3>
+      </div>
+      <div class="modal-body">
+          <form class="form col-md-12 center-block">
+            Do you really want to delete {{getSelectedUser()}}?
+          </form>
+      </div>
+      <div class="modal-footer">
+        <div class="col-md-12">
+          <input type="button" class="adminButton redButton" value="no" ng-click="cancel()">
+          <input type="button" class="adminButton greenButton" value="yes" ng-click="deleteUser()">
+        </div>  
+      </div>
+    </div>
+  </div>
+</div>

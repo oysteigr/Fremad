@@ -7,8 +7,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import fremad.domain.user.UserListObject;
 import fremad.domain.user.UserLoginLogListObject;
 import fremad.domain.user.UserLoginLogObject;
+import fremad.domain.user.UserMetaListObject;
+import fremad.domain.user.UserMetaObject;
 import fremad.domain.user.UserObject;
 import fremad.domain.user.UserRoleEnum;
 import fremad.domain.user.UserRoleRequestListObject;
@@ -18,6 +21,35 @@ import fremad.domain.user.UserRoleRequestObject;
 public class JdbcUserDao extends JdbcConnection implements UserDao{
 	
 	private static final Logger LOG = LoggerFactory.getLogger(JdbcUserDao.class);
+	
+	//----------------------USER METHODS----------------------
+
+	@Override
+	public UserListObject getUsers(){
+		LOG.debug("in getUsers");
+		UserListObject users = new UserListObject();
+		connect();		
+		res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER);
+		
+		try {
+			while (res!= null && res.next()) {
+				users.add(new UserObject(
+						res.getInt("id"), 
+						res.getString("user_name"), 
+						UserRoleEnum.valueOf(res.getString("role")).getRoleValue(),
+						res.getTimestamp("created"), 
+						res.getBoolean("validated")));
+			} 
+		} catch (SQLException e) {
+			LOG.error(e.toString());
+		} finally {
+			close();
+		}
+		
+		return users;
+
+	}
+
 
 	@Override
 	public int addUser(UserObject userObject) throws SQLException {
@@ -50,6 +82,8 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		}
 		return key;
 	}
+	
+
 
 	@Override
 	public UserObject getUser(String userName) {
@@ -127,7 +161,6 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		
 		connect();
 		
-		
 		LOG.debug("In updateUser with sql: " + sql);
 		try {
 			prpstm = conn.prepareStatement(sql);
@@ -155,7 +188,6 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		
 		connect();
 		
-		
 		LOG.debug("In deleteUser with sql: " + sql);
 		try {
 			prpstm = conn.prepareStatement(sql);
@@ -169,6 +201,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		}
 		return userObject;
 	}
+
 	
 	@Override
 	public void validateUser(String username) {
@@ -193,6 +226,151 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		}
 		return;
 	}
+	
+	//----------------------USERMETA METHODS----------------------
+	
+
+	@Override
+	public UserMetaListObject getUsersMeta(){
+		LOG.debug("in getUsersMeta");
+		UserMetaListObject userMeta = new UserMetaListObject();
+		connect();		
+		res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_META);
+		try {
+			while (res!= null && res.next()) {
+				userMeta.add(new UserMetaObject(
+						res.getInt("user_id"),
+						res.getString("first_name"),
+						res.getString("last_name"),
+						res.getString("phone_number"),
+						res.getTimestamp("birthday"),
+						res.getString("home_town"),
+						res.getString("profession")));
+			} 
+		} catch (SQLException e) {
+			LOG.error(e.toString());
+		} finally {
+			close();
+		}
+		
+		return userMeta;
+	}
+	
+	@Override
+	public UserMetaObject getUserMeta(int userId){
+		LOG.debug("in getUserMeta for user :" + userId);
+		UserMetaObject userMeta = new UserMetaObject();
+		connect();		
+		res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_META + " WHERE user_id = " + userId);
+		try {
+			if (res!= null && res.next()) {
+				userMeta = new UserMetaObject(
+						res.getInt("user_id"),
+						res.getString("first_name"),
+						res.getString("last_name"),
+						res.getString("phone_number"),
+						res.getTimestamp("birthday"),
+						res.getString("home_town"),
+						res.getString("profession"));
+			} 
+		} catch (SQLException e) {
+			LOG.error(e.toString());
+		} finally {
+			close();
+		}
+		
+		return userMeta;
+	}
+	
+	@Override
+	public boolean addUserMeta(UserMetaObject usermetaObject){
+		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_USER_META + " "
+				+ "(user_id, first_name, last_name, phone_number, birthday, home_town, profession) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
+		
+		connect();
+		
+		try {
+			prpstm = conn.prepareStatement(sql);
+			prpstm.setInt(1, usermetaObject.getUserId());
+			prpstm.setString(2, usermetaObject.getFirstName());
+			prpstm.setString(3, usermetaObject.getLastName());
+			prpstm.setString(4, usermetaObject.getPhoneNumber());
+			prpstm.setTimestamp(5, usermetaObject.getBirthday());
+			prpstm.setString(6, usermetaObject.getHomeTown());
+			prpstm.setString(7, usermetaObject.getProfession());
+			
+			LOG.debug("Executing: " + prpstm.toString());
+			
+			prpstm.execute();
+		} catch (SQLException e) {
+			LOG.error(e.toString());
+			return false;
+		} finally {
+			close();
+		}
+		return true;
+	}
+	
+	@Override
+	public UserMetaObject updateUserMeta(UserMetaObject userMetaObject) {
+		String sql = "UPDATE " + SqlTablesConstants.SQL_TABLE_NAME_USER_META + " SET "
+				+ "first_name = ?, "
+				+ "last_name = ?, "
+				+ "phone_number = ?, "
+				+ "birthday = ?, "
+				+ "home_town = ?, "
+				+ "profession = ? "
+				+ "WHERE user_id = ?";
+		
+		connect();
+		
+		LOG.debug("In updateUserMeta with sql: " + sql);
+		try {
+			prpstm = conn.prepareStatement(sql);
+			prpstm.setString(1, userMetaObject.getFirstName());
+			prpstm.setString(2, userMetaObject.getLastName());
+			prpstm.setString(3, userMetaObject.getPhoneNumber());
+			prpstm.setTimestamp(4, userMetaObject.getBirthday());
+			prpstm.setString(5, userMetaObject.getHomeTown());
+			prpstm.setString(6, userMetaObject.getProfession());
+			LOG.info(prpstm.toString());
+			prpstm.setInt(7, userMetaObject.getUserId());
+			LOG.debug(prpstm.toString());
+			prpstm.executeUpdate();
+		} catch (SQLException e) {
+			LOG.error(e.toString());
+			return null;
+		} finally {
+			close();
+		}
+		return userMetaObject;
+	}
+	
+
+	@Override
+	public boolean deleteUserMeta(int userId) {
+		String sql = "DELETE FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_META + " WHERE "
+				+ " user_id = ?";
+		
+		connect();
+		
+		LOG.debug("In deleteUserMeta with sql: " + sql);
+		try {
+			prpstm = conn.prepareStatement(sql);
+			prpstm.setInt(1, userId);
+			prpstm.executeUpdate();
+		} catch (SQLException e) {
+			LOG.error(e.toString());
+			return false;
+		} finally {
+			close();
+		}
+		return true;
+	}
+	
+	//----------------------USERLOG METHODS----------------------
+	
 	@Override
 	public void loggUserLogin(int userId) {
 		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_USER_LOGIN + " "
@@ -255,6 +433,32 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		}
 		return userLogins;
 	}
+	
+
+	@Override
+	public boolean deleteUserLogsByUser(int userId) {
+		String sql = "DELETE FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_LOGIN + " WHERE "
+				+ " user_id = ?";
+		
+		LOG.debug("In deleteUserLogsByUser with sql: " + sql);
+		
+		connect();
+		
+		try {
+			prpstm = conn.prepareStatement(sql);
+			prpstm.setInt(1, userId);
+			prpstm.executeUpdate();
+		} catch (SQLException e) {
+			LOG.error(e.toString());
+			return false;
+		} finally {
+			close();
+		}
+		return true;
+	
+	}
+	
+	//----------------------USER REQUEST METHODS----------------------
 	
 	@Override
 	public boolean addUserRoleRequest(int userId, UserRoleEnum role) {
@@ -345,6 +549,30 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 			close();
 		}
 		return true;
+	}
+
+
+	@Override
+	public boolean deleteUserRoleRequestByUser(int userId) {
+		String sql = "DELETE FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_ROLE_REQUEST + " WHERE "
+				+ " user_id = ?";
+		
+		LOG.debug("In deleteUserRoleRequestByUser with sql: " + sql);
+		
+		connect();
+		
+		try {
+			prpstm = conn.prepareStatement(sql);
+			prpstm.setInt(1, userId);
+			prpstm.executeUpdate();
+		} catch (SQLException e) {
+			LOG.error(e.toString());
+			return false;
+		} finally {
+			close();
+		}
+		return true;
+	
 	}
 
 }

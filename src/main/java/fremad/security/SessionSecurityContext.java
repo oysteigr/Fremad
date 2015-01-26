@@ -1,7 +1,6 @@
 package fremad.security;
 
 import java.security.Principal;
-import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -88,6 +87,16 @@ public class SessionSecurityContext implements SecurityContext {
 		}
 
 		return (UserRoleEnum) session.getAttribute(SESSION_USER_ROLE);
+	}
+	
+	public String getUserName(){
+		HttpSession session = httpServletRequest.getSession(false);
+		if(session == null){
+			LOG.debug("User has no session");
+			return null;
+		}
+
+		return (String) session.getAttribute(SESSION_USER_NAME);
 	}
 
 	@Override

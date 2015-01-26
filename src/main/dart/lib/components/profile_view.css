@@ -1,0 +1,11 @@
+.form-group img {
+  height: 30px;
+  float: left;
+  position: absolute;
+  top: 20%;
+  right: 2%;
+}
+
+.form-group{
+  position: relative;
+}

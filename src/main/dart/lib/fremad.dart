@@ -22,8 +22,11 @@ import 'models/player_list.dart';
 import 'models/match_list.dart';
 import 'models/match_entry.dart';
 import 'models/user.dart';
+import 'models/user_list.dart';
 import 'models/user_logon.dart';
 import 'models/user_role_enum.dart';
+import 'models/user_meta.dart';
+import 'models/user_meta_list.dart';
 
 part 'components/header_component.dart';
 part 'components/main_menu_component.dart';
@@ -35,6 +38,7 @@ part 'components/loggin_view_component.dart';
 part 'components/sponsors_view_component.dart';
 part 'components/team_view_component.dart';
 part 'components/admin_view_component.dart';
+part 'components/profile_view_component.dart';
 
 part 'components/front/front_article_list_component.dart';
 part 'components/front/front_article_component.dart';
@@ -49,6 +53,7 @@ part 'components/admin/players_view_component.dart';
 part 'components/admin/leagues_view_component.dart';
 part 'components/admin/teams_view_component.dart';
 part 'components/admin/events_view_component.dart';
+part 'components/admin/users_view_component.dart';
 
 part 'components/boxes/table_box_component.dart';
 part 'components/boxes/match_box_component.dart';
@@ -77,6 +82,7 @@ class FremadApp extends Module {
     bind(ShowSponsorsComponent);
     bind(ShowTeamComponent);
     bind(ShowAdminComponent);
+    bind(ShowProfileComponent);
     
     bind(FrontArticleComponent);
     bind(FrontArticleListComponent);
@@ -91,6 +97,7 @@ class FremadApp extends Module {
     bind(ShowAdminLeaguesComponent);
     bind(ShowAdminEventsComponent);
     bind(ShowAdminPlayersComponent);
+    bind(ShowAdminUsersComponent);
     
     bind(ShowBoxTableComponent);
     bind(ShowBoxMatchComponent);

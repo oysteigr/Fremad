@@ -7,7 +7,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import fremad.dao.JdbcUserDao;
+import fremad.domain.user.UserListObject;
 import fremad.domain.user.UserLoginLogListObject;
+import fremad.domain.user.UserMetaListObject;
+import fremad.domain.user.UserMetaObject;
 import fremad.domain.user.UserObject;
 import fremad.domain.user.UserRoleEnum;
 import fremad.domain.user.UserRoleRequestListObject;
@@ -19,6 +22,11 @@ public class UserService {
 	@Autowired
 	private JdbcUserDao userDao;
 	
+	// ----------------------USER----------------------
+	
+	public UserListObject getUsers(){
+		return userDao.getUsers();
+	}	
 	public int addUser(UserObject userObject) throws SQLException{
 		return userDao.addUser(userObject);
 	}
@@ -31,14 +39,34 @@ public class UserService {
 	public UserObject updateUser(UserObject userObject){
 		return userDao.updateUser(userObject);
 	}
+
 	public UserObject deleteUser(UserObject userObject){
 		return userDao.deleteUser(userObject);
 	}
-	
 	public void validateUser(String username){
 		userDao.validateUser(username);
 		return;
 	}
+	
+	// ----------------------USER META----------------------
+	
+	public UserMetaListObject getUsersMeta(){
+		return userDao.getUsersMeta();
+	}
+	public UserMetaObject getUserMeta(int userId){
+		return userDao.getUserMeta(userId);
+	}
+	public boolean addUserMeta(UserMetaObject userMetaObject){
+		return userDao.addUserMeta(userMetaObject);
+	}
+	public UserMetaObject updateUserMeta(UserMetaObject userMetaObject){
+		return userDao.updateUserMeta(userMetaObject);
+	}
+	public boolean deleteUserMeta(int userId){
+		return userDao.deleteUserMeta(userId);
+	}
+	
+	// ----------------------USER LOGS----------------------
 	
 	public void loggUserLogin(int userId){
 		userDao.loggUserLogin(userId);
@@ -50,6 +78,11 @@ public class UserService {
 	public UserLoginLogListObject getUserLogins(){
 		return userDao.getUserLogins();
 	}
+	public boolean deleteUserLogsByUser(int userId){
+		return userDao.deleteUserLogsByUser(userId);
+	}	
+	
+	// ----------------------USER REQUESTS----------------------
 	
 	public boolean addUserRoleRequest(int userId, UserRoleEnum role){
 		return userDao.addUserRoleRequest(userId, role);
@@ -62,5 +95,8 @@ public class UserService {
 	}
 	public boolean deleteUserRoleRequest(int id){
 		return userDao.deleteUserRoleRequest(id);
+	}
+	public boolean deleteUserRoleRequestByUser(int userId){
+		return userDao.deleteUserRoleRequestByUser(userId);
 	}
 }

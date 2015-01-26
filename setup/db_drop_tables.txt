@@ -1,4 +1,5 @@
 DROP TABLE `article`;
+DROP TABLE `user_meta`;
 DROP TABLE `user_login`;
 DROP TABLE `user_role_request`;
 DROP TABLE `user`;

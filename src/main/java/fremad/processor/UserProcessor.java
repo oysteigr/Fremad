@@ -9,9 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import fremad.domain.user.UserListObject;
 import fremad.domain.user.UserLogonObject;
+import fremad.domain.user.UserMetaListObject;
+import fremad.domain.user.UserMetaObject;
 import fremad.domain.user.UserObject;
 import fremad.domain.user.UserRoleEnum;
 import fremad.domain.user.UserRoleRequestListObject;
@@ -33,14 +35,38 @@ public class UserProcessor {
 	@Autowired
 	private SessionSecurityContext securityContext;
 	
-	public boolean createUser(UserObject userObject){
+	public UserListObject getUsers(){
+		LOG.debug("in getUsers");
+		return userService.getUsers();
+		
+	}
+	
+	public UserMetaListObject getUsersMeta(){
+		LOG.debug("in getUserMeta");
+		return userService.getUsersMeta();
+	}
+	
+	public UserMetaObject getUserMeta(int userId){
+		LOG.debug("in getUserMeta");
+		if(userId == -1){
+			userId = this.getUserId();
+		}
+		return userService.getUserMeta(userId);
+	}
+	
+	public UserMetaObject updateUserMeta(UserMetaObject userMetaObject){
+		return userService.updateUserMeta(userMetaObject);
+	}
+	
+	public int createUser(UserObject userObject){
 		LOG.debug("in createUser");
+		int id = -1;
 		try{
 			String[] params = PasswordManager.createHash(userObject.getPassword()).split(":");
 			userObject.setPassword(params[2]);
 			userObject.setSalt(params[1]);
 			
-			int id = userService.addUser(userObject);
+			id = userService.addUser(userObject);
 			userObject.setId(id);
 			
 			//TODO: Move this!
@@ -55,9 +81,31 @@ public class UserProcessor {
 			throw new InputException(e, 101, "Username allready taken");
 		}catch(Exception e){
 			LOG.debug(e.toString());
-			return false;
+			return -1;
 		}
-		return true; 
+		return id; 
+	}
+	
+	public boolean addUserMeta(UserMetaObject userMetaObject){
+		return userService.addUserMeta(userMetaObject);
+	}
+	
+	public UserObject deleteUser(UserObject userObject){
+		
+		if(userService.deleteUserMeta(userObject.getId())){
+			LOG.debug("Success on deleting userMeta of user: " + userObject.getId());
+		}
+		if(userService.deleteUserLogsByUser(userObject.getId())){
+			LOG.debug("Success on deleting userLogs of user: " + userObject.getId());
+		}
+		if(userService.deleteUserRoleRequestByUser(userObject.getId())){
+			LOG.debug("Success on deleting roleRequest of user: " + userObject.getId());
+		}
+		//TODO: article
+		
+		UserObject userResponse = userService.deleteUser(userObject);
+
+		return userResponse;
 	}
 	
 	public UserRoleEnum loginUser(UserLogonObject userLogonObject){
@@ -95,6 +143,12 @@ public class UserProcessor {
 		return securityContext.getUserRole();
 	}
 	
+	public int getUserId() {
+		int id = userService.getUser(securityContext.getUserName()).getId();
+		LOG.debug("Got used id by session: " + id);
+		return id;
+	}
+	
 	public UserRoleRequestListObject getUserRoleRequests(){
 		int userRole = getUserRole().getRoleValue();
 		UserRoleRequestListObject response = userService.getUserRoleRequests();
@@ -122,6 +176,8 @@ public class UserProcessor {
 		}
 		
 	}
+
+
 	
 	
 }

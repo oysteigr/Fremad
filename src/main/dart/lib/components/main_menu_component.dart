@@ -18,6 +18,7 @@ class MainMenuComponent {
   TeamList teamListObject;
   
   UserLogon userLogon;
+
   
 
 
@@ -39,6 +40,7 @@ class MainMenuComponent {
         loginSuccess = true;
         html.window.console.info("user is loged in");
         USER.setUserRole(role);
+        getUserId();
         showLogin = false;
       } else{
         loginSuccess = false;
@@ -48,7 +50,33 @@ class MainMenuComponent {
     .catchError((e) {
       print(e);
       loginSuccess = false;
-      html.window.console.info("Could not load rest/user/loginUser.json");
+      html.window.console.info("Could not load rest/user/getUserRole.json");
+    });
+  }
+  
+  void getUserId(){
+    html.window.console.info("Is in getUserId");
+    int id = -1; 
+    
+    _http.get('rest/user/getUserId.json')
+    .then((HttpResponse response) {
+      print(response);
+      html.window.console.info(response.toString());
+      id = int.parse(response.data.toString());
+      if(id > 0){
+        loginSuccess = true;
+        html.window.console.info("userId found: " + id.toString());
+        USER.setUserId(id);
+        showLogin = false;
+      } else{
+        loginSuccess = false;
+        html.window.console.info("userId not found");
+      }
+    })
+    .catchError((e) {
+      print(e);
+      loginSuccess = false;
+      html.window.console.info("Could not load rest/user/getUserId.json");
     });
   }
   
@@ -78,13 +106,25 @@ class MainMenuComponent {
   
   void setShowSignup(bool show){
     DateTime now = new DateTime.now();
-    currentUser = new User(-1, "", "", "", 1, null, false);
+    currentUser = new User(-1, "", "", "", 1, new DateTime.now(), false);
+    userMeta = new UserMeta(-1, "", "", "", new DateTime.fromMillisecondsSinceEpoch(1), "", "");
     showLogin = false;
     showSignup = show;
   }
   
+  
+  //Signup in data
+  User currentUser;
+  UserMeta userMeta;
+  String repeatPassword = "";
+  String repeatEmail = "";
+  String takenUserName = "";
+  bool showErrors = false;
+  bool userNameTaken = false;
+  
   void registerNewUser(){
     html.window.console.info("Is in registerNewUser");
+    int id;
     if(!verifyAll()){
       showErrors = true;
       html.window.console.info("Validation failed");
@@ -95,12 +135,18 @@ class MainMenuComponent {
       .then((HttpResponse response) {
         print(response);
         html.window.console.info(response.data.toString());
-        registerSuccess = response.data.toString().contains("true");
+        id = int.parse(response.data.toString());
+        registerSuccess = id > 0;
         html.window.console.info("registerNewUser: " + registerSuccess.toString());
         if(!registerSuccess){
           userNameTaken = true;
           takenUserName = currentUser.userName;
         } else{
+          currentUser.id = id;
+          userMeta.userId = id;
+          if(!registerUserMeta()){
+            html.window.console.info("User created, but could not add userMeta");
+          }
           showSignup = false;
         }
       })
@@ -110,6 +156,24 @@ class MainMenuComponent {
         html.window.console.info("Could not load rest/user/createUser.json");
       });
 
+  } 
+  
+  bool registerUserMeta(){
+    html.window.console.info("Is in registerUserMeta");
+    _http.post('rest/user/addUserMeta.json', JSON.encode(userMeta))
+      .then((HttpResponse response) {
+        print(response);
+        if(response.status == 204){
+          html.window.console.info("Could not register meta");
+          return false;
+        }
+      })
+      .catchError((e) {
+        print(e);
+        html.window.console.info("Could not load rest/user/addUserMeta.json");
+        return false;
+      });
+    return true; 
   } 
   
   void loginUser(){
@@ -125,6 +189,7 @@ class MainMenuComponent {
           loginSuccess = true;
           html.window.console.info("user loged in: " + userLogon.userName);
           USER.setUserRole(role);
+          getUserId();
           showLogin = false;
         } else{
           loginSuccess = false;
@@ -165,16 +230,7 @@ class MainMenuComponent {
   bool showBasedOnRole(int role){
     return USER.checkUserRole(role);
   }
-  
-  //Signup in data
-  User currentUser;
-  String firstName = "";
-  String lastName = "";
-  String repeatPassword = "";
-  String repeatEmail = "";
-  String takenUserName = "";
-  bool showErrors = false;
-  bool userNameTaken = false;
+
   
   bool verifyFistName(){
     if(currentUser == null){
@@ -183,7 +239,7 @@ class MainMenuComponent {
     if(currentUser == ""){
       return false;
     }
-    if(firstName.length < 3){
+    if(userMeta.firstName.length < 3){
       return false;
     }
     return true;
@@ -196,7 +252,7 @@ class MainMenuComponent {
     if(currentUser.userName == ""){
       return false;
     }
-    if(lastName.split(" ").length != 1){
+    if(userMeta.lastName.split(" ").length != 1){
       return false;
     }
     return true;

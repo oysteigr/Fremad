@@ -28,6 +28,18 @@ public class UserObject {
 		this.created = created;
 		this.validated = validated;
 	}
+	
+	public UserObject(int id, String userName, int role, Timestamp created,
+			boolean validated) {
+		super();
+		this.id = id;
+		this.userName = userName;
+		this.password = "";
+		this.salt = "";
+		this.role = role;
+		this.created = created;
+		this.validated = validated;
+	}
 	public int getId() {
 		return id;
 	}

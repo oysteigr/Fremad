@@ -41,7 +41,7 @@ class MatchEntry{
   
   String getTimeAsString(){
       return asTime.format(date);
-    }
+  }
   
   String resultClass(){
     if(fremadGoals > opposingTeamGoals){
