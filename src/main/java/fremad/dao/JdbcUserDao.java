@@ -1,7 +1,9 @@
 package fremad.dao;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +45,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 		} finally {
-			close();
+			closeAll();
 		}
 		
 		return users;
@@ -78,7 +80,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 			LOG.error(e.toString());
 			throw new SQLException("Sql error");
 		} finally {
-			close();
+			closeAll();
 		}
 		return key;
 	}
@@ -113,7 +115,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 			LOG.error(e.toString());
 			return null;
 		} finally {
-			close();
+			closeAll();
 		}
 	}
 	
@@ -145,7 +147,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 			LOG.error(e.toString());
 			return null;
 		} finally {
-			close();
+			closeAll();
 		}
 	}
 
@@ -163,7 +165,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		
 		LOG.debug("In updateUser with sql: " + sql);
 		try {
-			prpstm = conn.prepareStatement(sql);
+			this.prpstm = this.conn.prepareStatement(sql);
 			prpstm.setString(1, userObject.getUserName());
 			prpstm.setString(2, userObject.getPassword());
 			prpstm.setString(3, userObject.getSalt());
@@ -175,7 +177,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 			LOG.error(e.toString());
 			return null;
 		} finally {
-			close();
+			closeAll();
 		}
 		return userObject;
 	}
@@ -197,7 +199,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 			LOG.error(e.toString());
 			return null;
 		} finally {
-			close();
+			closeAll();
 		}
 		return userObject;
 	}
@@ -222,7 +224,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 			LOG.error(e.toString());
 			return;
 		} finally {
-			close();
+			closeAll();
 		}
 		return;
 	}
@@ -243,14 +245,14 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 						res.getString("first_name"),
 						res.getString("last_name"),
 						res.getString("phone_number"),
-						res.getTimestamp("birthday"),
+						res.getDate("birthday"),
 						res.getString("home_town"),
 						res.getString("profession")));
 			} 
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 		} finally {
-			close();
+			closeAll();
 		}
 		
 		return userMeta;
@@ -259,7 +261,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 	@Override
 	public UserMetaObject getUserMeta(int userId){
 		LOG.debug("in getUserMeta for user :" + userId);
-		UserMetaObject userMeta = new UserMetaObject();
+		UserMetaObject userMeta = null;
 		connect();		
 		res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_META + " WHERE user_id = " + userId);
 		try {
@@ -269,14 +271,15 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 						res.getString("first_name"),
 						res.getString("last_name"),
 						res.getString("phone_number"),
-						res.getTimestamp("birthday"),
+						res.getDate("birthday"),
 						res.getString("home_town"),
 						res.getString("profession"));
 			} 
 		} catch (SQLException e) {
 			LOG.error(e.toString());
+			return null;
 		} finally {
-			close();
+			closeAll("getUserMeta");
 		}
 		
 		return userMeta;
@@ -288,6 +291,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 				+ "(user_id, first_name, last_name, phone_number, birthday, home_town, profession) "
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
 		
+		LOG.debug("In addUserMeta with sql: " + sql);
 		connect();
 		
 		try {
@@ -296,57 +300,83 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 			prpstm.setString(2, usermetaObject.getFirstName());
 			prpstm.setString(3, usermetaObject.getLastName());
 			prpstm.setString(4, usermetaObject.getPhoneNumber());
-			prpstm.setTimestamp(5, usermetaObject.getBirthday());
+			prpstm.setDate(5,  new java.sql.Date(usermetaObject.getBirthday().getTime()));
 			prpstm.setString(6, usermetaObject.getHomeTown());
 			prpstm.setString(7, usermetaObject.getProfession());
-			
-			LOG.debug("Executing: " + prpstm.toString());
 			
 			prpstm.execute();
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 			return false;
 		} finally {
-			close();
+			closeAll("addUserMeta");
 		}
 		return true;
 	}
 	
 	@Override
 	public UserMetaObject updateUserMeta(UserMetaObject userMetaObject) {
-		String sql = "UPDATE " + SqlTablesConstants.SQL_TABLE_NAME_USER_META + " SET "
-				+ "first_name = ?, "
-				+ "last_name = ?, "
-				+ "phone_number = ?, "
-				+ "birthday = ?, "
-				+ "home_town = ?, "
-				+ "profession = ? "
-				+ "WHERE user_id = ?";
+		
+		String sql = "UPDATE " + SqlTablesConstants.SQL_TABLE_NAME_USER_META + 
+				" SET first_name=?, last_name=?, phone_number=?, birthday=?, home_town=?, profession=? WHERE user_id=?";
 		
 		connect();
 		
 		LOG.debug("In updateUserMeta with sql: " + sql);
+
 		try {
-			prpstm = conn.prepareStatement(sql);
+			LOG.debug("1");
+			this.prpstm = this.conn.prepareStatement(sql);
+
 			prpstm.setString(1, userMetaObject.getFirstName());
 			prpstm.setString(2, userMetaObject.getLastName());
 			prpstm.setString(3, userMetaObject.getPhoneNumber());
-			prpstm.setTimestamp(4, userMetaObject.getBirthday());
+			prpstm.setDate(4,  new java.sql.Date(userMetaObject.getBirthday().getTime()));
 			prpstm.setString(5, userMetaObject.getHomeTown());
 			prpstm.setString(6, userMetaObject.getProfession());
-			LOG.info(prpstm.toString());
 			prpstm.setInt(7, userMetaObject.getUserId());
-			LOG.debug(prpstm.toString());
 			prpstm.executeUpdate();
 		} catch (SQLException e) {
 			LOG.error(e.toString());
+			LOG.error(e.getStackTrace().toString());
 			return null;
 		} finally {
-			close();
+			closeAll("updateUserMeta");
 		}
 		return userMetaObject;
 	}
 	
+	
+/*	String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_USER_META + " VALUES (?,?,?,?,?,?,?) "
+			+ "ON DUPLICATE KEY UPDATE "
+			+ "first_name = ?, "
+			+ "last_name = ?, "
+			+ "phone_number = ?, "
+			+ "birthday = ?, "
+			+ "home_town = ?, "
+			+ "profession = ? ";
+	
+	connect();
+	
+	LOG.debug("In updateUserMeta with sql: " + sql);
+
+	try {
+		prpstm = conn.prepareStatement(sql);
+		prpstm.setInt(1, userMetaObject.getUserId());
+		prpstm.setString(2, userMetaObject.getFirstName());
+		prpstm.setString(3, userMetaObject.getLastName());
+		prpstm.setString(4, userMetaObject.getPhoneNumber());
+		prpstm.setDate(5, new Date(userMetaObject.getBirthday().getTime()));
+		prpstm.setString(6, userMetaObject.getHomeTown());
+		prpstm.setString(7, userMetaObject.getProfession());
+		
+		prpstm.setString(8, userMetaObject.getFirstName());
+		prpstm.setString(9, userMetaObject.getLastName());
+		prpstm.setString(10, userMetaObject.getPhoneNumber());
+		prpstm.setDate(11, new Date(userMetaObject.getBirthday().getTime()));
+		prpstm.setString(12, userMetaObject.getHomeTown());
+		prpstm.setString(13, userMetaObject.getProfession());
+*/
 
 	@Override
 	public boolean deleteUserMeta(int userId) {
@@ -364,7 +394,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 			LOG.error(e.toString());
 			return false;
 		} finally {
-			close();
+			closeAll();
 		}
 		return true;
 	}
@@ -389,7 +419,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 		} finally {
-			close();
+			closeAll();
 		}
 		return;
 	}
@@ -409,7 +439,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 		} finally {
-			close();
+			closeAll();
 		}
 		return userLogins;
 	}
@@ -429,7 +459,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 		} finally {
-			close();
+			closeAll();
 		}
 		return userLogins;
 	}
@@ -452,7 +482,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 			LOG.error(e.toString());
 			return false;
 		} finally {
-			close();
+			closeAll();
 		}
 		return true;
 	
@@ -480,7 +510,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 			LOG.error(e.toString());
 			return false;
 		} finally {
-			close();
+			closeAll();
 		}
 		return true;
 	}
@@ -501,7 +531,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 		} finally {
-			close();
+			closeAll();
 		}
 		return userRequests;
 	}
@@ -524,7 +554,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 			LOG.error(e.toString());
 			return false;
 		} finally {
-			close();
+			closeAll();
 		}
 		return true;
 	}
@@ -546,7 +576,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 			LOG.error(e.toString());
 			return false;
 		} finally {
-			close();
+			closeAll();
 		}
 		return true;
 	}
@@ -569,7 +599,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 			LOG.error(e.toString());
 			return false;
 		} finally {
-			close();
+			closeAll();
 		}
 		return true;
 	

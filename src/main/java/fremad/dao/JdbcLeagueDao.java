@@ -34,7 +34,7 @@ public class JdbcLeagueDao extends JdbcConnection implements LeagueDao {
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 		} finally {
-			close();
+			closeAll();
 		}
 		
 		return leagues;
@@ -54,7 +54,7 @@ public class JdbcLeagueDao extends JdbcConnection implements LeagueDao {
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 		} finally {
-			close();
+			closeAll();
 		}
 		
 		return leagues;
@@ -79,7 +79,7 @@ public class JdbcLeagueDao extends JdbcConnection implements LeagueDao {
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 		} finally {
-			close();
+			closeAll();
 		}
 		return league;
 	}
@@ -107,7 +107,7 @@ public class JdbcLeagueDao extends JdbcConnection implements LeagueDao {
 			LOG.error(e.toString());
 			return null;
 		} finally {
-			close();
+			closeAll();
 		}
 		return league;
 	}
@@ -129,7 +129,7 @@ public class JdbcLeagueDao extends JdbcConnection implements LeagueDao {
 			LOG.error(e.toString());
 			return null;
 		} finally {
-			close();
+			closeAll();
 		}
 		return league;
 	}

@@ -35,7 +35,7 @@ public class JdbcTeamDao extends JdbcConnection implements TeamDao {
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 		} finally {
-			close();
+			closeAll();
 		}
 		
 		return teams;
@@ -65,7 +65,7 @@ public class JdbcTeamDao extends JdbcConnection implements TeamDao {
 			LOG.error(e.toString());
 			return null;
 		} finally {
-			close();
+			closeAll();
 		}
 	}
 	
@@ -93,7 +93,7 @@ public class JdbcTeamDao extends JdbcConnection implements TeamDao {
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 		} finally {
-			close();
+			closeAll();
 		}
 		teamObject.setId(key);
 		return teamObject;
@@ -120,7 +120,7 @@ public class JdbcTeamDao extends JdbcConnection implements TeamDao {
 			LOG.error(e.toString());
 			return null;
 		} finally {
-			close();
+			closeAll();
 		}
 		return teamObject;
 	}
@@ -142,7 +142,7 @@ public class JdbcTeamDao extends JdbcConnection implements TeamDao {
 			LOG.error(e.toString());
 			return null;
 		} finally {
-			close();
+			closeAll();
 		}
 		return teamObject;
 	}

@@ -232,7 +232,7 @@ class MainMenuComponent {
   }
 
   
-  bool verifyFistName(){
+  bool verifyFirstName(){
     if(currentUser == null){
       return false;
     }
@@ -310,7 +310,7 @@ class MainMenuComponent {
   }
   
   bool verifyAll(){
-    return verifyFistName() && 
+    return verifyFirstName() && 
         verifyLastName() &&
         verifyEmail() &&
         verifyRepeatedEmail() &&

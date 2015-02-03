@@ -1,5 +1,6 @@
 library user_meta;
 
+import 'package:intl/intl.dart';
 
 //enum UserRoleEnum {ZERO, SUPPORTER, PLAYER, AUTHOR , EDITOR, ADMIN}
 
@@ -19,15 +20,26 @@ class UserMeta{
     "firstName" : firstName,
     "lastName" : lastName,
     "phoneNumber" : phoneNumber,
-    "birthday" : birthday.millisecondsSinceEpoch,
+    "birthday" : asDate.format(birthday),
     "homeTown" : homeTown,
     "profession" : profession
   };
 
   UserMeta.fromJson(Map<String, dynamic> json) : this(json['userId'], json['firstName'],
-      json['lastName'], json['phoneNumber'], new DateTime.fromMillisecondsSinceEpoch(json['birthday'], isUtc: false), json['homeTown'], json['profession']);
+      json['lastName'], json['phoneNumber'], DateTime.parse(json['birthday']), json['homeTown'], json['profession']);
   
   String getFullName(){
     return firstName + " " + lastName;
   }
+  
+  String getDateString(){
+    String dateString = asDateString.format(birthday);
+    if(dateString == '01.01.0001'){
+      return '-'; 
+    }
+    return asDateString.format(birthday);
+  }
+  
+  final DateFormat asDate = new DateFormat('yyyy-MM-dd', 'fr_FR');
+  final DateFormat asDateString = new DateFormat('dd.MM.yyyy', 'fr_FR');
 }

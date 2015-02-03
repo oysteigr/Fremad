@@ -55,6 +55,11 @@ public class UserProcessor {
 	}
 	
 	public UserMetaObject updateUserMeta(UserMetaObject userMetaObject){
+		if(userService.getUserMeta(userMetaObject.getUserId()) == null){
+			LOG.debug("no current user in updateUserMeta");
+			return userService.addUserMeta(userMetaObject) ? userMetaObject : null;
+		}
+		LOG.debug("found current user in updateUserMeta");
 		return userService.updateUserMeta(userMetaObject);
 	}
 	

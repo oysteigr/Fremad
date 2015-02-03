@@ -34,7 +34,7 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 			LOG.error(e.toString());
 			return -1;
 		} finally {
-			close();
+			closeAll();
 		}
 	}
 	
@@ -53,7 +53,7 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 			LOG.error(e.toString());
 			return -1;
 		} finally {
-			close();
+			closeAll();
 		}
 	}
 	
@@ -86,7 +86,7 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 			LOG.error(e.toString());
 			return null;
 		} finally {
-			close();
+			closeAll();
 		}
 	}
 	
@@ -117,7 +117,7 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 			LOG.error(e.toString());
 			return false;
 		} finally {
-			close();
+			closeAll();
 		}
 	}
 
@@ -148,7 +148,7 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 		} finally {
-			close();
+			closeAll();
 		}
 		
 		LOG.debug("Found " + matchList.size() + " matches");

@@ -34,7 +34,7 @@ public class JdbcTableEntryDao extends JdbcConnection implements TableEntryDao {
 			LOG.error(e.toString());
 			return -1;
 		} finally {
-			close();
+			closeAll();
 		}
 	}
 	
@@ -53,7 +53,7 @@ public class JdbcTableEntryDao extends JdbcConnection implements TableEntryDao {
 			LOG.error(e.toString());
 			return -1;
 		} finally {
-			close();
+			closeAll();
 		}
 	}
 	
@@ -87,7 +87,7 @@ public class JdbcTableEntryDao extends JdbcConnection implements TableEntryDao {
 			LOG.error(e.toString());
 			return null;
 		} finally {
-			close();
+			closeAll();
 		}
 	}
 	
@@ -121,7 +121,7 @@ public class JdbcTableEntryDao extends JdbcConnection implements TableEntryDao {
 			LOG.error(e.toString());
 			return false;
 		} finally {
-			close();
+			closeAll();
 		}
 	}
 
@@ -157,7 +157,7 @@ public class JdbcTableEntryDao extends JdbcConnection implements TableEntryDao {
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 		} finally {
-			close();
+			closeAll();
 		}
 		
 		LOG.debug("Found " + tableEntryList.size() + " tableEntries");

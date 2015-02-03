@@ -59,9 +59,9 @@
       <div class="modal-body">
           <form class="form col-md-12 center-block">
             <div class="form-group">
-              <img ng-show="verifyFistName() && showErrors" src="images/icons/green_tick.png" />
-              <img ng-hide="verifyFistName() || !showErrors" src="images/icons/red_cross.png" />
-              <input type="text" class="form-control input-lg" ng-model="userMeta.fistName" placeholder="First and middle name">
+              <img ng-show="verifyFirstName && showErrors" src="images/icons/green_tick.png" />
+              <img ng-hide="verifyFirstName || !showErrors" src="images/icons/red_cross.png" />
+              <input type="text" class="form-control input-lg" ng-model="userMeta.firstName" placeholder="First and middle name">
             </div>
             <div class="form-group">
               <img ng-show="verifyLastName() && showErrors" src="images/icons/green_tick.png" />
@@ -111,8 +111,9 @@
                   <select class="form-control" ng-model="currentUser.role">
                     <option ng-value="1">Supporter</option>
                     <option ng-value="2">Player</option>
-                    <option ng-value="3">Editor</option>
-                    <option ng-value="4">Admin</option>
+                    <option ng-value="3">Author</option>
+                    <option ng-value="4">Editor</option>
+                    <option ng-value="5">Admin</option>
                   </select>
             </div>
             <div ng-show="currentUser.role != 1" class="alert alert-warning">

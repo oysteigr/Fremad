@@ -28,7 +28,7 @@ public class JdbcDbSetupDao extends JdbcConnection {
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 		} finally {
-			close();
+			closeAll();
 		}
 	}
 
@@ -44,7 +44,7 @@ public class JdbcDbSetupDao extends JdbcConnection {
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 		} finally {
-			close();
+			closeAll();
 		}
     }
 
@@ -67,7 +67,7 @@ public class JdbcDbSetupDao extends JdbcConnection {
             LOG.error(e.toString());
             return false;
         } finally {
-			close();
+        	closeAll();
 		}
     }
 }

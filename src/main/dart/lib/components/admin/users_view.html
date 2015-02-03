@@ -3,14 +3,21 @@
 <ul id="user-list">
     <li ng-repeat="user in userList">
     <div class="item-name" ng-click="selectUser(user.id)">
-      {{user.userName}} 
+      {{getFullNameFromUser(user.id)}} <span class="role">{{getRoleFromUser(user)}}</span>
     </div>
     <div class="item-edit" ng-show="isActive(user.id)">
       <form>
-      Id: {{user.id}}
-      Year:
-      <input type="button" class="adminButton redButton" value="delete" ng-click="setConfirmDelete()">
-  </form>
+        <div class="clearfix">
+          <span class="user-attr "> <p class="user-label">Username:</p> <p class="user-value">{{user.userName}}</p></span>
+          <span class="user-attr "> <p class="user-label">Id:</p> <p class="user-value">{{user.id}}</p></span>
+          <span class="user-attr "> <p class="user-label">Phone:</p> <p class="user-value">{{getPhoneNumberFromUser(user.id)}}</p></span>
+          <span class="user-attr "> <p class="user-label">Birthday:</p> <p class="user-value">{{getBirthdayFromUser(user.id)}}</p></span>
+          <span class="user-attr "> <p class="user-label">Hometown:</p> <p class="user-value">{{getHomeTownFromUser(user.id)}}</p></span>
+          <span class="user-attr "> <p class="user-label">Profession:</p> <p class="user-value">{{getProfessionFromUser(user.id)}}</p></span>
+          <input type="button" class="adminButton redButton" value="delete" ng-click="setConfirmDelete()">
+          <input type="button" class="adminButton greenButton" value="edit" ng-click="setEditMode()">
+        </div>
+      </form>
   </div>
   </li>
 </ul>
@@ -36,3 +43,38 @@
     </div>
   </div>
 </div>
+
+<div id="loginModal" ng-show="isEditing" ng-if="isEditing" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="cancelMeta()" aria-hidden="true">×</button>
+        <h3 class="text-center">Update user</h3>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <input type="text" class="form-control input-lg" ng-model="currentMeta.firstName" placeholder="First name">
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control input-lg" ng-model="currentMeta.lastName" placeholder="Last name">
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control input-lg" ng-model="currentMeta.phoneNumber" placeholder="Phone number">
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control input-lg" ng-model="currentMeta.homeTown" placeholder="Hometown">
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control input-lg" ng-model="currentMeta.profession" placeholder="Profession">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="col-md-12">
+          <input type="button" class="adminButton redButton" value="cancel" ng-click="cancelMeta()">
+          <input type="button" class="adminButton greenButton" value="update" ng-click="updateUserMeta()">
+        </div>  
+      </div>
+    </div>
+  </div>
+</div>
+

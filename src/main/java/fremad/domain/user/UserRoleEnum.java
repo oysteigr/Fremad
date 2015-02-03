@@ -1,8 +1,6 @@
 package fremad.domain.user;
 
-import javax.xml.bind.annotation.XmlRootElement;
 
-import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeName;
 
 @JsonTypeName( value = "UserRoleEnum" )

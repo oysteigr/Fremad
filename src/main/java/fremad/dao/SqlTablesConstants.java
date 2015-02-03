@@ -139,10 +139,11 @@ public interface SqlTablesConstants {
 			+ " `first_name` VARCHAR(32) NOT NULL , "
 			+ " `last_name` VARCHAR(32) NOT NULL , "
 			+ " `phone_number` VARCHAR(16) , "
-			+ " `birthday` DATETIME , "
+			+ " `birthday` DATE DEFAULT '0001-01-01', "
 			+ " `home_town` VARCHAR(32) , "
 			+ " `profession` VARCHAR(32) , "
-			+ " CONSTRAINT `fk_user_meta_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),"
+			+ " CONSTRAINT `uc_user_id` UNIQUE (`user_id`),"
+			+ " FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),"
 			+ "PRIMARY KEY ( `user_id` )"
 			+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8",
 		"CREATE TABLE `article` ("
@@ -159,6 +160,7 @@ public interface SqlTablesConstants {
 			+ "PRIMARY KEY ( `id` )"
 			+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;"
 	};
+	
 
     String[] SQL_DROP_TABLE_STRINGS = {
 		"DROP TABLE `article`",

@@ -98,3 +98,24 @@
   margin-right: auto;
   font-size: 16px;
 }
+
+span.role {
+  float: right;
+  color: #AAAAAA;
+}
+
+span.user-attr {
+  float: left;
+  display: block;
+  width: 40%;
+}
+
+p.user-label {
+  float: left;
+  width: 40%;
+}
+
+p.user-value {
+  float: left;
+  width: 60%;
+}

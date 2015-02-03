@@ -48,6 +48,24 @@ class User{
     return 0;
   }
   
+  static String parseRole(int role){
+    switch(role){
+      case 1:
+        return "SUPPORTER";
+      case 2:
+        return "PLAYER";
+      case 3:
+        return "AUTHOR";
+      case 4:
+        return "EDITOR";
+      case 5:
+        return "ADMIN";
+      case 6:
+        return "SUPER";
+    }
+    return "No role";
+  }
+  
   final DateFormat asDate = new DateFormat('dd.MM.yyyy', 'fr_FR');
   
   final DateFormat asTime = new DateFormat('HH:mm', 'fr_FR');

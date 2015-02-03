@@ -43,7 +43,7 @@ public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 		} finally {
-			close();
+			closeAll();
 		}
 
 		return playerListObject;
@@ -76,7 +76,7 @@ public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 		} finally {
-			close();
+			closeAll();
 		}
 		
 		return playerListObject;
@@ -113,7 +113,7 @@ public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
 			LOG.error(e.toString());
 			return null;
 		} finally {
-			close();
+			closeAll();
 		}
 		playerObject.setId(key);
 		
@@ -143,7 +143,7 @@ public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
 			LOG.error(e.toString());
 			return null;
 		} finally {
-			close();
+			closeAll();
 		}
 		return playerObject;
 	}
@@ -164,7 +164,7 @@ public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
 			LOG.error(e.toString());
 			return null;
 		} finally {
-			close();
+			closeAll();
 		}
 		
 		return playerObject;

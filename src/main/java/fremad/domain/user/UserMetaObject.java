@@ -1,6 +1,8 @@
 package fremad.domain.user;
 
-import java.sql.Timestamp;
+
+
+import java.util.Date;
 
 import org.codehaus.jackson.annotate.JsonTypeName;
 
@@ -12,7 +14,7 @@ public class UserMetaObject {
 	private String firstName;
 	private String lastName;
 	private String phoneNumber;
-	private Timestamp birthday;
+	private Date birthday;
 	private String homeTown;
 	private String profession;
 	
@@ -21,7 +23,7 @@ public class UserMetaObject {
 	}
 
 	public UserMetaObject(int userId, String firstName, String lastName,
-			String phoneNumber, Timestamp birthday, String homeTown,
+			String phoneNumber, Date birthday, String homeTown,
 			String profession) {
 		super();
 		this.userId = userId;
@@ -56,11 +58,11 @@ public class UserMetaObject {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-	public Timestamp getBirthday() {
+	public Date getBirthday() {
 		return birthday;
 	}
-	public void setBirthday(Timestamp birthday) {
-		this.birthday = birthday;
+	public void setBirthday(Date birthday) {
+		this.birthday = new java.sql.Date(birthday.getTime());
 	}
 	public String getHomeTown() {
 		return homeTown;

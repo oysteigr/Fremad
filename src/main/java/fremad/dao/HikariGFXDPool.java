@@ -44,14 +44,20 @@ public class HikariGFXDPool
 */
         config.setMinimumIdle(1);
         config.setMaximumPoolSize(250);
-        config.setInitializationFailFast(true);
-        config.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
-        config.addDataSourceProperty("serverName", "localhost");
-        config.addDataSourceProperty("port", "3306");
-        config.addDataSourceProperty("databaseName", "fremad");
+        config.setInitializationFailFast(false);
+//        config.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
+        config.setDriverClassName(SqlTablesConstants.JDBC_DRIVER);
+        config.setJdbcUrl(SqlTablesConstants.DB_URL);
+//        config.addDataSourceProperty("serverName", "localhost");
+//        config.addDataSourceProperty("port", "3306");
+//        config.addDataSourceProperty("databaseName", "fremad");
         config.addDataSourceProperty("user", SqlTablesConstants.USER);
         config.addDataSourceProperty("password", SqlTablesConstants.PASS);
-        config.addDataSourceProperty("cachePrepStmts", "false");
+        config.addDataSourceProperty("cachePrepStmts", "true");
+        config.addDataSourceProperty("prepStmtCacheSize", "250");
+        config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+        config.addDataSourceProperty("useServerPrepStmts", "true");
+
 
         ds = new HikariDataSource(config);
     }

@@ -103,7 +103,7 @@ public class UserResource {
 	public UserMetaObject updateUserMeta(@RequestBody UserMetaObject userMetaObject, @Context final HttpServletResponse response){
 		LOG.debug("Update userMeta ' " + userMetaObject.getUserId() + "'");
 		UserMetaObject userMetaResponse = userProcessor.updateUserMeta(userMetaObject);
-		if(!userProcessor.addUserMeta(userMetaObject)){
+		if(userMetaResponse == null){
 			response.setStatus(Response.Status.NO_CONTENT.getStatusCode());
 		}
 		return userMetaResponse;
