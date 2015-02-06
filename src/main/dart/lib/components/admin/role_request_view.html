@@ -1,5 +1,12 @@
 <h1>Role requests</h1>
-
+<div class="filters">
+  <form>
+    <div class="clearfix">
+      <input type="button" class="adminButton clearButton" value="accepted" ng-click="setShowAccepted(true)">
+      <input type="button" class="adminButton clearButton" value="waiting" ng-click="setShowAccepted(false)">
+    </div>
+  </form>
+</div>
 <ul id="request-list">
     <li ng-repeat="request in roleRequestList" ng-show="filter(request)">
     <div class="item-name" ng-click="selectRequest(request.id)">

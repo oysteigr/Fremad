@@ -19,6 +19,7 @@ class ShowAdminPlayersComponent {
   PlayerList playerListObject;
   List<Player> playerList;
   Player currentPlayer = new Player(-1, "", "", 0, 0, "", "", -1, false);
+  int selectedTeam = 9;
   
   ShowAdminPlayersComponent(this._http){
     initPlayer();
@@ -141,6 +142,17 @@ class ShowAdminPlayersComponent {
   void initPlayer(){
     html.window.console.info("Is in initPlayer");
     currentPlayer = new Player(-1, "", "", 0, 0, "", "", -1, false);
+  }
+  
+  bool filter(Player player){
+    if(selectedTeam == player.team || selectedTeam == 9){
+      return true;
+    }
+    return false;
+  }
+  
+  void setTeam(int teamId){
+    this.selectedTeam = teamId;
   }
   
 }

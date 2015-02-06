@@ -144,4 +144,9 @@ class ShowAdminRoleRequestComponent {
     }
     return list.first;
   }
+  
+  void setShowAccepted(bool show){
+    showAccepted = show;
+  }
+  
 }

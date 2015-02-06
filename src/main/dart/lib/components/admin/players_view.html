@@ -1,7 +1,14 @@
 <h1>Players</h1>
-
+<div class="filters">
+  <form>
+    <div class="clearfix">
+      <input ng-repeat="team in teamList.reversed" type="button" class="adminButton clearButton" value="{{team.name}}" ng-click="setTeam(team.id)">
+      <input type="button" class="adminButton clearButton" value="all" ng-click="setTeam(9)">
+    </div>
+  </form>
+</div>
 <ul id="player-list">
-    <li ng-repeat="player in playerList">
+    <li ng-repeat="player in playerList" ng-show="filter(player)">
     <div class="item-name" ng-click="selectPlayer(player.id)">
       {{player.lastName}}, {{player.firstName}}
     </div>
