@@ -124,6 +124,7 @@ public interface SqlTablesConstants {
 			+ " `requested_role` ENUM('SUPPORTER', 'PLAYER', 'AUTHOR', 'EDITOR', 'ADMIN', 'SUPER') NOT NULL,"
 			+ " `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,"
 			+ " `accepted` tinyint(1) NOT NULL DEFAULT 0,"
+			+ " `accepted_by` int(11) NOT NULL DEFAULT -1,"
 			+ " CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),"
 			+ " PRIMARY KEY (`id`)"
 			+ " ) ENGINE=InnoDB DEFAULT CHARSET=utf8",

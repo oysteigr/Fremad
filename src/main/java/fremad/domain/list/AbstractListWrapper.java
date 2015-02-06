@@ -31,7 +31,7 @@ public abstract class AbstractListWrapper<T> implements Iterable<T>{
 		return list;
 	}
 	
-	protected void addAll(Iterable<T> elements){
+	public void addAll(Iterable<T> elements){
 		if(elements != null){
 			for (T element : elements){
 				list.add(element);

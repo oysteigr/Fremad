@@ -2,38 +2,38 @@ package fremad.domain.user;
 
 import java.sql.Timestamp;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.annotate.JsonTypeName;
 
-@XmlRootElement(name = "UserRoleRequestObject")
+@JsonTypeName(value = "UserRoleRequestObject")
 public class UserRoleRequestObject {
 	private int id;
 	private int userId;
 	private int requestedRole;
 	private Timestamp date;
-	private boolean validated;
-	
+	private boolean accepted;
+	private int acceptedByUser;
+
 	
 	public UserRoleRequestObject() {
-		super();
 	}
 	public UserRoleRequestObject(int id, int userId,
-			int requestedRole, Timestamp date, boolean validated) {
+			int requestedRole, Timestamp date, boolean accepted) {
 		super();
 		this.id = id;
 		this.userId = userId;
 		this.requestedRole = requestedRole;
 		this.date = date;
-		this.validated = validated;
+		this.accepted = accepted;
 	}
 	
 	public UserRoleRequestObject(int id, int userId,
-			String requestedRole, Timestamp date, boolean validated) {
+			String requestedRole, Timestamp date, boolean accepted) {
 		super();
 		this.id = id;
 		this.userId = userId;
-		this.setRequestedRole(requestedRole);
+		this.setRequestedRoleByString(requestedRole);
 		this.date = date;
-		this.validated = validated;
+		this.accepted = accepted;
 	}
 	public int getId() {
 		return id;
@@ -53,7 +53,7 @@ public class UserRoleRequestObject {
 	public void setRequestedRole(int requestedRole) {
 		this.requestedRole = requestedRole;
 	}
-	public void setRequestedRole(String requestedRole) {
+	public void setRequestedRoleByString(String requestedRole) {
 		this.requestedRole = UserRoleEnum.valueOf(requestedRole).getRoleValue();
 	}
 	public Timestamp getDate() {
@@ -62,10 +62,17 @@ public class UserRoleRequestObject {
 	public void setDate(Timestamp date) {
 		this.date = date;
 	}
-	public boolean isValidated() {
-		return validated;
+	public boolean isAccepted() {
+		return accepted;
 	}
-	public void setValidated(boolean validated) {
-		this.validated = validated;
+	public void setAccepted(boolean accepted) {
+		this.accepted = accepted;
 	}
+	public int getAcceptedByUser() {
+		return acceptedByUser;
+	}
+	public void setAcceptedByUser(int acceptedByUser) {
+		this.acceptedByUser = acceptedByUser;
+	}
+	
 }

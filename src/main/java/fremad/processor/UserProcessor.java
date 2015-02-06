@@ -156,14 +156,28 @@ public class UserProcessor {
 	
 	public UserRoleRequestListObject getUserRoleRequests(){
 		int userRole = getUserRole().getRoleValue();
+		userRole = 6;
 		UserRoleRequestListObject response = userService.getUserRoleRequests();
 		UserRoleRequestListObject filteredResponse = new UserRoleRequestListObject();
 		for(UserRoleRequestObject request : response){
-			if (request.getRequestedRole() < userRole){
+			if (request.getRequestedRole() < userRole && userService.getUser(request.getUserId()).isValidated()){
 				filteredResponse.add(request);
 			}
 		}
 		return filteredResponse;
+	}
+	
+	public boolean grantUserRoleRequest(UserRoleRequestObject userRoleRequestObject) {
+		UserObject userAsking = userService.getUser(userRoleRequestObject.getUserId());
+		userAsking.setRole(userRoleRequestObject.getRequestedRole());
+		if(userService.updateUser(userAsking) == null){
+			return false;
+		}
+		return userService.grantUserRoleRequest(userRoleRequestObject.getId());
+	}
+
+	public UserRoleRequestObject deleteUserRoleRequest(UserRoleRequestObject userRoleRequestObject) {
+		return userService.deleteUserRoleRequest(userRoleRequestObject);
 	}
 	
 	private void userIsValidated(UserObject userObject) throws Exception{
@@ -181,6 +195,8 @@ public class UserProcessor {
 		}
 		
 	}
+
+
 
 
 	

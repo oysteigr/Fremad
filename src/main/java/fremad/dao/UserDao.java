@@ -9,6 +9,7 @@ import fremad.domain.user.UserMetaObject;
 import fremad.domain.user.UserObject;
 import fremad.domain.user.UserRoleEnum;
 import fremad.domain.user.UserRoleRequestListObject;
+import fremad.domain.user.UserRoleRequestObject;
 
 public interface UserDao {
 	
@@ -34,8 +35,9 @@ public interface UserDao {
 	boolean addUserRoleRequest(int userId, UserRoleEnum role);
 	UserRoleRequestListObject getUserRoleRequests ();
 	boolean grantUserRoleRequest(int id);
-	boolean deleteUserRoleRequest(int id);
+	UserRoleRequestObject deleteUserRoleRequest(UserRoleRequestObject userRoleRequestObject);
 	boolean deleteUserRoleRequestByUser(int userId);
+	
 
 	
 }

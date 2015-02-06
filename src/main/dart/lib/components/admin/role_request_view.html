@@ -1,0 +1,25 @@
+<h1>Role requests</h1>
+
+<ul id="request-list">
+    <li ng-repeat="request in roleRequestList" ng-show="filter(request)">
+    <div class="item-name" ng-click="selectRequest(request.id)">
+      {{getFullNameFromUser(request.userId)}} <span class="role">{{getRoleFromRequest(request)}}</span>
+    </div>
+    <div class="item-edit" ng-show="isActive(request.id)">
+      <form>
+        <div class="clearfix" ng-hide="request.accepted">
+          <span class="user-attr "> <p class="user-label">User id:</p> <p class="user-value">{{request.userId}}</p></span>
+          <span class="user-attr "> <p class="user-label">Date:</p> <p class="user-value">{{request.getDateString()}}</p></span>
+          <input type="button" class="adminButton redButton" value="delete" ng-click="deleteRequest()">
+          <input type="button" class="adminButton greenButton" value="accept" ng-click="acceptRequest()">
+        </div>
+        <div class="clearfix" ng-show="request.accepted">
+          <span class="user-attr "> <p class="user-label">User id:</p> <p class="user-value">{{request.userId}}</p></span>
+          <span class="user-attr "> <p class="user-label">Date:</p> <p class="user-value">{{request.getDateString()}}</p></span>
+          <span class="user-attr "> <p class="user-label">Date:</p> <p class="user-value">{{request.getDateString()}}</p></span>
+        </div>
+      </form>
+  </div>
+  </li>
+</ul>
+

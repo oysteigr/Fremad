@@ -19,6 +19,7 @@ class ShowAdminUsersComponent {
   List<User> userList;
   int selectedUser = -1;
   UserMeta currentMeta;
+  int roleFilter = 9;
   
   
   ShowAdminUsersComponent(this._http){
@@ -43,7 +44,7 @@ class ShowAdminUsersComponent {
       .catchError((e) {
         print(e);
         usersLoaded = false;
-        html.window.console.info("Could not load rest/league/getUsers.json");
+        html.window.console.info("Could not load rest/user/getUsers.json");
       });
   } 
   
@@ -87,6 +88,23 @@ class ShowAdminUsersComponent {
     });
     selectedUser = -1;
     html.window.console.info("Deleting user by id: " + selectedUser.toString() + " succeded!");
+  }
+  
+  void setRoleFilter(int role){ 
+    roleFilter = role;
+  }
+  
+  bool filter(User user){
+    if(roleFilter == 9){
+      return true;
+    }else if(roleFilter == 8 && !user.validated){
+      return true;
+    }else if(user.role == roleFilter && user.validated){
+      return true;
+    }else if(user.role == 6 && roleFilter == 5 && user.validated){
+      return true;
+    }
+    return false;
   }
     
   void selectUser(int id){
@@ -217,6 +235,9 @@ class ShowAdminUsersComponent {
         currentMeta = new UserMeta.fromJson(response.data);
         html.window.console.info("Success on updating user meta");
         html.window.console.info(currentMeta);
+        if(getMetaFromUser(currentMeta.userId) == null){
+          userMetaList.add(currentMeta);
+        }
         cancelMeta();
         selectedUser = -1;
       })

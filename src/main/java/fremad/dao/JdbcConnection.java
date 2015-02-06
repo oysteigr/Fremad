@@ -66,13 +66,13 @@ public class JdbcConnection {
 		LOG.info("Closing statement :D: " + prpstm.toString());
 		try {
 
-			if(prpstm != null){
+			if(prpstm != null  && !prpstm.isClosed()){
 				prpstm.close();
 			}
-			if(res != null){
+			if(res != null && !res.isClosed()){
 				res.close();
 			}
-			if(conn != null){
+			if(conn != null && !conn.isClosed()){
 				conn.close();
 			}
 		} catch (SQLException e) {
@@ -83,13 +83,13 @@ public class JdbcConnection {
 		LOG.info("Closing statement after: " + func);
 		try {
 
-			if(prpstm != null){
+			if(prpstm != null  && !prpstm.isClosed()){
 				prpstm.close();
 			}
-			if(res != null){
+			if(res != null && !res.isClosed()){
 				res.close();
 			}
-			if(conn != null){
+			if(conn != null && !conn.isClosed()){
 				conn.close();
 			}
 		} catch (SQLException e) {

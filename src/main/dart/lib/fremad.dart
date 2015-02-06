@@ -27,6 +27,8 @@ import 'models/user_logon.dart';
 import 'models/user_role_enum.dart';
 import 'models/user_meta.dart';
 import 'models/user_meta_list.dart';
+import 'models/role_request.dart';
+import 'models/role_request_list.dart';
 
 part 'components/header_component.dart';
 part 'components/main_menu_component.dart';
@@ -54,6 +56,7 @@ part 'components/admin/leagues_view_component.dart';
 part 'components/admin/teams_view_component.dart';
 part 'components/admin/events_view_component.dart';
 part 'components/admin/users_view_component.dart';
+part 'components/admin/role_request_view_component.dart';
 
 part 'components/boxes/table_box_component.dart';
 part 'components/boxes/match_box_component.dart';
@@ -98,6 +101,7 @@ class FremadApp extends Module {
     bind(ShowAdminEventsComponent);
     bind(ShowAdminPlayersComponent);
     bind(ShowAdminUsersComponent);
+    bind(ShowAdminRoleRequestComponent);
     
     bind(ShowBoxTableComponent);
     bind(ShowBoxMatchComponent);

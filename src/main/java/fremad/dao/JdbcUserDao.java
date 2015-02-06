@@ -1,12 +1,14 @@
 package fremad.dao;
 
-import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import fremad.domain.user.UserListObject;
@@ -25,26 +27,53 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 	private static final Logger LOG = LoggerFactory.getLogger(JdbcUserDao.class);
 	
 	//----------------------USER METHODS----------------------
+	
+    private SimpleJdbcInsert insertEmployee;
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+
+	public UserListObject getUserss() {
+        String query = "select * from employees";
+        UserListObject users = new UserListObject();
+        
+        users.addAll(namedParameterJdbcTemplate.getJdbcOperations().query(query, new BeanPropertyRowMapper<>(UserObject.class)));
+        return users;
+    }
+	
+/*    @Autowired
+    public void setDataSource(DataSource dataSource) {
+        this.insertEmployee = new SimpleJdbcInsert(dataSource).withTableName(SqlTablesConstants.SQL_TABLE_NAME_USER);
+        this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+    }
+  */  
 	@Override
 	public UserListObject getUsers(){
 		LOG.debug("in getUsers");
 		UserListObject users = new UserListObject();
 		connect();		
-		res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER);
+		//res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER);
+		ResultSet rs = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER);
 		
 		try {
-			while (res!= null && res.next()) {
+			while (rs!= null && rs.next()) {
 				users.add(new UserObject(
-						res.getInt("id"), 
-						res.getString("user_name"), 
-						UserRoleEnum.valueOf(res.getString("role")).getRoleValue(),
-						res.getTimestamp("created"), 
-						res.getBoolean("validated")));
+						rs.getInt("id"), 
+						rs.getString("user_name"), 
+						UserRoleEnum.valueOf(rs.getString("role")).getRoleValue(),
+						rs.getTimestamp("created"), 
+						rs.getBoolean("validated")));
 			} 
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 		} finally {
+			try {
+				if(rs != null && !rs.isClosed()){
+					rs.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			closeAll();
 		}
 		
@@ -237,22 +266,31 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		LOG.debug("in getUsersMeta");
 		UserMetaListObject userMeta = new UserMetaListObject();
 		connect();		
-		res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_META);
+		//res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_META);
+		ResultSet rs = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_META);
 		try {
-			while (res!= null && res.next()) {
+			while (rs!= null && rs.next()) {
 				userMeta.add(new UserMetaObject(
-						res.getInt("user_id"),
-						res.getString("first_name"),
-						res.getString("last_name"),
-						res.getString("phone_number"),
-						res.getDate("birthday"),
-						res.getString("home_town"),
-						res.getString("profession")));
+						rs.getInt("user_id"),
+						rs.getString("first_name"),
+						rs.getString("last_name"),
+						rs.getString("phone_number"),
+						rs.getDate("birthday"),
+						rs.getString("home_town"),
+						rs.getString("profession")));
 			} 
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 		} finally {
 			closeAll();
+			try {
+				if(rs != null && !rs.isClosed()){
+					rs.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		return userMeta;
@@ -522,22 +560,35 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		connect();
 		
 		
-		res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_ROLE_REQUEST);
+		//res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_ROLE_REQUEST);
+		ResultSet rs = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_ROLE_REQUEST);
 		try {
-			while (res.next()) {
-				userRequests.add(new UserRoleRequestObject(res.getInt("id"), res.getInt("user_id"), 
-						res.getString("requestedRole"), res.getTimestamp("date"), res.getBoolean("validated")));
+			while (rs.next()) {
+				userRequests.add(new UserRoleRequestObject(
+						rs.getInt("id"), 
+						rs.getInt("user_id"), 
+						rs.getString("requested_role"), 
+						rs.getTimestamp("date"), 
+						rs.getBoolean("accepted")));
 			} 
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 		} finally {
 			closeAll();
+			try {
+				if(rs != null && !rs.isClosed()){
+					rs.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return userRequests;
 	}
 
 	@Override
-	public boolean grantUserRoleRequest(int id) {
+	public boolean grantUserRoleRequest(int requestId) {
 		String sql = "UPDATE " + SqlTablesConstants.SQL_TABLE_NAME_USER_ROLE_REQUEST + " SET "
 				+ " accepted = ? "
 				+ " WHERE id = ?";
@@ -548,7 +599,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		try {
 			prpstm = conn.prepareStatement(sql);
 			prpstm.setBoolean(1,true);
-			prpstm.setInt(2, id);
+			prpstm.setInt(2, requestId);
 			prpstm.executeUpdate();
 		} catch (SQLException e) {
 			LOG.error(e.toString());
@@ -560,7 +611,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 	}
 
 	@Override
-	public boolean deleteUserRoleRequest(int id) {
+	public UserRoleRequestObject deleteUserRoleRequest(UserRoleRequestObject userRoleRequestObject) {
 		String sql = "DELETE FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_ROLE_REQUEST + " WHERE "
 				+ " id = ?";
 		
@@ -570,15 +621,15 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		
 		try {
 			prpstm = conn.prepareStatement(sql);
-			prpstm.setInt(1, id);
+			prpstm.setInt(1, userRoleRequestObject.getId());
 			prpstm.executeUpdate();
 		} catch (SQLException e) {
 			LOG.error(e.toString());
-			return false;
+			return null;
 		} finally {
 			closeAll();
 		}
-		return true;
+		return userRoleRequestObject;
 	}
 
 

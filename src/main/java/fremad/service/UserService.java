@@ -14,6 +14,7 @@ import fremad.domain.user.UserMetaObject;
 import fremad.domain.user.UserObject;
 import fremad.domain.user.UserRoleEnum;
 import fremad.domain.user.UserRoleRequestListObject;
+import fremad.domain.user.UserRoleRequestObject;
 
 @Service
 @Scope("singleton")
@@ -90,11 +91,11 @@ public class UserService {
 	public UserRoleRequestListObject getUserRoleRequests (){
 		return userDao.getUserRoleRequests();
 	}
-	public boolean grantUserRoleRequest(int id){
-		return userDao.grantUserRoleRequest(id);
+	public boolean grantUserRoleRequest(int requestId){
+		return userDao.grantUserRoleRequest(requestId);
 	}
-	public boolean deleteUserRoleRequest(int id){
-		return userDao.deleteUserRoleRequest(id);
+	public UserRoleRequestObject deleteUserRoleRequest(UserRoleRequestObject userRoleRequestObject){
+		return userDao.deleteUserRoleRequest(userRoleRequestObject);
 	}
 	public boolean deleteUserRoleRequestByUser(int userId){
 		return userDao.deleteUserRoleRequestByUser(userId);

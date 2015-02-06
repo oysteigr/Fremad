@@ -122,7 +122,11 @@ class ShowAdminPlayersComponent {
   }
   
   void selectPlayer(int id){
-    selectedPlayer = id;
+    if(selectedPlayer == id){
+      selectedPlayer = -1;
+    }else{
+      selectedPlayer = id;
+    }
   }
   
   bool isActive(int id){

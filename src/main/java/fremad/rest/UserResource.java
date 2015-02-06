@@ -24,6 +24,7 @@ import fremad.domain.user.UserMetaListObject;
 import fremad.domain.user.UserMetaObject;
 import fremad.domain.user.UserObject;
 import fremad.domain.user.UserRoleRequestListObject;
+import fremad.domain.user.UserRoleRequestObject;
 import fremad.exception.AbstractRestException;
 import fremad.processor.UserProcessor;
 
@@ -146,8 +147,30 @@ public class UserResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public UserRoleRequestListObject getUserRoleRequests(){
-		LOG.debug("getUserRole");
+		LOG.debug("getUserRoleRequests");
 		return userProcessor.getUserRoleRequests();
+	}
+	
+	@RequestMapping("/grantUserRoleRequest")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean grantUserRoleRequest(@RequestBody UserRoleRequestObject userRoleRequestObject, @Context final HttpServletResponse response){
+		LOG.debug("grantUserRoleRequest for id: " + userRoleRequestObject.getId());
+		boolean grantResponse = userProcessor.grantUserRoleRequest(userRoleRequestObject);
+		if(!grantResponse){
+			response.setStatus(Response.Status.NO_CONTENT.getStatusCode());
+		}
+		return grantResponse;
+	}
+	
+	@RequestMapping("/deleteUserRoleRequest")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public UserRoleRequestObject deleteUserRoleRequest(@RequestBody UserRoleRequestObject userRoleRequestObject){
+		LOG.debug("deleteUserRoleRequest");
+		return userProcessor.deleteUserRoleRequest(userRoleRequestObject);
 	}
 	
 	

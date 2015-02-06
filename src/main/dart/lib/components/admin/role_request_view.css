@@ -1,11 +1,11 @@
-#user-list{
+#request-list{
   width: 100%;
   font-size: 18px;
   list-style-type: none;
   padding: 0 0 0 0;
 }
 
-#user-list li{
+#request-list li{
   width: 100%;
   background-color: #FFFFFF;
   margin-bottom: 5px;
@@ -15,27 +15,8 @@
   border-radius: 8px;
 }
 
-#user-list input{
+#request-list input{
   font-size: 18px;
-}
-
-#add-element{
-  font-size: 18px;
-  padding: 0 0 0 0;
-  width: 100%;
-
-}
-
-#add-element input{
-  font-size: 18px;
-}
-
-#add-active{
-  border-style: solid;
-  border-color: #AAAAAA;
-  border-width: 1px;
-  border-radius: 8px;
-  background-color: #FFFFFF;
 }
 
 .item-name{
@@ -50,10 +31,6 @@
   border-top-style: solid;
   border-top-color: #AAAAAA;
   border-top-width: 1px;
-}
-
-.filters {
-  margin-bottom: 10px;
 }
 
 .adminButton{
@@ -84,13 +61,6 @@
   background-color:#fc8d83;
   border:1px solid #d83526;
   text-shadow:0px 1px 0px #b23e35;
-}
-.clearButton {
-  background-color: transparent;
-  border:1px solid #DDDDDD;
-  font-size: 14px;
-  color: #AAAAAA;
-  text-shadow:0px 1px 0px #dddddd;
 }
 
 .admin-select select {
