@@ -12,9 +12,10 @@ public class PlayerObject {
 	private String possition;
 	private String preferredFoot;
 	private int team;
+	private boolean active;
 	
 	public PlayerObject(int id, String firstName, String lastName, int number,
-			int memberSince, String possition, String preferredFoot, int team) {
+			int memberSince, String possition, String preferredFoot, int team, boolean active) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -23,6 +24,7 @@ public class PlayerObject {
 		this.possition = possition;
 		this.preferredFoot = preferredFoot;
 		this.team = team;
+		this.active = active;
 	}
 	
 	public PlayerObject(){
@@ -75,5 +77,11 @@ public class PlayerObject {
 	}
 	public void setMemberSince(int memberSince) {
 		this.memberSince = memberSince;
+	}
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 }

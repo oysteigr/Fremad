@@ -38,7 +38,8 @@ public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
 					res.getInt("member_since"),
 					res.getString("position"),
 					res.getString("preferred_foot"),
-					res.getInt("team")));
+					res.getInt("team"),
+					res.getBoolean("active")));
 			}
 		} catch (SQLException e) {
 			LOG.error(e.toString());
@@ -71,7 +72,8 @@ public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
 					res.getInt("member_since"),
 					res.getString("position"),
 					res.getString("preferred_foot"),
-					res.getInt("team")));
+					res.getInt("team"),
+					res.getBoolean("active")));
 			}
 		} catch (SQLException e) {
 			LOG.error(e.toString());
@@ -85,8 +87,8 @@ public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
 	@Override
 	public PlayerObject addPlayer(PlayerObject playerObject) {
 		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER 
-				+ "(first_name, last_name, number, member_since, position, preferred_foot, team) "
-				+ "VALUES(?,?,?,?,?,?,?)";
+				+ "(first_name, last_name, number, member_since, position, preferred_foot, team, active) "
+				+ "VALUES(?,?,?,?,?,?,?,?)";
 		int key = -1;
 		
 		connect();
@@ -101,6 +103,7 @@ public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
 			prpstm.setString(5, playerObject.getPossition());
 			prpstm.setString(6, playerObject.getPreferredFoot());
 			prpstm.setInt(7, playerObject.getTeam());
+			prpstm.setBoolean(8, playerObject.isActive());
 			
 			LOG.debug("Executing: " + prpstm.toString());
 			
@@ -124,7 +127,7 @@ public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
 	public PlayerObject updatePlayer(PlayerObject playerObject) {
 		LOG.debug("in updatePlayer");
 		String sql = "UPDATE " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER 
-				+ " SET first_name=?, last_name=?, number=?, member_since=?, position=?, preferred_foot=?, team=? WHERE id=?";
+				+ " SET first_name=?, last_name=?, number=?, member_since=?, position=?, preferred_foot=?, team=?, active=? WHERE id=?";
 		connect();
 		
 		try {
@@ -136,7 +139,8 @@ public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
 			prpstm.setString(5, playerObject.getPossition());
 			prpstm.setString(6, playerObject.getPreferredFoot());
 			prpstm.setInt(7, playerObject.getTeam());
-			prpstm.setInt(8, playerObject.getId());
+			prpstm.setBoolean(8, playerObject.isActive());
+			prpstm.setInt(9, playerObject.getId());
 			
 			prpstm.executeUpdate();
 		} catch (SQLException e) {

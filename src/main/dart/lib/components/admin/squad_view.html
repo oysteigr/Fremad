@@ -1,0 +1,33 @@
+<h1>Squad</h1>
+  <div class="filters">
+
+    <form>
+      <div class="clearfix">
+        <input ng-repeat="team in teamList.reversed" type="button" class="adminButton clearButton" value="{{team.name}}" ng-click="setTeam(team.id)">
+      </div>
+    </form>
+  </div>
+<h3>Active players</h3>
+<ul id="player-list">
+    <li ng-repeat="player in playerList" ng-show="filter(player, true)">
+    <div class="item-name">
+      <form>
+        {{player.lastName}}, {{player.firstName}}
+        <input type="button" class="adminButton redButton" value="remove" ng-click="updatePlayer(player.id)">
+      </form>
+    </div>
+  </li>
+</ul>
+
+<h3>Inactive players</h3>
+<ul id="player-list">
+    <li ng-repeat="player in playerList" ng-show="filter(player, false)">
+    <div class="item-name">
+      <form>
+        {{player.lastName}}, {{player.firstName}}
+        <input type="button" class="adminButton greenButton" value="add" ng-click="updatePlayer(player.id)">
+      </form>
+    </div>
+  </li>
+</ul>
+

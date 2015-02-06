@@ -18,7 +18,7 @@ class ShowAdminPlayersComponent {
   List<Team> teamList;
   PlayerList playerListObject;
   List<Player> playerList;
-  Player currentPlayer = new Player(-1, "", "", 0, 0, "", "", -1);
+  Player currentPlayer = new Player(-1, "", "", 0, 0, "", "", -1, false);
   
   ShowAdminPlayersComponent(this._http){
     initPlayer();
@@ -140,7 +140,7 @@ class ShowAdminPlayersComponent {
   
   void initPlayer(){
     html.window.console.info("Is in initPlayer");
-    currentPlayer = new Player(-1, "", "", 0, 0, "", "", -1);
+    currentPlayer = new Player(-1, "", "", 0, 0, "", "", -1, false);
   }
   
 }

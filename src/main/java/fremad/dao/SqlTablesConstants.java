@@ -49,6 +49,7 @@ public interface SqlTablesConstants {
 			+ " `position` varchar(64) NOT NULL,"
 			+ " `preferred_foot` enum('left', 'right'),"
 			+ " `team` int(11) NOT NULL,"
+			+ " `active` tinyint(1) NOT NULL DEFAULT 0,"
 			+ " CONSTRAINT `fk_player_team` FOREIGN KEY (`team`) REFERENCES `team` (`id`),"
 			+ " PRIMARY KEY (`id`)"
 			+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8",
