@@ -26,7 +26,7 @@ public class UserService {
 	// ----------------------USER----------------------
 	
 	public UserListObject getUsers(){
-		return userDao.getUsers();
+		return cleanUserList(userDao.getUsers());
 	}	
 	public int addUser(UserObject userObject) throws SQLException{
 		return userDao.addUser(userObject);
@@ -99,5 +99,13 @@ public class UserService {
 	}
 	public boolean deleteUserRoleRequestByUser(int userId){
 		return userDao.deleteUserRoleRequestByUser(userId);
+	}
+	
+	private UserListObject cleanUserList(UserListObject userListObject){
+		for(UserObject user : userListObject){
+			user.setSalt("");
+			user.setPassword("");
+		}
+		return userListObject;
 	}
 }

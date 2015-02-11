@@ -93,7 +93,7 @@ public interface SqlTablesConstants {
 			+ " ) ENGINE=InnoDB DEFAULT CHARSET=utf8",
 		"CREATE TABLE `table_entry` ("
 			+ " `id` int(11) NOT NULL AUTO_INCREMENT,"
-			+ " `league` int(11) NOT NULL,"
+			+ " `league_id` int(11) NOT NULL,"
 			+ " `pos` tinyint NOT NULL,"
 			+ " `team_name` varchar(255) NOT NULL,"
 			+ " `team_id` int(11) NOT NULL,"

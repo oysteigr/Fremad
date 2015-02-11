@@ -63,7 +63,7 @@ CREATE TABLE `event` (
 
 CREATE TABLE `table_entry` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
-	`league` int(11) NOT NULL,
+	`league_id` int(11) NOT NULL,
 	`pos` tinyint NOT NULL,
 	`team_name` varchar(255) NOT NULL,
 	`team_id` int(11) NOT NULL,
@@ -74,8 +74,8 @@ CREATE TABLE `table_entry` (
 	`games_won` int(6) NOT NULL,
 	`games_tied` int(6) NOT NULL,
 	`games_lost` int(6) NOT NULL,
-	CONSTRAINT `fk_table_entry_league` FOREIGN KEY (`league`) REFERENCES `league` (`id`),
-	CONSTRAINT `uc_league_team` UNIQUE (`league`, `team_id`),
+	CONSTRAINT `fk_table_entry_league` FOREIGN KEY (`league_id`) REFERENCES `league` (`id`),
+	CONSTRAINT `uc_league_team` UNIQUE (`league_id`, `team_id`),
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
     

@@ -9,5 +9,6 @@ public interface TableEntryDao {
 	public int deleteTableEntries(int leagueId);
 	public TableEntryListObject getTableEntries(int leagueId);
 	public boolean addTableEntry(TableEntryObject tableEntry);
+	public boolean updateTableEntry(TableEntryObject tableEntry);
 	public TableEntryObject getTableEntry(int tableEntryId);
 }

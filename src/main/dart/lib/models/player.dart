@@ -6,12 +6,12 @@ class Player {
   String lastName;
   int number;
   int memberSince;
-  String possition;
+  String position;
   String preferredFoot;
   int team;
   bool active;
 
-  Player(this.id, this.firstName, this.lastName, this.number, this.memberSince, this.possition, this.preferredFoot, this.team, this.active);
+  Player(this.id, this.firstName, this.lastName, this.number, this.memberSince, this.position, this.preferredFoot, this.team, this.active);
   
   int get getID => this.id;
 
@@ -21,7 +21,7 @@ class Player {
     "lastName": lastName,
     "number": number,
     "memberSince": memberSince,
-    "possition": possition,
+    "position": position,
     "preferredFoot": preferredFoot,
     "team": team,
     "active": active
@@ -29,7 +29,7 @@ class Player {
 
   Player.fromJson(Map<String, dynamic> json) : this(json['id'],
       json['firstName'], json['lastName'], json['number'], json['memberSince'], 
-      json['possition'], json['preferredFoot'], json['team'], json['active']);
+      json['position'], json['preferredFoot'], json['team'], json['active']);
   
   String getNameString(){
     String nameString = "";

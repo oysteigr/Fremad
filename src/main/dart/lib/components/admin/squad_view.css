@@ -64,6 +64,8 @@
   float: right;
   margin-left: 10px;
   font-size: 18px;
+  position: relative;
+  bottom: 2px;  
 }
 
 .adminButton:active {

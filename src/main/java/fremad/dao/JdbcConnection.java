@@ -1,40 +1,35 @@
 package fremad.dao;
 
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 
-import com.zaxxer.hikari.proxy.PreparedStatementProxy;
-
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.PreparedStatement;
-
-import fremad.dao.SqlTablesConstants;
-
 @Repository
-public class JdbcConnection {
+public class JdbcConnection extends JdbcDaoSupport{
 
 	private static final Logger LOG = LoggerFactory.getLogger(JdbcConnection.class);
-	Connection conn = null;
-	PreparedStatement prpstm = null;
-	PreparedStatementProxy proxy = null;
-	HikariGFXDPool pool;  
-	ResultSet res;
+	protected NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+	
+	@Autowired
+	private DataSource dataSource;
+ 
+	@PostConstruct
+	private void initialize() {
+		setDataSource(dataSource);
+		this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(this.getDataSource());
+	}
 	
 	public JdbcConnection() {
-		try {
-			Class.forName(SqlTablesConstants.JDBC_DRIVER);
-			pool = HikariGFXDPool.getInstance();
-		} catch (ClassNotFoundException e) {
-			LOG.error(e.toString());
-		}
-		
 
 	}
 	
-	public void connect(){
+/*	public void connect(){
 		try {
 			conn = pool.getConnection();  
 		} catch (SQLException e) {
@@ -60,40 +55,5 @@ public class JdbcConnection {
 			LOG.error("Update failed: " + e.toString());
 			return -1;
 		}
-	}
-	
-	public void closeAll() {
-		LOG.info("Closing statement :D: " + prpstm.toString());
-		try {
-
-			if(prpstm != null  && !prpstm.isClosed()){
-				prpstm.close();
-			}
-			if(res != null && !res.isClosed()){
-				res.close();
-			}
-			if(conn != null && !conn.isClosed()){
-				conn.close();
-			}
-		} catch (SQLException e) {
-			LOG.error("Connection could not close");
-		}
-	}
-	public void closeAll(String func) {
-		LOG.info("Closing statement after: " + func);
-		try {
-
-			if(prpstm != null  && !prpstm.isClosed()){
-				prpstm.close();
-			}
-			if(res != null && !res.isClosed()){
-				res.close();
-			}
-			if(conn != null && !conn.isClosed()){
-				conn.close();
-			}
-		} catch (SQLException e) {
-			LOG.error("Connection could not close");
-		}
-	}
+	}*/
 }

@@ -2,11 +2,11 @@ package fremad.rest;
 
 
 import javax.annotation.Resource;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,12 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import fremad.dao.JdbcTeamDao;
-import fremad.dao.TeamDao;
 import fremad.domain.TeamObject;
 import fremad.domain.list.TeamListObject;
 import fremad.processor.TeamProcessor;
-import fremad.service.TeamService;
 import fremad.utils.UrlParser;
 
  

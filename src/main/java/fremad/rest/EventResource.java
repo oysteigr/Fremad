@@ -1,11 +1,11 @@
 package fremad.rest;
 
 
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,12 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fremad.domain.EventObject;
-import fremad.domain.LeagueObject;
 import fremad.domain.list.EventListObject;
-import fremad.domain.list.LeagueListObject;
 import fremad.processor.EventProcessor;
-import fremad.processor.LeagueProcessor;
-import fremad.utils.UrlParser;
 
  
 

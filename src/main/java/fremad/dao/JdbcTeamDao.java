@@ -1,16 +1,17 @@
 package fremad.dao;
 
 
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import fremad.domain.TeamObject;
 import fremad.domain.list.TeamListObject;
-import fremad.dao.SqlTablesConstants;
 
 @Repository
 public class JdbcTeamDao extends JdbcConnection implements TeamDao {
@@ -22,128 +23,68 @@ public class JdbcTeamDao extends JdbcConnection implements TeamDao {
 	
 	@Override
 	public TeamListObject getTeams() {
+		LOG.debug("In getTeams()");
+		
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_TEAM;
 		TeamListObject teams = new TeamListObject();
-		connect();		
-		res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_TEAM);
 		
-
-		
-		try {
-			while (res!= null && res.next()) {
-				teams.add(new TeamObject(res.getInt("id"), res.getString("name"), res.getInt("online_id")));
-			}
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-		} finally {
-			closeAll();
-		}
-		
+		teams.addAll(this.namedParameterJdbcTemplate.getJdbcOperations().query(query, new BeanPropertyRowMapper<>(TeamObject.class)));
 		return teams;
 	}
 	
 	@Override
 	public TeamObject getTeam(int teamId) {
-		String sql = "SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_TEAM	+ " WHERE id = ?";
+		LOG.debug("In getTableEntry(tableEntryId)");
 		
-		LOG.debug(sql);
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_TEAM + " where id = :teamId";
+		SqlParameterSource parameters = new MapSqlParameterSource("teamId", teamId);
 		
-		connect();
-
-		
-		try {
-			this.prpstm = this.conn.prepareStatement(sql);
-			prpstm.setInt(1, teamId);
-			res = prpstm.executeQuery();
-			if (res != null && res.next()) {
-				return new TeamObject( res.getInt(1), 
-										res.getString(2), 
-										res.getInt(3));
-			} else {
-				return null;
-			}
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return null;
-		} finally {
-			closeAll();
-		}
+		return namedParameterJdbcTemplate.queryForObject(query, parameters, new BeanPropertyRowMapper<>(TeamObject.class));
 	}
 	
 	@Override
 	public TeamObject addTeam(TeamObject teamObject) {
-		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_TEAM + " "
-				+ "(name, online_id) "
-				+ "VALUES (?, ?)";
+		LOG.debug("In addTeam(teamObject)");
+
+		SimpleJdbcInsert insertTeam = new SimpleJdbcInsert(this.getDataSource())
+			.withTableName(SqlTablesConstants.SQL_TABLE_NAME_TEAM)
+			.usingGeneratedKeyColumns("id");
+		SqlParameterSource parameters = new BeanPropertySqlParameterSource(teamObject);
+		Number newId = insertTeam.executeAndReturnKey(parameters);
 		
-		connect();
-		
-		int key = -1;
-		try {
-			prpstm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			prpstm.setString(1, teamObject.getName());
-			prpstm.setInt(2, teamObject.getOnlineId());
-			
-			LOG.debug("Executing: " + prpstm.toString());
-			
-			prpstm.execute();
-			res = prpstm.getGeneratedKeys();
-			if (res != null && res.next()) {
-				key = res.getInt(1);
-			}
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-		} finally {
-			closeAll();
+		if(newId != null){
+			teamObject.setId(newId.intValue());
+			return teamObject;
 		}
-		teamObject.setId(key);
-		return teamObject;
+		
+		return null;
 	}
 
 	@Override
 	public TeamObject updateTeam(TeamObject teamObject) {
-		String sql = "UPDATE " + SqlTablesConstants.SQL_TABLE_NAME_TEAM + " SET "
-				+ " name = ?, "
-				+ " online_id = ? "
-				+ " WHERE id = ?";
+		LOG.debug("In updateTeam(teamObject)");
 		
-		connect();
+		String updateStatement = "update " + SqlTablesConstants.SQL_TABLE_NAME_TEAM + " set "
+				+ "name = :name, "
+				+ "online_id = :onlineId "
+				+ "where id = :id";
 		
+		SqlParameterSource parameters = new BeanPropertySqlParameterSource(teamObject);
+
+		this.namedParameterJdbcTemplate.update(updateStatement, parameters);
 		
-		LOG.debug("In updateTeam with sql: " + sql);
-		try {
-			prpstm = conn.prepareStatement(sql);
-			prpstm.setString(1, teamObject.getName());
-			prpstm.setInt(2, teamObject.getOnlineId());
-			prpstm.setInt(3, teamObject.getId());
-			prpstm.executeUpdate();
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return null;
-		} finally {
-			closeAll();
-		}
 		return teamObject;
 	}
 	
 	@Override
 	public TeamObject deleteTeam(TeamObject teamObject) {
-		String sql = "DELETE FROM " + SqlTablesConstants.SQL_TABLE_NAME_TEAM + " WHERE "
-				+ " id = ?";
+		LOG.debug("In deleteTeam(teamObject)");
 		
-		connect();
+		String query = "delete from " + SqlTablesConstants.SQL_TABLE_NAME_TEAM + " where id = :teamId";
+		SqlParameterSource parameters = new MapSqlParameterSource("teamId", teamObject.getId());
 		
+		namedParameterJdbcTemplate.update(query, parameters);
 		
-		LOG.debug("In deleteTeam with sql: " + sql);
-		try {
-			prpstm = conn.prepareStatement(sql);
-			prpstm.setInt(1, teamObject.getId());
-			prpstm.executeUpdate();
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return null;
-		} finally {
-			closeAll();
-		}
 		return teamObject;
 	}
 	

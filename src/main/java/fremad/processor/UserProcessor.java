@@ -70,6 +70,7 @@ public class UserProcessor {
 			String[] params = PasswordManager.createHash(userObject.getPassword()).split(":");
 			userObject.setPassword(params[2]);
 			userObject.setSalt(params[1]);
+			userObject.setValidated(false);
 			
 			id = userService.addUser(userObject);
 			userObject.setId(id);

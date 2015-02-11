@@ -4,11 +4,16 @@ import java.sql.SQLException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import fremad.domain.MatchObject;
 import fremad.domain.list.MatchListObject;
-import fremad.dao.SqlTablesConstants;
 
 @Repository
 public class JdbcMatchDao extends JdbcConnection implements MatchDao {
@@ -21,135 +26,92 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 	
 	@Override
 	public int deleteMatch(int matchId) {
-		String sql = "DELETE FROM " + SqlTablesConstants.SQL_TABLE_NAME_MATCH + " WHERE id = ?";
+		LOG.debug("In deleteMatch(matchId)");	
 		
-		connect();
+		String query = "delete from " + SqlTablesConstants.SQL_TABLE_NAME_MATCH + " where id = :matchId";
+		SqlParameterSource parameters = new MapSqlParameterSource("matchId", matchId);
 		
+		return namedParameterJdbcTemplate.update(query, parameters);
 		
-		try {
-			this.prpstm = this.conn.prepareStatement(sql);
-			prpstm.setInt(0, matchId);
-			return prpstm.executeUpdate();
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return -1;
-		} finally {
-			closeAll();
-		}
 	}
 	
 	@Override
 	public int deleteMatches(int leagueId) {
-		String sql = "DELETE FROM " + SqlTablesConstants.SQL_TABLE_NAME_MATCH + " WHERE league = ?";
+		LOG.debug("In deleteMatches(leagueId)");		
 		
-		connect();
+		String query = "delete from " + SqlTablesConstants.SQL_TABLE_NAME_MATCH + " where league = :leagueId";
+		SqlParameterSource parameters = new MapSqlParameterSource("leagueId", leagueId);
 		
-		
-		try {
-			this.prpstm = this.conn.prepareStatement(sql);
-			prpstm.setInt(0, leagueId);
-			return prpstm.executeUpdate();
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return -1;
-		} finally {
-			closeAll();
-		}
+		return namedParameterJdbcTemplate.update(query, parameters);
 	}
 	
 	@Override
 	public MatchObject getMatch(int matchId) {
-		String sql = "SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_MATCH	+ " WHERE id = ?";
+		LOG.debug("In getMatch(matchId)");		
 		
-		connect();
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_MATCH + " where id = :matchId";
+		SqlParameterSource parameters = new MapSqlParameterSource("matchId", matchId);
 		
-		
-		try {
-			this.prpstm = this.conn.prepareStatement(sql);
-			prpstm.setInt(1, matchId);
-			res = prpstm.executeQuery();
-			if (res != null && res.next()) {
-				return new MatchObject( res.getInt(1), 
-										res.getInt(2), 
-										res.getInt(3),
-										res.getBoolean(4), 
-										res.getInt(5), 
-										res.getString(6),
-										res.getInt(7),
-										res.getInt(8),
-										res.getTimestamp(9),
-										res.getString(10));
-			} else {
-				return null;
-			}
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return null;
-		} finally {
-			closeAll();
-		}
+		return namedParameterJdbcTemplate.queryForObject(query, parameters, new BeanPropertyRowMapper<>(MatchObject.class));
 	}
 	
 	@Override
 	public boolean addMatch(MatchObject match) {
-		String sql = "INSERT IGNORE INTO " + SqlTablesConstants.SQL_TABLE_NAME_MATCH + " "
-						+ "(league, team, home_match, fremad_goals, opposing_team_name, opposing_team_id, opposing_team_goals, date, field) "
-						+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		
-		connect();
-		
-		
-		try {
-			prpstm = conn.prepareStatement(sql);
-			prpstm.setInt(1, match.getLeague());
-			prpstm.setInt(2, match.getFremadTeam());
-			prpstm.setInt(3, match.isHomeMatch() ? 1 : 0);
-			prpstm.setInt(4, match.getFremadGoals());
-			prpstm.setString(5, match.getOpposingTeamName());
-			prpstm.setInt(6, match.getOpposingTeamId());
-			prpstm.setInt(7, match.getOpposingTeamGoals());
-			prpstm.setTimestamp(8, match.getDate());
-			prpstm.setString(9, match.getField());
-			prpstm.executeUpdate();
-			
-			return true;
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return false;
-		} finally {
-			closeAll();
-		}
-	}
+		LOG.debug("In addMatch(match)");	
 
-	@Override
-	public MatchListObject getMatches(int teamId) {
+		SimpleJdbcInsert insertMatch = new SimpleJdbcInsert(this.getDataSource())
+			.withTableName(SqlTablesConstants.SQL_TABLE_NAME_MATCH)
+			.usingGeneratedKeyColumns("id");
+		SqlParameterSource parameters = new BeanPropertySqlParameterSource(match);
+		Number newId = insertMatch.executeAndReturnKey(parameters);
 		
-		MatchListObject matchList = new MatchListObject();
-		String sql = "SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_MATCH + " WHERE team = " + teamId;
-		LOG.debug(sql);
-		
-		connect();
-		
-		res = select(sql);
-		try {
-			while (res != null && res.next()) {
-				LOG.debug("Adding match");
-				matchList.add(new MatchObject(res.getInt("id"),
-												res.getInt("league"),
-												res.getInt("team"), 
-												res.getBoolean("home_match"), 
-												res.getInt("fremad_goals"),
-												res.getString("opposing_team_name"), 
-												res.getInt("opposing_team_id"), 
-												res.getInt("opposing_team_goals"),
-												res.getTimestamp("date"),
-												res.getString("field")));
-			}
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-		} finally {
-			closeAll();
+		if(newId != null){
+			match.setId(newId.intValue());
+			return true;
 		}
+		return false;
+	}
+	
+	@Override
+	public boolean updateMatch(MatchObject match) {
+		LOG.debug("In addMatch(match)");		
+		String updateStatement;
+	
+		LOG.debug("Where id and league: " + match.getLeague());
+		updateStatement = "update " + SqlTablesConstants.SQL_TABLE_NAME_MATCH + " set "
+				+ "league = :league, "
+				+ "team = :fremadTeam, "
+				+ "home_match = :homeMatch, "
+				+ "fremad_goals = :fremadGoals, "
+				+ "opposing_team_name = :opposingTeamName, "
+				+ "opposing_team_id = :opposingTeamId, "
+				+ "opposing_team_goals = :opposingTeamGoals, "
+				+ "date = :date, "
+				+ "field = :field where "
+				+ "id = :id";
+		
+		SqlParameterSource parameters = new BeanPropertySqlParameterSource(match);
+
+		this.namedParameterJdbcTemplate.update(updateStatement, parameters);
+		
+		return true;
+
+	}
+	
+	@Override
+	public MatchListObject getMatches(final int teamId) {
+		LOG.debug("In getMatches(teamId)");
+		
+		String query = "select * from" + SqlTablesConstants.SQL_TABLE_NAME_MATCH + "where team = ?";
+		MatchListObject matchList = new MatchListObject();
+		
+		matchList.addAll(this.namedParameterJdbcTemplate.getJdbcOperations().query(query, new PreparedStatementSetter() {
+				@Override
+				public void setValues(java.sql.PreparedStatement ps)
+						throws SQLException {
+					ps.setInt(1, teamId);
+				}
+			}, new BeanPropertyRowMapper<>(MatchObject.class)));
 		
 		LOG.debug("Found " + matchList.size() + " matches");
 		

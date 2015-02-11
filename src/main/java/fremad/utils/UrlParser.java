@@ -1,21 +1,10 @@
 package fremad.utils;
 
-import fremad.domain.LeagueObject;
-import fremad.domain.MatchObject;
-import fremad.domain.TableEntryObject;
-import fremad.domain.TeamObject;
-import fremad.domain.list.MatchListObject;
-import fremad.domain.list.TableEntryListObject;
-import fremad.rest.TestResource;
-import fremad.utils.UrlConstants;
-
 import java.net.URL;
 import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -23,6 +12,13 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import fremad.domain.LeagueObject;
+import fremad.domain.MatchObject;
+import fremad.domain.TableEntryObject;
+import fremad.domain.TeamObject;
+import fremad.domain.list.MatchListObject;
+import fremad.domain.list.TableEntryListObject;
 
 public final class UrlParser  extends UrlConstants{
 	private static final Logger LOG = LoggerFactory.getLogger(UrlParser.class);

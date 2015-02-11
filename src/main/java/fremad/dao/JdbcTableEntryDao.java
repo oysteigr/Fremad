@@ -4,11 +4,16 @@ import java.sql.SQLException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import fremad.domain.TableEntryObject;
 import fremad.domain.list.TableEntryListObject;
-import fremad.dao.SqlTablesConstants;
 
 @Repository
 public class JdbcTableEntryDao extends JdbcConnection implements TableEntryDao {
@@ -21,146 +26,87 @@ public class JdbcTableEntryDao extends JdbcConnection implements TableEntryDao {
 	
 	@Override
 	public int deleteTableEntry (int tableEntryId) {
-		String sql = "DELETE FROM " + SqlTablesConstants.SQL_TABLE_NAME_TABLE_ENTRY + " WHERE id = ?";
+		LOG.debug("In deleteTableEntry(tableEntryId)");
 		
-		connect();
+		String query = "delete from " + SqlTablesConstants.SQL_TABLE_NAME_TABLE_ENTRY + " where id = :tableEntryId";
+		SqlParameterSource parameters = new MapSqlParameterSource("tableEntryId", tableEntryId);
 		
-		
-		try {
-			this.prpstm = this.conn.prepareStatement(sql);
-			prpstm.setInt(0, tableEntryId);
-			return prpstm.executeUpdate();
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return -1;
-		} finally {
-			closeAll();
-		}
+		return namedParameterJdbcTemplate.update(query, parameters);
 	}
 	
 	@Override
 	public int deleteTableEntries(int leagueId) {
-		String sql = "DELETE FROM " + SqlTablesConstants.SQL_TABLE_NAME_TABLE_ENTRY + " WHERE league = ?";
+		LOG.debug("In deleteTableEntries(leagueId)");
 		
-		connect();
+		String query = "delete from " + SqlTablesConstants.SQL_TABLE_NAME_TABLE_ENTRY + " where league_id = :leagueId";
+		SqlParameterSource parameters = new MapSqlParameterSource("leagueId", leagueId);
 		
-		
-		try {
-			this.prpstm = this.conn.prepareStatement(sql);
-			prpstm.setInt(0, leagueId);
-			return prpstm.executeUpdate();
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return -1;
-		} finally {
-			closeAll();
-		}
+		return namedParameterJdbcTemplate.update(query, parameters);
 	}
 	
 	@Override
 	public TableEntryObject getTableEntry(int tableEntryId) {
-		String sql = "SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_TABLE_ENTRY	+ " WHERE id = ?";
+		LOG.debug("In getTableEntry(tableEntryId)");		
 		
-		connect();
-
-		try {
-			this.prpstm = this.conn.prepareStatement(sql);
-			prpstm.setInt(1, tableEntryId);
-			res = prpstm.executeQuery();
-			if (res != null && res.next()) {
-				return new TableEntryObject( res.getInt(1), 
-										res.getInt(2), 
-										res.getInt(3),
-										res.getString(4), 
-										res.getInt(5), 
-										res.getInt(6),
-										res.getInt(7),
-										res.getInt(8),
-										res.getInt(9),
-										res.getInt(10),
-										res.getInt(11),
-										res.getInt(12));
-			} else {
-				return null;
-			}
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return null;
-		} finally {
-			closeAll();
-		}
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_TABLE_ENTRY + " where id = :tableEntryId";
+		SqlParameterSource parameters = new MapSqlParameterSource("tableEntryId", tableEntryId);
+		
+		return namedParameterJdbcTemplate.queryForObject(query, parameters, new BeanPropertyRowMapper<>(TableEntryObject.class));
 	}
 	
 	@Override
 	public boolean addTableEntry(TableEntryObject tableEntry) {
-		String sql = "INSERT IGNORE INTO " + SqlTablesConstants.SQL_TABLE_NAME_TABLE_ENTRY + " "
-						+ "(league, pos, team_name, team_id, match_count, goals_scored, "
-						+ "goals_conceded, points, games_won, games_tied, games_lost) "
-						+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		LOG.debug("In addTableEntry(tableEntry)");	
+
+		SimpleJdbcInsert insertTableEntry = new SimpleJdbcInsert(this.getDataSource())
+			.withTableName(SqlTablesConstants.SQL_TABLE_NAME_TABLE_ENTRY)
+			.usingGeneratedKeyColumns("id");
+		SqlParameterSource parameters = new BeanPropertySqlParameterSource(tableEntry);
+		Number newId = insertTableEntry.executeAndReturnKey(parameters);
 		
-		connect();
-		
-		
-		try {
-			prpstm = conn.prepareStatement(sql);
-			prpstm.setInt(1, tableEntry.getLeagueId());
-			prpstm.setInt(2, tableEntry.getPos());
-			prpstm.setString(3, tableEntry.getTeamName());
-			prpstm.setInt(4, tableEntry.getTeamId());
-			prpstm.setInt(5, tableEntry.getMatchCount());
-			prpstm.setInt(6, tableEntry.getGoalsScored());
-			prpstm.setInt(7, tableEntry.getGoalsConceded());
-			prpstm.setInt(8, tableEntry.getPoints());
-			prpstm.setInt(9, tableEntry.getGamesWon());
-			prpstm.setInt(10, tableEntry.getGamesTied());
-			prpstm.setInt(11, tableEntry.getGamesLost());
-			prpstm.executeUpdate();
-			
+		if(newId != null){
 			return true;
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return false;
-		} finally {
-			closeAll();
 		}
+		return false;
+	}
+	
+	@Override
+	public boolean updateTableEntry(TableEntryObject tableEntry) {
+		LOG.debug("In updateTableEntry(tableEntry)");
+		
+		String updateStatement = "update " + SqlTablesConstants.SQL_TABLE_NAME_TABLE_ENTRY + " set "
+				+ "pos = :pos, "
+				+ "team_name = :teamName, "
+				+ "match_count = :matchCount, "
+				+ "goals_scored = :goalsScored, "
+				+ "goals_conceded = :goalsConceded, "
+				+ "points = :points, "
+				+ "games_won = :gamesWon, "
+				+ "games_tied = :gamesTied, "
+				+ "games_lost = :gamesLost "
+				+ "where id = :id";
+		
+		
+		SqlParameterSource parameters = new BeanPropertySqlParameterSource(tableEntry);
+
+		this.namedParameterJdbcTemplate.update(updateStatement, parameters);
+		return true;
 	}
 
 	@Override
-	public TableEntryListObject getTableEntries(int leagueId) {
+	public TableEntryListObject getTableEntries(final int leagueId) {
+		LOG.debug("In getTableEntries(leagueId)");
 		
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_TABLE_ENTRY + " where league_id = ?";
 		TableEntryListObject tableEntryList = new TableEntryListObject();
-		String sql = "SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_TABLE_ENTRY + " WHERE league = " + leagueId;
-		LOG.debug(sql);
 		
-		connect();
-		
-		res = select(sql);
-		
-
-		
-		try {
-			while (res.next()) {
-				LOG.debug("Adding TableEntryObject");
-				tableEntryList.add(new TableEntryObject( res.getInt(1), 
-												res.getInt(2), 
-												res.getInt(3),
-												res.getString(4), 
-												res.getInt(5), 
-												res.getInt(6),
-												res.getInt(7),
-												res.getInt(8),
-												res.getInt(9),
-												res.getInt(10),
-												res.getInt(11),
-												res.getInt(12)));
-			}
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-		} finally {
-			closeAll();
-		}
-		
-		LOG.debug("Found " + tableEntryList.size() + " tableEntries");
+		tableEntryList.addAll(this.namedParameterJdbcTemplate.getJdbcOperations().query(query, new PreparedStatementSetter() {
+				@Override
+				public void setValues(java.sql.PreparedStatement ps)
+						throws SQLException {
+					ps.setInt(1, leagueId);
+				}
+			}, new BeanPropertyRowMapper<>(TableEntryObject.class)));
 		
 		return tableEntryList;
 	}

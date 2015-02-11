@@ -27,6 +27,9 @@ public class MatchService {
 	public boolean addMatch(MatchObject match) {
 		return jdbcMatchDao.addMatch(match);
 	}
+	public boolean updateMatch(MatchObject match) {
+		return jdbcMatchDao.updateMatch(match);
+	}
 	public int addMatches(MatchListObject matchList) {
 		int matchesAdded = 0;
 		for (MatchObject match : matchList) {

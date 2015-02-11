@@ -25,7 +25,7 @@ public class JdbcArticleDao extends JdbcConnection implements ArticleDao {
 	public ArticleListObject getArticles(String articleType) {
 		ArticleListObject articles = new ArticleListObject();
 
-		try {
+/*		try {
 			this.prpstm = this.conn.prepareStatement("SELECT * FROM "
 					+ SqlTablesConstants.SQL_TABLE_NAME_ARTICLE
 					+ " WHERE type = ?");
@@ -41,7 +41,7 @@ public class JdbcArticleDao extends JdbcConnection implements ArticleDao {
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 		}
-
+*/
 		return articles;
 	}
 
@@ -55,7 +55,7 @@ public class JdbcArticleDao extends JdbcConnection implements ArticleDao {
 
 		int key = -1;
 
-		try {
+/*		try {
 			prpstm = conn
 					.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			prpstm.setInt(1, article.getAuthorId());
@@ -77,7 +77,7 @@ public class JdbcArticleDao extends JdbcConnection implements ArticleDao {
 			return null;
 		}
 		article.setId(key);
-
+*/
 		return article;
 	}
 
@@ -89,7 +89,7 @@ public class JdbcArticleDao extends JdbcConnection implements ArticleDao {
 				+ " image_url = ?, " + " published = ? " + " WHERE id = ?";
 
 		LOG.debug("In updateArticle with sql: " + sql);
-		try {
+/*		try {
 			prpstm = conn.prepareStatement(sql);
 			prpstm.setInt(1, article.getAuthorId());
 			prpstm.setTimestamp(2, article.getDate());
@@ -104,7 +104,7 @@ public class JdbcArticleDao extends JdbcConnection implements ArticleDao {
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 			return null;
-		}
+		}*/
 		return article;
 	}
 
@@ -114,14 +114,14 @@ public class JdbcArticleDao extends JdbcConnection implements ArticleDao {
 				+ " WHERE " + " id = ?";
 
 		LOG.debug("In deleteArticle with sql: " + sql);
-		try {
+/*		try {
 			prpstm = conn.prepareStatement(sql);
 			prpstm.setInt(1, article.getId());
 			prpstm.executeUpdate();
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 			return null;
-		}
+		}*/
 		return article;
 	}
 

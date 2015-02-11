@@ -1,13 +1,14 @@
 package fremad.dao;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
@@ -28,233 +29,104 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 	
 	//----------------------USER METHODS----------------------
 	
-    private SimpleJdbcInsert insertEmployee;
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-
-	public UserListObject getUserss() {
-        String query = "select * from employees";
-        UserListObject users = new UserListObject();
-        
-        users.addAll(namedParameterJdbcTemplate.getJdbcOperations().query(query, new BeanPropertyRowMapper<>(UserObject.class)));
-        return users;
-    }
-	
-/*    @Autowired
-    public void setDataSource(DataSource dataSource) {
-        this.insertEmployee = new SimpleJdbcInsert(dataSource).withTableName(SqlTablesConstants.SQL_TABLE_NAME_USER);
-        this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-    }
-  */  
 	@Override
-	public UserListObject getUsers(){
-		LOG.debug("in getUsers");
+	public UserListObject getUsers() {
+		LOG.debug("In getUsers()");
+		
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_USER;
 		UserListObject users = new UserListObject();
-		connect();		
-		//res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER);
-		ResultSet rs = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER);
 		
-		try {
-			while (rs!= null && rs.next()) {
-				users.add(new UserObject(
-						rs.getInt("id"), 
-						rs.getString("user_name"), 
-						UserRoleEnum.valueOf(rs.getString("role")).getRoleValue(),
-						rs.getTimestamp("created"), 
-						rs.getBoolean("validated")));
-			} 
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-		} finally {
-			try {
-				if(rs != null && !rs.isClosed()){
-					rs.close();
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			closeAll();
-		}
-		
+		users.addAll(this.namedParameterJdbcTemplate.getJdbcOperations().query(query, new UserBeanPropertyRowMapper<>(UserObject.class)));
 		return users;
-
 	}
 
-
-	@Override
-	public int addUser(UserObject userObject) throws SQLException {
-		LOG.debug("in addUser");
-		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_USER + " "
-				+ "(user_name, password, salt) "
-				+ "VALUES (?, ?, ?)";
-		int key = -1;
-		
-		connect();
-		
-		try {
-			prpstm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			prpstm.setString(1, userObject.getUserName());
-			prpstm.setString(2, userObject.getPassword());
-			prpstm.setString(3, userObject.getSalt());
-			
-			LOG.debug("Executing: " + prpstm.toString());
-			
-			prpstm.execute();
-			res = prpstm.getGeneratedKeys();
-			if (res != null && res.next()) {
-				key = res.getInt(1);
-			}
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			throw new SQLException("Sql error");
-		} finally {
-			closeAll();
-		}
-		return key;
-	}
 	
-
-
 	@Override
 	public UserObject getUser(String userName) {
-		String sql = "SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER	+ " WHERE user_name = ?";
+		LOG.debug("In getUser(userName)");
 		
-		LOG.debug(sql);
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_USER + " where user_name = :userName";
+		SqlParameterSource parameters = new MapSqlParameterSource("userName", userName);
 		
-		connect();
-		
-		
-		try {
-			this.prpstm = this.conn.prepareStatement(sql);
-			prpstm.setString(1, userName);
-			res = prpstm.executeQuery();
-			if (res != null && res.next()) {
-				return new UserObject( res.getInt("id"), 
-										res.getString("user_name"),
-										res.getString("password"), 
-										res.getString("salt"), 
-										UserRoleEnum.valueOf(res.getString("role")).getRoleValue(),
-										res.getTimestamp("created"),
-										res.getBoolean("validated"));
-			} else {
-				return null;
-			}
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return null;
-		} finally {
-			closeAll();
-		}
+		return namedParameterJdbcTemplate.queryForObject(query, parameters, new UserBeanPropertyRowMapper<>(UserObject.class));
 	}
 	
 	@Override
 	public UserObject getUser(int userId) {
-		String sql = "SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER	+ " WHERE id = ?";
+		LOG.debug("In getUser(userId)");
 		
-		LOG.debug(sql);
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_USER + " where id = :id";
+		SqlParameterSource parameters = new MapSqlParameterSource("id", userId);
 		
-		connect();
+		return namedParameterJdbcTemplate.queryForObject(query, parameters, new UserBeanPropertyRowMapper<>(UserObject.class));
+	}
+	
+
+	@Override
+	public int addUser(UserObject userObject){
+		LOG.debug("In addUser(userObject)");
+
+		SimpleJdbcInsert insertUser = new SimpleJdbcInsert(this.getDataSource())
+			.withTableName(SqlTablesConstants.SQL_TABLE_NAME_USER)
+			.usingGeneratedKeyColumns("id");
+		SqlParameterSource parameters = new BeanPropertySqlParameterSource(userObject);
+		Number newId = insertUser.executeAndReturnKey(parameters);
 		
-		
-		try {
-			this.prpstm = this.conn.prepareStatement(sql);
-			prpstm.setInt(1, userId);
-			res = prpstm.executeQuery();
-			if (res != null && res.next()) {
-				return new UserObject( res.getInt("id"), 
-										res.getString("user_name"),
-										res.getString("password"), 
-										res.getString("salt"), 
-										UserRoleEnum.valueOf(res.getString("role")).getRoleValue(),
-										res.getTimestamp("created"),
-										res.getBoolean("validated"));
-			} else {
-				return null;
-			}
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return null;
-		} finally {
-			closeAll();
+		if(newId != null){
+			userObject.setId(newId.intValue());
+			return newId.intValue();
 		}
+		
+		return -1;
 	}
 
 	@Override
 	public UserObject updateUser(UserObject userObject) {
-		String sql = "UPDATE " + SqlTablesConstants.SQL_TABLE_NAME_USER + " SET "
-				+ " user_name = ?, "
-				+ " password = ?, "
-				+ " salt = ?, "
-				+ " role = ?, "
-				+ " validated = ? "
-				+ " WHERE id = ?";
+		LOG.debug("In updateUser(userObject)");
 		
-		connect();
+		String updateStatement = "update " + SqlTablesConstants.SQL_TABLE_NAME_USER + " set "
+				+ "user_name = :userName, "
+				+ "password = :password, "
+				+ "salt = :salt, "
+				+ "role = :role, "
+				+ "validated = :validated "
+				+ "where id = :id";
 		
-		LOG.debug("In updateUser with sql: " + sql);
-		try {
-			this.prpstm = this.conn.prepareStatement(sql);
-			prpstm.setString(1, userObject.getUserName());
-			prpstm.setString(2, userObject.getPassword());
-			prpstm.setString(3, userObject.getSalt());
-			prpstm.setString(4, UserRoleEnum.getUserRoleEnum(userObject.getRole()).name());
-			prpstm.setBoolean(5, userObject.isValidated());
-			prpstm.setInt(6, userObject.getId());
-			prpstm.executeUpdate();
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return null;
-		} finally {
-			closeAll();
-		}
+		SqlParameterSource parameters = new BeanPropertySqlParameterSource(userObject);
+
+		this.namedParameterJdbcTemplate.update(updateStatement, parameters);
+		
 		return userObject;
 	}
 
 
 	@Override
 	public UserObject deleteUser(UserObject userObject) {
-		String sql = "DELETE FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER + " WHERE "
-				+ " id = ?";
+		LOG.debug("In deleteUser(userObject)");
 		
-		connect();
+		String query = "delete from " + SqlTablesConstants.SQL_TABLE_NAME_USER + " where id = :id";
+		SqlParameterSource parameters = new MapSqlParameterSource("id", userObject.getId());
 		
-		LOG.debug("In deleteUser with sql: " + sql);
-		try {
-			prpstm = conn.prepareStatement(sql);
-			prpstm.setInt(1, userObject.getId());
-			prpstm.executeUpdate();
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return null;
-		} finally {
-			closeAll();
-		}
+		namedParameterJdbcTemplate.update(query, parameters);
+		
 		return userObject;
 	}
 
 	
 	@Override
-	public void validateUser(String username) {
-		String sql = "UPDATE " + SqlTablesConstants.SQL_TABLE_NAME_USER + " SET "
-				+ " validated = ? "
-				+ " WHERE user_name = ?";
+	public void validateUser(String userName) {
+		LOG.debug("In validateUser(userName)");
 		
-		connect();
+		String updateStatement = "update " + SqlTablesConstants.SQL_TABLE_NAME_USER + " set "
+				+ "validated = :validated "
+				+ "where user_name = :userName";
 		
+		SqlParameterSource parameters = new MapSqlParameterSource("validated", true)
+			.addValue("userName", userName);
+
+		this.namedParameterJdbcTemplate.update(updateStatement, parameters);
 		
-		LOG.debug("In validateUser with sql: " + sql);
-		try {
-			prpstm = conn.prepareStatement(sql);
-			prpstm.setBoolean(1, true);
-			prpstm.setString(2, username);
-			prpstm.executeUpdate();
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return;
-		} finally {
-			closeAll();
-		}
 		return;
 	}
 	
@@ -263,397 +135,183 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 
 	@Override
 	public UserMetaListObject getUsersMeta(){
-		LOG.debug("in getUsersMeta");
-		UserMetaListObject userMeta = new UserMetaListObject();
-		connect();		
-		//res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_META);
-		ResultSet rs = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_META);
-		try {
-			while (rs!= null && rs.next()) {
-				userMeta.add(new UserMetaObject(
-						rs.getInt("user_id"),
-						rs.getString("first_name"),
-						rs.getString("last_name"),
-						rs.getString("phone_number"),
-						rs.getDate("birthday"),
-						rs.getString("home_town"),
-						rs.getString("profession")));
-			} 
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-		} finally {
-			closeAll();
-			try {
-				if(rs != null && !rs.isClosed()){
-					rs.close();
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		LOG.debug("In getUsersMeta()");
 		
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_USER_META;
+		UserMetaListObject userMeta = new UserMetaListObject();
+		
+		userMeta.addAll(this.namedParameterJdbcTemplate.getJdbcOperations().query(query, new UserBeanPropertyRowMapper<>(UserMetaObject.class)));
 		return userMeta;
 	}
 	
 	@Override
 	public UserMetaObject getUserMeta(int userId){
-		LOG.debug("in getUserMeta for user :" + userId);
-		UserMetaObject userMeta = null;
-		connect();		
-		res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_META + " WHERE user_id = " + userId);
-		try {
-			if (res!= null && res.next()) {
-				userMeta = new UserMetaObject(
-						res.getInt("user_id"),
-						res.getString("first_name"),
-						res.getString("last_name"),
-						res.getString("phone_number"),
-						res.getDate("birthday"),
-						res.getString("home_town"),
-						res.getString("profession"));
-			} 
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return null;
-		} finally {
-			closeAll("getUserMeta");
-		}
+		LOG.debug("In getUserMeta(userId)");
 		
-		return userMeta;
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_USER_META + " where user_id = :userId";
+		SqlParameterSource parameters = new MapSqlParameterSource("userId", userId);
+		
+		return namedParameterJdbcTemplate.queryForObject(query, parameters, new UserBeanPropertyRowMapper<>(UserMetaObject.class));
 	}
 	
 	@Override
 	public boolean addUserMeta(UserMetaObject usermetaObject){
-		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_USER_META + " "
-				+ "(user_id, first_name, last_name, phone_number, birthday, home_town, profession) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
-		
-		LOG.debug("In addUserMeta with sql: " + sql);
-		connect();
-		
-		try {
-			prpstm = conn.prepareStatement(sql);
-			prpstm.setInt(1, usermetaObject.getUserId());
-			prpstm.setString(2, usermetaObject.getFirstName());
-			prpstm.setString(3, usermetaObject.getLastName());
-			prpstm.setString(4, usermetaObject.getPhoneNumber());
-			prpstm.setDate(5,  new java.sql.Date(usermetaObject.getBirthday().getTime()));
-			prpstm.setString(6, usermetaObject.getHomeTown());
-			prpstm.setString(7, usermetaObject.getProfession());
-			
-			prpstm.execute();
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return false;
-		} finally {
-			closeAll("addUserMeta");
-		}
-		return true;
+		LOG.debug("In addUserMeta(usermetaObject)");
+
+		SimpleJdbcInsert insertUser = new SimpleJdbcInsert(this.getDataSource())
+			.withTableName(SqlTablesConstants.SQL_TABLE_NAME_USER_META);
+		SqlParameterSource parameters = new BeanPropertySqlParameterSource(usermetaObject);
+		return insertUser.execute(parameters) > 0;
 	}
 	
 	@Override
 	public UserMetaObject updateUserMeta(UserMetaObject userMetaObject) {
+		LOG.debug("In updateUserMeta(userMetaObject)");
 		
-		String sql = "UPDATE " + SqlTablesConstants.SQL_TABLE_NAME_USER_META + 
-				" SET first_name=?, last_name=?, phone_number=?, birthday=?, home_town=?, profession=? WHERE user_id=?";
+		String updateStatement = "update " + SqlTablesConstants.SQL_TABLE_NAME_USER_META + " set "
+				+ "first_name = :firstName, "
+				+ "last_name = :lastName, "
+				+ "phone_number = :phoneNumber, "
+				+ "birthday = :birthday, "
+				+ "home_town = :homeTown, "
+				+ "profession = :profession "
+				+ "where user_id = :userId";
 		
-		connect();
-		
-		LOG.debug("In updateUserMeta with sql: " + sql);
+		SqlParameterSource parameters = new BeanPropertySqlParameterSource(userMetaObject);
 
-		try {
-			LOG.debug("1");
-			this.prpstm = this.conn.prepareStatement(sql);
-
-			prpstm.setString(1, userMetaObject.getFirstName());
-			prpstm.setString(2, userMetaObject.getLastName());
-			prpstm.setString(3, userMetaObject.getPhoneNumber());
-			prpstm.setDate(4,  new java.sql.Date(userMetaObject.getBirthday().getTime()));
-			prpstm.setString(5, userMetaObject.getHomeTown());
-			prpstm.setString(6, userMetaObject.getProfession());
-			prpstm.setInt(7, userMetaObject.getUserId());
-			prpstm.executeUpdate();
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			LOG.error(e.getStackTrace().toString());
-			return null;
-		} finally {
-			closeAll("updateUserMeta");
-		}
+		this.namedParameterJdbcTemplate.update(updateStatement, parameters);
+		
 		return userMetaObject;
 	}
-	
-	
-/*	String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_USER_META + " VALUES (?,?,?,?,?,?,?) "
-			+ "ON DUPLICATE KEY UPDATE "
-			+ "first_name = ?, "
-			+ "last_name = ?, "
-			+ "phone_number = ?, "
-			+ "birthday = ?, "
-			+ "home_town = ?, "
-			+ "profession = ? ";
-	
-	connect();
-	
-	LOG.debug("In updateUserMeta with sql: " + sql);
-
-	try {
-		prpstm = conn.prepareStatement(sql);
-		prpstm.setInt(1, userMetaObject.getUserId());
-		prpstm.setString(2, userMetaObject.getFirstName());
-		prpstm.setString(3, userMetaObject.getLastName());
-		prpstm.setString(4, userMetaObject.getPhoneNumber());
-		prpstm.setDate(5, new Date(userMetaObject.getBirthday().getTime()));
-		prpstm.setString(6, userMetaObject.getHomeTown());
-		prpstm.setString(7, userMetaObject.getProfession());
-		
-		prpstm.setString(8, userMetaObject.getFirstName());
-		prpstm.setString(9, userMetaObject.getLastName());
-		prpstm.setString(10, userMetaObject.getPhoneNumber());
-		prpstm.setDate(11, new Date(userMetaObject.getBirthday().getTime()));
-		prpstm.setString(12, userMetaObject.getHomeTown());
-		prpstm.setString(13, userMetaObject.getProfession());
-*/
 
 	@Override
 	public boolean deleteUserMeta(int userId) {
-		String sql = "DELETE FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_META + " WHERE "
-				+ " user_id = ?";
+		LOG.debug("In deleteUserMeta(userId)");
 		
-		connect();
+		String query = "delete from " + SqlTablesConstants.SQL_TABLE_NAME_USER_META + " where user_id = :userId";
+		SqlParameterSource parameters = new MapSqlParameterSource("userId", userId);
 		
-		LOG.debug("In deleteUserMeta with sql: " + sql);
-		try {
-			prpstm = conn.prepareStatement(sql);
-			prpstm.setInt(1, userId);
-			prpstm.executeUpdate();
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return false;
-		} finally {
-			closeAll();
-		}
-		return true;
+		return namedParameterJdbcTemplate.update(query, parameters) > 0;
 	}
 	
 	//----------------------USERLOG METHODS----------------------
 	
 	@Override
 	public void loggUserLogin(int userId) {
-		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_USER_LOGIN + " "
-				+ "(user_id) "
-				+ "VALUES (?)";
+		LOG.debug("In loggUserLogin(userId)");
+
+		SimpleJdbcInsert insertLogg = new SimpleJdbcInsert(this.getDataSource())
+			.withTableName(SqlTablesConstants.SQL_TABLE_NAME_USER_LOGIN);
 		
-		connect();
+		SqlParameterSource parameters = new MapSqlParameterSource("user_id", userId);
 		
-		try {
-			prpstm = conn.prepareStatement(sql);
-			prpstm.setInt(1, userId);
-			
-			LOG.debug("Executing: " + prpstm.toString());
-			
-			prpstm.execute();
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-		} finally {
-			closeAll();
-		}
+		insertLogg.execute(parameters);
+		
 		return;
 	}
 
 	@Override
-	public UserLoginLogListObject getUserLogins(int user_id) {
+	public UserLoginLogListObject getUserLogins(final int userId) {
+		LOG.debug("In getUserLogins(userId)");
+		
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_USER_LOGIN  + " where user_id = ?";;
 		UserLoginLogListObject userLogins = new UserLoginLogListObject();
 		
-		connect();
+		userLogins.addAll(this.namedParameterJdbcTemplate.getJdbcOperations().query(query, new PreparedStatementSetter() {
+				@Override
+				public void setValues(java.sql.PreparedStatement ps)
+						throws SQLException {
+					ps.setInt(1, userId);
+				}
+			}, new BeanPropertyRowMapper<>(UserLoginLogObject.class)));
 		
-		
-		res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_LOGIN + " WHERE user_id = " + user_id);
-		try {
-			while (res.next()) {
-				userLogins.add(new UserLoginLogObject(res.getInt("id"), res.getInt("user_id"), res.getTimestamp("date")));
-			}
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-		} finally {
-			closeAll();
-		}
 		return userLogins;
 	}
 	
 	@Override
 	public UserLoginLogListObject getUserLogins() {
+		LOG.debug("In getUserLogins()");
+		
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_USER_LOGIN;
 		UserLoginLogListObject userLogins = new UserLoginLogListObject();
 		
-		connect();
-		
-		
-		res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_LOGIN);
-		try {
-			while (res.next()) {
-				userLogins.add(new UserLoginLogObject(res.getInt("id"), res.getInt("user_id"), res.getTimestamp("date")));
-			}
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-		} finally {
-			closeAll();
-		}
+		userLogins.addAll(this.namedParameterJdbcTemplate.getJdbcOperations().query(query, new UserBeanPropertyRowMapper<>(UserLoginLogObject.class)));
 		return userLogins;
 	}
 	
 
 	@Override
 	public boolean deleteUserLogsByUser(int userId) {
-		String sql = "DELETE FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_LOGIN + " WHERE "
-				+ " user_id = ?";
+		LOG.debug("In deleteUserLogsByUser(userId)");
 		
-		LOG.debug("In deleteUserLogsByUser with sql: " + sql);
+		String query = "delete from " + SqlTablesConstants.SQL_TABLE_NAME_USER_LOGIN + " where user_id = :userId";
+		SqlParameterSource parameters = new MapSqlParameterSource("userId", userId);
 		
-		connect();
-		
-		try {
-			prpstm = conn.prepareStatement(sql);
-			prpstm.setInt(1, userId);
-			prpstm.executeUpdate();
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return false;
-		} finally {
-			closeAll();
-		}
-		return true;
-	
+		return namedParameterJdbcTemplate.update(query, parameters) > 0;
+
 	}
 	
 	//----------------------USER REQUEST METHODS----------------------
 	
 	@Override
 	public boolean addUserRoleRequest(int userId, UserRoleEnum role) {
-		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_USER_ROLE_REQUEST + " "
-				+ "(user_id, requested_role) "
-				+ "VALUES (?, ?)";
+		String updateStatement = "insert into " + SqlTablesConstants.SQL_TABLE_NAME_USER_ROLE_REQUEST + " set "
+				+ "user_id = :userId, "
+				+ "requested_role = :requestedRole";
 		
-		connect();
+		SqlParameterSource parameters = new MapSqlParameterSource("userId", userId)
+			.addValue("requestedRole", role.getRoleValue());
 		
-		try {
-			prpstm = conn.prepareStatement(sql);
-			prpstm.setInt(1, userId);
-			prpstm.setString(2, role.name());
-			
-			LOG.debug("Executing: " + prpstm.toString());
-			
-			prpstm.execute();
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return false;
-		} finally {
-			closeAll();
-		}
-		return true;
+		return this.namedParameterJdbcTemplate.update(updateStatement, parameters) > 0;
 	}
 
 	@Override
 	public UserRoleRequestListObject getUserRoleRequests() {
+		LOG.debug("In getUserRoleRequests()");
+		
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_USER_ROLE_REQUEST;
 		UserRoleRequestListObject userRequests = new UserRoleRequestListObject();
 		
-		connect();
+		userRequests.addAll(this.namedParameterJdbcTemplate.getJdbcOperations().query(query, new UserBeanPropertyRowMapper<>(UserRoleRequestObject.class)));
 		
-		
-		//res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_ROLE_REQUEST);
-		ResultSet rs = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_ROLE_REQUEST);
-		try {
-			while (rs.next()) {
-				userRequests.add(new UserRoleRequestObject(
-						rs.getInt("id"), 
-						rs.getInt("user_id"), 
-						rs.getString("requested_role"), 
-						rs.getTimestamp("date"), 
-						rs.getBoolean("accepted")));
-			} 
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-		} finally {
-			closeAll();
-			try {
-				if(rs != null && !rs.isClosed()){
-					rs.close();
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 		return userRequests;
 	}
 
 	@Override
 	public boolean grantUserRoleRequest(int requestId) {
-		String sql = "UPDATE " + SqlTablesConstants.SQL_TABLE_NAME_USER_ROLE_REQUEST + " SET "
-				+ " accepted = ? "
-				+ " WHERE id = ?";
-		LOG.debug("In updateUser with sql: " + sql);
+		LOG.debug("In grantUserRoleRequest(requestId)");
 		
-		connect();
+		String updateStatement = "update " + SqlTablesConstants.SQL_TABLE_NAME_USER_ROLE_REQUEST + " set "
+				+ "validated = :validated "
+				+ "where id = :id";
 		
-		try {
-			prpstm = conn.prepareStatement(sql);
-			prpstm.setBoolean(1,true);
-			prpstm.setInt(2, requestId);
-			prpstm.executeUpdate();
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return false;
-		} finally {
-			closeAll();
-		}
-		return true;
+		SqlParameterSource parameters = new MapSqlParameterSource("accepted", true)
+			.addValue("id", requestId);
+
+		return this.namedParameterJdbcTemplate.update(updateStatement, parameters) > 0;
 	}
 
 	@Override
 	public UserRoleRequestObject deleteUserRoleRequest(UserRoleRequestObject userRoleRequestObject) {
-		String sql = "DELETE FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_ROLE_REQUEST + " WHERE "
-				+ " id = ?";
+		LOG.debug("In deleteUserRoleRequest(userRoleRequestObject)");
 		
-		LOG.debug("In deleteUserRoleRequest with sql: " + sql);
+		String query = "delete from " + SqlTablesConstants.SQL_TABLE_NAME_USER_ROLE_REQUEST + " where id = :id";
+		SqlParameterSource parameters = new MapSqlParameterSource("id", userRoleRequestObject.getId());
 		
-		connect();
-		
-		try {
-			prpstm = conn.prepareStatement(sql);
-			prpstm.setInt(1, userRoleRequestObject.getId());
-			prpstm.executeUpdate();
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return null;
-		} finally {
-			closeAll();
-		}
+		namedParameterJdbcTemplate.update(query, parameters);
+	
 		return userRoleRequestObject;
 	}
 
 
 	@Override
 	public boolean deleteUserRoleRequestByUser(int userId) {
-		String sql = "DELETE FROM " + SqlTablesConstants.SQL_TABLE_NAME_USER_ROLE_REQUEST + " WHERE "
-				+ " user_id = ?";
+		LOG.debug("In deleteUserRoleRequestByUser(userId)");
 		
-		LOG.debug("In deleteUserRoleRequestByUser with sql: " + sql);
+		String query = "delete from " + SqlTablesConstants.SQL_TABLE_NAME_USER_ROLE_REQUEST + " where user_id = :userId";
+		SqlParameterSource parameters = new MapSqlParameterSource("userId", userId);
 		
-		connect();
-		
-		try {
-			prpstm = conn.prepareStatement(sql);
-			prpstm.setInt(1, userId);
-			prpstm.executeUpdate();
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return false;
-		} finally {
-			closeAll();
-		}
-		return true;
-	
+		return namedParameterJdbcTemplate.update(query, parameters) > 0;
 	}
 
 }

@@ -9,19 +9,19 @@ public class PlayerObject {
 	private String lastName;
 	private int number;
 	private int memberSince;
-	private String possition;
+	private String position;
 	private String preferredFoot;
 	private int team;
 	private boolean active;
 	
 	public PlayerObject(int id, String firstName, String lastName, int number,
-			int memberSince, String possition, String preferredFoot, int team, boolean active) {
+			int memberSince, String position, String preferredFoot, int team, boolean active) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.number = number;
 		this.memberSince = memberSince;
-		this.possition = possition;
+		this.position = position;
 		this.preferredFoot = preferredFoot;
 		this.team = team;
 		this.active = active;
@@ -54,11 +54,11 @@ public class PlayerObject {
 	public void setNumber(int number) {
 		this.number = number;
 	}
-	public String getPossition() {
-		return possition;
+	public String getPosition() {
+		return position;
 	}
-	public void setPossition(String possition) {
-		this.possition = possition;
+	public void setPosition(String position) {
+		this.position = position;
 	}
 	public String getPreferredFoot() {
 		return preferredFoot;

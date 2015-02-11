@@ -1,7 +1,5 @@
 package fremad.tools;
 
-import java.util.TimerTask;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,16 +51,16 @@ public class TaskScheduler {
 		for (LeagueObject league : leagueList.getList()) {
 			TeamObject team = teamService.getTeam(league.getTeam());
 			MatchListObject matches = UrlParser.getMatchListObject(team);
+			MatchListObject existingMatches = matchService.getMatches(league.getTeam());
+			matches = fillIdForExistingMatches (matches, existingMatches);
 			LOG.debug("Found " + matches.size() + " matches for team " + league.getTeam());
 			for (MatchObject match : matches) {
-				if (matchService.addMatch(match)) {
+				if(addMatchIfLeague(league, match)){
 					matchesAdded++;
-				} else {
-					LOG.error("Failed to add match with id " + match.getId());
 				}
 			}
 		}
-		LOG.debug("Added " + matchesAdded + " matches");
+		LOG.debug("Updated or added " + matchesAdded + " matches");
 		
 	}
 	
@@ -76,16 +74,80 @@ public class TaskScheduler {
 		
 		int tableEntriesAdded = 0;
 		for (LeagueObject league : leagueList.getList()) {
-			TableEntryListObject tableEntryList = UrlParser.getTableEntryListObject(league);
-			LOG.debug("Found " + tableEntryList.size() + " tableEntries for league " + league.getId());
-			for (TableEntryObject tableEntry : tableEntryList) {
-				if (tableEntryService.addTableEntry(tableEntry)) {
+			TableEntryListObject tableEntries = UrlParser.getTableEntryListObject(league);
+			TableEntryListObject existingTableEntries = tableEntryService.getTableEntries(league.getId());
+			tableEntries = fillIdForExistingTableEntries(tableEntries, existingTableEntries);
+			LOG.debug("Found " + tableEntries.size() + " tableEntries for league " + league.getId());
+			for (TableEntryObject tableEntry : tableEntries) {
+				if (addOrUpdateTableEntry(tableEntry)) {
 					tableEntriesAdded++;
 				} else {
 					LOG.error("Failed to add match with leagueId " + tableEntry.getLeagueId());
 				}
 			}
 		}
-		LOG.debug("Added " + tableEntriesAdded + " matches");
+		LOG.debug("Updated or added " + tableEntriesAdded + " tableEntries");
 	}
+	
+	private MatchListObject fillIdForExistingMatches(MatchListObject matches, MatchListObject existingMatches){
+		for (MatchObject match : matches) {
+			match.setId(-1);
+			for (MatchObject existingMatch : existingMatches) {
+				if(match.getLeague() == existingMatch.getLeague() &&
+						match.getOpposingTeamId() == existingMatch.getOpposingTeamId() &&
+						match.isHomeMatch() == existingMatch.isHomeMatch()){
+					match.setId(existingMatch.getId());
+				}
+			}
+		}
+		return matches;
+	}
+	
+	private TableEntryListObject fillIdForExistingTableEntries(TableEntryListObject tableEntries, TableEntryListObject existingTableEntries){
+		for (TableEntryObject tableEntry : tableEntries) {
+			tableEntry.setId(-1);
+			for (TableEntryObject existingTableEntry : existingTableEntries) {
+				LOG.debug("Ser etter denne matchen:"
+						+ " tableEntry.getLeagueId() == " + tableEntry.getLeagueId() 
+						+ " existingTableEntry.getLeagueId() == " + existingTableEntry.getLeagueId()
+						+ " tableEntry.getLeagueId() == " + tableEntry.getTeamId()
+						+ " existingTableEntry.getLeagueId() == " + existingTableEntry.getTeamId()
+						+ " tableEntry.getLeagueId() == " + tableEntry.getTeamName()
+						+ " existingTableEntry.getLeagueId() == " + existingTableEntry.getTeamName());
+				if(tableEntry.getLeagueId() == existingTableEntry.getLeagueId() &&
+						tableEntry.getTeamId() == existingTableEntry.getTeamId()){
+					tableEntry.setId(existingTableEntry.getId());
+					break;
+				}
+			}
+		}
+		return tableEntries;
+	}
+	
+	private boolean addMatchIfLeague(LeagueObject league, MatchObject match){
+		if(league.getId() == match.getLeague()){
+			return addOrUpdateMatch(match);
+		}
+		LOG.info("Did not add match with leagueId " + match.getLeague());
+		return false;
+	}
+	
+	private boolean addOrUpdateMatch(MatchObject match){
+		if(match.getId() == -1){
+			return matchService.addMatch(match);
+		}else{
+			return matchService.updateMatch(match);
+		}
+	}
+	
+	private boolean addOrUpdateTableEntry(TableEntryObject tableEntry){
+		if(tableEntry.getId() == -1){
+			return tableEntryService.addTableEntry(tableEntry);
+		}else{
+			return tableEntryService.updateTableEntry(tableEntry);
+		}
+	}
+	
+
+	
 }

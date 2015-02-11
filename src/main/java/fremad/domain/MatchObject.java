@@ -1,7 +1,6 @@
 package fremad.domain;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
 

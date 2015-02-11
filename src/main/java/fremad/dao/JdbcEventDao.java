@@ -1,16 +1,12 @@
 package fremad.dao;
 
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import fremad.domain.EventObject;
 import fremad.domain.list.EventListObject;
-import fremad.dao.SqlTablesConstants;
 
 @Repository
 public class JdbcEventDao extends JdbcConnection implements EventDao {
@@ -25,7 +21,7 @@ public class JdbcEventDao extends JdbcConnection implements EventDao {
 	public EventListObject getEvents(int matchId) {
 		EventListObject events = new EventListObject();
 		
-		try {
+/*		try {
 			this.prpstm = this.conn.prepareStatement("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_EVENT + " WHERE match = ?");
 			this.prpstm.setInt(1, matchId);
 			ResultSet res = this.prpstm.executeQuery();
@@ -34,7 +30,7 @@ public class JdbcEventDao extends JdbcConnection implements EventDao {
 			}
 		} catch (SQLException e) {
 			LOG.error(e.toString());
-		}
+		}*/
 		
 		return events;
 	}
@@ -45,7 +41,7 @@ public class JdbcEventDao extends JdbcConnection implements EventDao {
 				+ "(player, type, time, match) "
 				+ "VALUES (?, ?, ?, ?)";
 		LOG.debug("In addLeague with sql: " + sql);
-		try {
+/*		try {
 			prpstm = conn.prepareStatement(sql);
 
 			prpstm.setInt(1, event.getPlayer());
@@ -56,7 +52,7 @@ public class JdbcEventDao extends JdbcConnection implements EventDao {
 			prpstm.executeUpdate();
 		} catch (SQLException e) {
 			LOG.error(e.toString());
-		}
+		}*/
 
 		return event;
 	}
@@ -71,7 +67,7 @@ public class JdbcEventDao extends JdbcConnection implements EventDao {
 				+ " WHERE id = ?";
 		
 		LOG.debug("In updateEvent with sql: " + sql);
-		try {
+/*		try {
 			prpstm = conn.prepareStatement(sql);
 
 			prpstm.setInt(1, event.getPlayer());
@@ -84,7 +80,7 @@ public class JdbcEventDao extends JdbcConnection implements EventDao {
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 			return null;
-		}
+		}*/
 		
 		return event;
 	}
@@ -95,14 +91,14 @@ public class JdbcEventDao extends JdbcConnection implements EventDao {
 				+ " id = ?";
 		
 		LOG.debug("In addLeague with sql: " + sql);
-		try {
+/*		try {
 			prpstm = conn.prepareStatement(sql);
 			prpstm.setInt(1, event.getId());
 			prpstm.executeUpdate();
 		} catch (SQLException e) {
 			LOG.error(e.toString());
 			return null;
-		}
+		}*/
 		return event;
 	}
 	

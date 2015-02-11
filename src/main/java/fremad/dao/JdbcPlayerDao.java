@@ -2,15 +2,19 @@ package fremad.dao;
 
 
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import fremad.domain.PlayerObject;
 import fremad.domain.list.PlayerListObject;
-import fremad.dao.SqlTablesConstants;
 
 @Repository
 public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
@@ -23,153 +27,84 @@ public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
 
 	@Override
 	public PlayerListObject getPlayers() {
-		PlayerListObject playerListObject = new PlayerListObject();
+		LOG.debug("In getPlayers()");
 		
-		connect();
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER;
+		PlayerListObject players = new PlayerListObject();
 		
-		res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER);
-		try {
-			while (res != null && res.next()) {
-				playerListObject.add(new PlayerObject(
-					res.getInt("id"), 
-					res.getString("first_name"),
-					res.getString("last_name"),
-					res.getInt("number"),
-					res.getInt("member_since"),
-					res.getString("position"),
-					res.getString("preferred_foot"),
-					res.getInt("team"),
-					res.getBoolean("active")));
-			}
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-		} finally {
-			closeAll();
-		}
-
-		return playerListObject;
+		players.addAll(this.namedParameterJdbcTemplate.getJdbcOperations().query(query, new BeanPropertyRowMapper<>(PlayerObject.class)));
+		return players;
+		
 	}
 
 	@Override
-	public PlayerListObject getPlayersByTeam(int teamId) {
+	public PlayerListObject getPlayersByTeam(final int teamId) {
+		LOG.debug("In getPlayersByTeam(teamId)");
 		
-		PlayerListObject playerListObject = new PlayerListObject();
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER + " where team = ?";
+		PlayerListObject players = new PlayerListObject();
 		
-		connect();
+		players.addAll(this.namedParameterJdbcTemplate.getJdbcOperations().query(query, new PreparedStatementSetter() {
+				@Override
+				public void setValues(java.sql.PreparedStatement ps)
+						throws SQLException {
+					ps.setInt(1, teamId);
+				}
+			}, new BeanPropertyRowMapper<>(PlayerObject.class)));
 		
+		return players;
 		
-		String sql = "SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER + " WHERE team = ?";
-		try {
-			this.prpstm = this.conn.prepareStatement(sql);
-			prpstm.setInt(1, teamId);
-			res = prpstm.executeQuery();
-			while (res != null && res.next()) {
-				playerListObject.add(new PlayerObject(
-					res.getInt("id"), 
-					res.getString("first_name"),
-					res.getString("last_name"),
-					res.getInt("number"),
-					res.getInt("member_since"),
-					res.getString("position"),
-					res.getString("preferred_foot"),
-					res.getInt("team"),
-					res.getBoolean("active")));
-			}
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-		} finally {
-			closeAll();
-		}
-		
-		return playerListObject;
 	}
 	
 	@Override
 	public PlayerObject addPlayer(PlayerObject playerObject) {
-		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER 
-				+ "(first_name, last_name, number, member_since, position, preferred_foot, team, active) "
-				+ "VALUES(?,?,?,?,?,?,?,?)";
-		int key = -1;
-		
-		connect();
-		
+		LOG.debug("In addPlayer(playerObject)");
 
-		try {
-			prpstm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			prpstm.setString(1, playerObject.getFirstName());
-			prpstm.setString(2, playerObject.getLastName());
-			prpstm.setInt(3, playerObject.getNumber());
-			prpstm.setInt(4, playerObject.getMemberSince());
-			prpstm.setString(5, playerObject.getPossition());
-			prpstm.setString(6, playerObject.getPreferredFoot());
-			prpstm.setInt(7, playerObject.getTeam());
-			prpstm.setBoolean(8, playerObject.isActive());
-			
-			LOG.debug("Executing: " + prpstm.toString());
-			
-			prpstm.execute();
-			res = prpstm.getGeneratedKeys();
-			if (res != null && res.next()) {
-				key = res.getInt(1);
-			}
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return null;
-		} finally {
-			closeAll();
-		}
-		playerObject.setId(key);
+		SimpleJdbcInsert insertPlayer = new SimpleJdbcInsert(this.getDataSource())
+			.withTableName(SqlTablesConstants.SQL_TABLE_NAME_PLAYER)
+			.usingGeneratedKeyColumns("id");
+		SqlParameterSource parameters = new BeanPropertySqlParameterSource(playerObject);
+		Number newId = insertPlayer.executeAndReturnKey(parameters);
 		
-		return playerObject;
+		if(newId != null){
+			playerObject.setId(newId.intValue());
+			return playerObject;
+		}
+		
+		return null;
 	}
 
 	@Override
 	public PlayerObject updatePlayer(PlayerObject playerObject) {
-		LOG.debug("in updatePlayer");
-		String sql = "UPDATE " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER 
-				+ " SET first_name=?, last_name=?, number=?, member_since=?, position=?, preferred_foot=?, team=?, active=? WHERE id=?";
-		connect();
+		LOG.debug("In updatePlayer(playerObject)");
 		
-		try {
-			this.prpstm = this.conn.prepareStatement(sql);
-			prpstm.setString(1, playerObject.getFirstName());
-			prpstm.setString(2, playerObject.getLastName());
-			prpstm.setInt(3, playerObject.getNumber());
-			prpstm.setInt(4, playerObject.getMemberSince());
-			prpstm.setString(5, playerObject.getPossition());
-			prpstm.setString(6, playerObject.getPreferredFoot());
-			prpstm.setInt(7, playerObject.getTeam());
-			prpstm.setBoolean(8, playerObject.isActive());
-			prpstm.setInt(9, playerObject.getId());
-			
-			prpstm.executeUpdate();
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return null;
-		} finally {
-			closeAll();
-		}
-		return playerObject;
-	}
+		String updateStatement = "update " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER + " set "
+				+ "first_name = :firstName, "
+				+ "last_name = :lastName, "
+				+ "number = :number, "
+				+ "member_since = :memberSince, "
+				+ "position = :position, "
+				+ "preferred_foot = :preferredFoot, "
+				+ "team = :team, "
+				+ "active = :active "
+				+ "where id = :id";
+		
+		SqlParameterSource parameters = new BeanPropertySqlParameterSource(playerObject);
 
+		this.namedParameterJdbcTemplate.update(updateStatement, parameters);
+		
+		return playerObject;
+
+	}
+	
 	@Override
 	public PlayerObject deletePlayer(PlayerObject playerObject) {
-		String sql = "DELETE FROM " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER
-				+ " WHERE id = ?";
-		LOG.debug("In deletePlayer with sql: " + sql + " and id=" + playerObject.getId());
+		LOG.debug("In deletePlayer(playerObject)");
 		
-		connect();
+		String query = "delete from " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER + " where id = :playerId";
+		SqlParameterSource parameters = new MapSqlParameterSource("playerId", playerObject.getId());
 		
-		try {
-			this.prpstm = this.conn.prepareStatement(sql);
-			prpstm.setInt(1, playerObject.getId());
-			prpstm.executeUpdate();
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return null;
-		} finally {
-			closeAll();
-		}
+		namedParameterJdbcTemplate.update(query, parameters);
 		
 		return playerObject;
 	}

@@ -37,4 +37,8 @@ public class TableEntryService {
 		return entriesAdded;
 	}
 
+	public boolean updateTableEntry(TableEntryObject tableEntry) {
+		return tableEntryDao.updateTableEntry(tableEntry);
+	}
+
 }

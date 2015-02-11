@@ -2,8 +2,6 @@ package fremad.domain;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import java.util.Date;
-
 @XmlRootElement(name = "TableEntryObject")
 public class TableEntryObject {
 	private int id;

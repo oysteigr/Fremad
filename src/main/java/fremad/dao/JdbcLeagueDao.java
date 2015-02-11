@@ -5,11 +5,16 @@ import java.sql.SQLException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import fremad.domain.LeagueObject;
 import fremad.domain.list.LeagueListObject;
-import fremad.dao.SqlTablesConstants;
 
 @Repository
 public class JdbcLeagueDao extends JdbcConnection implements LeagueDao {
@@ -22,115 +27,73 @@ public class JdbcLeagueDao extends JdbcConnection implements LeagueDao {
 	
 	@Override
 	public LeagueListObject getLeagues() {
+		LOG.debug("In getLeagues()");
+		
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_LEAGUE;
 		LeagueListObject leagues = new LeagueListObject();
 		
-		connect();
-		
-		res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_LEAGUE);
-		try {
-			while (res.next()) {
-				leagues.add(new LeagueObject(res.getInt("id"), res.getString("name"), res.getInt("year"), res.getInt("team")));
-			}
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-		} finally {
-			closeAll();
-		}
-		
+		leagues.addAll(this.namedParameterJdbcTemplate.getJdbcOperations().query(query, new BeanPropertyRowMapper<>(LeagueObject.class)));
 		return leagues;
 	}
 	
 	@Override
-	public LeagueListObject getLeagues(int teamId) {
+	public LeagueListObject getLeagues(final int teamId) {
+		LOG.debug("In getLeagues(teamId)");
+		
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_LEAGUE + " where team = ?";
 		LeagueListObject leagues = new LeagueListObject();
 		
-		connect();
-		
-		res = select("SELECT * FROM " + SqlTablesConstants.SQL_TABLE_NAME_LEAGUE + " WHERE team = " + teamId);
-		try {
-			while (res.next()) {
-				leagues.add(new LeagueObject(res.getInt("id"), res.getString("name"), res.getInt("year"), res.getInt("team")));
-			}
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-		} finally {
-			closeAll();
-		}
+		leagues.addAll(this.namedParameterJdbcTemplate.getJdbcOperations().query(query, new PreparedStatementSetter() {
+				@Override
+				public void setValues(java.sql.PreparedStatement ps)
+						throws SQLException {
+					ps.setInt(1, teamId);
+				}
+			}, new BeanPropertyRowMapper<>(LeagueObject.class)));
 		
 		return leagues;
 	}
 	
 	@Override
 	public LeagueObject addLeague(LeagueObject league) {
-		String sql = "INSERT INTO " + SqlTablesConstants.SQL_TABLE_NAME_LEAGUE + " "
-				+ "(id, name, year, team) "
-				+ "VALUES (?, ?, ?, ?)";
-		LOG.debug("In addLeague with sql: " + sql);
+		LOG.debug("In addLeague(league)");
 		
-		connect();
+		SimpleJdbcInsert insertLeague = new SimpleJdbcInsert(this.getDataSource())
+			.withTableName(SqlTablesConstants.SQL_TABLE_NAME_LEAGUE);
 		
-		try {
-			prpstm = conn.prepareStatement(sql);
-			prpstm.setInt(1, league.getId());
-			prpstm.setString(2, league.getName());
-			prpstm.setInt(3, league.getYear());
-			prpstm.setInt(4, league.getTeam());
-			prpstm.executeUpdate();
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-		} finally {
-			closeAll();
-		}
+		SqlParameterSource parameters = new BeanPropertySqlParameterSource(league);
+		
+		insertLeague.execute(parameters);
+		
 		return league;
 	}
 	
 	@Override
 	public LeagueObject updateLeague(LeagueObject league) {
-		String sql = "UPDATE " + SqlTablesConstants.SQL_TABLE_NAME_LEAGUE + " SET "
-				+ " name = ?, "
-				+ " year = ?, "
-				+ " team = ? "
-				+ " WHERE id = ?";
+		LOG.debug("In updateLeague(league)");
 		
-		LOG.debug("In addLeague with sql: " + sql);
+		String updateStatement = "update " + SqlTablesConstants.SQL_TABLE_NAME_LEAGUE + " set "
+				+ "name = :name, "
+				+ "year = :year, "
+				+ "team = :team "
+				+ "where id = :id";
 		
-		connect();
+		SqlParameterSource parameters = new BeanPropertySqlParameterSource(league);
+
+		this.namedParameterJdbcTemplate.update(updateStatement, parameters);
 		
-		try {
-			prpstm = conn.prepareStatement(sql);
-			prpstm.setString(1, league.getName());
-			prpstm.setInt(2, league.getYear());
-			prpstm.setInt(3, league.getTeam());
-			prpstm.setInt(4, league.getId());
-			prpstm.executeUpdate();
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return null;
-		} finally {
-			closeAll();
-		}
 		return league;
 	}
 	
 	@Override
 	public LeagueObject deleteLeague(LeagueObject league) {
-		String sql = "DELETE FROM " + SqlTablesConstants.SQL_TABLE_NAME_LEAGUE + " WHERE "
-				+ " id = ?";
+		LOG.debug("In deleteLeague(league)");
 		
-		LOG.debug("In addLeague with sql: " + sql);
+		String query = "delete from " + SqlTablesConstants.SQL_TABLE_NAME_LEAGUE + " where id = :leagueId";
+		SqlParameterSource parameters = new MapSqlParameterSource("leagueId", league.getId());
 		
-		connect();
+		namedParameterJdbcTemplate.update(query, parameters);
 		
-		try {
-			prpstm = conn.prepareStatement(sql);
-			prpstm.setInt(1, league.getId());
-			prpstm.executeUpdate();
-		} catch (SQLException e) {
-			LOG.error(e.toString());
-			return null;
-		} finally {
-			closeAll();
-		}
 		return league;
 	}
 	
