@@ -44,8 +44,18 @@ void fremadRouteInitializer(Router router, RouteViewFactory view) {
       ),
     'profile': ngRoute(
       path: '/profile', 
-      viewHtml: '<profile-view></profile-view>'
-      ),
+      viewHtml: '<profile-view></profile-view>',
+      mount: {
+        "edit" : ngRoute(
+           path: '/edit',
+           viewHtml: '<profile-edit-view></profile-edit-view>',
+           defaultRoute: true
+        ),
+        "validate" : ngRoute(
+           path: '/validate',
+           viewHtml: '<profile-validate-view></profile-validate-view>'
+        )
+      }),
     'admin': ngRoute(
       path: '/admin', 
       viewHtml: '<admin-view></admin-view>',

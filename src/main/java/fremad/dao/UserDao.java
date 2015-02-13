@@ -19,7 +19,7 @@ public interface UserDao {
 	UserObject getUser(int userId);
 	UserObject updateUser(UserObject userObject);
 	UserObject deleteUser(UserObject userObject);
-	void validateUser(String username);
+	void validateUser(int id);
 	
 	UserMetaListObject getUsersMeta();
 	UserMetaObject getUserMeta(int userId);
@@ -38,6 +38,8 @@ public interface UserDao {
 	UserRoleRequestObject deleteUserRoleRequest(UserRoleRequestObject userRoleRequestObject);
 	boolean deleteUserRoleRequestByUser(int userId);
 	
-
+	boolean saveValidationCode(String code, int userId);
+	String getValidationCode(int userId);
+	boolean deleteValidationCode(int userId);
 	
 }

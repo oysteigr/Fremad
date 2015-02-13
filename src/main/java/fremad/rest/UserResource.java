@@ -173,5 +173,15 @@ public class UserResource {
 		return userProcessor.deleteUserRoleRequest(userRoleRequestObject);
 	}
 	
+	@RequestMapping("/validateUser")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String validateUser(@RequestBody String code){
+		LOG.debug("validateUser");
+		code = code.replace("\"", "");
+		return userProcessor.validateUser(code.toString());
+	}
+	
 	
 }

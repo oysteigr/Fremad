@@ -115,15 +115,15 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 
 	
 	@Override
-	public void validateUser(String userName) {
+	public void validateUser(int id) {
 		LOG.debug("In validateUser(userName)");
 		
 		String updateStatement = "update " + SqlTablesConstants.SQL_TABLE_NAME_USER + " set "
 				+ "validated = :validated "
-				+ "where user_name = :userName";
+				+ "where id = :id";
 		
 		SqlParameterSource parameters = new MapSqlParameterSource("validated", true)
-			.addValue("userName", userName);
+			.addValue("id", id);
 
 		this.namedParameterJdbcTemplate.update(updateStatement, parameters);
 		
@@ -282,7 +282,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		LOG.debug("In grantUserRoleRequest(requestId)");
 		
 		String updateStatement = "update " + SqlTablesConstants.SQL_TABLE_NAME_USER_ROLE_REQUEST + " set "
-				+ "validated = :validated "
+				+ "accepted = :accepted "
 				+ "where id = :id";
 		
 		SqlParameterSource parameters = new MapSqlParameterSource("accepted", true)
@@ -309,6 +309,39 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		LOG.debug("In deleteUserRoleRequestByUser(userId)");
 		
 		String query = "delete from " + SqlTablesConstants.SQL_TABLE_NAME_USER_ROLE_REQUEST + " where user_id = :userId";
+		SqlParameterSource parameters = new MapSqlParameterSource("userId", userId);
+		
+		return namedParameterJdbcTemplate.update(query, parameters) > 0;
+	}
+
+	//----------------------USER VALIDATION METHODS----------------------
+
+	@Override
+	public boolean saveValidationCode(String code, int userId) {
+		LOG.debug("In saveValidationCode(code, userId)");
+
+		SimpleJdbcInsert insertLogg = new SimpleJdbcInsert(this.getDataSource())
+			.withTableName(SqlTablesConstants.SQL_TABLE_NAME_USER_VALIDATION);
+		
+		SqlParameterSource parameters = new MapSqlParameterSource("user_id", userId)
+			.addValue("code", code);
+		
+		return insertLogg.execute(parameters) > 0;
+	}
+
+
+	@Override
+	public String getValidationCode(int userId) {
+		String query = "select code from " + SqlTablesConstants.SQL_TABLE_NAME_USER_VALIDATION+ " where user_id = :userId";
+		SqlParameterSource parameters = new MapSqlParameterSource("userId", userId);
+		
+		return namedParameterJdbcTemplate.queryForObject(query, parameters, String.class);
+	}
+
+
+	@Override
+	public boolean deleteValidationCode(int userId) {
+		String query = "delete from " + SqlTablesConstants.SQL_TABLE_NAME_USER_VALIDATION + " where user_id = :userId";
 		SqlParameterSource parameters = new MapSqlParameterSource("userId", userId);
 		
 		return namedParameterJdbcTemplate.update(query, parameters) > 0;

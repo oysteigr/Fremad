@@ -24,11 +24,13 @@ public interface SqlTablesConstants {
 	String SQL_TABLE_NAME_EVENT = "event";
 	String SQL_TABLE_NAME_EVENT_TYPE = "event_type";
 	String SQL_TABLE_NAME_PLAYER = "player";
+	String SQL_TABLE_NAME_PLAYER_NOTE = "player_note";
 	String SQL_TABLE_NAME_TABLE_ENTRY = "table_entry";
 	String SQL_TABLE_NAME_USER = "user";
 	String SQL_TABLE_NAME_USER_META = "user_meta";
 	String SQL_TABLE_NAME_USER_ROLE_REQUEST = "user_role_request";	
 	String SQL_TABLE_NAME_USER_LOGIN = "user_login";
+	String SQL_TABLE_NAME_USER_VALIDATION = "user_validation";
 	String SQL_TABLE_NAME_ARTICLE = "article";
 	
 	// Table values
@@ -53,6 +55,14 @@ public interface SqlTablesConstants {
 			+ " CONSTRAINT `fk_player_team` FOREIGN KEY (`team`) REFERENCES `team` (`id`),"
 			+ " PRIMARY KEY (`id`)"
 			+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8",
+		"CREATE TABLE `player_note` ("
+			+ " `id` int(16) NOT NULL AUTO_INCREMENT,"
+			+ " `player_id` int(11) NOT NULL,"
+			+ " `field` varchar(255) NOT NULL,"
+			+ " `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,"
+			+ " CONSTRAINT `fk_player_note` FOREIGN KEY (`player_id`) REFERENCES `player` (`id`),"
+			+ " PRIMARY KEY (`id`)"
+			+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;",
 		"CREATE TABLE `league` ("
 			+ " `id` int(11) NOT NULL,"
 			+ " `name` varchar(255),"
@@ -148,6 +158,12 @@ public interface SqlTablesConstants {
 			+ " FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),"
 			+ "PRIMARY KEY ( `user_id` )"
 			+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8",
+		"CREATE TABLE `user_validation` ("
+			+ " `user_id` int(11) NOT NULL,"
+			+ " `code` varchar(255) NOT NULL,"
+			+ " `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,"
+			+ " FOREIGN KEY (`user_id`) REFERENCES user(`id`)"
+			+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;",
 		"CREATE TABLE `article` ("
 			+ " `id` INT(64) NOT NULL AUTO_INCREMENT, "
 			+ " `author_id` INT(64) NOT NULL , "
@@ -166,11 +182,13 @@ public interface SqlTablesConstants {
 
     String[] SQL_DROP_TABLE_STRINGS = {
 		"DROP TABLE `article`",
+		"DROP TABLE `user_validation`",
 		"DROP TABLE `user_meta`",
 		"DROP TABLE `user_login`",
 		"DROP TABLE `user_role_request`",
 		"DROP TABLE `user`",
 		"DROP TABLE `table_entry`",
+		"DROP TABLE `player_note`",
 		"DROP TABLE `player`",
 		"DROP TABLE `event`",
 		"DROP TABLE `event_type`",

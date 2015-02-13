@@ -1,0 +1,27 @@
+<h1>Hello, {{userMeta.firstName}} {{userMeta.lastName}}!</h1>
+
+{{userMeta.getFullName()}}
+
+<div class="form-group">
+  <img ng-show="verifyPhoneNumber() && showErrors" src="images/icons/green_tick.png" />
+  <img ng-hide="verifyPhoneNumber() || !showErrors" src="images/icons/red_cross.png" />
+  <input type="text" class="form-control input-lg" ng-model="userMeta.phoneNumber" placeholder="Phone number">
+</div>
+<div ng-hide="verifyPhoneNumber() || !showErrors" class="alert alert-danger">
+  <strong>Oh snap!</strong> Use syntax (+xx xxxxxxxxx) or (xxxxxxxx). 
+</div>
+<div class="form-group">
+  <img ng-show="verifyHomeTown() && showErrors" src="images/icons/green_tick.png" />
+  <img ng-hide="verifyHomeTown() || !showErrors" src="images/icons/red_cross.png" />
+  <input type="text" class="form-control input-lg" ng-model="userMeta.homeTown" placeholder="Hometown">
+</div>
+<div class="form-group">
+  <img ng-show="verifyProfession() && showErrors" src="images/icons/green_tick.png" />
+  <img ng-hide="verifyProfession() || !showErrors" src="images/icons/red_cross.png" />
+  <input type="text" class="form-control input-lg" ng-model="userMeta.profession" placeholder="Profession">
+</div>
+<div ng-hide="!success" class="alert alert-success">
+  <strong>Hurray!</strong> User updated! 
+</div>
+<input type="button" class="adminButton greenButton" value="update" ng-click="updateMeta()">
+

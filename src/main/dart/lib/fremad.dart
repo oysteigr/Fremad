@@ -59,6 +59,9 @@ part 'components/admin/events_view_component.dart';
 part 'components/admin/users_view_component.dart';
 part 'components/admin/role_request_view_component.dart';
 
+part 'components/profile/edit_view_component.dart';
+part 'components/profile/validate_view_component.dart';
+
 part 'components/boxes/table_box_component.dart';
 part 'components/boxes/match_box_component.dart';
 
@@ -104,6 +107,9 @@ class FremadApp extends Module {
     bind(ShowAdminSquadComponent);
     bind(ShowAdminUsersComponent);
     bind(ShowAdminRoleRequestComponent);
+    
+    bind(ShowProfileEditComponent);
+    bind(ShowProfileValidateComponent);
     
     bind(ShowBoxTableComponent);
     bind(ShowBoxMatchComponent);

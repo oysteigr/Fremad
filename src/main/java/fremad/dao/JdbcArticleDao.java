@@ -1,9 +1,5 @@
 package fremad.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -53,7 +49,7 @@ public class JdbcArticleDao extends JdbcConnection implements ArticleDao {
 				+ "(author_id, date, type, header, context, content, image_url, published) "
 				+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-		int key = -1;
+		LOG.debug("In updateArticle with sql: " + sql);
 
 /*		try {
 			prpstm = conn

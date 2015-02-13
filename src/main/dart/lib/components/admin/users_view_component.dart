@@ -8,8 +8,8 @@ part of fremad;
 )
 class ShowAdminUsersComponent {
   final Http _http;
-  bool usersLoaded;
-  bool userMetaLoaded;
+  bool usersLoaded = false;
+  bool userMetaLoaded = false;
   bool isEditing = false;
   bool confirmDelete = false;
   

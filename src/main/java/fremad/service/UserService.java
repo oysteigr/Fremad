@@ -19,6 +19,7 @@ import fremad.domain.user.UserRoleRequestObject;
 @Service
 @Scope("singleton")
 public class UserService {
+//	private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
 	
 	@Autowired
 	private JdbcUserDao userDao;
@@ -44,8 +45,8 @@ public class UserService {
 	public UserObject deleteUser(UserObject userObject){
 		return userDao.deleteUser(userObject);
 	}
-	public void validateUser(String username){
-		userDao.validateUser(username);
+	public void validateUser(int id){
+		userDao.validateUser(id);
 		return;
 	}
 	
@@ -107,5 +108,19 @@ public class UserService {
 			user.setPassword("");
 		}
 		return userListObject;
+	}
+	
+	//----------------------USER VALIDATION METHODS----------------------
+	
+	public boolean saveValidationCode(String code, int userId) {
+		return userDao.saveValidationCode(code, userId);
+	}
+	
+	public String getValidationCode(int userId) {
+		return userDao.getValidationCode(userId);
+	}
+	
+	public boolean deleteValidationCode(int userId) {
+		return userDao.deleteValidationCode(userId);
 	}
 }

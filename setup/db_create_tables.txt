@@ -1,31 +1,40 @@
 CREATE TABLE `team` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `online_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`name` varchar(255) DEFAULT NULL,
+	`online_id` int(11) DEFAULT NULL,
+	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `player` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `first_name` varchar(255) NOT NULL,
-    `last_name` varchar(255) NOT NULL,
-    `number` int(6) NOT NULL,
-    `member_since` year(4) NOT NULL,
-    `position` varchar(64) NOT NULL,
-    `preferred_foot` enum('left', 'right'),
-    `team` int(11) NOT NULL,
-    `active` tinyint(1) NOT NULL DEFAULT 0,
-    CONSTRAINT `fk_player_team` FOREIGN KEY (`team`) REFERENCES `team` (`id`),
-    PRIMARY KEY (`id`)
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`first_name` varchar(255) NOT NULL,
+	`last_name` varchar(255) NOT NULL,
+	`number` int(6) NOT NULL,
+	`member_since` year(4) NOT NULL,
+	`position` varchar(64) NOT NULL,
+	`preferred_foot` enum('left', 'right'),
+	`team` int(11) NOT NULL,
+	`active` tinyint(1) NOT NULL DEFAULT 0,
+	CONSTRAINT `fk_player_team` FOREIGN KEY (`team`) REFERENCES `team` (`id`),
+	PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `player_note` (
+	`id` int(16) NOT NULL AUTO_INCREMENT,
+	`player_id` int(11) NOT NULL,
+	`note` varchar(255) NOT NULL,
+	`date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	CONSTRAINT `fk_player_note` FOREIGN KEY (`player_id`) REFERENCES `player` (`id`),
+	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `league` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255),
-  `year` year(4) DEFAULT NULL,
-  `team` int(11) DEFAULT NULL,
-  CONSTRAINT `fk_league_team` FOREIGN KEY (`team`) REFERENCES `team` (`id`),
-  PRIMARY KEY (`id`)
+	`id` int(11) NOT NULL,
+	`name` varchar(255),
+	`year` year(4) DEFAULT NULL,
+	`team` int(11) DEFAULT NULL,
+	CONSTRAINT `fk_league_team` FOREIGN KEY (`team`) REFERENCES `team` (`id`),
+	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `match` (
@@ -120,6 +129,13 @@ CREATE TABLE `user_meta` (
 	 `profession` VARCHAR(32) , 
 	 CONSTRAINT `uc_user_id` UNIQUE (`user_id`),
 	 FOREIGN KEY (`user_id`) REFERENCES user(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `user_validation` (
+	`user_id` int(11) NOT NULL,
+	`code` varchar(255) NOT NULL,
+	`date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN KEY (`user_id`) REFERENCES user(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `article` (

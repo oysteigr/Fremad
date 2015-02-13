@@ -1,11 +1,56 @@
-.form-group img {
-  height: 30px;
-  float: left;
-  position: absolute;
-  top: 20%;
-  right: 2%;
+#profile-nav{
+  z-index: -1;
+  padding: 0;
+
 }
 
-.form-group{
-  position: relative;
+#profile-nav ul li{
+    list-style: none;
+    font-size: 20px;
+}
+
+#profile-nav a{
+    width: 100%;
+    margin: 0% 0% 0% 0%;
+    text-decoration: none;
+    float: left;
+    padding: 10px 15px 10px 10px;
+    font-size: 16px;
+    color: #000000;
+    text-transform: uppercase;
+}
+#profile-nav a img{
+  margin-right: 10px;
+  vertical-align: inherit;
+}
+
+#profile-nav span{
+    width: 100%;
+    float: left;
+    margin: 0% 0% 0% 0%;
+    font-size: 16px;
+    color: #777777;
+    padding: 10px 15px;
+    text-transform: uppercase;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+}
+        
+.nav-stacked{
+  background-color: #FFFFFF;
+  -moz-border-radius:8px;
+  -webkit-border-radius:8px;
+  border-radius:8px;
+  border: 1px solid #ddd;
+    margin: 0% 5% 0% 0%;
+}
+
+.profile-nav-wrapper{
+  float: left;
+  width: 20%;
+}
+
+.profile-page-wrapper{
+  float: left;
+  width: 80%;
 }

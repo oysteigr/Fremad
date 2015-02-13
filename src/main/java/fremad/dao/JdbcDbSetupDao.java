@@ -13,7 +13,9 @@ public class JdbcDbSetupDao extends JdbcConnection {
 	}
 	
 	public void create() {
+		
 		for (String sql : SqlTablesConstants.SQL_CREATE_TABLE_STRINGS) {
+			LOG.debug(sql);
 			namedParameterJdbcTemplate.getJdbcOperations().execute(sql);
 		}
 	}

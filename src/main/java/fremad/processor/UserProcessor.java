@@ -1,8 +1,13 @@
 package fremad.processor;
 
+import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +27,7 @@ import fremad.exception.InputException;
 import fremad.security.PasswordManager;
 import fremad.security.SessionSecurityContext;
 import fremad.service.UserService;
+import fremad.tools.GmailSmtp;
 
 @Component
 @Scope("request")	
@@ -34,6 +40,10 @@ public class UserProcessor {
 	
 	@Autowired
 	private SessionSecurityContext securityContext;
+	
+	@Autowired
+	private GmailSmtp gmailSmtp;
+	
 	
 	public UserListObject getUsers(){
 		LOG.debug("in getUsers");
@@ -75,8 +85,10 @@ public class UserProcessor {
 			id = userService.addUser(userObject);
 			userObject.setId(id);
 			
+			sendAndCreateValidationCode(userObject);
 			//TODO: Move this!
-			userService.validateUser(userObject.getUserName());
+
+			sendAndCreateValidationCode(userObject);
 			
 			if(UserRoleEnum.getUserRoleEnum(userObject.getRole()).getRoleValue() != UserRoleEnum.SUPPORTER.getRoleValue()){
 				userService.addUserRoleRequest(userObject.getId(), UserRoleEnum.getUserRoleEnum(userObject.getRole()));
@@ -116,8 +128,11 @@ public class UserProcessor {
 	
 	public UserRoleEnum loginUser(UserLogonObject userLogonObject){
 		
+
+		
 		UserObject registeredUser = userService.getUser(userLogonObject.getUserName());
 		UserRoleEnum userRole = null;
+		
 		
 		try{
 			userIsValidated(registeredUser);
@@ -181,6 +196,24 @@ public class UserProcessor {
 		return userService.deleteUserRoleRequest(userRoleRequestObject);
 	}
 	
+	public String validateUser(String code) {
+		LOG.debug("Got code: " + code);
+		String validationCode = code.split("-")[0].trim();
+		String idAsString = code.split("-")[1].trim();
+		LOG.debug("Got id: " + idAsString);
+		int userId = Integer.parseInt(idAsString);
+		userService.getValidationCode(userId);
+		String correctCode = userService.getValidationCode(userId);
+		LOG.debug("Checking code: " + validationCode + "with correct code: " + correctCode);
+		if(validationCode.equals(correctCode)){
+			userService.validateUser(userId);
+			userService.deleteValidationCode(userId);
+			return "Riktig!";
+		}else{
+			return "Feil!";
+		}
+	}
+	
 	private void userIsValidated(UserObject userObject) throws Exception{
 		if(!userObject.isValidated()){
 			throw new Exception("Not validated");
@@ -195,6 +228,21 @@ public class UserProcessor {
 			throw new Exception("wrong password!");
 		}
 		
+	}
+	
+	private void sendAndCreateValidationCode(UserObject registeredUser) throws AddressException, MessagingException{
+		String validationCode = generateValidationCode();
+		
+		userService.saveValidationCode(validationCode, registeredUser.getId());
+		
+		gmailSmtp.sendEmail(registeredUser.getUserName(), "Validation code", "http://drime.no/fremad/#/profile/validate?" 
+				+ validationCode + "-" + registeredUser.getId());
+		
+	}
+
+	private String generateValidationCode(){
+		SecureRandom random = new SecureRandom();
+		return new BigInteger(130, random).toString(32);
 	}
 
 
