@@ -24,7 +24,7 @@ CREATE TABLE `player_note` (
 	`player_id` int(11) NOT NULL,
 	`note` varchar(255) NOT NULL,
 	`date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CONSTRAINT `fk_player_note` FOREIGN KEY (`player_id`) REFERENCES `player` (`id`),
+	CONSTRAINT `fk_player_note` FOREIGN KEY (`player_id`) REFERENCES `player` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -33,7 +33,7 @@ CREATE TABLE `league` (
 	`name` varchar(255),
 	`year` year(4) DEFAULT NULL,
 	`team` int(11) DEFAULT NULL,
-	CONSTRAINT `fk_league_team` FOREIGN KEY (`team`) REFERENCES `team` (`id`),
+	CONSTRAINT `fk_league_team` FOREIGN KEY (`team`) REFERENCES `team` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -48,8 +48,8 @@ CREATE TABLE `match` (
 	`opposing_team_goals` tinyint DEFAULT NULL,
 	`date` timestamp NOT NULL,
 	`field` varchar(255) NOT NULL,
-	CONSTRAINT `fk_match_team` FOREIGN KEY (`team`) REFERENCES `team` (`id`),
-	CONSTRAINT `fk_match_league` FOREIGN KEY (`league`) REFERENCES `league` (`id`),
+	CONSTRAINT `fk_match_team` FOREIGN KEY (`team`) REFERENCES `team` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT `fk_match_league` FOREIGN KEY (`league`) REFERENCES `league` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	CONSTRAINT `uc_foreign_team` UNIQUE (`date`, `opposing_team_id`),
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -66,7 +66,7 @@ CREATE TABLE `event` (
 	`match` int(11) NOT NULL,
 	`time` tinyint NOT NULL,
 	CONSTRAINT `fk_event_event_type` FOREIGN KEY (`type`) REFERENCES `event_type` (`id`),
-	CONSTRAINT `fk_event_match` FOREIGN KEY (`match`) REFERENCES `match` (`id`),
+	CONSTRAINT `fk_event_match` FOREIGN KEY (`match`) REFERENCES `match` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -83,7 +83,7 @@ CREATE TABLE `table_entry` (
 	`games_won` int(6) NOT NULL,
 	`games_tied` int(6) NOT NULL,
 	`games_lost` int(6) NOT NULL,
-	CONSTRAINT `fk_table_entry_league` FOREIGN KEY (`league_id`) REFERENCES `league` (`id`),
+	CONSTRAINT `fk_table_entry_league` FOREIGN KEY (`league_id`) REFERENCES `league` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	CONSTRAINT `uc_league_team` UNIQUE (`league_id`, `team_id`),
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -107,7 +107,7 @@ CREATE TABLE `user_role_request` (
 	`date` timestamp NOT NULL,
 	`accepted` tinyint(1) NOT NULL DEFAULT 0,
 	`accepted_by` int(11) NOT NULL DEFAULT -1,
-	CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+	CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -115,7 +115,7 @@ CREATE TABLE `user_login` (
 	`id` int(16) NOT NULL AUTO_INCREMENT,
 	`user_id` int(11) NOT NULL,
 	`date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CONSTRAINT `fk_login_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+	CONSTRAINT `fk_login_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -128,14 +128,14 @@ CREATE TABLE `user_meta` (
 	 `home_town` VARCHAR(32) , 
 	 `profession` VARCHAR(32) , 
 	 CONSTRAINT `uc_user_id` UNIQUE (`user_id`),
-	 FOREIGN KEY (`user_id`) REFERENCES user(`id`)
+	 FOREIGN KEY (`user_id`) REFERENCES user(`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `user_validation` (
 	`user_id` int(11) NOT NULL,
 	`code` varchar(255) NOT NULL,
 	`date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	FOREIGN KEY (`user_id`) REFERENCES user(`id`)
+	FOREIGN KEY (`user_id`) REFERENCES user(`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `article` (
