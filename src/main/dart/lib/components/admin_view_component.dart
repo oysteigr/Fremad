@@ -10,4 +10,8 @@ class ShowAdminComponent {
   void create() {
     print("In this func");
   }
+  
+  bool showBasedOnRole(int role){
+    return USER.checkUserRole(role);
+  }
 }

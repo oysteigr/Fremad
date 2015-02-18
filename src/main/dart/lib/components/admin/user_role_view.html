@@ -1,0 +1,85 @@
+<h1>Users role</h1>
+
+
+<h3>Super({{getNumberInRole(6)}})<span class="max_min" ng-click="changeFilter(6)">{{getFilterSymbol(6)}}</span></h3>
+<ul id="user-list">
+    <li ng-repeat="userAndMeta in userAndMetaList" ng-show="filterByRole(userAndMeta.user, 6)">
+      <div class="item-name">      
+        <form>
+          {{userAndMeta.userMeta.firstName}} {{userAndMeta.userMeta.lastName}}
+            <input type="button" class="adminButton redButton" value="down" ng-click="changeDown(userAndMeta.user.id)">
+        </form>
+      </div>
+  </li>
+</ul>
+
+<h3>Admin({{getNumberInRole(5)}})<span class="max_min" ng-click="changeFilter(5)">{{getFilterSymbol(5)}}</span></h3>
+<ul id="user-list">
+    <li ng-repeat="userAndMeta in userAndMetaList" ng-show="filterByRole(userAndMeta.user, 5)">
+      <div class="item-name">      
+        <form>
+          {{userAndMeta.userMeta.firstName}} {{userAndMeta.userMeta.lastName}}
+            <input type="button" class="adminButton redButton" value="down" ng-click="changeDown(userAndMeta.user.id)">
+            <input type="button" class="adminButton greenButton" value="up" ng-click="changeUp(userAndMeta.user.id)">
+        </form>
+      </div>
+  </li>
+</ul>
+
+<h3>Editor({{getNumberInRole(4)}})<span class="max_min" ng-click="changeFilter(4)">{{getFilterSymbol(4)}}</span></h3>
+<ul id="user-list">
+    <li ng-repeat="userAndMeta in userAndMetaList" ng-show="filterByRole(userAndMeta.user, 4)">
+      <div class="item-name">      
+        <form>
+          {{userAndMeta.userMeta.firstName}} {{userAndMeta.userMeta.lastName}}
+            <input type="button" class="adminButton redButton" value="down" ng-click="changeDown(userAndMeta.user.id)">
+            <input type="button" class="adminButton greenButton" value="up" ng-click="changeUp(userAndMeta.user.id)">
+        </form>
+      </div>
+  </li>
+</ul>
+
+<h3>Contributor({{getNumberInRole(3)}})<span class="max_min" ng-click="changeFilter(3)">{{getFilterSymbol(3)}}</span></h3>
+<ul id="user-list">
+    <li ng-repeat="userAndMeta in userAndMetaList" ng-show="filterByRole(userAndMeta.user, 3)">
+      <div class="item-name">      
+        <form>
+          {{userAndMeta.userMeta.firstName}} {{userAndMeta.userMeta.lastName}}
+            <input type="button" class="adminButton redButton" value="down" ng-click="changeDown(userAndMeta.user.id)">
+            <input type="button" class="adminButton greenButton" value="up" ng-click="changeUp(userAndMeta.user.id)">
+        </form>
+      </div>
+  </li>
+</ul>
+
+<h3>Player({{getNumberInRole(2)}})<span class="max_min" ng-click="changeFilter(2)">{{getFilterSymbol(2)}}</span></h3>
+<ul id="user-list">
+    <li ng-repeat="userAndMeta in userAndMetaList" ng-show="filterByRole(userAndMeta.user, 2)">
+      <div class="item-name">      
+        <form>
+          {{userAndMeta.userMeta.firstName}} {{userAndMeta.userMeta.lastName}}
+            <input type="button" class="adminButton redButton" value="down" ng-click="changeDown(userAndMeta.user.id)">
+            <input type="button" class="adminButton greenButton" value="up" ng-click="changeUp(userAndMeta.user.id)">
+        </form>
+      </div>
+  </li>
+</ul>
+
+<h3>Supporter({{getNumberInRole(1)}})<span class="max_min" ng-click="changeFilter(1)">{{getFilterSymbol(1)}}</span></h3>
+<ul id="user-list">
+    <li ng-repeat="userAndMeta in userAndMetaList" ng-show="filterByRole(userAndMeta.user, 1)">
+      <div class="item-name">      
+        <form>
+          {{userAndMeta.userMeta.firstName}} {{userAndMeta.userMeta.lastName}}
+            <input type="button" class="adminButton greenButton" value="up" ng-click="changeUp(userAndMeta.user.id)">
+        </form>
+      </div>
+  </li>
+</ul>
+
+
+
+<div ng-hide="errorMessage.isEmpty" class="alert alert-danger">
+  <strong>Oh snap!</strong> {{errorMessage}}
+</div>
+

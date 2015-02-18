@@ -89,9 +89,17 @@ void fremadRouteInitializer(Router router, RouteViewFactory view) {
             path: '/users',
             viewHtml: '<admin-users-view></admin-users-view>'
          ),
+         "userRole" : ngRoute(
+            path: '/userRole',
+            viewHtml: '<admin-user-role-view></admin-user-role-view>'
+         ),
          "roleRequest" : ngRoute(
             path: '/roleRequest',
             viewHtml: '<admin-role-request-view></admin-role-request-view>'
+         ),
+         "userLogins" : ngRoute(
+            path: '/userLogins',
+            viewHtml: '<admin-user-login-view></admin-user-login-view>'
          )
       }
     )

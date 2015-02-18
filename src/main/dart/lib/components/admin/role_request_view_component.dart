@@ -11,6 +11,7 @@ class ShowAdminRoleRequestComponent {
   bool requestsLoaded;
   bool userMetaLoaded;
   bool showAccepted = false;
+  String errorMessage = "";
   
   UserMetaList userMetaListObject;
   List<UserMeta> userMetaList;
@@ -38,8 +39,10 @@ class ShowAdminRoleRequestComponent {
         requestsLoaded = true;
         html.window.console.info("Success on loading requests");
       })
-      .catchError((e) {
-        print(e);
+      .catchError((HttpResponse response) {
+        if(response.status == 400){
+          errorMessage = response.data.toString();
+        }
         requestsLoaded = false;
         html.window.console.info("Could not load rest/user/getUserRoleRequests.json");
       });
@@ -56,8 +59,10 @@ class ShowAdminRoleRequestComponent {
         userMetaLoaded = true;
         html.window.console.info("Success on loading user meta");
       })
-      .catchError((e) {
-        print(e);
+      .catchError((HttpResponse response) {
+        if(response.status == 400){
+          errorMessage = response.data.toString();
+        }
         userMetaLoaded = false;
         html.window.console.info("Could not load rest/team/getUsersMeta.json");
       });

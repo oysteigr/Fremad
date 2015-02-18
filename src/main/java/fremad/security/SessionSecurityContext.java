@@ -14,6 +14,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import fremad.domain.user.UserRoleEnum;
+import fremad.exception.UserNoPremissisionException;
+import fremad.exception.UserNotLoggedInException;
 
 
 @Component
@@ -70,13 +72,15 @@ public class SessionSecurityContext implements SecurityContext {
 		}
 	}
 	
-	public boolean checkUserPremission(UserRoleEnum premissionRole) throws Exception{
+	public void checkUserPremission(UserRoleEnum premissionRole){
 		HttpSession session = httpServletRequest.getSession(false);
+		if(session== null){
+			throw new UserNotLoggedInException(null, 0, "You have to logg in to do this");
+		}
 		UserRoleEnum userRole = (UserRoleEnum) session.getAttribute(SESSION_USER_ROLE);
 		if(premissionRole.getRoleValue() > userRole.getRoleValue()){
-			throw new Exception("User have not premission to do this");
+			throw new UserNoPremissisionException(null, 0, "You do not have premission to do this");
 		}
-		return true;
 	}
 	
 	public UserRoleEnum getUserRole(){

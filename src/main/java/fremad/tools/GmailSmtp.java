@@ -48,7 +48,7 @@ public class GmailSmtp {
 				});
 	}
 	 
-	public void sendEmail(String recipient, String subject, String Body) throws AddressException, MessagingException{
+	public void sendEmail(String recipient, String subject, String body) throws AddressException, MessagingException{
 		
 		LOG.info("\n\n Sending mail to " + recipient + " with subject " + subject);
 
@@ -56,7 +56,7 @@ public class GmailSmtp {
 		message.setFrom(new InternetAddress(configProperties.getPropValues(USERNAME)));
 		message.setRecipients(Message.RecipientType.TO,	InternetAddress.parse(recipient));
 		message.setSubject(subject);
-		message.setText(Body);
+		message.setContent(body, "text/html; charset=utf-8");
 	
 		Transport.send(message);
 

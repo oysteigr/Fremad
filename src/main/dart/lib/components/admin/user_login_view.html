@@ -1,0 +1,12 @@
+<h1>User Logins Log</h1>
+<ul id="request-list">
+    <li ng-repeat="userMetaAndLogin in userMetaAndLoginList">
+    <div class="item-name"">
+      {{userMetaAndLogin.userMeta.getFullName()}} <span class="role">{{userMetaAndLogin.loginList.length}}</span>
+    </div>
+  </li>
+</ul>
+
+<div ng-hide="errorMessage.isEmpty" class="alert alert-danger">
+  <strong>Oh snap!</strong> {{errorMessage}}
+</div>

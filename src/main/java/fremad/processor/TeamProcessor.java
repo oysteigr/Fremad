@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 
 import fremad.domain.TeamObject;
 import fremad.domain.list.TeamListObject;
+import fremad.domain.user.UserRoleEnum;
+import fremad.security.SessionSecurityContext;
 import fremad.service.TeamService;
 
 @Component
@@ -13,7 +15,10 @@ import fremad.service.TeamService;
 public class TeamProcessor {
 	
 	@Autowired
-	TeamService teamService;
+	private TeamService teamService;
+	
+	@Autowired
+	private SessionSecurityContext securityContext;
 	
 	public TeamListObject getTeams(){
 		return teamService.getTeams();
@@ -24,14 +29,23 @@ public class TeamProcessor {
 	}
 
 	public TeamObject addTeam(TeamObject teamObject){
+
+		securityContext.checkUserPremission(UserRoleEnum.ADMIN);
+		
 		return teamService.addTeam(teamObject);
 	}
 
 	public TeamObject updateTeam(TeamObject teamObject){
+
+		securityContext.checkUserPremission(UserRoleEnum.ADMIN);
+		
 		return teamService.updateTeam(teamObject);
 	}
 
 	public TeamObject deleteTeam(TeamObject teamObject){
+
+		securityContext.checkUserPremission(UserRoleEnum.ADMIN);
+		
 		return teamService.deleteTeam(teamObject);
 	}
 

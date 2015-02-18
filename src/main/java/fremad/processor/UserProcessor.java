@@ -13,8 +13,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
+import fremad.domain.list.UserLoginLogListObject;
 import fremad.domain.user.UserListObject;
 import fremad.domain.user.UserLogonObject;
 import fremad.domain.user.UserMetaListObject;
@@ -23,11 +25,17 @@ import fremad.domain.user.UserObject;
 import fremad.domain.user.UserRoleEnum;
 import fremad.domain.user.UserRoleRequestListObject;
 import fremad.domain.user.UserRoleRequestObject;
-import fremad.exception.InputException;
+import fremad.exception.TechnicalErrorException;
+import fremad.exception.UserExistsException;
+import fremad.exception.UserNotFoundException;
+import fremad.exception.UserNotValidatedException;
+import fremad.exception.UserPasswordCombiException;
+import fremad.exception.ValidationException;
 import fremad.security.PasswordManager;
 import fremad.security.SessionSecurityContext;
 import fremad.service.UserService;
 import fremad.tools.GmailSmtp;
+import fremad.utils.MailGenerator;
 
 @Component
 @Scope("request")	
@@ -47,12 +55,18 @@ public class UserProcessor {
 	
 	public UserListObject getUsers(){
 		LOG.debug("in getUsers");
+		
+		securityContext.checkUserPremission(UserRoleEnum.SUPER);
+		
 		return userService.getUsers();
 		
 	}
 	
 	public UserMetaListObject getUsersMeta(){
 		LOG.debug("in getUserMeta");
+
+		securityContext.checkUserPremission(UserRoleEnum.SUPER);
+		
 		return userService.getUsersMeta();
 	}
 	
@@ -86,9 +100,6 @@ public class UserProcessor {
 			userObject.setId(id);
 			
 			sendAndCreateValidationCode(userObject);
-			//TODO: Move this!
-
-			sendAndCreateValidationCode(userObject);
 			
 			if(UserRoleEnum.getUserRoleEnum(userObject.getRole()).getRoleValue() != UserRoleEnum.SUPPORTER.getRoleValue()){
 				userService.addUserRoleRequest(userObject.getId(), UserRoleEnum.getUserRoleEnum(userObject.getRole()));
@@ -96,7 +107,7 @@ public class UserProcessor {
 				
 		}catch(SQLException e){
 			LOG.debug(e.toString());
-			throw new InputException(e, 101, "Username allready taken");
+			throw new UserExistsException(e, 0, "Username allready taken");
 		}catch(Exception e){
 			LOG.debug(e.toString());
 			return -1;
@@ -104,11 +115,22 @@ public class UserProcessor {
 		return id; 
 	}
 	
+	public UserObject updateUserRole(UserObject userObject) {
+		securityContext.checkUserPremission(UserRoleEnum.SUPER);
+		return userService.updateUserRole(userObject);
+	}
+	
+	public UserRoleEnum getUserRole(){
+		return securityContext.getUserRole();
+	}
+	
 	public boolean addUserMeta(UserMetaObject userMetaObject){
 		return userService.addUserMeta(userMetaObject);
 	}
 	
 	public UserObject deleteUser(UserObject userObject){
+		
+		securityContext.checkUserPremission(UserRoleEnum.SUPER);
 		
 		if(userService.deleteUserMeta(userObject.getId())){
 			LOG.debug("Success on deleting userMeta of user: " + userObject.getId());
@@ -128,21 +150,21 @@ public class UserProcessor {
 	
 	public UserRoleEnum loginUser(UserLogonObject userLogonObject){
 		
-
-		
-		UserObject registeredUser = userService.getUser(userLogonObject.getUserName());
+		UserObject registeredUser;
+		try{
+			registeredUser = userService.getUser(userLogonObject.getUserName());
+		}catch(EmptyResultDataAccessException e){
+			throw new UserNotFoundException(null, 0, "User does not exist");
+		}
 		UserRoleEnum userRole = null;
 		
 		
-		try{
-			userIsValidated(registeredUser);
-			checkPassword(userLogonObject, registeredUser);
-			userService.loggUserLogin(registeredUser.getId());
-			userRole = UserRoleEnum.getUserRoleEnum(registeredUser.getRole());
-		}catch(Exception e){
-			LOG.debug(e.toString());
-			return null;
-		}
+
+		userIsValidated(registeredUser);
+		checkPassword(userLogonObject, registeredUser);
+		userService.loggUserLogin(registeredUser.getId());
+		userRole = UserRoleEnum.getUserRoleEnum(registeredUser.getRole());
+
 		securityContext.createSession(registeredUser.getUserName());
 		securityContext.setUserRole(userRole);
 		
@@ -159,10 +181,7 @@ public class UserProcessor {
 		}
 		return true;
 	}
-	
-	public UserRoleEnum getUserRole(){
-		return securityContext.getUserRole();
-	}
+
 	
 	public int getUserId() {
 		int id = userService.getUser(securityContext.getUserName()).getId();
@@ -171,19 +190,18 @@ public class UserProcessor {
 	}
 	
 	public UserRoleRequestListObject getUserRoleRequests(){
-		int userRole = getUserRole().getRoleValue();
-		userRole = 6;
+
+		securityContext.checkUserPremission(UserRoleEnum.SUPER);
+		
 		UserRoleRequestListObject response = userService.getUserRoleRequests();
-		UserRoleRequestListObject filteredResponse = new UserRoleRequestListObject();
-		for(UserRoleRequestObject request : response){
-			if (request.getRequestedRole() < userRole && userService.getUser(request.getUserId()).isValidated()){
-				filteredResponse.add(request);
-			}
-		}
-		return filteredResponse;
+
+		return response;
 	}
 	
 	public boolean grantUserRoleRequest(UserRoleRequestObject userRoleRequestObject) {
+
+		securityContext.checkUserPremission(UserRoleEnum.SUPER);
+		
 		UserObject userAsking = userService.getUser(userRoleRequestObject.getUserId());
 		userAsking.setRole(userRoleRequestObject.getRequestedRole());
 		if(userService.updateUser(userAsking) == null){
@@ -193,10 +211,13 @@ public class UserProcessor {
 	}
 
 	public UserRoleRequestObject deleteUserRoleRequest(UserRoleRequestObject userRoleRequestObject) {
+
+		securityContext.checkUserPremission(UserRoleEnum.SUPER);
+		
 		return userService.deleteUserRoleRequest(userRoleRequestObject);
 	}
 	
-	public String validateUser(String code) {
+	public boolean validateUser(String code) {
 		LOG.debug("Got code: " + code);
 		String validationCode = code.split("-")[0].trim();
 		String idAsString = code.split("-")[1].trim();
@@ -208,24 +229,35 @@ public class UserProcessor {
 		if(validationCode.equals(correctCode)){
 			userService.validateUser(userId);
 			userService.deleteValidationCode(userId);
-			return "Riktig!";
-		}else{
-			return "Feil!";
+			return true;
 		}
+		throw new ValidationException(null, 0, "Validation failed");
 	}
 	
-	private void userIsValidated(UserObject userObject) throws Exception{
+	private void userIsValidated(UserObject userObject) throws UserNotValidatedException {
 		if(!userObject.isValidated()){
-			throw new Exception("Not validated");
+			throw new UserNotValidatedException(null, 0,"Not validated");
 		} 
 	}
 	
 	private void checkPassword(UserLogonObject userLogonObject, UserObject registeredUser) 
-			throws NoSuchAlgorithmException, InvalidKeySpecException, Exception{
+			throws UserPasswordCombiException{
 		
-		if(!PasswordManager.validatePassword(userLogonObject.getPassword(), 
-				"1000:" + registeredUser.getSalt() + ":" + registeredUser.getPassword())){
-			throw new Exception("wrong password!");
+		boolean correctPassword = false;
+		try {
+			
+			correctPassword = PasswordManager.validatePassword(userLogonObject.getPassword(), 
+					"1000:" + registeredUser.getSalt() + ":" + registeredUser.getPassword());
+			
+			if(!correctPassword){
+				throw new UserPasswordCombiException(null, 0,"wrong password!");
+			}
+		} catch (NoSuchAlgorithmException e) {			
+			e.printStackTrace();
+			throw new TechnicalErrorException(null, 0,"internal error!");
+		} catch (InvalidKeySpecException e) {			
+			e.printStackTrace();
+			throw new TechnicalErrorException(null, 0,"internal error!");
 		}
 		
 	}
@@ -235,8 +267,7 @@ public class UserProcessor {
 		
 		userService.saveValidationCode(validationCode, registeredUser.getId());
 		
-		gmailSmtp.sendEmail(registeredUser.getUserName(), "Validation code", "http://drime.no/fremad/#/profile/validate?" 
-				+ validationCode + "-" + registeredUser.getId());
+		gmailSmtp.sendEmail(registeredUser.getUserName(), "Validation code", MailGenerator.generateValidationMail(registeredUser.getId(), validationCode));
 		
 	}
 
@@ -245,9 +276,11 @@ public class UserProcessor {
 		return new BigInteger(130, random).toString(32);
 	}
 
+	public UserLoginLogListObject getUserLogins() {
+		
+		securityContext.checkUserPremission(UserRoleEnum.SUPER);
 
+		return userService.getUserLogins();
+	}
 
-
-	
-	
 }

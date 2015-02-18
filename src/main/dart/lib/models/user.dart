@@ -36,7 +36,7 @@ class User{
         return 1;
       case "PLAYER":
         return 2;
-      case "AUTHOR":
+      case "CONTRIBUTOR":
         return 3;
       case "EDITOR":
         return 4;
@@ -55,7 +55,7 @@ class User{
       case 2:
         return "PLAYER";
       case 3:
-        return "AUTHOR";
+        return "CONTRIBUTOR";
       case 4:
         return "EDITOR";
       case 5:

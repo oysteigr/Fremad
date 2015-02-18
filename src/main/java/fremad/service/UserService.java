@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import fremad.dao.JdbcUserDao;
+import fremad.domain.list.UserLoginLogListObject;
 import fremad.domain.user.UserListObject;
-import fremad.domain.user.UserLoginLogListObject;
 import fremad.domain.user.UserMetaListObject;
 import fremad.domain.user.UserMetaObject;
 import fremad.domain.user.UserObject;
@@ -41,7 +41,9 @@ public class UserService {
 	public UserObject updateUser(UserObject userObject){
 		return userDao.updateUser(userObject);
 	}
-
+	public UserObject updateUserRole(UserObject userObject){
+		return userDao.updateUserRole(userObject);
+	}
 	public UserObject deleteUser(UserObject userObject){
 		return userDao.deleteUser(userObject);
 	}

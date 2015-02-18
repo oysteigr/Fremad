@@ -7,17 +7,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "UserLoginLogObject")
 public class UserLoginLogObject {
 	private int id;
-	private int user_id;
+	private int userId;
 	private Timestamp date;
 	
 	public UserLoginLogObject(){
 		
 	}
 	
-	public UserLoginLogObject(int id, int user_id, Timestamp date) {
+	public UserLoginLogObject(int id, int userId, Timestamp date) {
 		super();
 		this.id = id;
-		this.user_id = user_id;
+		this.userId = userId;
 		this.date = date;
 	}
 	
@@ -27,11 +27,11 @@ public class UserLoginLogObject {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getUser_id() {
-		return user_id;
+	public int getUserId() {
+		return userId;
 	}
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public void setUser_id(int userId) {
+		this.userId = userId;
 	}
 	public Timestamp getDate() {
 		return date;

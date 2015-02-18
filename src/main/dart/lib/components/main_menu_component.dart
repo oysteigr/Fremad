@@ -122,6 +122,8 @@ class MainMenuComponent {
   bool showErrors = false;
   bool userNameTaken = false;
   
+  String errorMessage = "";
+  
   void registerNewUser(){
     html.window.console.info("Is in registerNewUser");
     int id;
@@ -196,8 +198,11 @@ class MainMenuComponent {
           html.window.console.info("user could not log in: " + userLogon.userName);
         }
       })
-      .catchError((e) {
-        print(e);
+      .catchError((HttpResponse response) {
+        if(response.status == 400){
+          errorMessage = response.data.toString();
+        }
+        html.window.console.info(response);
         loginSuccess = false;
         html.window.console.info("Could not load rest/user/loginUser.json");
       });

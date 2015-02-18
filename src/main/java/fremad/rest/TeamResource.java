@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fremad.domain.TeamObject;
 import fremad.domain.list.TeamListObject;
+import fremad.domain.user.UserRoleEnum;
 import fremad.processor.TeamProcessor;
 import fremad.utils.UrlParser;
 
@@ -57,7 +58,7 @@ public class TeamResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public  TeamObject addTeam(@RequestBody TeamObject team){
-		LOG.debug("Adding team ' " + team.getName() + "'");
+		LOG.debug("Adding team ' " + team.getName() + "'");		
 		return teamProcessor.addTeam(team);
 	}
 	

@@ -26,11 +26,16 @@ class ShowProfileValidateComponent {
   
   void validateUser(String querystring){
     html.window.console.info("In validateUser() with string: " + querystring);
-    
+    bool success;
     _http.post('rest/user/validateUser.json', JSON.encode(querystring))
     .then((HttpResponse response) {
       String stringResponse = response.data.toString;
-      message = "User account for " + stringResponse + " has been activated!";
+      success = response.data.toString() == 'true';
+      if(success){
+        message = "User account for " + stringResponse + " has been activated!";
+      }else{
+        message= "This account does not exist or something else went wrong. Try register again";
+      }
     })
     .catchError((e) {
       print(e);

@@ -1,31 +1,41 @@
 <div class="admin-nav-wrapper">
   <div id="admin-nav" class="nav-collapse" >
       <ul class="nav nav-tabs nav-stacked">
-          <div class="editor-role">
+          <div ng-show="showBasedOnRole(3)" class="editor-role">
               <li><a href="#/admin/events"><img src="images/icons/home_icon&16.png" />Dashboard</a></li>
-              <li><span>Author</span></li>
+              <li><span>Contributor</span></li>
               <li><a href="#/admin/events"><img src="images/icons/flag_icon&16.png" />Match Events</a></li>
           </div>
-           <div class="editor-role">
+           <div ng-show="showBasedOnRole(4)" class="editor-role">
               <li><span>Editor</span></li>     
               <li><a href="#/admin/articles"><img src="images/icons/doc_empty_icon&16.png" />Articles</a></li> 
+              <li><a href="#/admin/players"><img src="images/icons/user_icon&16.png" />Players</a></li>
           </div>
-          <div class="editor-role">
+          <div ng-show="showBasedOnRole(5)" class="editor-role">
               <li><span>Admin</span></li>
               <li><a href="#/admin/teams"><img src="images/icons/layers_2_icon&16.png" />Teams</a></li>
               <li><a href="#/admin/leagues"><img src="images/icons/list_bullets_icon&16.png" />Leagues</a></li>
-              <li><a href="#/admin/players"><img src="images/icons/user_icon&16.png" />Players</a></li>
               <li><a href="#/admin/squad"><img src="images/icons/squad_icon&16.png" />Squad</a></li>         
           </div>
-          <div class="editor-role">
+          <div ng-show="showBasedOnRole(6)" class="editor-role">
               <li><span>Super admin</span></li>
               <li><a href="#/admin/users"><img src="images/icons/users_icon&16.png" />Users</a></li>
+              <li><a href="#/admin/userRole"><img src="images/icons/key_icon&16.png" />User role</a></li>
               <li><a href="#/admin/roleRequest"><img src="images/icons/lock_open_icon&16.png" />Role requests</a></li>
+              <li><a href="#/admin/userLogins"><img src="images/icons/align_just_icon&16.png" />User logins</a></li>
           </div>
       </ul>
   </div>
 </div>
 
-<aside class="admin-page-wrapper">
+<aside  ng-show="showBasedOnRole(3)" class="admin-page-wrapper">
   <ng-view></ng-view>
 </aside>
+
+<div ng-show="!showBasedOnRole(1)" class="alert alert-danger">
+  <strong>Oh snap!</strong> You have to log in to see this..
+</div>
+
+<div ng-show="showBasedOnRole(1) && !showBasedOnRole(3)" class="alert alert-danger">
+  <strong>Oh snap!</strong> You do not have the premissions to see this..
+</div>

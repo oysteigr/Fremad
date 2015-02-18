@@ -8,7 +8,7 @@
           <li ng-repeat="team in teamList" ><a href="#/team/{{team.id}}/about">{{team.name}}</a></li>
         </ul></li>
       <li><a href="#/sponsors">Sponsors</a></li>
-      <li ng-show="showBasedOnRole(1)"><a href="#/admin">Admin</a></li>
+      <li ng-show="showBasedOnRole(2)"><a href="#/admin">Admin</a></li>
       <li ng-show="showBasedOnRole(1)"><a href="#/profile">Profile</a></li>
       <li ng-click="setShowLogin(true)" ng-hide="showBasedOnRole(1)"><a href="#/">Login</a></li>
       <li ng-click="logoutUser()" ng-show="showBasedOnRole(1)"><a href="#/">Log out</a></li>
@@ -33,9 +33,12 @@
             <div class="form-group">
               <input type="password" class="form-control input-lg" ng-model="userLogon.password" placeholder="Password">
             </div>
+            <div ng-hide="errorMessage.isEmpty" class="alert alert-danger">
+              <strong>Oh snap!</strong> {{errorMessage}}
+            </div>
             <div class="form-group">
               <button ng-click="loginUser()" class="btn btn-primary btn-lg btn-block">Sign In</button>
-              <span ng-click="setShowSignup(true)" class="pull-right"><a href="#">Register</a></span><span><a href="#">Need help?</a></span>
+              <span ng-click="setShowSignup(true)" class="pull-right"><a href="#">Register</a></span><span><a href="#">Forgot password?</a></span>
             </div>
           </form>
       </div>
@@ -111,7 +114,7 @@
                   <select class="form-control" ng-model="currentUser.role">
                     <option ng-value="1">Supporter</option>
                     <option ng-value="2">Player</option>
-                    <option ng-value="3">Author</option>
+                    <option ng-value="3">Contributor</option>
                     <option ng-value="4">Editor</option>
                     <option ng-value="5">Admin</option>
                   </select>

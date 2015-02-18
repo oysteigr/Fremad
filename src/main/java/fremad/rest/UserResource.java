@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import fremad.domain.list.UserLoginLogListObject;
 import fremad.domain.user.UserListObject;
 import fremad.domain.user.UserLogonObject;
 import fremad.domain.user.UserMetaListObject;
@@ -85,6 +86,15 @@ public class UserResource {
 	public int createUser(@RequestBody UserObject userObject){
 		LOG.debug("Create user ' " + userObject.getUserName() + "'");
 		return userProcessor.createUser(userObject);
+	}
+	
+	@RequestMapping("/updateUserRole")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public UserObject updateUserRole(@RequestBody UserObject userObject, @Context final HttpServletResponse response){
+		return userProcessor.updateUserRole(userObject);
+		
 	}
 	
 	@RequestMapping("/addUserMeta")
@@ -177,10 +187,18 @@ public class UserResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public String validateUser(@RequestBody String code){
+	public boolean validateUser(@RequestBody String code){
 		LOG.debug("validateUser");
 		code = code.replace("\"", "");
 		return userProcessor.validateUser(code.toString());
+	}
+	
+	@RequestMapping("/getUserLogins")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public UserLoginLogListObject getUserLogins(){
+		LOG.debug("getUserLogins");
+		return userProcessor.getUserLogins();
 	}
 	
 	

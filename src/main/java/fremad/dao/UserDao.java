@@ -2,8 +2,8 @@ package fremad.dao;
 
 import java.sql.SQLException;
 
+import fremad.domain.list.UserLoginLogListObject;
 import fremad.domain.user.UserListObject;
-import fremad.domain.user.UserLoginLogListObject;
 import fremad.domain.user.UserMetaListObject;
 import fremad.domain.user.UserMetaObject;
 import fremad.domain.user.UserObject;
@@ -18,6 +18,7 @@ public interface UserDao {
 	UserObject getUser(String userName);
 	UserObject getUser(int userId);
 	UserObject updateUser(UserObject userObject);
+	UserObject updateUserRole(UserObject userObject);
 	UserObject deleteUser(UserObject userObject);
 	void validateUser(int id);
 	
@@ -41,5 +42,6 @@ public interface UserDao {
 	boolean saveValidationCode(String code, int userId);
 	String getValidationCode(int userId);
 	boolean deleteValidationCode(int userId);
+
 	
 }

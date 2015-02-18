@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 
 import fremad.domain.PlayerObject;
 import fremad.domain.list.PlayerListObject;
+import fremad.domain.user.UserRoleEnum;
+import fremad.security.SessionSecurityContext;
 import fremad.service.PlayerService;
 
 
@@ -18,6 +20,9 @@ public class PlayerProcessor {
 	
 	@Autowired
 	PlayerService playerService;
+	
+	@Autowired
+	SessionSecurityContext securityContext;
 	
 	public PlayerListObject getPlayers(){
 		PlayerListObject response = playerService.getPlayers();
@@ -47,14 +52,23 @@ public class PlayerProcessor {
 	
 	
 	public PlayerObject addPlayer(PlayerObject player){
+
+		securityContext.checkUserPremission(UserRoleEnum.EDITOR);
+		
 		return playerService.addPlayer(player);
 	}
 	
 	public PlayerObject updatePlayer(PlayerObject player){
+
+		securityContext.checkUserPremission(UserRoleEnum.EDITOR);
+		
 		return playerService.updatePlayer(player);
 	}
 	
 	public PlayerObject deletePlayer(PlayerObject player){
+
+		securityContext.checkUserPremission(UserRoleEnum.EDITOR);
+		
 		return playerService.deletePlayer(player);
 	}
 }

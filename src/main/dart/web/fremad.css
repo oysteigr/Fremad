@@ -328,7 +328,7 @@ footer {
   }
 }
 
-/*-------Loading bar------*/
+/*-------Loading spinner------*/
 
 
 .spinner {
@@ -339,6 +339,7 @@ footer {
 }
 
 .cube1, .cube2 {
+  background-image: images/f_icon.png.png;
   background-color: #020c90;
   width: 15px;
   height: 15px;

@@ -61,27 +61,14 @@ class ShowBoxTableComponent implements AttachAware{
         html.window.console.info("Could not load rest/league/getLeagues.json");
       });
   } 
-/*  
-  void loadTeam(){
-    html.window.console.info("Is in loadTeam");
-    teamLoaded = false;
-    _http.post('rest/team/getTeam.json', JSON.encode(team.id))
-      .then((HttpResponse response) {
-        print(response);
-        team = new Team.fromJson(response.data);
-        teamLoaded = true;
-        html.window.console.info("Success on loading team");
-      })
-      .catchError((e) {
-        print(e);
-        teamLoaded = false;
-        html.window.console.info("Could not load rest/team/getTeam.json");
-      });    
-  }
-*/
+
   @override
   void attach() {
     html.window.console.info("Constructor: teamId=" + team.id.toString());
      loadLeagues();
+  }
+  
+  bool allLoaded(){
+    return tableEntriesLoaded && leaguesLoaded;
   }
 }

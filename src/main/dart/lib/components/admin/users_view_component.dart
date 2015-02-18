@@ -10,13 +10,19 @@ class ShowAdminUsersComponent {
   final Http _http;
   bool usersLoaded = false;
   bool userMetaLoaded = false;
+  bool userAndMetaMerged = false;
   bool isEditing = false;
   bool confirmDelete = false;
   
-  UserMetaList userMetaListObject;
-  List<UserMeta> userMetaList;
+  String errorMessage = "";
+  
   UserList userListObject;
+  UserMetaList userMetaListObject;
+  
   List<User> userList;
+  List<UserMeta> userMetaList;
+  List<UserAndMeta> userAndMetaList;
+  
   int selectedUser = -1;
   UserMeta currentMeta;
   int roleFilter = 9;
@@ -40,9 +46,14 @@ class ShowAdminUsersComponent {
         userList = userListObject.userList;
         usersLoaded = true;
         html.window.console.info("Success on loading users");
+        if(userMetaLoaded && !userAndMetaMerged){
+          mergeUserAndMeta();
+        }
       })
-      .catchError((e) {
-        print(e);
+      .catchError((HttpResponse response) {
+        if(response.status == 400){
+          errorMessage = response.data.toString();
+        }
         usersLoaded = false;
         html.window.console.info("Could not load rest/user/getUsers.json");
       });
@@ -58,13 +69,33 @@ class ShowAdminUsersComponent {
         userMetaList = userMetaListObject.userMetaList;
         userMetaLoaded = true;
         html.window.console.info("Success on loading user meta");
+        if(usersLoaded && !userAndMetaMerged){
+          mergeUserAndMeta();
+        }
       })
-      .catchError((e) {
-        print(e);
+      .catchError((HttpResponse response) {
+        if(response.status == 400){
+          errorMessage = response.data.toString();
+        }
         userMetaLoaded = false;
         html.window.console.info("Could not load rest/team/getUsersMeta.json");
       });
   } 
+  
+  void mergeUserAndMeta(){
+    userAndMetaList = new List<UserAndMeta>();
+    html.window.console.info("In mergeUserAndMeta");
+    for(int i = 0 ; i < userList.length ; i++){
+      if(userMetaList.where((UserMeta) => UserMeta.userId == userList.elementAt(i).id).length == 1){
+        userAndMetaList.add(new UserAndMeta(userList.elementAt(i), userMetaList.where((UserMeta) => UserMeta.userId == userList.elementAt(i).id).first));
+      }else{
+        userAndMetaList.add(new UserAndMeta(userList.elementAt(i), new UserMeta(userList.elementAt(i).id, "John", "Doe", "", new DateTime(1), "", "")));
+      }
+      userAndMetaList.sort((x, y) => x.userMeta.getFullName() .compareTo(y.userMeta.getFullName()));
+      userAndMetaMerged = true;
+      html.window.console.info("Done in mergeUserAndMeta");
+    }
+  }
   
   void deleteUser(){
     html.window.console.info("In deleteUser() with selected user: " + selectedUser.toString());
@@ -140,68 +171,21 @@ class ShowAdminUsersComponent {
     return User.parseRole(user.role);
   }
   
-  String getFullNameFromUser(int userId){
-    UserMeta returnedUserMeta = getMetaFromUser(userId);
-    if(returnedUserMeta == null){
-      return "UserByNoName";
-    }
-    return getMetaFromUser(userId).getFullName();
-  }
-  
-  String getBirthdayFromUser(int userId){
-    UserMeta returnedUserMeta = getMetaFromUser(userId);
-    if(returnedUserMeta == null){
-      return "-";
-    }
-    return returnedUserMeta.getDateString();
-  }
-  
-  String getHomeTownFromUser(int userId){
-    UserMeta returnedUserMeta = getMetaFromUser(userId);
-    if(returnedUserMeta == null){
-      return "-";
-    }
-    return getMetaFromUser(userId).homeTown;
-  }
-  
-  String getProfessionFromUser(int userId){
-    UserMeta returnedUserMeta = getMetaFromUser(userId);
-    if(returnedUserMeta == null){
-      return "-";
-    }
-    return getMetaFromUser(userId).profession;
-  }
-  
-  String getPhoneNumberFromUser(int userId){
-    UserMeta returnedUserMeta = getMetaFromUser(userId);
-    if(returnedUserMeta == null){
-      return "-";
-    }
-    return getMetaFromUser(userId).phoneNumber;
-  }
-  
   UserMeta getMetaFromUser(int userId){
     if(!userMetaLoaded){
       return null;
     }
-    List<UserMeta> list = userMetaList.where((UserMeta) => UserMeta.userId == userId);
+    List<UserAndMeta> list = userAndMetaList.where((UserAndMeta) => UserAndMeta.user.id == userId);
     if(list.length == 0){
       return null;
     }
-    return list.first;
-  }
-  
-  dynamic myEncode(dynamic item) {
-    if(item is DateTime) {
-      return item.toIso8601String();
-    }
-    return item;
+    return list.first.userMeta;
   }
   
   void setCurrentMeta(){
     UserMeta returnedUserMeta = getMetaFromUser(selectedUser);
     if(returnedUserMeta == null){
-      currentMeta = new UserMeta(selectedUser, "", "", "", new DateTime(1), "", "");
+      initMeta();
     }else{
       currentMeta = returnedUserMeta;
     }
@@ -213,7 +197,6 @@ class ShowAdminUsersComponent {
   }
   
   void setEditMode(){
-    initMeta();
     setCurrentMeta();
     isEditing = true;
   }

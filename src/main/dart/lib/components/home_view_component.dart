@@ -34,4 +34,8 @@ class ShowHomeComponent {
         html.window.console.info("Could not load rest/team/getTeams.json");
       });
   } 
+  
+  bool allLoaded(){
+    return teamsLoaded;
+  }
 }

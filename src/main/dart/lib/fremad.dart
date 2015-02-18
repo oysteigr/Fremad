@@ -29,6 +29,9 @@ import 'models/user_meta.dart';
 import 'models/user_meta_list.dart';
 import 'models/role_request.dart';
 import 'models/role_request_list.dart';
+import 'models/user_login_log.dart';
+import 'models/user_login_log_list.dart';
+
 
 part 'components/header_component.dart';
 part 'components/main_menu_component.dart';
@@ -57,13 +60,18 @@ part 'components/admin/leagues_view_component.dart';
 part 'components/admin/teams_view_component.dart';
 part 'components/admin/events_view_component.dart';
 part 'components/admin/users_view_component.dart';
+part 'components/admin/user_role_view_component.dart';
 part 'components/admin/role_request_view_component.dart';
+part 'components/admin/user_login_view_component.dart';
 
 part 'components/profile/edit_view_component.dart';
 part 'components/profile/validate_view_component.dart';
 
 part 'components/boxes/table_box_component.dart';
 part 'components/boxes/match_box_component.dart';
+
+part 'components/utils/loading_util_component.dart';
+part 'components/utils/combination_classes_util.dart';
 
 part 'services/user_handler.dart';
 part 'services/messages.dart';
@@ -106,7 +114,10 @@ class FremadApp extends Module {
     bind(ShowAdminPlayersComponent);
     bind(ShowAdminSquadComponent);
     bind(ShowAdminUsersComponent);
+    bind(ShowAdminUserRoleComponent);
     bind(ShowAdminRoleRequestComponent);
+    bind(ShowAdminUserLoginComponent);
+    
     
     bind(ShowProfileEditComponent);
     bind(ShowProfileValidateComponent);
@@ -114,6 +125,8 @@ class FremadApp extends Module {
     bind(ShowBoxTableComponent);
     bind(ShowBoxMatchComponent);
     
+    bind(ShowUtilLoadingComponent);
+        
     bind(Messages);
     
     bind(RouteInitializerFn, toValue: fremadRouteInitializer);

@@ -12,8 +12,8 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
+import fremad.domain.list.UserLoginLogListObject;
 import fremad.domain.user.UserListObject;
-import fremad.domain.user.UserLoginLogListObject;
 import fremad.domain.user.UserLoginLogObject;
 import fremad.domain.user.UserMetaListObject;
 import fremad.domain.user.UserMetaObject;
@@ -99,7 +99,21 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		
 		return userObject;
 	}
+	
+	@Override
+	public UserObject updateUserRole(UserObject userObject) {
+		LOG.debug("In updateUserRole(userObject)");
+		
+		String updateStatement = "update " + SqlTablesConstants.SQL_TABLE_NAME_USER + " set "
+				+ "role = :role "
+				+ "where id = :id";
+		
+		SqlParameterSource parameters = new BeanPropertySqlParameterSource(userObject);
 
+		this.namedParameterJdbcTemplate.update(updateStatement, parameters);
+		
+		return userObject;
+	}
 
 	@Override
 	public UserObject deleteUser(UserObject userObject) {
@@ -112,7 +126,6 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		
 		return userObject;
 	}
-
 	
 	@Override
 	public void validateUser(int id) {
