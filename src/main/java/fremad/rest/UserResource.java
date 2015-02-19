@@ -24,6 +24,7 @@ import fremad.domain.user.UserLogonObject;
 import fremad.domain.user.UserMetaListObject;
 import fremad.domain.user.UserMetaObject;
 import fremad.domain.user.UserObject;
+import fremad.domain.user.UserResetPassword;
 import fremad.domain.user.UserRoleRequestListObject;
 import fremad.domain.user.UserRoleRequestObject;
 import fremad.exception.AbstractRestException;
@@ -135,6 +136,15 @@ public class UserResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean logout(){
 		return userProcessor.logoutUser();
+	}
+	
+	@RequestMapping("/changePassword")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String changePassword(@RequestBody UserResetPassword userResetPassword) throws AbstractRestException{
+		LOG.debug("Change password for user ' " + userResetPassword.getId() + "'");
+		return userProcessor.changePassword(userResetPassword);
 	}
 	
 	@RequestMapping("/getUserId")

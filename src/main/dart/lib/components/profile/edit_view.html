@@ -1,6 +1,6 @@
 <h1>Hello, {{userMeta.firstName}} {{userMeta.lastName}}!</h1>
 
-{{userMeta.getFullName()}}
+<h4>Edit user info:</h4>
 
 <div class="form-group">
   <img ng-show="verifyPhoneNumber() && showErrors" src="images/icons/green_tick.png" />
@@ -24,4 +24,27 @@
   <strong>Hurray!</strong> User updated! 
 </div>
 <input type="button" class="adminButton greenButton" value="update" ng-click="updateMeta()">
+
+<div class="clearfix"></div>
+
+<h4>Change password:</h4>
+<div class="form-group">
+  <img ng-show="verifyOldPassword() && showErrorsPass" src="images/icons/green_tick.png" />
+  <img ng-hide="verifyOldPassword() || !showErrorsPass" src="images/icons/red_cross.png" />
+  <input type="password" class="form-control input-lg" ng-model="oldPassword" placeholder="Old password">
+</div>
+<div class="form-group">
+  <img ng-show="verifyNewPassword() && showErrorsPass" src="images/icons/green_tick.png" />
+  <img ng-hide="verifyNewPassword() || !showErrorsPass" src="images/icons/red_cross.png" />
+  <input type="password" class="form-control input-lg" ng-model="newPassword" placeholder="New password">
+</div>
+<div class="form-group">
+  <img ng-show="verifyRepNewPassword() && showErrorsPass" src="images/icons/green_tick.png" />
+  <img ng-hide="verifyRepNewPassword() || !showErrorsPass" src="images/icons/red_cross.png" />
+  <input type="password" class="form-control input-lg" ng-model="repNewPassword" placeholder="Repeat new password">
+</div>
+<div ng-hide="errorMessagePassword.isEmpty" class="alert alert-danger">
+  <strong>Oh snap!</strong> {{errorMessagePassword}}
+</div>
+<input type="button" class="adminButton greenButton" value="change" ng-click="changePassword()">
 

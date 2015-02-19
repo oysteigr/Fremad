@@ -22,6 +22,7 @@ import fremad.domain.user.UserLogonObject;
 import fremad.domain.user.UserMetaListObject;
 import fremad.domain.user.UserMetaObject;
 import fremad.domain.user.UserObject;
+import fremad.domain.user.UserResetPassword;
 import fremad.domain.user.UserRoleEnum;
 import fremad.domain.user.UserRoleRequestListObject;
 import fremad.domain.user.UserRoleRequestObject;
@@ -72,6 +73,9 @@ public class UserProcessor {
 	
 	public UserMetaObject getUserMeta(int userId){
 		LOG.debug("in getUserMeta");
+		
+		securityContext.checkUserPremission(UserRoleEnum.SUPPORTER);
+		
 		if(userId == -1){
 			userId = this.getUserId();
 		}
@@ -161,7 +165,7 @@ public class UserProcessor {
 		
 
 		userIsValidated(registeredUser);
-		checkPassword(userLogonObject, registeredUser);
+		checkPassword(userLogonObject.getPassword(), registeredUser);
 		userService.loggUserLogin(registeredUser.getId());
 		userRole = UserRoleEnum.getUserRoleEnum(registeredUser.getRole());
 
@@ -170,6 +174,31 @@ public class UserProcessor {
 		
 		LOG.debug("user " + registeredUser.getUserName() + " logged in with role " + userRole);
 		return userRole; 
+	}
+	
+	public String changePassword(UserResetPassword userResetPassword) {
+		UserObject registeredUser;
+		try{
+			registeredUser = userService.getUser(userResetPassword.getId());
+		}catch(EmptyResultDataAccessException e){
+			throw new UserNotFoundException(null, 0, "User does not exist");
+		}
+
+		userIsValidated(registeredUser);
+		checkPassword(userResetPassword.getOldPassword(), registeredUser);
+		
+		String[] params;
+		try {
+			params = PasswordManager.createHash(userResetPassword.getNewPassword()).split(":");
+		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+			throw new TechnicalErrorException(e, 0, "Error on creating new password");
+		}
+		registeredUser.setPassword(params[2]);
+		registeredUser.setSalt(params[1]);
+		
+		userService.updateUser(registeredUser);
+		
+		return "Succes on changing password";
 	}
 	
 	public boolean logoutUser(){
@@ -240,13 +269,13 @@ public class UserProcessor {
 		} 
 	}
 	
-	private void checkPassword(UserLogonObject userLogonObject, UserObject registeredUser) 
+	private void checkPassword(String password, UserObject registeredUser) 
 			throws UserPasswordCombiException{
 		
 		boolean correctPassword = false;
 		try {
 			
-			correctPassword = PasswordManager.validatePassword(userLogonObject.getPassword(), 
+			correctPassword = PasswordManager.validatePassword(password, 
 					"1000:" + registeredUser.getSalt() + ":" + registeredUser.getPassword());
 			
 			if(!correctPassword){
@@ -282,5 +311,6 @@ public class UserProcessor {
 
 		return userService.getUserLogins();
 	}
+
 
 }

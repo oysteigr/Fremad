@@ -13,6 +13,13 @@ class ShowProfileEditComponent {
   bool success = false;
   UserMeta userMeta = null;
   
+  bool showErrorsPass = false;
+  String oldPassword = "";
+  String newPassword = "";
+  String repNewPassword = "";
+  
+  String errorMessagePassword = "";
+  
   
   ShowProfileEditComponent(this._http){
     loadUserMeta();
@@ -69,6 +76,65 @@ class ShowProfileEditComponent {
   
   bool verifyProfession(){
     return true;
+  }
+  
+  void changePassword(){
+
+    html.window.console.info("Is in changePassword");
+    if(!verifyAll()){
+      showErrorsPass = true;
+      html.window.console.info("Validation failed");
+      return;
+    }
+    
+    _http.post('rest/user/changePassword.json', JSON.encode(new ChangePassword(USER.getUserId(), oldPassword, newPassword)))
+      .then((HttpResponse response) {
+        print(response);
+        html.window.console.info(response.toString());
+        clearPasswords();
+        showErrorsPass = false;
+        errorMessagePassword = "";
+      })
+      .catchError((HttpResponse response) {
+        if(response.status == 400){
+          errorMessagePassword = response.data.toString();
+        }
+        html.window.console.info("Could not load rest/user/changePassword.json");
+      });
+  } 
+  
+  bool verifyOldPassword(){
+    if(oldPassword == ""){
+      return false;
+    }
+    return true;
+  }
+  
+  bool verifyNewPassword(){
+    if(newPassword == ""){
+      return false;
+    }
+    if(newPassword.length < 7){
+      return false;
+    }
+    return true;
+  }
+  
+  bool verifyRepNewPassword(){
+    if(repNewPassword == ""){
+      return false;
+    }
+    return repNewPassword == newPassword && verifyNewPassword();
+  }
+  
+  bool verifyAll(){
+    return verifyRepNewPassword() && verifyNewPassword() && verifyOldPassword();
+  }
+  
+  void clearPasswords(){
+    oldPassword = "";
+    newPassword = "";
+    repNewPassword = "";
   }
     
  
