@@ -14,3 +14,17 @@ class UserMetaAndLogin{
   
   UserMetaAndLogin(this.userMeta, this.loginList);
 }
+
+class ChangePassword{
+  int id;
+  String oldPassword;
+  String newPassword;
+ 
+  ChangePassword(this.id, this.oldPassword, this.newPassword);
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+    "id": id,
+    "oldPassword": oldPassword,
+    "newPassword": newPassword
+  };
+}

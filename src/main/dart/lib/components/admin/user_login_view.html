@@ -2,7 +2,7 @@
 <ul id="request-list">
     <li ng-repeat="userMetaAndLogin in userMetaAndLoginList">
     <div class="item-name"">
-      {{userMetaAndLogin.userMeta.getFullName()}} <span class="role">{{userMetaAndLogin.loginList.length}}</span>
+      {{userMetaAndLogin.userMeta.getFullName()}} - <span class="elapsedTime">{{getElapedTime(userMetaAndLogin)}} ago</span> <span class="role">{{userMetaAndLogin.loginList.length}}</span>
     </div>
   </li>
 </ul>

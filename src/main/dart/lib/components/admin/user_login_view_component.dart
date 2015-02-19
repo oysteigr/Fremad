@@ -83,8 +83,13 @@ class ShowAdminUserLoginComponent {
     for(UserMeta userMeta in userMetaList){
       userMetaAndLoginList.add(new UserMetaAndLogin(userMeta,
           userLoginLogList.where((UserLoginLog) => UserLoginLog.userId == userMeta.userId)));
- //     userMetaAndLoginList.last.loginList.sort((x, y) => x.date .compareTo(y.date));
     }
+    userMetaAndLoginList.removeWhere((UserMetaAndLogin) => UserMetaAndLogin.loginList.isEmpty);
+    userMetaAndLoginList.sort((y, x) => x.loginList.last.date.compareTo(y.loginList.last.date));
     userMetaAndLoginLoaded = true;
+  }
+  
+  String getElapedTime(UserMetaAndLogin userMetaAndLogin){
+    return DateTimeUtils.elapedTime(userMetaAndLogin.loginList.last.date);
   }
 }

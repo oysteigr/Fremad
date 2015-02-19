@@ -91,7 +91,7 @@ class ShowAdminUsersComponent {
       }else{
         userAndMetaList.add(new UserAndMeta(userList.elementAt(i), new UserMeta(userList.elementAt(i).id, "John", "Doe", "", new DateTime(1), "", "")));
       }
-      userAndMetaList.sort((x, y) => x.userMeta.getFullName() .compareTo(y.userMeta.getFullName()));
+      userAndMetaList.sort((x, y) => x.userMeta.getFullName().compareTo(y.userMeta.getFullName()));
       userAndMetaMerged = true;
       html.window.console.info("Done in mergeUserAndMeta");
     }

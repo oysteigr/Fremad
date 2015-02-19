@@ -112,3 +112,7 @@ p.user-value {
   float: left;
   width: 60%;
 }
+
+span.elapsedTime {
+  color: #AAAAAA;
+}
