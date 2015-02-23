@@ -31,6 +31,7 @@ public interface SqlTablesConstants {
 	String SQL_TABLE_NAME_USER_ROLE_REQUEST = "user_role_request";	
 	String SQL_TABLE_NAME_USER_LOGIN = "user_login";
 	String SQL_TABLE_NAME_USER_VALIDATION = "user_validation";
+	String SQL_TABLE_NAME_USER_FOGOT_PASSWORD = "user_forgot_password";
 	String SQL_TABLE_NAME_ARTICLE = "article";
 	
 	// Table values
@@ -162,6 +163,14 @@ public interface SqlTablesConstants {
 			+ " `user_id` int(11) NOT NULL,"
 			+ " `code` varchar(255) NOT NULL,"
 			+ " `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,"
+			+ " CONSTRAINT `uc_pw_user_id` UNIQUE (`user_id`),"
+			+ " FOREIGN KEY (`user_id`) REFERENCES user(`id`)"
+			+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;",
+		"CREATE TABLE `user_forgot_password` ("
+			+ " `user_id` int(11) NOT NULL,"
+			+ " `code` varchar(255) NOT NULL,"
+			+ " `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,"
+			+ " CONSTRAINT `uc_pw_user_id` UNIQUE (`user_id`),"
 			+ " FOREIGN KEY (`user_id`) REFERENCES user(`id`)"
 			+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;",
 		"CREATE TABLE `article` ("
@@ -182,6 +191,7 @@ public interface SqlTablesConstants {
 
     String[] SQL_DROP_TABLE_STRINGS = {
 		"DROP TABLE `article`",
+		"DROP TABLE `user_forgot_password`",
 		"DROP TABLE `user_validation`",
 		"DROP TABLE `user_meta`",
 		"DROP TABLE `user_login`",

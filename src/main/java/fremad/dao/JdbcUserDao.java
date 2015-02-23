@@ -359,5 +359,40 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 		
 		return namedParameterJdbcTemplate.update(query, parameters) > 0;
 	}
+	
+	//----------------------USER FORGOT PASSWORD METHODS----------------------
+
+	@Override
+	public boolean saveForgotPasswordCode(String code, int userId) {
+		LOG.debug("In saveForgotPasswordCode(code, userId)");
+
+		SimpleJdbcInsert insertLogg = new SimpleJdbcInsert(this.getDataSource())
+			.withTableName(SqlTablesConstants.SQL_TABLE_NAME_USER_FOGOT_PASSWORD);
+		
+		SqlParameterSource parameters = new MapSqlParameterSource("user_id", userId)
+			.addValue("code", code);
+		
+		return insertLogg.execute(parameters) > 0;
+	}
+
+
+	@Override
+	public String getForgotPasswordCode(int userId) {
+		LOG.debug("In getForgotPasswordCode(code, userId)");
+		String query = "select code from " + SqlTablesConstants.SQL_TABLE_NAME_USER_FOGOT_PASSWORD+ " where user_id = :userId";
+		SqlParameterSource parameters = new MapSqlParameterSource("userId", userId);
+		
+		return namedParameterJdbcTemplate.queryForObject(query, parameters, String.class);
+	}
+
+
+	@Override
+	public boolean deleteForgotPasswordCode(int userId) {
+		LOG.debug("In deleteForgotPasswordCode(code, userId)");
+		String query = "delete from " + SqlTablesConstants.SQL_TABLE_NAME_USER_FOGOT_PASSWORD + " where user_id = :userId";
+		SqlParameterSource parameters = new MapSqlParameterSource("userId", userId);
+		
+		return namedParameterJdbcTemplate.update(query, parameters) > 0;
+	}
 
 }

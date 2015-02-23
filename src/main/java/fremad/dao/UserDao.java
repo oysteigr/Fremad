@@ -42,6 +42,10 @@ public interface UserDao {
 	boolean saveValidationCode(String code, int userId);
 	String getValidationCode(int userId);
 	boolean deleteValidationCode(int userId);
+	
+	boolean saveForgotPasswordCode(String code, int userId);
+	String getForgotPasswordCode(int userId);
+	boolean deleteForgotPasswordCode(int userId);
 
 	
 }
