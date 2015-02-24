@@ -1,3 +1,7 @@
+![Alt text](https://travis-ci.org/oysteigr/Fremad.svg?branch=master "Optional title")
+
+
+
 Nettsiden bruker Maven og Spring.
 Den kjører på tomcat7.
 
