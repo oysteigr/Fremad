@@ -345,6 +345,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 
 	@Override
 	public String getValidationCode(int userId) {
+		LOG.debug("In getValidationCode( userId)");
 		String query = "select code from " + SqlTablesConstants.SQL_TABLE_NAME_USER_VALIDATION+ " where user_id = :userId";
 		SqlParameterSource parameters = new MapSqlParameterSource("userId", userId);
 		
@@ -354,6 +355,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 
 	@Override
 	public boolean deleteValidationCode(int userId) {
+		LOG.debug("In deleteValidationCode( userId)");
 		String query = "delete from " + SqlTablesConstants.SQL_TABLE_NAME_USER_VALIDATION + " where user_id = :userId";
 		SqlParameterSource parameters = new MapSqlParameterSource("userId", userId);
 		
@@ -378,7 +380,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 
 	@Override
 	public String getForgotPasswordCode(int userId) {
-		LOG.debug("In getForgotPasswordCode(code, userId)");
+		LOG.debug("In getForgotPasswordCode(userId)");
 		String query = "select code from " + SqlTablesConstants.SQL_TABLE_NAME_USER_FOGOT_PASSWORD+ " where user_id = :userId";
 		SqlParameterSource parameters = new MapSqlParameterSource("userId", userId);
 		
@@ -388,7 +390,7 @@ public class JdbcUserDao extends JdbcConnection implements UserDao{
 
 	@Override
 	public boolean deleteForgotPasswordCode(int userId) {
-		LOG.debug("In deleteForgotPasswordCode(code, userId)");
+		LOG.debug("In deleteForgotPasswordCode(userId)");
 		String query = "delete from " + SqlTablesConstants.SQL_TABLE_NAME_USER_FOGOT_PASSWORD + " where user_id = :userId";
 		SqlParameterSource parameters = new MapSqlParameterSource("userId", userId);
 		

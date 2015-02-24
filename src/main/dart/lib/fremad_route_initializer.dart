@@ -54,6 +54,10 @@ void fremadRouteInitializer(Router router, RouteViewFactory view) {
         "validate" : ngRoute(
            path: '/validate',
            viewHtml: '<profile-validate-view></profile-validate-view>'
+        ),
+        "resetPassword" : ngRoute(
+           path: '/resetPassword',
+           viewHtml: '<profile-reset-password-view></profile-reset-password-view>'
         )
       }),
     'admin': ngRoute(

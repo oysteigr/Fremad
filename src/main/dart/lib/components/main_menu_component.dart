@@ -19,7 +19,7 @@ class MainMenuComponent {
   
   UserLogon userLogon;
 
-  
+
 
 
   
@@ -102,6 +102,7 @@ class MainMenuComponent {
     DateTime now = new DateTime.now();
     userLogon = new UserLogon("", "");
     showLogin = show;
+    
   }
   
   void setShowSignup(bool show){
@@ -197,6 +198,7 @@ class MainMenuComponent {
           loginSuccess = false;
           html.window.console.info("user could not log in: " + userLogon.userName);
         }
+        errorMessage = "";
       })
       .catchError((HttpResponse response) {
         if(response.status == 400){
@@ -321,5 +323,38 @@ class MainMenuComponent {
         verifyRepeatedEmail() &&
         verifyPassword() &&
         verifyRepeatedPassword();
+  }
+  
+  //Forgot password
+  
+  bool showForgotPassword = false;
+  String forgotErrorMessage = "";
+  String userForgotPassword = "";
+  
+  void forgotPassword(){
+    showForgotPassword = true;
+    showLogin = false;
+  }
+  
+  void cancelForgot(){
+    showForgotPassword = false;
+  }
+  
+  void sendNewPassword(){
+    html.window.console.info("Is in sendNewPassword");
+    
+    _http.post('rest/user/forgotPassword.json', userForgotPassword)
+      .then((HttpResponse response) {
+        print(response);
+        html.window.console.info(response.toString());
+        showForgotPassword = false;
+      })
+      .catchError((HttpResponse response) {
+        if(response.status == 400){
+          forgotErrorMessage = response.data.toString();
+        }
+        html.window.console.info(response);
+        html.window.console.info("Could not load rest/user/forgotPassword.json");
+      }); 
   }
 }

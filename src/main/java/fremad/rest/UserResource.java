@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fremad.domain.list.UserLoginLogListObject;
+import fremad.domain.user.UserChangePassword;
 import fremad.domain.user.UserListObject;
 import fremad.domain.user.UserLogonObject;
 import fremad.domain.user.UserMetaListObject;
 import fremad.domain.user.UserMetaObject;
 import fremad.domain.user.UserObject;
-import fremad.domain.user.UserResetPassword;
 import fremad.domain.user.UserRoleRequestListObject;
 import fremad.domain.user.UserRoleRequestObject;
 import fremad.exception.AbstractRestException;
@@ -138,11 +138,20 @@ public class UserResource {
 		return userProcessor.logoutUser();
 	}
 	
+	@RequestMapping("/forgotPassword")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String forgotPassword(@RequestBody String userName) throws AbstractRestException{
+		LOG.debug("Forgotten password for user: ' " + userName + "'");
+		return userProcessor.forgotPassword(userName);
+	}
+	
 	@RequestMapping("/changePassword")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public String changePassword(@RequestBody UserResetPassword userResetPassword) throws AbstractRestException{
+	public String changePassword(@RequestBody UserChangePassword userResetPassword) throws AbstractRestException{
 		LOG.debug("Change password for user ' " + userResetPassword.getId() + "'");
 		return userProcessor.changePassword(userResetPassword);
 	}
@@ -199,8 +208,18 @@ public class UserResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean validateUser(@RequestBody String code){
 		LOG.debug("validateUser");
-		code = code.replace("\"", "");
-		return userProcessor.validateUser(code.toString());
+//		code = code.replace("\"", "");
+		return userProcessor.validateUser(code);
+	}
+	
+	@RequestMapping("/resetUserPassword")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean resetUserPassword(@RequestBody String code){
+		LOG.debug("resetUserPassword");
+//		code = code.replace("\"", "");
+		return userProcessor.resetUserPassword(code);
 	}
 	
 	@RequestMapping("/getUserLogins")

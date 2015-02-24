@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fremad.domain.TeamObject;
 import fremad.domain.list.TeamListObject;
-import fremad.domain.user.UserRoleEnum;
 import fremad.processor.TeamProcessor;
 import fremad.utils.UrlParser;
 

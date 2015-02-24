@@ -125,4 +125,19 @@ public class UserService {
 	public boolean deleteValidationCode(int userId) {
 		return userDao.deleteValidationCode(userId);
 	}
+	
+	//----------------------USER FORGOT PASSWORD METHODS----------------------
+	
+	public boolean saveForgotPasswordCode(String code, int userId) {
+		return userDao.saveForgotPasswordCode(code, userId);
+	}
+	
+	public String getForgotPasswordCode(int userId) {
+		return userDao.getForgotPasswordCode(userId);
+	}
+	
+	public boolean deleteForgotPasswordCode(int userId) {
+		return userDao.deleteForgotPasswordCode(userId);
+	}
 }
+

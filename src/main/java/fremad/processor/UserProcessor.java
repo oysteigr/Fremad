@@ -17,12 +17,12 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
 import fremad.domain.list.UserLoginLogListObject;
+import fremad.domain.user.UserChangePassword;
 import fremad.domain.user.UserListObject;
 import fremad.domain.user.UserLogonObject;
 import fremad.domain.user.UserMetaListObject;
 import fremad.domain.user.UserMetaObject;
 import fremad.domain.user.UserObject;
-import fremad.domain.user.UserResetPassword;
 import fremad.domain.user.UserRoleEnum;
 import fremad.domain.user.UserRoleRequestListObject;
 import fremad.domain.user.UserRoleRequestObject;
@@ -114,7 +114,7 @@ public class UserProcessor {
 			throw new UserExistsException(e, 0, "Username allready taken");
 		}catch(Exception e){
 			LOG.debug(e.toString());
-			return -1;
+			throw new TechnicalErrorException(e, 0, "Something strange went wrong, please try again..");
 		}
 		return id; 
 	}
@@ -176,7 +176,7 @@ public class UserProcessor {
 		return userRole; 
 	}
 	
-	public String changePassword(UserResetPassword userResetPassword) {
+	public String changePassword(UserChangePassword userResetPassword) {
 		UserObject registeredUser;
 		try{
 			registeredUser = userService.getUser(userResetPassword.getId());
@@ -201,6 +201,49 @@ public class UserProcessor {
 		return "Succes on changing password";
 	}
 	
+	public String forgotPassword(String userName) {
+		UserObject registeredUser;
+		String forgottenCode = generateCode();
+		try{
+			registeredUser = userService.getUser(userName);
+			userService.saveForgotPasswordCode(forgottenCode, registeredUser.getId());
+			gmailSmtp.sendEmail(registeredUser.getUserName(), "Forgotten password?", MailGenerator.generateForgottenPasswordMail(registeredUser.getId(), forgottenCode));
+		}catch(EmptyResultDataAccessException e){
+			throw new UserNotFoundException(null, 0, "User does not exist");
+		}catch(Exception e){
+			LOG.debug(e.toString());
+			throw new TechnicalErrorException(e, 0, "Something strange went wrong, please try again..");
+		}
+		return "Success";
+	}
+	
+	public boolean resetUserPassword(String code) {
+		LOG.debug("Got code: " + code);
+		
+		String forgotPasswordCode = code.split("-")[0].trim();
+		String idAsString = code.split("-")[1].trim();
+		LOG.debug("Got id: " + idAsString);
+		int userId = Integer.parseInt(idAsString);
+		
+		userService.getForgotPasswordCode(userId);
+		String correctCode = userService.getForgotPasswordCode(userId);
+		LOG.debug("Checking code: " + forgotPasswordCode + "with correct code: " + correctCode);
+		String newPassword = generateCode().substring(0, 8);
+		
+		if(forgotPasswordCode.equals(correctCode)){
+			try{
+				userService.updateUser(hashNewAndSendPassword(userId, newPassword));
+				
+			}catch(Exception e){
+				throw new TechnicalErrorException(e, 0, "Something went wrong");
+			}
+			userService.deleteForgotPasswordCode(userId);
+			return true;
+		}
+		throw new ValidationException(null, 0, "Validation failed");
+	}
+
+
 	public boolean logoutUser(){
 		try{
 			securityContext.invalidateSession();
@@ -262,6 +305,13 @@ public class UserProcessor {
 		}
 		throw new ValidationException(null, 0, "Validation failed");
 	}
+
+	public UserLoginLogListObject getUserLogins() {
+		
+		securityContext.checkUserPremission(UserRoleEnum.SUPER);
+
+		return userService.getUserLogins();
+	}
 	
 	private void userIsValidated(UserObject userObject) throws UserNotValidatedException {
 		if(!userObject.isValidated()){
@@ -290,9 +340,18 @@ public class UserProcessor {
 		}
 		
 	}
+
+	private UserObject hashNewAndSendPassword(int userId, String newPassword) throws NoSuchAlgorithmException, InvalidKeySpecException, AddressException, MessagingException {
+		UserObject userObject = userService.getUser(userId);
+		String[] params = PasswordManager.createHash(newPassword).split(":");
+		userObject.setPassword(params[2]);
+		userObject.setSalt(params[1]);
+		gmailSmtp.sendEmail(userObject.getUserName(), "Password has been reset!", MailGenerator.generateNewPasswordMail(newPassword));
+		return userObject;
+	}
 	
 	private void sendAndCreateValidationCode(UserObject registeredUser) throws AddressException, MessagingException{
-		String validationCode = generateValidationCode();
+		String validationCode = generateCode();
 		
 		userService.saveValidationCode(validationCode, registeredUser.getId());
 		
@@ -300,17 +359,11 @@ public class UserProcessor {
 		
 	}
 
-	private String generateValidationCode(){
+	private String generateCode(){
 		SecureRandom random = new SecureRandom();
 		return new BigInteger(130, random).toString(32);
 	}
 
-	public UserLoginLogListObject getUserLogins() {
-		
-		securityContext.checkUserPremission(UserRoleEnum.SUPER);
-
-		return userService.getUserLogins();
-	}
 
 
 }

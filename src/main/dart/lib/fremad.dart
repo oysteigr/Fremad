@@ -66,6 +66,7 @@ part 'components/admin/user_login_view_component.dart';
 
 part 'components/profile/edit_view_component.dart';
 part 'components/profile/validate_view_component.dart';
+part 'components/profile/reset_password_view_component.dart';
 
 part 'components/boxes/table_box_component.dart';
 part 'components/boxes/match_box_component.dart';
@@ -124,6 +125,7 @@ class FremadApp extends Module {
     
     bind(ShowProfileEditComponent);
     bind(ShowProfileValidateComponent);
+    bind(ShowProfileResetPasswordComponent);
     
     bind(ShowBoxTableComponent);
     bind(ShowBoxMatchComponent);

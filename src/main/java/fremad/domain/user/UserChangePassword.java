@@ -1,12 +1,12 @@
 package fremad.domain.user;
 
-public class UserResetPassword {
+public class UserChangePassword {
 	
 	private int id;
 	private String oldPassword;
 	private String newPassword;
 	
-	public UserResetPassword(){
+	public UserChangePassword(){
 		
 	}
 	
