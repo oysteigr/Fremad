@@ -31,6 +31,8 @@ import 'models/role_request.dart';
 import 'models/role_request_list.dart';
 import 'models/user_login_log.dart';
 import 'models/user_login_log_list.dart';
+import 'models/player_note.dart';
+import 'models/player_note_list.dart';
 
 
 part 'components/header_component.dart';
@@ -72,7 +74,8 @@ part 'components/boxes/table_box_component.dart';
 part 'components/boxes/match_box_component.dart';
 
 part 'components/utils/loading_util_component.dart';
-part 'components/utils/combination_classes_util.dart';
+part 'components/utils/user_combination_classes_util.dart';
+part 'components/utils/player_combination_classes_util.dart';
 part 'components/utils/date_time_utils.dart';
 
 

@@ -1,13 +1,19 @@
 package fremad.dao;
 
+import fremad.domain.PlayerNoteObject;
 import fremad.domain.PlayerObject;
 import fremad.domain.list.PlayerListObject;
+import fremad.domain.list.PlayerNoteListObject;
 
 public interface PlayerDao {
-	public PlayerListObject getPlayers();
-	public PlayerListObject getPlayersByTeam(int teamId);
-	public PlayerObject addPlayer(PlayerObject player);
-	public PlayerObject updatePlayer(PlayerObject player);
-	public PlayerObject deletePlayer(PlayerObject player);
+	PlayerListObject getPlayers();
+	PlayerListObject getPlayersByTeam(int teamId);
+	PlayerObject addPlayer(PlayerObject player);
+	PlayerObject updatePlayer(PlayerObject player);
+	PlayerObject deletePlayer(PlayerObject player);
+	
+	PlayerNoteListObject getPlayerNotes();
+	PlayerNoteObject addPlayerNote(PlayerNoteObject playerNoteObject);
+	PlayerNoteObject deletePlayerNote(PlayerNoteObject playerNoteObject);
 
 }

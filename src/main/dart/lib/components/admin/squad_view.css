@@ -5,7 +5,7 @@
   padding: 0 0 0 0;
 }
 
-#player-list li{
+#player-list li.player-element{
   width: 100%;
   background-color: #FFFFFF;
   margin-bottom: 5px;
@@ -15,27 +15,8 @@
   border-radius: 8px;
 }
 
-#add-element{
-  font-size: 18px;
-  padding: 0 0 0 0;
-  width: 100%;
-
-}
-
-#add-element input{
-  font-size: 18px;
-}
-
-#add-active{
-  border-style: solid;
-  border-color: #AAAAAA;
-  border-width: 1px;
-  border-radius: 8px;
-  background-color: #FFFFFF;
-}
-
 .item-name{
-  padding: 10px 30px 10px 10px;
+  padding: 10px 10px 10px 10px;
   cursor: pointer;
   color: #000000;
   
@@ -103,32 +84,25 @@
    cursor:pointer;
 }
 
-.black_overlay{
- display: block;
- position: fixed;
- top: 0%;
- left: 0%;
- width: 100vw;
- height: 100vh;
- background-color: black;
- z-index:1001;
- -moz-opacity: 0.8;
- opacity:.80;
- filter: alpha(opacity=80);
+span.add-note {
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0 2% 0 1%;
 }
 
-.white_content {
- display: block;
- position: fixed;
- top: 25%;
- left: 25%;
- width: 50vw;
- height: 50vh;
- padding: 16px;
- -moz-border-radius:5px;
- -webkit-border-radius:5px;
-  border-radius:5px;
- background-color: white;
- z-index:1002;
- overflow: auto;
+.add-note-line {
+  padding-left: 3%;
+}
+
+li.player-note-line {
+  border: none;
+}
+
+span.player-note {
+  padding: 0 2% 0 0;
+}
+
+ul.player-note-list{
+  padding-left: 3%;
+  padding-right: 3%;
 }

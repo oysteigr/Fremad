@@ -13,8 +13,10 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
+import fremad.domain.PlayerNoteObject;
 import fremad.domain.PlayerObject;
 import fremad.domain.list.PlayerListObject;
+import fremad.domain.list.PlayerNoteListObject;
 
 @Repository
 public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
@@ -107,6 +109,47 @@ public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
 		namedParameterJdbcTemplate.update(query, parameters);
 		
 		return playerObject;
+	}
+	
+	@Override
+	public PlayerNoteListObject getPlayerNotes(){
+		LOG.debug("In getPlayerNotes()");
+		
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER_NOTE;
+		PlayerNoteListObject playerNotes = new PlayerNoteListObject();
+		
+		playerNotes.addAll(this.namedParameterJdbcTemplate.getJdbcOperations().query(query, new BeanPropertyRowMapper<>(PlayerNoteObject.class)));
+		return playerNotes;
+	}
+	
+	@Override
+	public PlayerNoteObject addPlayerNote(PlayerNoteObject playerNoteObject) {
+		LOG.debug("In addPlayerNote(playerNoteObject)");
+
+		SimpleJdbcInsert insertPlayer = new SimpleJdbcInsert(this.getDataSource())
+			.withTableName(SqlTablesConstants.SQL_TABLE_NAME_PLAYER_NOTE)
+			.usingGeneratedKeyColumns("id");
+		SqlParameterSource parameters = new BeanPropertySqlParameterSource(playerNoteObject);
+		Number newId = insertPlayer.executeAndReturnKey(parameters);
+		
+		if(newId != null){
+			playerNoteObject.setId(newId.intValue());
+			return playerNoteObject;
+		}
+		
+		return null;
+	}
+	
+	@Override
+	public PlayerNoteObject deletePlayerNote(PlayerNoteObject playerNoteObject) {
+		LOG.debug("In deletePlayerNote(playerNoteObject)");
+		
+		String query = "delete from " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER_NOTE + " where id = :playerId";
+		SqlParameterSource parameters = new MapSqlParameterSource("playerId", playerNoteObject.getId());
+		
+		namedParameterJdbcTemplate.update(query, parameters);
+		
+		return playerNoteObject;
 	}
 	
 }
