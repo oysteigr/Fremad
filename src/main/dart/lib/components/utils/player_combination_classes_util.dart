@@ -6,3 +6,10 @@ class PlayerWithNotes{
   
   PlayerWithNotes(this.player, this.playerNoteList);
 }
+
+class PlayerAndUserMeta{
+  Player player;
+  UserMeta userMeta;
+  
+  PlayerAndUserMeta(this.player, this.userMeta);
+}

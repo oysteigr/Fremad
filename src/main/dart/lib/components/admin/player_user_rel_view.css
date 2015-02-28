@@ -14,6 +14,15 @@
   border-width: 1px;
   border-radius: 8px;
 }
+#player-list li.player-element-modual{
+  width: 100%;
+  background-color: #e9eff5;
+  margin-bottom: 5px;
+  border-style: solid;
+  border-color: #AAAAAA;
+  border-width: 1px;
+  border-radius: 8px;
+}
 
 .item-name{
   padding: 10px 10px 10px 10px;
@@ -22,13 +31,21 @@
   
 }
 
-.item-edit{
+.item-player{
+  padding: 10px 10px 10px 10px;
+  cursor: pointer;
+  color: #000000;
+}
+
+.item-user{
   padding: 10px 10px 10px 10px;
   border-top-style: solid;
   border-top-color: #AAAAAA;
-  color: #AAAAAA;
+  color: #000000;
   border-top-width: 1px;
 }
+
+
 
 .filters {
   margin-bottom: 10px;
@@ -46,12 +63,12 @@
   margin-left: 10px;
   font-size: 18px;
   position: relative;
-  bottom: 2px;  
+  bottom: 25px;
 }
 
 .adminButton:active {
   position:relative;
-  top:1px;
+  bottom: 23px;
 }
 
 .greenButton {
@@ -82,28 +99,4 @@
    border: 0;
    border-radius: 0;
    cursor:pointer;
-}
-
-span.add-note {
-  text-decoration: underline;
-  cursor: pointer;
-  padding: 0 2% 0 1%;
-}
-
-.add-note-line {
-  padding-left: 3%;
-}
-
-li.player-note-line {
-  border: none;
-  color: #666666;
-}
-
-span.player-note {
-  padding: 0 2% 0 0;
-}
-
-ul.player-note-list{
-  padding-left: 3%;
-  padding-right: 3%;
 }

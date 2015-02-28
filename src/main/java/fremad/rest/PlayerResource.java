@@ -1,11 +1,11 @@
 package fremad.rest;
 
 
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import fremad.domain.KeyValuePairObject;
 import fremad.domain.PlayerNoteObject;
 import fremad.domain.PlayerObject;
+import fremad.domain.list.KeyValuePairListObject;
 import fremad.domain.list.PlayerListObject;
 import fremad.domain.list.PlayerNoteListObject;
 import fremad.processor.PlayerProcessor;
@@ -96,6 +98,39 @@ public class PlayerResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public PlayerNoteObject deletePlayerNote(@RequestBody PlayerNoteObject playerNoteObject){
 		return playerProcessor.deletePlayerNote(playerNoteObject);
+	}
+	
+	
+	@RequestMapping("/getPlayerUserRelations")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public KeyValuePairListObject<Integer,Integer> getPlayerUserRelations(){
+		return playerProcessor.getPlayerUserRelations();
+	}
+	
+	@RequestMapping("/addPlayerUserRelation")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void addPlayerUserRelation(@RequestBody KeyValuePairObject<Integer, Integer> valuePair){
+		playerProcessor.addPlayerUserRelation(valuePair);
+		return;
+	}
+	
+	@RequestMapping("/deletePlayerUserRelation")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void deleteUserRelation(@RequestBody KeyValuePairObject<Integer, Integer> valuePair){
+		playerProcessor.deletePlayerUserRelation(valuePair);
+		return;
+	}
+	
+	@RequestMapping("/getSuggestedPlayerUserRelations")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public KeyValuePairListObject<Integer,Integer> getSuggestedPlayerUserRelations(){
+		return playerProcessor.getSuggestedPlayerUserRelations();
 	}
 
 }

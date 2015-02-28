@@ -63,6 +63,13 @@ public class UserResource {
 		LOG.debug("Getting userMeta for: " + userId);
 		return userProcessor.getUserMeta(Integer.parseInt(userId));
 	}
+	
+	@RequestMapping("/getUserMetaPlayers")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public UserMetaListObject getUserMetaPlayers(){
+		return userProcessor.getUserMetaPlayers();
+	}
 
 	@RequestMapping("/deleteUser")
 	@POST

@@ -7,17 +7,7 @@ public interface SqlTablesConstants {
 	 * 
 	 */
 	
-	String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-	String DB_URL = "jdbc:mysql://localhost:3306/fremad";
-
-	// Database credentials
-	String USER = "famagusta";
-	String PASS = "fremad123";
-	
 	// Table names
-	
-
-
 	String SQL_TABLE_NAME_MATCH = "`match`";
 	String SQL_TABLE_NAME_LEAGUE = "league";
 	String SQL_TABLE_NAME_TEAM = "team";
@@ -32,6 +22,7 @@ public interface SqlTablesConstants {
 	String SQL_TABLE_NAME_USER_LOGIN = "user_login";
 	String SQL_TABLE_NAME_USER_VALIDATION = "user_validation";
 	String SQL_TABLE_NAME_USER_FOGOT_PASSWORD = "user_forgot_password";
+	String SQL_TABLE_NAME_PLAYER_USER_REL = "rel_player_user";
 	String SQL_TABLE_NAME_ARTICLE = "article";
 	
 	// Table values
@@ -173,6 +164,14 @@ public interface SqlTablesConstants {
 			+ " CONSTRAINT `uc_pw_user_id` UNIQUE (`user_id`),"
 			+ " FOREIGN KEY (`user_id`) REFERENCES user(`id`)"
 			+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;",
+		"CREATE TABLE `rel_player_user` ("
+			+ " `player_id` int(11) NOT NULL,"
+			+ " `user_id` int(11) NOT NULL,"
+			+ " CONSTRAINT `rel_player_id` UNIQUE (`player_id`),"
+			+ " CONSTRAINT `rel_user_id` UNIQUE (`user_id`),"
+			+ " FOREIGN KEY (`player_id`) REFERENCES player(`id`) ON DELETE CASCADE ON UPDATE CASCADE,"
+			+ " FOREIGN KEY (`user_id`) REFERENCES user(`id`) ON DELETE CASCADE ON UPDATE CASCADE"
+			+ " ) ENGINE=InnoDB DEFAULT CHARSET=utf8;",
 		"CREATE TABLE `article` ("
 			+ " `id` INT(64) NOT NULL AUTO_INCREMENT, "
 			+ " `author_id` INT(64) NOT NULL , "
@@ -189,8 +188,9 @@ public interface SqlTablesConstants {
 	};
 	
 
-    String[] SQL_DROP_TABLE_STRINGS = {
+	String[] SQL_DROP_TABLE_STRINGS = {
 		"DROP TABLE `article`",
+		"DROP TABLE `rel_player_user`",
 		"DROP TABLE `user_forgot_password`",
 		"DROP TABLE `user_validation`",
 		"DROP TABLE `user_meta`",

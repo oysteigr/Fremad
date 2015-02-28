@@ -2,6 +2,8 @@ package fremad.dao;
 
 
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +15,10 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
+import fremad.domain.KeyValuePairObject;
 import fremad.domain.PlayerNoteObject;
 import fremad.domain.PlayerObject;
+import fremad.domain.list.KeyValuePairListObject;
 import fremad.domain.list.PlayerListObject;
 import fremad.domain.list.PlayerNoteListObject;
 
@@ -151,5 +155,49 @@ public class JdbcPlayerDao extends JdbcConnection implements PlayerDao {
 		
 		return playerNoteObject;
 	}
+	
+	
+	@Override
+	public KeyValuePairListObject<Integer, Integer> getPlayerUserRelations() {
+		KeyValuePairListObject<Integer, Integer> keyValuePairListObject = 
+				new KeyValuePairListObject<Integer, Integer>();
+		
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER_USER_REL;
+		
+		List<Map<String, Object>> rows = getJdbcTemplate().queryForList(query);
+		for (Map<String, Object> row : rows) {
+			KeyValuePairObject<Integer, Integer> keyValuePair = new KeyValuePairObject<Integer, Integer>();
+			keyValuePair.setKey((Integer)row.get("player_id"));
+			keyValuePair.setValue((Integer)row.get("user_id"));
+			keyValuePairListObject.add(keyValuePair);
+		}
+		
+		return keyValuePairListObject;
+	}
+	
+	@Override
+	public boolean addPlayerUserRelation(KeyValuePairObject<Integer, Integer> valuePair) {
+		LOG.debug("In addPlayerUserRelation(valuePair)");
+
+		SimpleJdbcInsert insertRelation = new SimpleJdbcInsert(this.getDataSource())
+			.withTableName(SqlTablesConstants.SQL_TABLE_NAME_PLAYER_USER_REL);
+		
+		SqlParameterSource parameters = new MapSqlParameterSource("player_id", valuePair.getKey())
+			.addValue("user_id", valuePair.getValue());
+		
+		return insertRelation.execute(parameters) > 0;
+	}
+
+	@Override
+	public boolean deletePlayerUserRelation(KeyValuePairObject<Integer, Integer> valuePair) {
+		LOG.debug("In deletePlayerUserRelation(valuePair)");
+		
+		String query = "delete from " + SqlTablesConstants.SQL_TABLE_NAME_PLAYER_USER_REL + " where player_id = :playerId AND user_id = :userId";
+		SqlParameterSource parameters = new MapSqlParameterSource("playerId", valuePair.getKey())
+			.addValue("userId", valuePair.getValue());
+		
+		return namedParameterJdbcTemplate.update(query, parameters) > 0;
+	}
+
 	
 }

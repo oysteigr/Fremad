@@ -1,0 +1,111 @@
+
+<div ng-hide="errorMessage.isEmpty" class="alert alert-danger">
+  <strong>Oh snap!</strong> {{errorMessage}}
+</div>
+<!--
+<h1>Connect players and users</h1>
+  <div class="filters">
+    <form>
+      <div class="clearfix">
+        <input ng-repeat="team in teamList.reversed" type="button" class="adminButton clearButton" value="{{team.name}}" ng-click="setTeam(team.id)">
+      </div>
+    </form>
+  </div>
+-->
+
+
+<h3>Connections</h3>
+<ul id="player-list">
+    <li class="player-element" ng-repeat="connectedPlayerAndUserMeta in connectedPlayerAndUserMetaList">
+    <div class="item-player">
+      Player: {{connectedPlayerAndUserMeta.player.firstName}} {{connectedPlayerAndUserMeta.player.lastName}}
+    </div>
+    <div class="item-user">
+      User: {{connectedPlayerAndUserMeta.userMeta.firstName}} {{connectedPlayerAndUserMeta.userMeta.lastName}}
+      <input type="button" class="adminButton redButton" value="disconnect" ng-click="deleteRel(connectedPlayerAndUserMeta)"> 
+    </div>
+  </li>
+</ul>
+
+<h3>Suggested connections</h3>
+<ul id="player-list">
+    <li class="player-element" ng-repeat="suggestedPlayerAndUserMeta in suggestedPlayerAndUserMetaList">
+    <div class="item-player">
+      Player: {{suggestedPlayerAndUserMeta.player.firstName}} {{suggestedPlayerAndUserMeta.player.lastName}}
+    </div>
+    <div class="item-user">
+      User: {{suggestedPlayerAndUserMeta.userMeta.firstName}} {{suggestedPlayerAndUserMeta.userMeta.lastName}}
+      <input type="button" class="adminButton greenButton" value="connect" ng-click="addSuggestedRel(suggestedPlayerAndUserMeta)"> 
+    </div>
+  </li>
+</ul>
+
+<h3>Unconnected players</h3>
+<ul id="player-list">
+    <li class="player-element" ng-repeat="player in unconnectedPlayerList" ng-click="selectPlayer(player.id)">
+    <div class="item-name">
+      {{player.firstName}} {{player.lastName}}
+    </div>
+  </li>
+</ul>
+
+<h3>Unconnected users</h3>
+<ul id="player-list">
+    <li class="player-element" ng-repeat="userMeta in unconnectedUserMetaList" ng-click="selectUser(userMeta.userId)">
+    <div class="item-name">
+      {{userMeta.firstName}} {{userMeta.lastName}}
+    </div>
+  </li>
+</ul>
+
+<!--player modal-->
+<div id="loginModal" ng-show="showPlayerList" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content">
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-hidden="true">×</button>
+          <h1 class="text-center">Connect with player</h1>
+      </div>
+      <div class="modal-body">
+        <ul id="player-list">
+            <li class="player-element-modual" ng-repeat="player in unconnectedPlayerList" ng-click="selectPlayer(player.id)">
+            <div class="item-name">
+              {{player.firstName}} {{player.lastName}}
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+          <div class="col-md-12">
+          <button class="btn" data-dismiss="modal" ng-click="cancel()" aria-hidden="true">Cancel</button>
+      </div>  
+      </div>
+  </div>
+  </div>
+</div>
+
+<!--user modal-->
+<div id="loginModal" ng-show="showUserList" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content">
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-hidden="true">×</button>
+          <h1 class="text-center">Connect with user</h1>
+      </div>
+      <div class="modal-body">
+        <ul id="player-list">
+            <li class="player-element-modual" ng-repeat="userMeta in unconnectedUserMetaList" ng-click="selectUser(userMeta.userId)">
+            <div class="item-name">
+              {{userMeta.firstName}} {{userMeta.lastName}}
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+          <div class="col-md-12">
+          <button class="btn" data-dismiss="modal" ng-click="cancel()" aria-hidden="true">Cancel</button>
+      </div>  
+      </div>
+  </div>
+  </div>
+</div>

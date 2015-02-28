@@ -82,6 +82,25 @@ public class UserProcessor {
 		return userService.getUserMeta(userId);
 	}
 	
+	public UserMetaListObject getUserMetaPlayers() {
+		LOG.debug("in getUserMetaPlayers");
+
+		securityContext.checkUserPremission(UserRoleEnum.ADMIN);
+		
+		UserMetaListObject userMetaList = userService.getUsersMeta();
+		UserMetaListObject userMetaListFiltered = new UserMetaListObject();
+		
+		UserObject temp;
+		
+		for(UserMetaObject userMetaObject : userMetaList){
+			temp = userService.getUser(userMetaObject.getUserId());
+			if(temp.getRole() > 1 && temp.isValidated()){
+				userMetaListFiltered.add(userMetaObject);
+			}
+		}
+		return userMetaListFiltered;
+	}
+	
 	public UserMetaObject updateUserMeta(UserMetaObject userMetaObject){
 		if(userService.getUserMeta(userMetaObject.getUserId()) == null){
 			LOG.debug("no current user in updateUserMeta");
@@ -363,6 +382,7 @@ public class UserProcessor {
 		SecureRandom random = new SecureRandom();
 		return new BigInteger(130, random).toString(32);
 	}
+
 
 
 
