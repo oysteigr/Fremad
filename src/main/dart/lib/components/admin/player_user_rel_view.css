@@ -100,3 +100,11 @@
    border-radius: 0;
    cursor:pointer;
 }
+
+span.max_min {
+  float: right;
+  margin-right: 1%;
+  width: 76px;
+  color: #AAAAAA;
+  cursor:pointer;
+}

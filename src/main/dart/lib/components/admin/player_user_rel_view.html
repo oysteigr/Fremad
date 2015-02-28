@@ -2,21 +2,12 @@
 <div ng-hide="errorMessage.isEmpty" class="alert alert-danger">
   <strong>Oh snap!</strong> {{errorMessage}}
 </div>
-<!--
-<h1>Connect players and users</h1>
-  <div class="filters">
-    <form>
-      <div class="clearfix">
-        <input ng-repeat="team in teamList.reversed" type="button" class="adminButton clearButton" value="{{team.name}}" ng-click="setTeam(team.id)">
-      </div>
-    </form>
-  </div>
--->
 
 
-<h3>Connections</h3>
+
+<h3>Connections({{connectedPlayerAndUserMetaList.length}})<span class="max_min" ng-click="changeConnectedPlayerAndUsersFilter()">{{getFilterSymbol(showConnectedPlayerAndUsers)}}</span></h3>
 <ul id="player-list">
-    <li class="player-element" ng-repeat="connectedPlayerAndUserMeta in connectedPlayerAndUserMetaList">
+    <li class="player-element" ng-repeat="connectedPlayerAndUserMeta in connectedPlayerAndUserMetaList"  ng-show="showConnectedPlayerAndUsers">
     <div class="item-player">
       Player: {{connectedPlayerAndUserMeta.player.firstName}} {{connectedPlayerAndUserMeta.player.lastName}}
     </div>
@@ -27,9 +18,9 @@
   </li>
 </ul>
 
-<h3>Suggested connections</h3>
+<h3>Suggested connections({{suggestedPlayerAndUserMetaList.length}})<span class="max_min" ng-click="changeSuggestedPlayerAndUsersFilter()">{{getFilterSymbol(showSuggestedPlayerAndUsers)}}</span></h3>
 <ul id="player-list">
-    <li class="player-element" ng-repeat="suggestedPlayerAndUserMeta in suggestedPlayerAndUserMetaList">
+    <li class="player-element" ng-repeat="suggestedPlayerAndUserMeta in suggestedPlayerAndUserMetaList"  ng-show="showSuggestedPlayerAndUsers">
     <div class="item-player">
       Player: {{suggestedPlayerAndUserMeta.player.firstName}} {{suggestedPlayerAndUserMeta.player.lastName}}
     </div>
@@ -40,18 +31,18 @@
   </li>
 </ul>
 
-<h3>Unconnected players</h3>
+<h3>Unconnected players({{unconnectedPlayerList.length}})<span class="max_min" ng-click="changeUnconnectedPlayerFilter()">{{getFilterSymbol(showUnconnectedPlayers)}}</span></h3>
 <ul id="player-list">
-    <li class="player-element" ng-repeat="player in unconnectedPlayerList" ng-click="selectPlayer(player.id)">
+    <li class="player-element" ng-repeat="player in unconnectedPlayerList" ng-click="selectPlayer(player.id)"  ng-show="showUnconnectedPlayers">
     <div class="item-name">
       {{player.firstName}} {{player.lastName}}
     </div>
   </li>
 </ul>
 
-<h3>Unconnected users</h3>
+<h3>Unconnected users({{unconnectedUserMetaList.length}})<span class="max_min" ng-click="changeUnconnectedUsersFilter()">{{getFilterSymbol(showUnconnectedUsers)}}</span></h3>
 <ul id="player-list">
-    <li class="player-element" ng-repeat="userMeta in unconnectedUserMetaList" ng-click="selectUser(userMeta.userId)">
+    <li class="player-element" ng-repeat="userMeta in unconnectedUserMetaList" ng-click="selectUser(userMeta.userId)"  ng-show="showUnconnectedUsers">
     <div class="item-name">
       {{userMeta.firstName}} {{userMeta.lastName}}
     </div>
