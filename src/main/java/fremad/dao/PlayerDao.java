@@ -1,7 +1,9 @@
 package fremad.dao;
 
+import fremad.domain.KeyValuePairObject;
 import fremad.domain.PlayerNoteObject;
 import fremad.domain.PlayerObject;
+import fremad.domain.list.KeyValuePairListObject;
 import fremad.domain.list.PlayerListObject;
 import fremad.domain.list.PlayerNoteListObject;
 
@@ -15,5 +17,8 @@ public interface PlayerDao {
 	PlayerNoteListObject getPlayerNotes();
 	PlayerNoteObject addPlayerNote(PlayerNoteObject playerNoteObject);
 	PlayerNoteObject deletePlayerNote(PlayerNoteObject playerNoteObject);
-
+	
+	KeyValuePairListObject<Integer, Integer> getPlayerUserRelations();
+	boolean addPlayerUserRelation(KeyValuePairObject<Integer, Integer> valuePair);
+	boolean deletePlayerUserRelation(KeyValuePairObject<Integer, Integer> valuePair);
 }

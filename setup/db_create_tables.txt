@@ -147,6 +147,15 @@ CREATE TABLE `user_forgot_password` (
 	FOREIGN KEY (`user_id`) REFERENCES user(`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `rel_player_user` (
+	`player_id` int(11) NOT NULL,
+	`user_id` int(11) NOT NULL,
+	CONSTRAINT `rel_player_id` UNIQUE (`player_id`),
+	CONSTRAINT `rel_user_id` UNIQUE (`user_id`),
+	FOREIGN KEY (`player_id`) REFERENCES player(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (`user_id`) REFERENCES user(`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE `article` (
 	`id` INT(64) NOT NULL AUTO_INCREMENT, 
 	`author_id` INT(64) NOT NULL , 

@@ -57,6 +57,7 @@ part 'components/team/table_view_component.dart';
 
 part 'components/admin/articles_view_component.dart';
 part 'components/admin/players_view_component.dart';
+part 'components/admin/player_user_rel_view_component.dart';
 part 'components/admin/squad_view_component.dart';
 part 'components/admin/leagues_view_component.dart';
 part 'components/admin/teams_view_component.dart';
@@ -77,6 +78,7 @@ part 'components/utils/loading_util_component.dart';
 part 'components/utils/user_combination_classes_util.dart';
 part 'components/utils/player_combination_classes_util.dart';
 part 'components/utils/date_time_utils.dart';
+part 'components/utils/general_support_classes_util.dart';
 
 
 
@@ -119,6 +121,7 @@ class FremadApp extends Module {
     bind(ShowAdminLeaguesComponent);
     bind(ShowAdminEventsComponent);
     bind(ShowAdminPlayersComponent);
+    bind(ShowAdminPlayerUserRelComponent);
     bind(ShowAdminSquadComponent);
     bind(ShowAdminUsersComponent);
     bind(ShowAdminUserRoleComponent);
