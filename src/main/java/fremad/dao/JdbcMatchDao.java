@@ -12,7 +12,6 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
-import fremad.domain.LeagueObject;
 import fremad.domain.MatchObject;
 import fremad.domain.list.MatchListObject;
 
