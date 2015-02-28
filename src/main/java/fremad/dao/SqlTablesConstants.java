@@ -75,7 +75,7 @@ public interface SqlTablesConstants {
 		"CREATE TABLE `match` ("
 			+ " `id` int(11) NOT NULL AUTO_INCREMENT,"
 			+ " `league` int(11) NOT NULL,"
-			+ " `team` int(11) NOT NULL,"
+			+ " `fremad_team` int(11) NOT NULL,"
 			+ " `home_match` tinyint(1) NOT NULL,"
 			+ " `fremad_goals` tinyint DEFAULT NULL,"
 			+ " `opposing_team_name` varchar(255) NOT NULL,"

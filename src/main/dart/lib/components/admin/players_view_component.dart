@@ -154,5 +154,4 @@ class ShowAdminPlayersComponent {
   void setTeam(int teamId){
     this.selectedTeam = teamId;
   }
-  
 }

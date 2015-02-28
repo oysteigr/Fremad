@@ -15,5 +15,4 @@ class Team{
 
   Team.fromJson(Map<String, dynamic> json) : this(json['id'],
       json['name'], json['onlineId']);
-  
 }

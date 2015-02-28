@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
+import fremad.domain.LeagueObject;
 import fremad.domain.MatchObject;
 import fremad.domain.list.MatchListObject;
 
@@ -80,7 +81,7 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 		LOG.debug("Where id and league: " + match.getLeague());
 		updateStatement = "update " + SqlTablesConstants.SQL_TABLE_NAME_MATCH + " set "
 				+ "league = :league, "
-				+ "team = :fremadTeam, "
+				+ "fremad_team = :fremadTeam, "
 				+ "home_match = :homeMatch, "
 				+ "fremad_goals = :fremadGoals, "
 				+ "opposing_team_name = :opposingTeamName, "
@@ -102,7 +103,7 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 	public MatchListObject getMatches(final int teamId) {
 		LOG.debug("In getMatches(teamId)");
 		
-		String query = "select * from" + SqlTablesConstants.SQL_TABLE_NAME_MATCH + "where team = ?";
+		String query = "select * from" + SqlTablesConstants.SQL_TABLE_NAME_MATCH + "where fremad_team = ?";
 		MatchListObject matchList = new MatchListObject();
 		
 		matchList.addAll(this.namedParameterJdbcTemplate.getJdbcOperations().query(query, new PreparedStatementSetter() {
@@ -118,4 +119,18 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 		return matchList;
 	}
 
+	@Override
+	public MatchListObject getThisYearsMatches() {
+		LOG.debug("In getMatches(teamId)");
+		
+		//String query = "select * from" + SqlTablesConstants.SQL_TABLE_NAME_MATCH + "where YEAR(date) = YEAR(CURRENT_DATE())";
+		String query = "select * from" + SqlTablesConstants.SQL_TABLE_NAME_MATCH + "where YEAR(date) = 2014";
+		MatchListObject matchList = new MatchListObject();
+		matchList.addAll(this.namedParameterJdbcTemplate.getJdbcOperations().query(query, new BeanPropertyRowMapper<>(MatchObject.class)));
+
+		
+		LOG.debug("Found " + matchList.size() + " matches");
+		
+		return matchList;
+	}
 }

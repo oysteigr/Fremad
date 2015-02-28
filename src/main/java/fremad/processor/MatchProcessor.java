@@ -40,6 +40,19 @@ public class MatchProcessor {
 		return response;
 	}
 	
+	public MatchListObject getThisYearsMatches(){
+		MatchListObject response = matchService.getThisYearsMatches();
+		if (response.size() > 0){
+			Collections.sort(response.getList(), new Comparator<MatchObject>(){
+				@Override
+				public int compare(final MatchObject obj1, final MatchObject obj2){
+					return obj2.getDate().compareTo(obj1.getDate());
+				}
+			});
+		}
+		return response;
+	}
+	
 	public MatchObject getNextMatch(int teamId){
 		MatchListObject matchListObject = getMatches(teamId);
 		Date dateNow = new Date();

@@ -50,6 +50,15 @@ public class MatchResource {
 		return matchProcessor.getMatches(Integer.parseInt(teamId));
 	}
 	
+	@RequestMapping("/getThisYearsMatches")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public MatchListObject getThisYearsMatches(){
+		LOG.debug("Getting matches for this year");
+		return matchProcessor.getThisYearsMatches();
+	}
+	
 	@RequestMapping("/getNextMatch")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
