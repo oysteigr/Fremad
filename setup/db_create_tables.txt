@@ -40,7 +40,7 @@ CREATE TABLE `league` (
 CREATE TABLE `match` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`league` int(11) NOT NULL,
-	`team` int(11) NOT NULL,
+	`fremad_team` int(11) NOT NULL,
 	`home_match` tinyint(1) NOT NULL,
 	`fremad_goals` tinyint DEFAULT NULL,
 	`opposing_team_name` varchar(255) NOT NULL,
@@ -48,25 +48,23 @@ CREATE TABLE `match` (
 	`opposing_team_goals` tinyint DEFAULT NULL,
 	`date` timestamp NOT NULL,
 	`field` varchar(255) NOT NULL,
-	CONSTRAINT `fk_match_team` FOREIGN KEY (`team`) REFERENCES `team` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT `fk_match_team` FOREIGN KEY (`fremad_team`) REFERENCES `team` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	CONSTRAINT `fk_match_league` FOREIGN KEY (`league`) REFERENCES `league` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	CONSTRAINT `uc_foreign_team` UNIQUE (`date`, `opposing_team_id`),
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `event_type` (
-	`id` int(4) NOT NULL,        
-	`name` varchar(255) NOT NULL,
-	PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 CREATE TABLE `event` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
-	`type` int(4) NOT NULL,
+	`type` ENUM('GOAL', 'GOAL_AGAINST', 'ASSIST', 'SUB_IN', 'SUB_OUT', 'RED_CARD', 'YELLOW_CARD', 'COMMENT') NOT NULL,
+	`player` int(11),
 	`match` int(11) NOT NULL,
 	`time` tinyint NOT NULL,
-	CONSTRAINT `fk_event_event_type` FOREIGN KEY (`type`) REFERENCES `event_type` (`id`),
+	`comment` varchar(255),
+	`parent` int(11),
 	CONSTRAINT `fk_event_match` FOREIGN KEY (`match`) REFERENCES `match` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT `fk_event_player` FOREIGN KEY (`player`) REFERENCES `player` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT `fk_event_parent` FOREIGN KEY (`parent`) REFERENCES `event` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -169,5 +167,3 @@ CREATE TABLE `article` (
 	CONSTRAINT `fk_author_id` FOREIGN KEY (`author_id`) REFERENCES `user` (`id`),
 	PRIMARY KEY ( `id` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-ALTER TABLE user_validation ADD CONSTRAINT `uc_pw_user_id` UNIQUE (`user_id`);

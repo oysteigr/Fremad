@@ -77,4 +77,20 @@ class ShowAdminEventsComponent {
   void setTeam(int id) {
     selectedTeam = id;
   }
+  
+  String getHomeTeamName(MatchEntry match) {
+    if (match.homeMatch) {
+      return teamList.where((Team) => Team.id == match.fremadTeam).first.name;
+    } else {
+      return match.opposingTeamName;
+    }
+  }
+  
+  String getAwayTeamName(MatchEntry match) {
+    if (! match.homeMatch) {
+      return teamList.where((Team) => Team.id == match.fremadTeam).first.name;
+    } else {
+      return match.opposingTeamName;
+    }
+  }
 }

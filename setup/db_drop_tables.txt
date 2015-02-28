@@ -10,7 +10,6 @@ DROP TABLE `table_entry`;
 DROP TABLE `player_note`;
 DROP TABLE `player`;
 DROP TABLE `event`;
-DROP TABLE `event_type`;
 DROP TABLE `match`;
 DROP TABLE `league`;
 DROP TABLE `team`;
