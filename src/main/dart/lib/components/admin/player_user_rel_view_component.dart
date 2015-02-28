@@ -39,6 +39,12 @@ class ShowAdminPlayerUserRelComponent {
   int selectedUser = -1;
   int selectedPlayer = -1;
   
+  
+  bool showConnectedPlayerAndUsers = true;
+  bool showSuggestedPlayerAndUsers = true;
+  bool showUnconnectedPlayers = true;
+  bool showUnconnectedUsers = true;
+  
   ShowAdminPlayerUserRelComponent(this._http){
     loadPlayerUserRelations();
     loadPlayers();
@@ -277,5 +283,29 @@ class ShowAdminPlayerUserRelComponent {
       }
       return false;
     }
+  
+  
+  void changeConnectedPlayerAndUsersFilter(){
+    showConnectedPlayerAndUsers = !showConnectedPlayerAndUsers;
+  }
+  
+  void changeSuggestedPlayerAndUsersFilter(){
+    showSuggestedPlayerAndUsers = !showSuggestedPlayerAndUsers;
+  }
+  
+  void changeUnconnectedPlayerFilter(){
+    showUnconnectedPlayers = !showUnconnectedPlayers;
+  }
+  
+  void changeUnconnectedUsersFilter(){
+    showUnconnectedUsers = !showUnconnectedUsers;
+  }
+  
+  String getFilterSymbol(bool show){
+    if(show){
+      return "hide";
+    }
+    return "show";
+  }
   
 }
