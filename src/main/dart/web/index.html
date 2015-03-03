@@ -9,15 +9,18 @@
 <link rel="stylesheet" href="bootstrap.min.css">
 <link rel="stylesheet" href="packages/angular/css/angular.css">
 <link rel="stylesheet" href="fremad.css">
+<link rel="stylesheet" href="responsive.css">
+
 
 
 </head>
 <body>
-  <div id="wrapper">
-      <header-item></header-item>
+  <div id="wrapper" class="site-wrap">
+    <label for="nav-collapse" class="overlay"></label>
+  
+    <header-item></header-item>
     <main-menu></main-menu>
-
-
+    
     <div id="wrapper-body">
     
       <ng-view></ng-view>
@@ -25,6 +28,7 @@
       <div class="clearfix"></div>
     </div>
     <footer-item></footer-item>
+
   </div>
   
 <script async type="application/dart" src="fremad_main.dart"></script>

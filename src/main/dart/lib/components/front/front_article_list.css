@@ -63,14 +63,14 @@ li.ng-binding:hover{
 }
 
 .article-teaser-mobile{
-  visibility: : hidden;
+  display : none;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 750px) {
   .article-teaser-mobile{
-      visibility: : visible;
+      display : block;
   }
     .article-teaser{
-      visibility: : hidden;
+      display : none;
   }
 }

@@ -50,7 +50,7 @@ img {
   margin: 0 auto;
   width: 100%;
   background: #e9eff5;
-  border-radius: 10px;
+  position: relative;
 }
 
 #wrapper-body {
@@ -67,75 +67,6 @@ header {
   text-align: center;
 }
 
-#nav-wrapper {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-#nav-wrapper ul {
-  padding: 0px;
-}
-
-#main-menu {
-  background-color: #020c90;
-  padding: 0;
-  margin: 0 0;
-}
-
-#main-menu ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-weight: bold;
-}
-
-#main-menu ul li {
-  display: block;
-  position: relative;
-  float: left;
-}
-
-#main-menu li ul {
-  display: none;
-}
-
-#main-menu ul li a {
-  display: block;
-  text-decoration: none;
-  padding: 20px;
-  background: #020c90;
-  color: #ffffff;
-  margin-left: 1px;
-  white-space: nowrap;
-  text-align: center;
-  text-transform: uppercase;
-}
-
-#main-menu ul li a:hover {
-  background: #000000;
-}
-
-#main-menu li:hover ul {
-  display: block;
-  position: absolute;
-}
-
-#main-menu li:hover li {
-  float: none;
-}
-
-#main-menu li:hover a {
-  background: #020c90;
-}
-
-#main-menu li:hover li a:hover {
-  background: #000000;
-}
-
-#main-menu ul li ul li a {
-  text-align: left;
-  /* Top-level items are centered, but nested list items are left-aligned */
-}
 
 .clearfix {
   clear: both;
@@ -306,24 +237,53 @@ footer {
     background-color: #E9EFF5;
 }
 
-/*-------Media------*/
-@media screen and (max-width: 478px) {
-  body {
-    font-size: 13px;
-  }
+.site-wrap {
+  min-width: 100%;
+  min-height: 100%;
+  background-color: #fff;
+  position: relative;
+  top: 0;
+  bottom: 100%;
+  left: 0;
+  z-index: 1;
 }
 
-@media screen and (max-width: 740px) {
-  .left-col {
+.mobile-view{
+  display : none;
+}
+
+
+/*-------Media------*/
+
+@media screen and (max-width: 1000px) {
+  .left-col{
     width: 100%;
   }
   .sidebar {
     width: 100%;
   }
+  .sidebar-item {
+    width: 50%;
+  }
+  .sidebar-full {
+    width: 100%;
+  }
 }
 
-@media screen and (max-width: 950px) {
-  .left-col-item {
+
+@media screen and (max-width: 750px) {
+  .left-col {
+    width: 100%;
+  }
+  
+}
+
+
+@media screen and (max-width: 500px) {
+  body {
+    font-size: 13px;
+  }
+  .sidebar-item {
     width: 100%;
   }
 }

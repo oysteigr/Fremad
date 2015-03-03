@@ -19,7 +19,7 @@ class MainMenuComponent {
   
   UserLogon userLogon;
 
-
+  bool hideMenuMobile = true;
 
 
   
@@ -99,6 +99,7 @@ class MainMenuComponent {
   }
   
   void setShowLogin(bool show){
+    hideMenuMobile = true;
     DateTime now = new DateTime.now();
     userLogon = new UserLogon("", "");
     showLogin = show;
@@ -356,5 +357,9 @@ class MainMenuComponent {
         html.window.console.info(response);
         html.window.console.info("Could not load rest/user/forgotPassword.json");
       }); 
+  }
+  
+  String getMobileClass(){
+    return hideMenuMobile ? "hiding" : "showing";
   }
 }
