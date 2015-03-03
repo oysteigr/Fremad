@@ -39,6 +39,18 @@
   border-top-width: 1px;
 }
 
+.date {
+  float: right;
+}
+
+.teams {
+  
+}
+
+.filters {
+  margin-bottom: 10px;
+}
+
 #match-list{
   width: 100%;
   font-size: 18px;
