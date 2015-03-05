@@ -21,6 +21,10 @@ class DateTimeUtils{
     return "";
   }
   
+  static String getDateText(DateTime dateTime){
+    return dateTime.day.toString() + " " +  getMonthString(dateTime) + " " + dateTime.year.toString();
+  }
+  
   static int getDiff(DateTime dateTime){
     return (new DateTime.now().toLocal().millisecondsSinceEpoch - dateTime.millisecondsSinceEpoch);
   }
@@ -46,4 +50,35 @@ class DateTimeUtils{
   static int getYears(DateTime dateTime){
     return (getDays(dateTime)~/365);
   }
+  
+  static String getMonthString(DateTime dateTime){
+    switch(dateTime.month){
+      case(DateTime.JANUARY):
+        return "January";
+      case(DateTime.FEBRUARY):
+        return "Febrary";
+      case(DateTime.MARCH):
+        return "March";
+      case(DateTime.APRIL):
+        return "April";
+      case(DateTime.MAY):
+        return "May";
+      case(DateTime.JUNE):
+        return "June";
+      case(DateTime.JULY):
+        return "July";
+      case(DateTime.AUGUST):
+        return "August";
+      case(DateTime.SEPTEMBER):
+        return "September";
+      case(DateTime.OCTOBER):
+        return "October";
+      case(DateTime.NOVEMBER):
+        return "November";
+      case(DateTime.DECEMBER):
+        return "December";
+    }
+    return "";
+  }
+
 }

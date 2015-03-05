@@ -50,7 +50,6 @@ part 'components/profile_view_component.dart';
 part 'components/front/front_article_list_component.dart';
 part 'components/front/front_article_component.dart';
 
-part 'components/team/about_view_component.dart';
 part 'components/team/players_view_component.dart';
 part 'components/team/fixture_view_component.dart';
 part 'components/team/table_view_component.dart';
@@ -111,7 +110,6 @@ class FremadApp extends Module {
     bind(FrontArticleComponent);
     bind(FrontArticleListComponent);
     
-    bind(ShowTeamAboutComponent);
     bind(ShowTeamPlayersComponent);
     bind(ShowTeamFixtureComponent);
     bind(ShowTeamTableComponent);

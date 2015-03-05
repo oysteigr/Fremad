@@ -7,7 +7,7 @@
 #fixture-list li{
   width: 100%;
   background-color: #FFFFFF;
-  margin-bottom: 5px;
+  margin-bottom: 1%;
   border-style: solid;
   border-color: #AAAAAA;
   border-width: 1px;
@@ -16,16 +16,19 @@
 
 .item-head{
   padding: 10px 20px 0px 10px;
+  display: inline-block;
+  width: 100%;
 }
 
 .item-body{
-  padding: 10px 20px 30px 10px;
+  padding: 10px 20px 5px 10px;
   color: #444444;
 }
 
 .fixture-teams{
   font-size: 20px;
   float: left;
+  width: 100%;
 }
 .fixture-score{
   font-size: 20px;
@@ -34,21 +37,64 @@
 
 .fixture-date{
   font-size: 18px;
-  float: left;
+  padding: 10px 20px 0px 10px;
+  display: inline-block;
+  width: 100%;
+  text-transform: uppercase;
+  color: #AAAAAA;
 }
 .fixture-field{
   font-size: 18px;
-  float: right;
+  text-align: center;
+  text-transform: uppercase;
+  color: #AAAAAA;
+}
+
+.team-line{
+  width: 100%;
+  font-size: 20px;
 }
 
 .win{
   color: green;
 }
-
 .tied{
   color: orange;
 }
 
 .loss{
   color: red;
+}
+.short{
+  display: none;
+}
+
+span.score {
+  float: right;
+}
+
+.large{
+  float: right;
+}
+
+.medium{
+  display: none;
+}
+
+@media screen and (max-width: 500px) {
+  .full{
+    display: none;
+  }
+  .short{
+    display: block;
+  }
+}
+  
+@media screen and (max-width: 650px) {
+  .medium{
+    display: block;
+  }
+  .large{
+    display: none;
+  }
 }

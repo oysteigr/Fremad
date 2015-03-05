@@ -13,6 +13,7 @@ class ShowTeamFixtureComponent {
   bool fixturesLoaded = false;
   bool leaguesLoaded = false;
   bool teamLoaded = false;
+  
   Team team;
   MatchList matchListObject;
   List<MatchEntry> matchEntryList;
@@ -77,5 +78,40 @@ class ShowTeamFixtureComponent {
         teamLoaded = false;
         html.window.console.info("Could not load rest/team/getTeam.json");
       });    
+  }
+  
+  String getDateAndTimeString(MatchEntry entry){
+    return DateTimeUtils.getDateText(entry.date) + " " + entry.getTimeAsString();
+  }
+  
+  String getHomeTeamName(MatchEntry entry){
+    if(entry.homeMatch){
+      return team.name;
+    }else{
+      return entry.opposingTeamName;
+    }
+  }
+  String getAwayTeamName(MatchEntry entry){
+    if(!entry.homeMatch){
+      return team.name;
+    }else{
+      return entry.opposingTeamName;
+    }
+  }
+  
+  String getHomeTeamScore(MatchEntry entry){
+    if(entry.homeMatch){
+      return entry.fremadGoals.toString();
+    }else{
+      return entry.opposingTeamGoals.toString();
+    }
+  }
+  
+  String getAwayTeamScore(MatchEntry entry){
+    if(!entry.homeMatch){
+      return entry.fremadGoals.toString();
+    }else{
+      return entry.opposingTeamGoals.toString();
+    }
   }
 }

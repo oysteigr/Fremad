@@ -2,15 +2,16 @@
   <table class="table">
     <thead>
       <tr class="primary">
-        <th class="table-position"><span>Pos</span></th>
-        <th class="table-teamName"><span>Team name</span></th>
-        <th class="table-matchCount"><span>Match count</span></th>
-        <th class="table-goalsScored"><span>Goals scored</span></th>
-        <th class="table-goalsConceded"><span>Goals conceded</span></th>
-        <th class="table-gamesWon"><span>Games won</span></th>
-        <th class="table-gamesTied"><span>Games tied</span></th>
-        <th class="table-gamesLost"><span>Games lost</span></th>   
-        <th class="table-points"><span>Points</span></th>             
+        <th class="table-position"><span class="full">Pos</span><span class="short">#</span></th>
+        <th class="table-teamName"><span>Team</span></th>
+        <th class="table-matchCount"><span class="full">Played</span><span class="short">P</span></th>
+        <th class="table-gamesWon"><span class="full">Games won</span><span class="short">W</span></th>
+        <th class="table-gamesTied"><span class="full">Games drawn</span><span class="short">D</span></th>
+        <th class="table-gamesLost"><span class="full">Games lost</span><span class="short">L</span></th>   
+        <th class="table-goalsScored remove-if-tiny"><span class="full">Goals for</span><span class="short">F</span></th>
+        <th class="table-goalsConceded remove-if-tiny"><span class="full">Goals against</span><span class="short">A</span></th>
+        <th class="table-diff"><span class="full">Goals difference</span><span class="short">+/-</span></th>
+        <th class="table-points"><span class="full">Points</span><span class="short">Pts</span></th>             
       </tr>
     </thead>
     <tbody>
@@ -18,11 +19,12 @@
         <td>{{tableEntry.pos}}</td>
         <td>{{tableEntry.teamName}}</td>
         <td>{{tableEntry.matchCount}}</td>
-        <td>{{tableEntry.goalsScored}}</td>
-        <td>{{tableEntry.goalsConceded}}</td>
         <td>{{tableEntry.gamesWon}}</td>
         <td>{{tableEntry.gamesTied}}</td>
         <td>{{tableEntry.gamesLost}}</td>
+        <td class="remove-if-tiny">{{tableEntry.goalsScored}}</td>
+        <td class="remove-if-tiny">{{tableEntry.goalsConceded}}</td>
+        <td>{{getDiff(tableEntry)}}</td>
         <td>{{tableEntry.points}}</td>
       </tr>
     </tbody>

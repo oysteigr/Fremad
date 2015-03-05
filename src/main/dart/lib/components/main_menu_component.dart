@@ -195,6 +195,7 @@ class MainMenuComponent {
           USER.setUserRole(role);
           getUserId();
           showLogin = false;
+          html.window.location.reload();
         } else{
           loginSuccess = false;
           html.window.console.info("user could not log in: " + userLogon.userName);

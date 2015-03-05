@@ -10,7 +10,7 @@
       <li><a href="#/sponsors">Sponsors</a></li>
       <li ng-show="showBasedOnRole(2)"><a href="#/admin">Admin</a></li>
       <li ng-show="showBasedOnRole(1)"><a href="#/profile">Profile</a></li>
-      <li ng-click="setShowLogin(true)" ng-hide="showBasedOnRole(1)"><a href="#/">Login</a></li>
+      <li ng-click="setShowLogin(true)" ng-hide="showBasedOnRole(1)"><a>Login</a></li>
       <li ng-click="logoutUser()" ng-show="showBasedOnRole(1)"><a href="#/">Log out</a></li>
     </ul>
     <div class="clearfix"></div>
@@ -28,8 +28,8 @@
 
 
 <div ng-class="getMobileClass()" class="nav-side">
-<div class="fog" ng-hide="hideMenuMobile">
-</div>
+  <div class="fog" ng-hide="hideMenuMobile" ng-click="hideMenuMobile = true"></div>
+
 
   <ul class="menu-list">
       <li ng-click="hideMenuMobile = true"><a href="#/home">Home</a></li>

@@ -7,11 +7,15 @@ part of fremad;
     useShadowDom: false
 )
 class ShowAdminComponent {
-  void create() {
-    print("In this func");
-  }
+  
+  bool hideMenuMobile = true;
+  
   
   bool showBasedOnRole(int role){
     return USER.checkUserRole(role);
+  }
+  
+  String getMobileClass(){
+    return hideMenuMobile ? "hiding" : "showing";
   }
 }

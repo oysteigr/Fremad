@@ -147,6 +147,7 @@ ul.menu-list li {
   max-width: 350px;
   background: #ffffff;
   position: absolute;
+  overflow-y: scroll;
   transition: all .3s; }
   .menu-list a {
     border-bottom: 1px solid #eee;

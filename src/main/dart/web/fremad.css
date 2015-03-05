@@ -148,22 +148,6 @@ header {
   border-width: 1px;
 }
 
-.vid {
-  position: relative;
-  padding-bottom: 56.25%;
-  padding-top: 30px;
-  height: 0;
-  overflow: hidden;
-}
-
-.vid iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
 footer {
   background: #020c90;
   border-radius: 0px;
@@ -188,54 +172,6 @@ footer {
 
 }
 
-.table-pos {
-  float: left;
-  padding-right: 4%;
-}
-
-.table-team {
-  
-}
-
-.table-played {
-}
-
-.table-points {
-}
-
-.tab-pane {
-  display: none;
-}
-
-.tab-pane.active {
-  display: block;
-}
-
-#team-nav{
-  z-index: -1;
-}
-
-#team-nav ul li{
-    list-style: none;
-}
-
-#team-nav a{
-    text-decoration: none;
-    float: left;
-    height: 40px;
-    line-height: 40px;
-    padding: 0 10px;
-    margin: 0 5px;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    background-color: #FFFFFF;
-    font-size: 20px;
-    color: #000000;
-}
-
-#team-nav a:hover{
-    background-color: #E9EFF5;
-}
 
 .site-wrap {
   min-width: 100%;

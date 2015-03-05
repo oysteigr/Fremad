@@ -54,3 +54,148 @@
   float: left;
   width: 80%;
 }
+
+.nav-side {
+  color: #000000;
+  bottom: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  left: 20px;
+  overflow: hidden;
+  padding: 0px 0;
+  position: fixed;
+  transition: all .3s;
+  width: 60px;
+  z-index: 2; 
+}
+
+.menu-list {
+  height: 0%;
+  list-style: none;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  width: 70%;
+  max-width: 350px;
+  background: #ffffff;
+  position: absolute;
+  overflow-y: scroll;
+  text-transform: uppercase;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+  transition: all .3s; }
+  .menu-list span{
+    width: 100%;
+    margin: 0% 0% 0% 0%;
+    color: #777777;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    display: block;
+  }
+  .menu-list li a img {
+    margin-right: 5%;
+  }
+  .menu-list a {
+    border-bottom: 1px solid #eee;
+    color: #000000;
+    display: block;
+    padding: 12px 8px;
+    text-decoration: none; }
+    .menu-list a:hover {
+      background: rgba(0, 0, 0, 0.5); }
+
+
+.nav-side {
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  }
+  .nav-side ul li{
+    margin: 0 3%;
+  }
+  .nav-side .menu-list {
+    height: 100%; 
+    }
+  .nav-side .btn-label {
+    color: transparent;
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    width: 20px; 
+    }
+  .nav-side + .main-base {
+    left: 300px; 
+    }
+
+.hiding{
+  height: 100%;
+  width: 0px;
+}
+
+.showing{
+  width: 100%;
+}
+
+.nav-side{
+  display: none;
+}
+
+.admin-nav-wrapper-mobile{
+  display: -webkit-box;
+  display : flex;
+}
+
+.fog {
+  background: #000;
+  opacity: 0.7;
+  left: 0px;
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  position: fixed;
+}
+
+.mobile-menu-button{
+  display: none;
+  background-color: #FFFFFF;
+  margin-bottom: 5px;
+  border-style: solid;
+  border-color: #AAAAAA;
+  border-width: 1px;
+  padding: 5px;
+  text-transform: uppercase;
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+  position: relative;
+  left: -2%;
+  width: 150px;
+  margin-top: 1%;
+  cursor: pointer;
+}
+
+.mobile-menu-button span{
+  margin-left: 15%;
+}
+
+@media screen and (max-width: 750px) {
+  .admin-nav-wrapper-mobile{
+    display: -webkit-box;
+    display : flex;
+  }
+  .admin-nav-wrapper{
+    display : none;
+  }
+  .nav-side{
+    display: -webkit-box;
+    display : flex;
+  }
+  .admin-page-wrapper{
+    width: 100%
+  }
+  .mobile-menu-button{
+    display: -webkit-box;
+    display : flex;
+  }
+}

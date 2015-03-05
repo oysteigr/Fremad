@@ -78,4 +78,9 @@ class ShowTeamTableComponent {
         html.window.console.info("Could not load rest/team/getTeam.json");
       });    
   }
+  
+  String getDiff(TableEntry entry){
+    return (entry.goalsScored - entry.goalsConceded).toString();
+  }
+
 }
