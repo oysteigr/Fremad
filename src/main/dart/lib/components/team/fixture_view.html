@@ -13,11 +13,11 @@
       </div>
       <div class ="item-head short">   
         <div class="team-line">
-          <span class="fixture-home-team">{{getAwayTeamName(matchEntry)}}</span>
+          <span class="fixture-home-team">{{getHomeTeamName(matchEntry)}}</span>
           <span ng-class="matchEntry.resultClass()"><span class="score">{{getHomeTeamScore(matchEntry)}}</span></span>
         </div>
         <div class="team-line">
-          <span class="fixture-away-team">{{getHomeTeamName(matchEntry)}}</span>
+          <span class="fixture-away-team">{{getAwayTeamName(matchEntry)}}</span>
           <span ng-class="matchEntry.resultClass()"><span class="score">{{getAwayTeamScore(matchEntry)}}</span></span>
         </div>
       </div>
