@@ -60,9 +60,9 @@ void fremadRouteInitializer(Router router, RouteViewFactory view) {
       path: '/admin', 
       viewHtml: '<admin-view></admin-view>',
       mount: {
-         "articles" : ngRoute(
-            path: '/articles',
-            viewHtml: '<admin-articles-view></admin-articles-view>',
+         "newsArticles" : ngRoute(
+            path: '/newsArticles',
+            viewHtml: '<admin-news-articles-view></admin-news-articles-view>',
             defaultRoute: true
          ),
          "teams" : ngRoute(

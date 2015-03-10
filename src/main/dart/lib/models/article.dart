@@ -8,25 +8,25 @@ class Article {
   String header;
   String context;
   String content;
-  String imageURL;
+  String imageUrl;
   bool published;
 
-  Article(this.id, this.authorId, this.date, this.articleType, this.header, this.context, this.content, this.imageURL, this.published);
+  Article(this.id, this.authorId, this.date, this.articleType, this.header, this.context, this.content, this.imageUrl, this.published);
 
   Map<String, dynamic> toJson() => <String, dynamic>{
     "id": id,
     "authorId": authorId,
-    "date": date,
+    "date": date.millisecondsSinceEpoch,
     "articleType": articleType,
     "header": header,
     "context": context,
     "content": content,
-    "imageURL": imageURL,
+    "imageUrl": imageUrl,
     "published": published
   };
 
-  Article.fromJson(Map<String, dynamic> json) : this(json['id'],
-      json['authorId'], json['date'], json['articleType'], json['header'], 
-      json['context'], json['content'], json['imageURL'], json['published']);
+  Article.fromJson(Map<String, dynamic> json) : this(json['id'], json['authorId'],  
+      new DateTime.fromMillisecondsSinceEpoch(json['date'], isUtc: false), json['articleType'], 
+      json['header'], json['context'], json['content'], json['imageUrl'], json['published']);
   
 }

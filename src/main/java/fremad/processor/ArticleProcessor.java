@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 
 import fremad.domain.ArticleObject;
 import fremad.domain.list.ArticleListObject;
+import fremad.domain.user.UserRoleEnum;
+import fremad.security.SessionSecurityContext;
 import fremad.service.ArticleService;
 
 @Component
@@ -14,20 +16,33 @@ public class ArticleProcessor {
 
 	@Autowired
 	private ArticleService articleService;
+	
+	@Autowired
+	SessionSecurityContext securityContext;
 
 	public ArticleListObject getArticles(String articleType) {
 		return articleService.getArticles(articleType);
 	}
 
 	public ArticleObject addArticle(ArticleObject article) {
+		
+		securityContext.checkUserPremission(UserRoleEnum.EDITOR);
+		
+		article.setAuthorId(securityContext.getUserId());
 		return articleService.addArticle(article);
 	}
 
 	public ArticleObject updateArticle(ArticleObject article) {
+		
+		securityContext.checkUserPremission(UserRoleEnum.EDITOR);
+		
 		return articleService.updateArticle(article);
 	}
 
 	public ArticleObject deleteArticle(ArticleObject article) {
+		
+		securityContext.checkUserPremission(UserRoleEnum.EDITOR);
+		
 		return articleService.deleteArticle(article);
 	}
 }

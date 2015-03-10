@@ -41,7 +41,7 @@ public class ArticleResoruce {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public ArticleObject addArticle(ArticleObject article) {
+	public ArticleObject addArticle(@RequestBody ArticleObject article) {
 		LOG.debug("Adding article ' " + article.getHeader() + "'");
 		return articleProcessor.addArticle(article);
 	}
@@ -50,7 +50,7 @@ public class ArticleResoruce {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public ArticleObject updateArticle(ArticleObject article) {
+	public ArticleObject updateArticle(@RequestBody ArticleObject article) {
 		LOG.debug("Updating article ' " + article.getHeader() + "'");
 		return articleProcessor.updateArticle(article);
 	}
@@ -59,7 +59,7 @@ public class ArticleResoruce {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public ArticleObject deleteArticle(ArticleObject article) {
+	public ArticleObject deleteArticle(@RequestBody ArticleObject article) {
 		LOG.debug("Deleting article ' " + article.getHeader() + "'");
 		return articleProcessor.deleteArticle(article);
 	}

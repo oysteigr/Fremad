@@ -8,6 +8,10 @@ import 'dart:convert';
 
 import 'package:angular/angular.dart';
 
+import 'directives/ng_bind_html_unsafe.dart';
+import 'directives/ng_bind_divelement_html.dart';
+import 'directives/ng_bind_divelement_rich.dart';
+
 
 import 'models/article.dart';
 import 'models/article_list.dart';
@@ -34,6 +38,8 @@ import 'models/user_login_log_list.dart';
 import 'models/player_note.dart';
 import 'models/player_note_list.dart';
 
+part 'components/editor/rich_text_editor_comp.dart';
+part 'components/editor/rich_text_display_comp.dart';
 
 part 'components/header_component.dart';
 part 'components/main_menu_component.dart';
@@ -94,6 +100,13 @@ class FremadApp extends Module {
     
     
     bind(UserHandler);
+    
+    bind(RichTextEditorComp);
+    bind(RichTextDisplayComp);
+    
+    bind(NgBindHtmlUnsafeDirective);
+    bind(ContentEditableDirectiveHtml);
+    bind(ContentEditableDirectiveRich);
     
     bind(HeaderComponent);
     bind(MainMenuComponent);

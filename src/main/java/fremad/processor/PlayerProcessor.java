@@ -16,7 +16,6 @@ import fremad.domain.PlayerObject;
 import fremad.domain.list.KeyValuePairListObject;
 import fremad.domain.list.PlayerListObject;
 import fremad.domain.list.PlayerNoteListObject;
-import fremad.domain.user.UserListObject;
 import fremad.domain.user.UserMetaListObject;
 import fremad.domain.user.UserMetaObject;
 import fremad.domain.user.UserObject;

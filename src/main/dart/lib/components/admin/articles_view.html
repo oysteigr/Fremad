@@ -1,1 +1,57 @@
-ARTICLES!!
+<div ng-hide="isEditing" class="article-edit-wrapper">
+  <h1>News articles</h1>
+  <ul id="article-list">
+      <li ng-repeat="article in articleList">
+      <div class="item-name" ng-click="selectArticle(article)">
+        {{article.header}} <span class="published">{{getPublishedState(article.published)}}</span>
+      </div>
+    </li>
+  </ul>
+  
+  <div ng-hide="errorMessage.isEmpty" class="alert alert-danger">
+    <strong>Oh snap!</strong> {{errorMessage}}
+  </div>
+  
+  <form>
+    <input type="button" class="adminButton greenButton" value="add new article" ng-click="addNewArticle()">
+  </form>
+</div>
+
+<div ng-show="isEditing" class="article-edit-wrapper">
+  <input type="button" class="adminButton greyButton" value="<< back" ng-click="back()">
+  <h1>Edit article</h1>
+  
+  <div class="form-group">
+    <input type="text" class="form-control input-lg" ng-model="currentArticle.header" placeholder="Title">
+  </div>
+  <rich-text-editor textSource="currentArticle.content"></rich-text-editor>
+  <div class="form-group">
+    <input type="text" class="form-control input-lg" ng-model="currentArticle.context" placeholder="Context">
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control input-lg" ng-model="currentArticle.imageUrl" placeholder="Image URL">
+  </div>
+  <div class="article-buttons">
+    <form>
+      <input ng-hide="currentArticle.published" type="button" class="adminButton redButton" value="delete" ng-click="deleteArticle()">
+      <input ng-show="currentArticle.published" type="button" class="adminButton redButton" value="unpublish" ng-click="unPublish()">
+      <input ng-hide="currentArticle.published || currentArticle.id == -1" type="button" class="adminButton greenButton" value="publish" ng-click="publish()">
+      <input ng-hide="currentArticle.id == -1" type="button" class="adminButton greenButton" value="update" ng-click="updateArticle()">
+      <input ng-show="currentArticle.id == -1" type="button" class="adminButton greenButton" value="save" ng-click="saveArticle()">
+    </form>
+  </div>
+  <div class="clearfix"></div>
+  <br>
+  <h3>Preview:</h3>
+  <br>
+  <h1>{{currentArticle.header}}</h1>
+  <div class="article-main-image">
+    <img class="article-main-image" src="{{currentArticle.imageUrl}}"/>
+  </div>
+  <div class="article-context">
+    {{currentArticle.context}}
+  </div>
+  
+  <rich-text-display textSource="currentArticle.content"></rich-text-display>
+
+</div>
