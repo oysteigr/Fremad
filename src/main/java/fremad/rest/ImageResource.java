@@ -32,7 +32,7 @@ public class ImageResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public ImageObject saveImage(@RequestParam("file") MultipartFile file, 
 			@RequestParam("title") String title,
-			@RequestParam("title") String type, 
+			@RequestParam("type") String type, 
 			@Context final HttpServletResponse response) {
 		LOG.debug("Saving image");
 		return imageProcessor.saveImage(file, title, type);
