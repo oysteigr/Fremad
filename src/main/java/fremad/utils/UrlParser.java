@@ -23,7 +23,7 @@ import fremad.domain.list.TableEntryListObject;
 public final class UrlParser  extends UrlConstants{
 	private static final Logger LOG = LoggerFactory.getLogger(UrlParser.class);
 	
-	public static TableEntryListObject getTableEntryListObject(LeagueObject leagueObject){
+	public static TableEntryListObject getTableEntryListObject(LeagueObject leagueObject, boolean old){
 		LOG.info("In getTableEntryListObject");
 		
 		TableEntryListObject tableEntryListObject = new TableEntryListObject();
@@ -33,7 +33,7 @@ public final class UrlParser  extends UrlConstants{
 		Elements rows = getRowsFromTable(leagueObject.getId());
 		
 		for (int i = 2; i < rows.size(); i++) { 
-			tableEntryListObject.add(getTableEntryFromRow(rows.get(i), leagueObject.getId()));
+			tableEntryListObject.add(getTableEntryFromRow(rows.get(i), leagueObject.getId(), old));
 		}
 		
 		return tableEntryListObject;
@@ -59,7 +59,7 @@ public final class UrlParser  extends UrlConstants{
 			URL url = new URL(urlString);
 			Document doc = Jsoup.parse(url, 1000000);
 			
-			Element header = doc.select("h2").get(0); //select the first h2 header.
+			Element header = doc.select("h1").get(0); //select the first h2 header.
 			
 			return header.text();
 			
@@ -92,15 +92,19 @@ public final class UrlParser  extends UrlConstants{
 		
 	}
 	
-	private static TableEntryObject getTableEntryFromRow(Element row, int leagueId){
+	private static TableEntryObject getTableEntryFromRow(Element row, int leagueId, boolean old){
 		
 		TableEntryObject tableEntryObject = new TableEntryObject();
 		
 		Elements cols = row.select("td");
 		
 		tableEntryObject.setLeagueId(leagueId);
-		tableEntryObject.setPos(Integer.parseInt(cols.get(URL_TABLE_POS).text()));		
-		tableEntryObject.setTeamId(getTeamIdFromUrl(cols.get(URL_TABLE_TEAM)));
+		tableEntryObject.setPos(Integer.parseInt(cols.get(URL_TABLE_POS).text()));	
+		if(old){
+			tableEntryObject.setTeamId(-1);
+		}else{
+			tableEntryObject.setTeamId(getTeamIdFromUrl(cols.get(URL_TABLE_TEAM)));
+		}
 		tableEntryObject.setTeamName(cols.get(URL_TABLE_TEAM).text());
 		tableEntryObject.setMatchCount(Integer.parseInt(cols.get(URL_TABLE_MATCHES).text()));
 		tableEntryObject.setGamesWon(Integer.parseInt(cols.get(URL_TABLE_WIN).text()));
@@ -113,13 +117,13 @@ public final class UrlParser  extends UrlConstants{
 
 		return tableEntryObject;
 	}
-	
+		
 	private static MatchObject getMatchFromRow(Element row, TeamObject teamObject){
 		
 		MatchObject matchObject = new MatchObject();
 		
 		Elements cols = row.select("td");
-		
+				
 		SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");	
 		
 		try {
@@ -140,10 +144,18 @@ public final class UrlParser  extends UrlConstants{
 			matchObject.setOpposingTeamId(getTeamIdFromUrl(cols.get(URL_FIXTURES_HOMETEAM)));
 			matchObject.setOpposingTeamName(cols.get(URL_FIXTURES_HOMETEAM).text());		
 		}
-		
+		LOG.debug("Before check result");
 		if(cols.get(URL_FIXTURES_RESULT).text().equals("Ikke klart")){
+			matchObject.setFremadGoals(-1);
+			matchObject.setOpposingTeamGoals(-1);
 			return matchObject;
 		}
+		if(cols.get(URL_FIXTURES_RESULT).text().trim().equals(":")){
+			matchObject.setFremadGoals(-1);
+			matchObject.setOpposingTeamGoals(-1);
+			return matchObject;
+		}
+		LOG.debug("After check result");
 		
 		if(matchObject.isHomeMatch()){
 			matchObject.setFremadGoals(Integer.parseInt(cols.get(URL_FIXTURES_RESULT).text().split(":")[0].trim()));

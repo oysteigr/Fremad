@@ -26,21 +26,21 @@ class ShowTeamTableComponent {
     loadLeagues();
   }
   
-  void loadTableEntries() {
-    html.window.console.info("Is in loadLeagues");
+  void loadTableEntries(int leagueId) {
+    html.window.console.info("Is in loadTableEntries");
     tableEntriesLoaded = false;
-    _http.post('rest/tableEntry/getTableEntries.json', JSON.encode(leagueList.first.getID))
+    _http.post('rest/tableEntry/getTableEntries.json', JSON.encode(leagueId))
       .then((HttpResponse response) {
         print(response);
         tableEntryListObject = new TableEntryList.fromJson(response.data);
         tableEntryList = tableEntryListObject.tableEntryList;
         tableEntriesLoaded = true;
-        html.window.console.info("Success on loading fixtures");
+        html.window.console.info("Success on loading tableEntries");
       })
       .catchError((e) {
         print(e);
         tableEntriesLoaded = false;
-        html.window.console.info("Could not load rest/league/getLeagues.json");
+        html.window.console.info("Could not load rest/league/getTableEntries.json");
       });
   } 
   void loadLeagues() {
@@ -53,7 +53,7 @@ class ShowTeamTableComponent {
         leagueList = leagueListObject.leagueList;
         leaguesLoaded = true;
         html.window.console.info("Success on loading leagues");
-        loadTableEntries();
+        loadTableEntries(leagueList.first.getID);
       })
       .catchError((e) {
         print(e);
@@ -77,6 +77,10 @@ class ShowTeamTableComponent {
         teamLoaded = false;
         html.window.console.info("Could not load rest/team/getTeam.json");
       });    
+  }
+  
+  void setLeague(int leagueId){
+    loadTableEntries(leagueId);
   }
   
   String getDiff(TableEntry entry){

@@ -14,6 +14,8 @@ class ShowTeamFixtureComponent {
   bool leaguesLoaded = false;
   bool teamLoaded = false;
   
+  int selectedLeague;
+  
   Team team;
   MatchList matchListObject;
   List<MatchEntry> matchEntryList;
@@ -54,6 +56,7 @@ class ShowTeamFixtureComponent {
         leagueListObject = new LeagueList.fromJson(response.data);
         leagueList = leagueListObject.leagueList;
         leaguesLoaded = true;
+        selectedLeague = leagueList.first.id;
         html.window.console.info("Success on loading leagues");
       })
       .catchError((e) {
@@ -78,6 +81,14 @@ class ShowTeamFixtureComponent {
         teamLoaded = false;
         html.window.console.info("Could not load rest/team/getTeam.json");
       });    
+  }
+  
+  bool filter(MatchEntry entry){
+    return entry.league == selectedLeague;
+  }
+  
+  void setLeague(int id){
+    selectedLeague = id;
   }
   
   String getDateAndTimeString(MatchEntry entry){
@@ -113,5 +124,12 @@ class ShowTeamFixtureComponent {
     }else{
       return entry.opposingTeamGoals.toString();
     }
+  }
+  
+  bool beenPlayed(MatchEntry entry){
+    if(entry.fremadGoals == -1 && entry.opposingTeamGoals == -1){
+      return false;
+    }
+    return true;
   }
 }

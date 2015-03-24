@@ -1,5 +1,7 @@
 package fremad.tools;
 
+import java.util.Calendar;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +45,7 @@ public class TaskScheduler {
 	public void updateFixtureTask() {
 		LOG.debug("In updateFixtureTask");
 		
-		LeagueListObject leagueList = leagueService.getLeagues();
+		LeagueListObject leagueList = leagueService.getLeaguesByYear(Calendar.getInstance().get(Calendar.YEAR));
 		
 		LOG.debug("Found " + leagueList.size() + " leagues");
 		
@@ -68,13 +70,13 @@ public class TaskScheduler {
 	public void updateTableTask() {
 		LOG.debug("In updateTableTask");
 		
-		LeagueListObject leagueList = leagueService.getLeagues();
+		LeagueListObject leagueList = leagueService.getLeaguesByYear(Calendar.getInstance().get(Calendar.YEAR));
 		
 		LOG.debug("Found " + leagueList.size() + " leagues");
 		
 		int tableEntriesAdded = 0;
 		for (LeagueObject league : leagueList.getList()) {
-			TableEntryListObject tableEntries = UrlParser.getTableEntryListObject(league);
+			TableEntryListObject tableEntries = UrlParser.getTableEntryListObject(league, false);
 			TableEntryListObject existingTableEntries = tableEntryService.getTableEntries(league.getId());
 			tableEntries = fillIdForExistingTableEntries(tableEntries, existingTableEntries);
 			LOG.debug("Found " + tableEntries.size() + " tableEntries for league " + league.getId());
@@ -87,6 +89,7 @@ public class TaskScheduler {
 			}
 		}
 		LOG.debug("Updated or added " + tableEntriesAdded + " tableEntries");
+		checkIfOldIsEmpty();
 	}
 	
 	private MatchListObject fillIdForExistingMatches(MatchListObject matches, MatchListObject existingMatches){
@@ -146,6 +149,34 @@ public class TaskScheduler {
 		}else{
 			return tableEntryService.updateTableEntry(tableEntry);
 		}
+	}
+	
+	private void checkIfOldIsEmpty(){
+		LOG.debug("In checkIfOldIsEmpty");
+		
+		LeagueListObject leagueList = leagueService.getLeagues();
+		
+		LOG.debug("Found " + leagueList.size() + " leagues");
+		
+		int tableEntriesAdded = 0;
+		for (LeagueObject league : leagueList.getList()) {
+			TableEntryListObject existingTableEntries = tableEntryService.getTableEntries(league.getId());
+			if(!existingTableEntries.isEmpty()){
+				continue;
+			}
+			TableEntryListObject tableEntries = UrlParser.getTableEntryListObject(league, true);
+			LOG.debug("Found " + tableEntries.size() + " tableEntries for league " + league.getId());
+			for (TableEntryObject tableEntry : tableEntries) {
+				tableEntry.setTeamId(0 - tableEntry.getPos());
+				tableEntry.setId(-1);
+				if (addOrUpdateTableEntry(tableEntry)) {
+					tableEntriesAdded++;
+				} else {
+					LOG.error("Failed to tableentry match with leagueId " + tableEntry.getLeagueId());
+				}
+			}
+		}
+		LOG.debug("Updated or added " + tableEntriesAdded + " tableEntries");
 	}
 	
 

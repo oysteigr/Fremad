@@ -1,3 +1,11 @@
+<div class="filters">
+  <form>
+    <div class="clearfix">
+      <input ng-repeat="league in leagueList.reversed" type="button" class="adminButton clearButton" value="{{league.year}}" ng-click="setLeague(league.id)">
+    </div>
+  </form>
+</div>
+
 <div id="fixture-table">
   <table class="table">
     <thead>

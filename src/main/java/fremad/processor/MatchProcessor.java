@@ -33,7 +33,7 @@ public class MatchProcessor {
 			Collections.sort(response.getList(), new Comparator<MatchObject>(){
 				@Override
 				public int compare(final MatchObject obj1, final MatchObject obj2){
-					return obj2.getDate().compareTo(obj1.getDate());
+					return obj1.getDate().compareTo(obj2.getDate());
 				}
 			});
 		}
@@ -46,7 +46,7 @@ public class MatchProcessor {
 			Collections.sort(response.getList(), new Comparator<MatchObject>(){
 				@Override
 				public int compare(final MatchObject obj1, final MatchObject obj2){
-					return obj2.getDate().compareTo(obj1.getDate());
+					return obj1.getDate().compareTo(obj2.getDate());
 				}
 			});
 		}
@@ -68,7 +68,7 @@ public class MatchProcessor {
 		MatchListObject matchListObject = getMatches(teamId);
 		Lists.reverse(matchListObject.getList());
 		Date dateNow = new Date();
-		for (MatchObject matchObjcet : matchListObject){
+		for (MatchObject matchObjcet : Lists.reverse(matchListObject.getList())){
 			if(matchObjcet.getDate().getTime() < dateNow.getTime()){
 				return matchObjcet;
 			}

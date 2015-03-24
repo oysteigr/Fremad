@@ -4,9 +4,10 @@ import fremad.domain.LeagueObject;
 import fremad.domain.list.LeagueListObject;
 
 public interface LeagueDao {
-	public LeagueListObject getLeagues();
-	public LeagueListObject getLeagues(int teamId);
-	public LeagueObject addLeague(LeagueObject league);
-	public LeagueObject updateLeague(LeagueObject league);
-	public LeagueObject deleteLeague(LeagueObject league);
+	LeagueListObject getLeagues();
+	LeagueListObject getLeagues(int teamId);
+	LeagueListObject getLeaguesByYear(int year);
+	LeagueObject addLeague(LeagueObject league);
+	LeagueObject updateLeague(LeagueObject league);
+	LeagueObject deleteLeague(LeagueObject league);
 }

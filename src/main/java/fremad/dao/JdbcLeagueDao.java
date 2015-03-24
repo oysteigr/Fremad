@@ -29,7 +29,7 @@ public class JdbcLeagueDao extends JdbcConnection implements LeagueDao {
 	public LeagueListObject getLeagues() {
 		LOG.debug("In getLeagues()");
 		
-		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_LEAGUE;
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_LEAGUE + " ORDER BY year DESC;";
 		LeagueListObject leagues = new LeagueListObject();
 		
 		leagues.addAll(this.namedParameterJdbcTemplate.getJdbcOperations().query(query, new BeanPropertyRowMapper<>(LeagueObject.class)));
@@ -40,7 +40,7 @@ public class JdbcLeagueDao extends JdbcConnection implements LeagueDao {
 	public LeagueListObject getLeagues(final int teamId) {
 		LOG.debug("In getLeagues(teamId)");
 		
-		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_LEAGUE + " where team = ?";
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_LEAGUE + " where team = ? ORDER BY year DESC;";
 		LeagueListObject leagues = new LeagueListObject();
 		
 		leagues.addAll(this.namedParameterJdbcTemplate.getJdbcOperations().query(query, new PreparedStatementSetter() {
@@ -48,6 +48,24 @@ public class JdbcLeagueDao extends JdbcConnection implements LeagueDao {
 				public void setValues(java.sql.PreparedStatement ps)
 						throws SQLException {
 					ps.setInt(1, teamId);
+				}
+			}, new BeanPropertyRowMapper<>(LeagueObject.class)));
+		
+		return leagues;
+	}
+	
+	@Override
+	public LeagueListObject getLeaguesByYear(final int year) {
+		LOG.debug("In getLeaguesByYear(year)");
+		
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_LEAGUE + " where year = ?";
+		LeagueListObject leagues = new LeagueListObject();
+		
+		leagues.addAll(this.namedParameterJdbcTemplate.getJdbcOperations().query(query, new PreparedStatementSetter() {
+				@Override
+				public void setValues(java.sql.PreparedStatement ps)
+						throws SQLException {
+					ps.setInt(1, year);
 				}
 			}, new BeanPropertyRowMapper<>(LeagueObject.class)));
 		
@@ -96,5 +114,7 @@ public class JdbcLeagueDao extends JdbcConnection implements LeagueDao {
 		
 		return league;
 	}
+
+
 	
 }

@@ -6,6 +6,31 @@
   border-style: solid;
 }
 
+.filters {
+  margin-bottom: 10px;
+}
+
+.adminButton{
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+  border-radius:5px;
+  text-decoration:none;
+  display:inline-block;
+  cursor:pointer;
+  color:#ffffff;
+  float: right;
+  margin-left: 10px;
+  font-size: 18px;
+}
+
+.clearButton {
+  background-color: transparent;
+  border:1px solid #DDDDDD;
+  font-size: 14px;
+  color: #AAAAAA;
+  text-shadow:0px 1px 0px #dddddd;
+}
+
 span.short{
   display: none;
 }

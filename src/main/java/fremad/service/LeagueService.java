@@ -19,6 +19,9 @@ public class LeagueService {
 	public LeagueListObject getLeagues(int teamId){
 		return leagueDao.getLeagues(teamId);
 	}
+	public LeagueListObject getLeaguesByYear(int year){
+		return leagueDao.getLeaguesByYear(year);
+	}
 	public LeagueObject addLeague(LeagueObject leagueObject){
 		return leagueDao.addLeague(leagueObject);
 	}
