@@ -188,6 +188,16 @@ footer {
   display : none;
 }
 
+.medium-image {
+  width: 50%;
+  float: right;
+  padding: 2%;
+  text-align: center;
+  margin-top: 2%;
+  /* background: beige; */
+  display: inline-block;
+}
+
 
 /*-------Media------*/
 

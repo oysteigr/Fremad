@@ -167,3 +167,14 @@ CREATE TABLE `article` (
 	CONSTRAINT `fk_author_id` FOREIGN KEY (`author_id`) REFERENCES `user` (`id`),
 	PRIMARY KEY ( `id` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `image` (
+	`id` int(64) NOT NULL AUTO_INCREMENT, 
+	`uploader_id` int(11) NOT NULL, 
+	`date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`image_type` ENUM('FRONT', 'FREE') NOT NULL,
+	`title` varchar(64) NOT NULL , 
+	`url` varchar(64) NOT NULL , 
+	CONSTRAINT `fk_uploader_id` FOREIGN KEY (`uploader_id`) REFERENCES `user` (`id`),
+	PRIMARY KEY ( `id` )
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

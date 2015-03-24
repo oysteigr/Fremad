@@ -12,6 +12,7 @@ class ShowAdminArticlesComponent {
   bool isEditing = false;
   bool isAdding = false;
 
+  bool showImageUpload = false;
 
   List<Article> articleList;
 
@@ -20,6 +21,15 @@ class ShowAdminArticlesComponent {
   String text = 'Write <b>here</b><br> <img src="https://angularjs.org/img/AngularJS-large.png"/>  <br> This is an <i> image</i> ';
   
   Article currentArticle = new Article(-1, -1, new DateTime.now(), "NEWS", "", "", "", "",false);
+  
+  String imageTitle = "";
+  
+  bool useRatio = true;
+  int xRatio = 610;
+  int yRatio = 350;
+  int minWith = 1000;
+  int minHeight = 400;
+  
   
   ShowAdminArticlesComponent(this._http){
     loadArticles();
@@ -110,6 +120,14 @@ class ShowAdminArticlesComponent {
   void selectArticle(article){
     currentArticle = article;
     isEditing = true;
+  }
+  
+  void showImageEditor(){
+    showImageUpload = true;
+  }
+  
+  void cancelImage(){
+    showImageUpload = false;
   }
   
   void back(){

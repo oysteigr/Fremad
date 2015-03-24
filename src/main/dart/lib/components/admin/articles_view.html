@@ -30,6 +30,7 @@
   </div>
   <div class="form-group">
     <input type="text" class="form-control input-lg" ng-model="currentArticle.imageUrl" placeholder="Image URL">
+    <button class="btn" data-dismiss="modal" ng-click="showImageEditor()" aria-hidden="true">Insert</button>
   </div>
   <div class="article-buttons">
     <form>
@@ -54,4 +55,23 @@
   
   <rich-text-display textSource="currentArticle.content"></rich-text-display>
 
+</div>
+
+<div id="loginModal" ng-show="showImageUpload" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content">
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" ng-click="cancelImage()" aria-hidden="true">×</button>
+          <h1 class="text-center">Upload image</h1>
+      </div>
+      <div class="modal-body">
+        <image-handler-editor imagePath="currentArticle.imageUrl" useRatio="useRatio" xRatio="xRatio" yRatio="yRatio" minWith="minWith" minHeight="minHeight" show="showImageUpload"></image-handler-editor>
+      </div>
+      <div class="modal-footer">
+          <div class="col-md-12">
+          <button class="btn" data-dismiss="modal" ng-click="cancelImage()" aria-hidden="true">Cancel</button>
+      </div>  
+      </div>
+  </div>
+  </div>
 </div>

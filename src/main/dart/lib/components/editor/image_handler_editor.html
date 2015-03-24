@@ -1,0 +1,16 @@
+<div class="form-group">
+  <input type="text" class="form-control input-lg" ng-model="title" placeholder="Title">
+</div>
+
+<form id="read">
+  <input type="file" id="imageFile" name="imageFile" />
+</form>
+
+<div id="container">
+  <canvas id="canvasOverlay" style="position: fixed; z-index=1;"></canvas>
+  <canvas id="canvasImage"></canvas>
+</div>
+<div ng-hide="errorMessage.isEmpty" class="alert alert-danger">
+  <strong>Oh snap!</strong> {{errorMessage}}
+</div>
+<input type="button" class="btn redButton" value="crop and save" ng-click="saveImage()">

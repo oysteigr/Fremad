@@ -1,3 +1,4 @@
+DROP TABLE `image`;
 DROP TABLE `article`;
 DROP TABLE `rel_player_user`;
 DROP TABLE `user_forgot_password`
@@ -13,3 +14,4 @@ DROP TABLE `event`;
 DROP TABLE `match`;
 DROP TABLE `league`;
 DROP TABLE `team`;
+
