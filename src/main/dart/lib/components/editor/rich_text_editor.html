@@ -1,0 +1,16 @@
+<div class="rich-text-editor">
+
+    <div id="button-container" class="container tool-container" ng-class="getMode()"> 
+      <div id="html-button-container" ng-hide="!showSource"></div>
+      <div id="rich-button-container" ng-hide="showSource"></div>
+    </div>
+    
+    <div id="text-container" class="container edit-container"> 
+       <div ng-hide="!showSource" id="text-editor-html" class="editor" ng-model="text" contenteditable="true" html></div>
+       <div ng-hide="showSource" id="text-editor-rich" class="editor" ng-model="text" contenteditable="true" rich></div>  
+    </div>
+
+</div>
+
+    
+

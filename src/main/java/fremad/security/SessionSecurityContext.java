@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import fremad.domain.user.UserObject;
 import fremad.domain.user.UserRoleEnum;
 import fremad.exception.UserNoPremissisionException;
 import fremad.exception.UserNotLoggedInException;
@@ -23,6 +24,7 @@ import fremad.exception.UserNotLoggedInException;
 public class SessionSecurityContext implements SecurityContext {
 	
 	private static String SESSION_USER_NAME = "sessionUserName";
+	private static String SESSION_USER_ID = "sessionUserId";
 	private static String SESSION_USER_ROLE = "sessionUserRole";
 	
 	private static final Logger LOG = LoggerFactory.getLogger(SecurityContext.class);
@@ -36,9 +38,10 @@ public class SessionSecurityContext implements SecurityContext {
 		
 	}
 	
-	public void createSession(String userName){
+	public void createSession(UserObject user){
 		HttpSession session = httpServletRequest.getSession();
-		session.setAttribute(SESSION_USER_NAME, userName);
+		session.setAttribute(SESSION_USER_NAME, user.getUserName());
+		session.setAttribute(SESSION_USER_ID, user.getId());
 		LOG.debug("Session created: " + new Date(session.getCreationTime()).toString());
 	}
 	
@@ -101,6 +104,16 @@ public class SessionSecurityContext implements SecurityContext {
 		}
 
 		return (String) session.getAttribute(SESSION_USER_NAME);
+	}
+	
+	public Integer getUserId(){
+		HttpSession session = httpServletRequest.getSession(false);
+		if(session == null){
+			LOG.debug("User has no session");
+			return null;
+		}
+
+		return (Integer) session.getAttribute(SESSION_USER_ID);
 	}
 
 	@Override

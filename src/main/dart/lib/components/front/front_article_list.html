@@ -1,7 +1,9 @@
 
-<section ng-show="checkWidth(500)" class="article-teaser ng-binding">
+<section class="article-teaser ng-binding">
   <div class="article-teaser-image">
-    <img src="{{selectedArticle.imageURL}}">
+   <div class="image-wrapper">
+    <img src="{{selectedArticle.imageUrl}}">
+   </div>
     <h4>{{selectedArticle.header}}</h4>
   
     
@@ -11,9 +13,9 @@
 
 
   <div class="article-teaser-list">
-    <ul id="newsreaderDisplay" ng-repeat="article in articleList">
+    <ul id="newsreaderDisplay">
     
-        <li ng-click="selectArticle(article.id)">
+        <li ng-repeat="article in articleList" ng-click="selectArticle(article.id)">
           <div class="teaser">
             <div class="teaser-text">
               <span class="teaser-span">{{article.header}} </span>
@@ -26,11 +28,7 @@
   <br style="clear: left;">
 </section>
      
-<section ng-hide="checkWidth(500)" class="article-teaser-mobile">
-      <front-article></front-article>
-      <front-article></front-article>
-      <front-article></front-article>
-      <front-article></front-article>
-      <front-article></front-article>
-      <front-article></front-article>
+<section class="article-teaser-mobile">
+      <front-article ng-repeat="article in articleList" article="article"></front-article>
+
 </section>

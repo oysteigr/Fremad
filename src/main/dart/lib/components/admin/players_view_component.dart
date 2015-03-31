@@ -67,6 +67,7 @@ class ShowAdminPlayersComponent {
     _http.post('rest/player/addPlayer.json', JSON.encode(currentPlayer))
     .then((HttpResponse response) {
       playerList.add(new Player.fromJson(response.data));
+      MESSAGE.addSuccessMessage("Player added");
     })
     .catchError((e) {
       print(e);
@@ -80,6 +81,7 @@ class ShowAdminPlayersComponent {
     _http.post('rest/player/updatePlayer.json', JSON.encode(currentPlayer))
     .then((HttpResponse response) {
       playerList.add(new Player.fromJson(response.data));
+      MESSAGE.addSuccessMessage("Player updated");
     })
     .catchError((e) {
       print(e);
@@ -98,6 +100,7 @@ class ShowAdminPlayersComponent {
         assert(playerResponse.number == playerList.where((Player) => Player.id == selectedPlayer).first.number);
         assert(playerResponse.team == playerList.where((Player) => Player.id == selectedPlayer).first.team);
         playerList.removeAt(index);
+        MESSAGE.addSuccessMessage("Player deleted");
      })
      .catchError((e) {
        print(e);

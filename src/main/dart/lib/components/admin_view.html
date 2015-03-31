@@ -1,32 +1,72 @@
+<div class="mobile-menu-button" ng-click="hideMenuMobile = false">Admin menu  <span>&gt;&gt;</span></div>
+
 <div class="admin-nav-wrapper">
   <div id="admin-nav" class="nav-collapse" >
       <ul class="nav nav-tabs nav-stacked">
-          <div ng-show="showBasedOnRole(3)" class="editor-role">
-              <li><a href="#/admin/events"><img src="images/icons/home_icon&16.png" />Dashboard</a></li>
-              <li><span>Contributor</span></li>
-              <li><a href="#/admin/events"><img src="images/icons/flag_icon&16.png" />Match Events</a></li>
-          </div>
-           <div ng-show="showBasedOnRole(4)" class="editor-role">
-              <li><span>Editor</span></li>     
-              <li><a href="#/admin/articles"><img src="images/icons/doc_empty_icon&16.png" />Articles</a></li> 
-              <li><a href="#/admin/players"><img src="images/icons/user_icon&16.png" />Players</a></li>
-          </div>
-          <div ng-show="showBasedOnRole(5)" class="editor-role">
-              <li><span>Admin</span></li>
-              <li><a href="#/admin/teams"><img src="images/icons/layers_2_icon&16.png" />Teams</a></li>
-              <li><a href="#/admin/leagues"><img src="images/icons/list_bullets_icon&16.png" />Leagues</a></li>
-              <li><a href="#/admin/squad"><img src="images/icons/squad_icon&16.png" />Squad</a></li>
-              <li><a href="#/admin/playerUserRel"><img src="images/icons/plug_icon&16.png" />Player - User</a></li>               
-          </div>
-          <div ng-show="showBasedOnRole(6)" class="editor-role">
-              <li><span>Super admin</span></li>
-              <li><a href="#/admin/users"><img src="images/icons/users_icon&16.png" />Users</a></li>
-              <li><a href="#/admin/userRole"><img src="images/icons/key_icon&16.png" />User role</a></li>
-              <li><a href="#/admin/roleRequest"><img src="images/icons/lock_open_icon&16.png" />Role requests</a></li>
-              <li><a href="#/admin/userLogins"><img src="images/icons/align_just_icon&16.png" />User logins</a></li>
-          </div>
+        <div ng-show="showBasedOnRole(3)" class="editor-role">
+            <li><a href="#/admin/events"><img src="images/icons/home_icon&16.png" />Dashboard</a></li>
+            <li><span>Contributor</span></li>
+            <li><a href="#/admin/events"><img src="images/icons/flag_icon&16.png" />Match Events</a></li>
+        </div>
+         <div ng-show="showBasedOnRole(4)" class="editor-role">
+            <li><span>Editor</span></li>     
+            <li><a href="#/admin/newsArticles"><img src="images/icons/doc_empty_icon&16.png" />News articles</a></li> 
+            <li><a href="#/admin/pages"><img src="images/icons/doc_empty_icon&16.png" />Pages</a></li>
+            <li><a href="#/admin/players"><img src="images/icons/user_icon&16.png" />Players</a></li>
+        </div>
+        <div ng-show="showBasedOnRole(5)" class="editor-role">
+            <li><span>Admin</span></li>
+            <li><a href="#/admin/teams"><img src="images/icons/layers_2_icon&16.png" />Teams</a></li>
+            <li><a href="#/admin/leagues"><img src="images/icons/list_bullets_icon&16.png" />Leagues</a></li>
+            <li><a href="#/admin/squad"><img src="images/icons/squad_icon&16.png" />Squad</a></li>
+            <li><a href="#/admin/playerUserRel"><img src="images/icons/plug_icon&16.png" />Player - User</a></li>               
+        </div>
+        <div ng-show="showBasedOnRole(6)" class="editor-role">
+            <li><span>Super admin</span></li>
+            <li><a href="#/admin/users"><img src="images/icons/users_icon&16.png" />Users</a></li>
+            <li><a href="#/admin/userRole"><img src="images/icons/key_icon&16.png" />User role</a></li>
+            <li><a href="#/admin/roleRequest"><img src="images/icons/lock_open_icon&16.png" />Role requests</a></li>
+            <li><a href="#/admin/userLogins"><img src="images/icons/align_just_icon&16.png" />User logins</a></li>
+        </div>
       </ul>
   </div>
+</div>
+
+<div ng-class="getMobileClass()" class="nav-side">
+  <div class="fog" ng-hide="hideMenuMobile" ng-click="hideMenuMobile = true"></div>
+
+
+  <ul class="nav nav-tabs nav-stacked menu-list">
+
+      <div ng-show="showBasedOnRole(3)" class="editor-role">
+          <li><a href="#/admin/events" ng-click="hideMenuMobile = true"><img src="images/icons/home_icon&16.png" />Dashboard</a></li>
+          <li><span>Contributor</span></li>
+          <li><a href="#/admin/events" ng-click="hideMenuMobile = true"><img src="images/icons/flag_icon&16.png" />Match Events</a></li>
+      </div>
+       <div ng-show="showBasedOnRole(4)" class="editor-role">
+          <li><span>Editor</span></li>     
+          <li><a href="#/admin/newsArticles" ng-click="hideMenuMobile = true"><img src="images/icons/doc_empty_icon&16.png" />News articles</a></li> 
+          <li><a href="#/admin/pages"  ng-click="hideMenuMobile = true"><img src="images/icons/doc_empty_icon&16.png" />Pages</a></li>
+          <li><a href="#/admin/players" ng-click="hideMenuMobile = true"><img src="images/icons/user_icon&16.png" />Players</a></li>
+      </div>
+      <div ng-show="showBasedOnRole(5)" class="editor-role">
+          <li><span>Admin</span></li>
+          <li><a href="#/admin/teams" ng-click="hideMenuMobile = true"><img src="images/icons/layers_2_icon&16.png" />Teams</a></li>
+          <li><a href="#/admin/leagues" ng-click="hideMenuMobile = true"><img src="images/icons/list_bullets_icon&16.png" />Leagues</a></li>
+          <li><a href="#/admin/squad" ng-click="hideMenuMobile = true"><img src="images/icons/squad_icon&16.png" />Squad</a></li>
+          <li><a href="#/admin/playerUserRel" ng-click="hideMenuMobile = true"><img src="images/icons/plug_icon&16.png" />Player - User</a></li>               
+      </div>
+      <div ng-show="showBasedOnRole(6)" class="editor-role">
+          <li><span>Super admin</span></li>
+          <li><a href="#/admin/users" ng-click="hideMenuMobile = true"><img src="images/icons/users_icon&16.png" />Users</a></li>
+          <li><a href="#/admin/userRole" ng-click="hideMenuMobile = true"><img src="images/icons/key_icon&16.png" />User role</a></li>
+          <li><a href="#/admin/roleRequest" ng-click="hideMenuMobile = true"><img src="images/icons/lock_open_icon&16.png" />Role requests</a></li>
+          <li><a href="#/admin/userLogins" ng-click="hideMenuMobile = true"><img src="images/icons/align_just_icon&16.png" />User logins</a></li>
+      </div>
+      <li ng-click="hideMenuMobile = true"><a>Close</a></li>
+  </ul>
+
+
 </div>
 
 <aside  ng-show="showBasedOnRole(3)" class="admin-page-wrapper">

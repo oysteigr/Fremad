@@ -33,11 +33,27 @@ class Player {
   
   String getNameString(){
     String nameString = "";
+    firstName.trim();
+    lastName.trim();
     List<String> stringList = firstName.split(" "); 
     for (String t in stringList) {
       nameString += t.substring(0,1) + ". ";
     };
     nameString += lastName;
     return nameString;
+  }
+  
+  String getPosString(){
+    switch(position){
+      case "goalkeeper":
+        return "Goalkeeper";
+      case "defender":
+        return "Defender";
+      case "midfielder":
+        return "Midfielder";
+      case "attacker":
+        return "Forward";
+    }
+    return "No pos";
   }
 }

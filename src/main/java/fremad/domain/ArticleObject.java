@@ -7,19 +7,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "articleObject")
 public class ArticleObject {
 
-	int id;
-	int authorId;
-	Timestamp date;
-	String articleType;
-	String header;
-	String context;
-	String content;
-	String imageURL;
-	boolean published;
+	private int id;
+	private int authorId;
+	private Timestamp date;
+	private String articleType;
+	private String header;
+	private String context;
+	private String content;
+	private String imageUrl;
+	private boolean published;
 
 	public ArticleObject(int id, int authorId, Timestamp date,
 			String articleType, String header, String context, String content,
-			String imageURL, boolean published) {
+			String imageUrl, boolean published) {
 		super();
 		this.id = id;
 		this.authorId = authorId;
@@ -28,8 +28,12 @@ public class ArticleObject {
 		this.header = header;
 		this.context = context;
 		this.content = content;
-		this.imageURL = imageURL;
+		this.imageUrl = imageUrl;
 		this.published = published;
+	}
+	
+	public ArticleObject(){
+		super();
 	}
 
 	public int getId() {
@@ -88,12 +92,12 @@ public class ArticleObject {
 		this.content = content;
 	}
 
-	public String getImageURL() {
-		return imageURL;
+	public String getImageUrl() {
+		return imageUrl;
 	}
 
-	public void setImageURL(String imageURL) {
-		this.imageURL = imageURL;
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	public boolean isPublished() {

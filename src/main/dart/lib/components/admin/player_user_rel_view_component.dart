@@ -192,6 +192,7 @@ class ShowAdminPlayerUserRelComponent {
         print(response);
         connectedPlayerAndUserMetaList.removeWhere((PlayerAndUserMeta) => PlayerAndUserMeta.player.id == relation.key);
         html.window.console.info("Success on deleting relation");
+        MESSAGE.addSuccessMessage("Relation deleted");
       })
       .catchError((HttpResponse response) {
         if(response.status == 400){
@@ -209,6 +210,7 @@ class ShowAdminPlayerUserRelComponent {
         addPlayerUserMeta(relation);
         refreshSuggestion(relation);
         html.window.console.info("Success on adding relation");
+        MESSAGE.addSuccessMessage("Relation added");
       })
       .catchError((HttpResponse response) {
         if(response.status == 400){

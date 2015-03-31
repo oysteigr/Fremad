@@ -155,15 +155,26 @@ CREATE TABLE `rel_player_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `article` (
-	`id` INT(64) NOT NULL AUTO_INCREMENT, 
-	`author_id` INT(64) NOT NULL , 
-	`date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	`type` VARCHAR(32) NOT NULL , 
-	`header` VARCHAR(64) NOT NULL , 
-	`context` VARCHAR(256) NOT NULL , 
-	`content` TEXT NOT NULL , 
+	`id` int(64) NOT NULL AUTO_INCREMENT, 
+	`author_id` int(11) NOT NULL , 
+	`date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`article_type` ENUM('NEWS', 'MATCH', 'PAGE') NOT NULL,
+	`header` varchar(64) NOT NULL , 
+	`context` varchar(256) NOT NULL , 
+	`content` text NOT NULL , 
 	`image_url` VARCHAR(64) NOT NULL , 
 	`published` tinyint(1) NOT NULL,
 	CONSTRAINT `fk_author_id` FOREIGN KEY (`author_id`) REFERENCES `user` (`id`),
+	PRIMARY KEY ( `id` )
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `image` (
+	`id` int(64) NOT NULL AUTO_INCREMENT, 
+	`uploader_id` int(11) NOT NULL, 
+	`date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`image_type` ENUM('FRONT', 'FREE') NOT NULL,
+	`title` varchar(64) NOT NULL , 
+	`url` varchar(64) NOT NULL , 
+	CONSTRAINT `fk_uploader_id` FOREIGN KEY (`uploader_id`) REFERENCES `user` (`id`),
 	PRIMARY KEY ( `id` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

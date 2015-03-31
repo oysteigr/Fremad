@@ -1,0 +1,75 @@
+#fixture-table {
+  background: #FFFFFF;
+  border-radius: 8px;
+  border-color: #AAAAAA;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.filters {
+  margin-bottom: 10px;
+}
+
+.adminButton{
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+  border-radius:5px;
+  text-decoration:none;
+  display:inline-block;
+  cursor:pointer;
+  color:#ffffff;
+  float: right;
+  margin-left: 10px;
+  font-size: 18px;
+}
+
+.clearButton {
+  background-color: transparent;
+  border:1px solid #DDDDDD;
+  font-size: 14px;
+  color: #AAAAAA;
+  text-shadow:0px 1px 0px #dddddd;
+}
+
+span.short{
+  display: none;
+}
+
+span.full{
+  display: none;
+}
+span.short{
+  display: -webkit-box;
+  display : flex;
+}
+
+.table thead{
+  font-size: 18px;
+}
+
+.table tbody{
+  font-size: 18px;
+}
+@media screen and (max-width: 650px) {
+  span.full{
+    display: none;
+  }
+  span.short{
+    display: -webkit-box;
+    display : flex;
+  }
+  
+  .table thead{
+    font-size: 10px;
+  }
+  
+  .table tbody{
+    font-size: 10px;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .remove-if-tiny{
+    display: none;
+  }
+}

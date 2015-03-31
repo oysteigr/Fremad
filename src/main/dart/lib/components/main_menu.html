@@ -1,21 +1,59 @@
-<nav id="main-menu">
+<div id="main-menu">
   <div id="nav-wrapper">
-    <ul>
+    <ul id="menu-row">
       <li class='active'><a href="#/home">Home</a></li>
-      <li><a href="#/theClub">The club</a></li>
-      <li><a href="#/team">Team</a>
+      <li><a>About</a>
         <ul>
-          <li ng-repeat="team in teamList" ><a href="#/team/{{team.id}}/about">{{team.name}}</a></li>
+          <li ng-repeat="page in pageList" ><a href="#/about/{{page.urlName}}">{{page.articleTitle}}</a></li>
         </ul></li>
-      <li><a href="#/sponsors">Sponsors</a></li>
+      <li><a>Team</a>
+        <ul>
+          <li ng-repeat="team in teamList" ><a href="#/team/{{team.id}}">{{team.name}}</a></li>
+        </ul></li>
+      <li><a href="#/article">News</a></li>
       <li ng-show="showBasedOnRole(2)"><a href="#/admin">Admin</a></li>
       <li ng-show="showBasedOnRole(1)"><a href="#/profile">Profile</a></li>
-      <li ng-click="setShowLogin(true)" ng-hide="showBasedOnRole(1)"><a href="#">Login</a></li>
+      <li ng-click="setShowLogin(true)" ng-hide="showBasedOnRole(1)"><a>Login</a></li>
       <li ng-click="logoutUser()" ng-show="showBasedOnRole(1)"><a href="#/">Log out</a></li>
     </ul>
     <div class="clearfix"></div>
   </div>
-</nav>
+  <div id="nav-wrapper-mobile">
+    <ul>
+      <li class="nav-left"  ng-click="hideMenuMobile = false"><a>Menu</a></li>
+      <li class="nav-right" ng-click="setShowLogin(true)" ng-hide="showBasedOnRole(1)"><a>Login</a></li>
+      <li class="nav-right" ng-click="logoutUser()" ng-show="showBasedOnRole(1)"><a>Log out</a></li>
+
+    </ul>
+  </div>
+
+</div>
+
+
+<div ng-class="getMobileClass()" class="nav-side">
+  <div class="fog" ng-hide="hideMenuMobile" ng-click="hideMenuMobile = true"></div>
+
+
+  <ul class="menu-list">
+      <li ng-click="hideMenuMobile = true"><a href="#/home">Home</a></li>
+      <li ng-click="hideMenuMobile = true"><a>About</a>
+        <ul>
+          <li ng-repeat="page in pageList" ><a href="#/about/{{page.urlName}}">{{page.articleTitle}}</a></li>
+        </ul></li>
+      <li ng-click="hideMenuMobile = true"><a>Team</a>
+        <ul>
+          <li ng-repeat="team in teamList" ><a href="#/team/{{team.id}}">{{team.name}}</a></li>
+        </ul></li>
+      <li ng-click="hideMenuMobile = true"><a href="#/article">News</a></li>
+      <li ng-click="hideMenuMobile = true" ng-show="showBasedOnRole(2)"><a href="#/admin">Admin</a></li>
+      <li ng-click="hideMenuMobile = true" ng-show="showBasedOnRole(1)"><a href="#/profile">Profile</a></li>
+      <li ng-click="hideMenuMobile = true"> -- </li>
+      <li ng-click="hideMenuMobile = true"><a>Close</a></li>
+  </ul>
+
+
+</div>
+
 
 <!--login modal-->
 <div id="loginModal" ng-show="showLogin" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">

@@ -9,3 +9,220 @@
 .form-group{
   position: relative;
 }
+
+input#nav-trigger {
+  display: none;
+}
+
+
+#main-menu {
+  background-color: #020c90;
+  padding: 0;
+  margin: 0 0;
+}
+
+#main-menu ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-weight: bold;
+  width: 100%
+}
+
+#main-menu ul li {
+  display: block;
+  position: relative;
+  float: left;
+}
+
+#main-menu li ul {
+  display: none;
+  position: absolute;
+}
+
+#main-menu ul li a {
+  display: block;
+  text-decoration: none;
+  padding: 20px;
+  background: #020c90;
+  color: #ffffff;
+  margin-left: 1px;
+  white-space: nowrap;
+  text-align: center;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+#main-menu ul li a:hover {
+  background: #000000;
+}
+
+#main-menu li:hover ul {
+  display: block;
+  z-index: 10;
+}
+
+#main-menu li:hover li {
+  float: none;
+}
+
+#main-menu li:hover a {
+  background: #020c90;
+}
+
+#main-menu li:hover li a:hover {
+  background: #000000;
+}
+
+#main-menu ul li ul li a {
+  text-align: left;
+  /* Top-level items are centered, but nested list items are left-aligned */
+}
+
+#nav-wrapper, nav-wrapper-mobile {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+#nav-wrapper, nav-wrapper-mobile ul {
+  padding: 0px;
+}
+
+ul.menu-list li {
+  cursor: pointer;
+}
+
+
+#nav-wrapper-mobile{
+  display : none;
+}
+
+#main-menu ul li.nav-left{
+  float: left;
+  margin-left: 5%;
+}
+
+#main-menu ul li.nav-right{
+  float: right;
+  margin-right: 5%;
+}
+
+#menu-row li ul li{
+  width: 250px;
+}
+
+
+
+.nav-side {
+  color: #000000;
+  bottom: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  height: 0px;
+  left: 20px;
+  overflow: hidden;
+  padding: 0px 0;
+  position: fixed;
+  transition: all .3s;
+  width: 60px;
+  z-index: 2; 
+}
+
+.nav-side a{
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #000000;
+}
+
+.menu-list li ul{
+  list-style: none;
+  padding-left: 20px;
+}
+
+.menu-list {
+  height: 0%;
+  list-style: none;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  width: 70%;
+  max-width: 350px;
+  background: #ffffff;
+  position: absolute;
+  overflow-y: scroll;
+  transition: all .3s; }
+  .menu-list a {
+    border-bottom: 1px solid #eee;
+    color: #000000;
+    display: block;
+    padding: 12px 8px;
+    text-decoration: none; }
+    .menu-list a:hover {
+      background: rgba(0, 0, 0, 0.5); }
+
+
+.nav-side {
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  }
+  .nav-side ul li{
+    margin: 0 3%;
+  }
+  .nav-side .menu-list {
+    height: 100%; 
+    }
+  .nav-side .btn-label {
+    color: transparent;
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    width: 20px; 
+    }
+  .nav-side + .main-base {
+    left: 300px; 
+    }
+
+    
+  .hiding{
+    height: 100%;
+    width: 0px;
+  }
+  
+  .showing{
+    width: 100%;
+  }
+
+  .nav-side{
+    display : none;
+  }
+  
+  .fog {
+    background: #000;
+    opacity: 0.7;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    position: fixed;
+  }
+
+
+@media screen and (max-width: 750px) {
+  #nav-wrapper-mobile{
+    display: -webkit-box;
+    display : flex;
+  }
+  #nav-wrapper{
+    display : none;
+  }
+  .nav-side{
+    display: -webkit-box;
+    display : flex;
+  }
+  
+}
+
+
+

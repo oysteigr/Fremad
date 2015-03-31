@@ -47,6 +47,7 @@ part of fremad;
       name = '';
       onlineId = 0;
       isEditing = false;
+      MESSAGE.addSuccessMessage("Team added");
     })
     .catchError((e) {
       print(e);
@@ -61,7 +62,7 @@ part of fremad;
 
     _http.post('rest/team/updateTeam.json', JSON.encode(teamList.elementAt(index)))
     .then((HttpResponse response) {
-      //do some checks here
+      MESSAGE.addSuccessMessage("Team updated");
     })
     .catchError((e) {
       print(e);
@@ -85,7 +86,7 @@ part of fremad;
 
     _http.post('rest/team/deleteTeam.json', JSON.encode(teamList.elementAt(index)))
     .then((HttpResponse response) {
-      //do some checks here
+      MESSAGE.addSuccessMessage("Team deleted");
       teamList.removeAt(index);
     })
     .catchError((e) {

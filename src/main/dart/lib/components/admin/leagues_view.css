@@ -90,3 +90,8 @@
    border-radius: 0;
    cursor:pointer;
    }
+   
+span.year {
+  float: right;
+  color: #AAAAAA;
+}

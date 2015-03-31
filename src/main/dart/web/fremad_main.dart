@@ -10,5 +10,4 @@ main(){
   Logger.root.onRecord.listen((LogRecord r) { print(r.message); });
 
   final inj = applicationFactory().addModule(new FremadApp()).run();
-  GlobalHttpInterceptors.setUp(inj);
 }

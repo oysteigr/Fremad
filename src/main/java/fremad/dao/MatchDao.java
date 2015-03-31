@@ -4,11 +4,12 @@ import fremad.domain.MatchObject;
 import fremad.domain.list.MatchListObject;
 
 public interface MatchDao {
-	public int deleteMatch(int matchId);
-	public int deleteMatches(int leagueId);
-	public MatchListObject getMatches(int leagueId);
-	public MatchListObject getThisYearsMatches();
-	public boolean addMatch(MatchObject match);
-	public boolean updateMatch(MatchObject match);
-	public MatchObject getMatch(int matchId);
+	int deleteMatch(int matchId);
+	int deleteMatches(int leagueId);
+	MatchListObject getMatches(int leagueId);
+	MatchListObject getMatchesByLeague(int leagueId);
+	MatchListObject getThisYearsMatches();
+	boolean addMatch(MatchObject match);
+	boolean updateMatch(MatchObject match);
+	MatchObject getMatch(int matchId);
 }

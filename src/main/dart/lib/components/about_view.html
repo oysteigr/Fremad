@@ -1,0 +1,21 @@
+<section class="article-list-wrapper">
+  <h2>About</h2>
+  <ul id="article-list">
+      <li ng-repeat="page in pageList">
+      <a href="#/about/{{page.urlName}}" class="item-name">
+        {{page.articleTitle}}
+      </a>
+    </li>
+  </ul>
+  
+</section>
+
+<section class="article-wrapper">
+  <h1>{{article.header}}</h1>
+  <div class="article-context">
+    {{article.context}}
+  </div>
+  
+  <div class="article-content" ng-bind-html-unsafe="article.content"></div>
+  
+</section>

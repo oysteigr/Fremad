@@ -16,7 +16,6 @@ import fremad.domain.PlayerObject;
 import fremad.domain.list.KeyValuePairListObject;
 import fremad.domain.list.PlayerListObject;
 import fremad.domain.list.PlayerNoteListObject;
-import fremad.domain.user.UserListObject;
 import fremad.domain.user.UserMetaListObject;
 import fremad.domain.user.UserMetaObject;
 import fremad.domain.user.UserObject;
@@ -62,7 +61,7 @@ public class PlayerProcessor {
 			Collections.sort(response.getList(), new Comparator<PlayerObject>(){
 				@Override
 				public int compare(final PlayerObject obj1, final PlayerObject obj2){
-					return obj1.getLastName().compareTo(obj2.getLastName());
+					return comparePlayersByPos(obj1,obj2);
 				}
 			});
 		}
@@ -200,6 +199,24 @@ public class PlayerProcessor {
 			}
 		}
 		return userMetaListFiltered;
+	}
+	
+	private int comparePlayersByPos(PlayerObject obj1, PlayerObject obj2){
+		return getPosValue(obj1) - getPosValue(obj2);
+	}
+	
+	private int getPosValue(PlayerObject obj){
+		switch(obj.getPosition()){
+		case "goalkeeper":
+			return 1;
+		case "defender":
+			return 2;
+		case "midfielder":
+			return 3;
+		case "attacker":
+			return 4;
+		}
+		return 0;
 	}
 
 }

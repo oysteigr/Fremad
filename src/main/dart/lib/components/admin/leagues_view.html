@@ -3,7 +3,7 @@
 <ul id="league-list">
     <li ng-repeat="league in leagueList">
     <div class="item-name" ng-click="selectLeague(league.id)">
-      {{league.name}}
+      {{league.name}} <span class="year">{{league.year}}</span>
     </div>
     <div class="item-edit" ng-hide="isActive(league.id)">
       <form>

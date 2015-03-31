@@ -22,6 +22,12 @@
 	
 	<context:component-scan base-package="org.webapp.services.tasks"/>
 	
+	
+	<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver"> 
+		<property name="maxUploadSize" value="10000000" /> 
+	</bean>
+	
+	
 	<!--   <context:load-time-weaver/> --> 
 	
 </beans>

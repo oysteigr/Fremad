@@ -2,8 +2,8 @@ part of fremad;
 
 @Component(
     selector: 'team-view',
-    publishAs: 'ctrl',
     templateUrl: 'packages/fremad/components/team_view.html',
+    cssUrl: 'packages/fremad/components/team_view.css',
     useShadowDom: false
 )
 class ShowTeamComponent {

@@ -18,33 +18,51 @@
 .article-teaser-list{
     width: 30%;
     float: left;
-    height: 523px;
     border-left-style: solid;
     border-left-width: 1px;
     border-left-color: #AAAAAA;
-    overflow-y: scroll;
-    overflow-x:hidden;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    height: 500px;
 }
         
 .article-teaser-list ul{
     list-style: none;
     padding: 0;
-    margin-bottom: 0
+    height: 100%;
+    margin-bottom: 0;
 }
         
 .article-teaser-list ul li{
-    display:inline-block;
-    padding: 0 8px;
-    height: 84px;
+    padding: 0 3% 0 5%;
+    height: 20%;
     border-bottom-style: solid;
     border-bottom-width: 1px;
     border-bottom-color: #AAAAAA;
     width: 100%;
-    cursor:pointer;
+    cursor: pointer;
+    padding-left: 5%
+}
+
+.article-teaser-list ul li:first-child {
+  border-top-width: 0px;
+}
+
+.article-teaser-list ul li:last-child {
+  border-bottom-width: 0px;
+}
+
+.image-wrapper{
+    height: 350px;
+    overflow: hidden;
+    display: -webkit-box;
+}
+.image-wrapper img{
+    text-align: center;
 }
 
 li.ng-binding:hover{
-    background-color: #679eaa
+    background-color: #AAAAAA
 }
 
 .teaser-span{
@@ -63,14 +81,14 @@ li.ng-binding:hover{
 }
 
 .article-teaser-mobile{
-  visibility: : hidden;
+  display : none;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 750px) {
   .article-teaser-mobile{
-      visibility: : visible;
+      display : block;
   }
     .article-teaser{
-      visibility: : hidden;
+      display : none;
   }
 }

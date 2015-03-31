@@ -1,29 +1,39 @@
+<div class="filters">
+  <form>
+    <div class="clearfix">
+      <input ng-repeat="league in leagueList.reversed" type="button" class="adminButton clearButton" value="{{league.year}}" ng-click="setLeague(league.id)">
+    </div>
+  </form>
+</div>
+
 <ul id="fixture-list">
   
-  <li ng-repeat="matchEntry in matchEntryList">
-    <div class="item-head">
-      <div class = "fixture-teams">
-        <span class="fixture-home-team item-name" ng-if="matchEntry.homeMatch">{{team.name}}</span>
-        <span class="fixture-home-team" ng-unless="matchEntry.homeMatch">{{matchEntry.opposingTeamName}}</span>
-        -
-        <span class="fixture-away-team" ng-if="matchEntry.homeMatch">{{matchEntry.opposingTeamName}}</span>
-        <span class="fixture-away-team" ng-unless="matchEntry.homeMatch">{{team.name}}</span>
-      </div>
-      <div class = "fixture-score">
-        <span ng-class="matchEntry.resultClass()" ng-if="matchEntry.homeMatch">{{matchEntry.fremadGoals}} - {{matchEntry.opposingTeamGoals}}</span>
-        <span ng-class="matchEntry.resultClass()" ng-unless="matchEntry.homeMatch">{{matchEntry.opposingTeamGoals}} - {{matchEntry.fremadGoals}}</span>
-      </div>
-    </div>
-    <br>
-    <div class="item-body">  
+  <li ng-repeat="matchEntry in matchEntryList" ng-show="filter(matchEntry)">
       <div class = "fixture-date">
-        <span>{{matchEntry.getDateAsString()}}</span>
-        <span>{{matchEntry.getTimeAsString()}}</span>
+        <span>{{getDateAndTimeString(matchEntry)}}</span> <span class="large">{{matchEntry.field}}</span>
       </div>
-      <div class="fixture-field">
-        <span>{{matchEntry.field}}</span>
+      <div class="item-head full">
+        <div class = "fixture-teams">
+          <span class="fixture-home-team">{{getHomeTeamName(matchEntry)}}</span> -
+          <span class="fixture-away-team">{{getAwayTeamName(matchEntry)}}</span>
+           <span ng-show="beenPlayed(matchEntry)" ng-class="matchEntry.resultClass()"><span class="score">{{getHomeTeamScore(matchEntry)}} - {{getAwayTeamScore(matchEntry)}}</span></span>
+        </div>
       </div>
-    </div>
+      <div class ="item-head short">   
+        <div class="team-line">
+          <span class="fixture-home-team">{{getHomeTeamName(matchEntry)}}</span>
+          <span ng-show="beenPlayed(matchEntry)" ng-class="matchEntry.resultClass()"><span class="score">{{getHomeTeamScore(matchEntry)}}</span></span>
+        </div>
+        <div class="team-line">
+          <span class="fixture-away-team">{{getAwayTeamName(matchEntry)}}</span>
+          <span ng-show="beenPlayed(matchEntry)" ng-class="matchEntry.resultClass()"><span class="score">{{getAwayTeamScore(matchEntry)}}</span></span>
+        </div>
+      </div>
+      <div class="item-body medium">  
+        <div class="fixture-field">
+          <span>{{matchEntry.field}}</span>
+        </div>
+      </div>
   </li>
   
 </ul>

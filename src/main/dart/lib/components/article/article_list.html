@@ -1,0 +1,12 @@
+<h1>News archive</h1>
+
+<section class="article-list">
+  <section ng-repeat="article in articleList" class="article">
+  <a href="#/article/{{article.articleType.toLowerCase()}}/{{article.id}}">
+    <img src="{{article.imageUrl}}" />
+    <h4>{{article.header}}</h4></a>
+    <span class="created-date">{{getDateText(article)}}</span>
+    <p>{{article.context}}</p>
+
+  </section>
+</section>

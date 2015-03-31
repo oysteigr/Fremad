@@ -1,0 +1,57 @@
+.rich-text-editor {
+  margin-bottom: 2%;
+}
+
+.container {
+  width: 100%;
+  margin : 0px;
+  position: relative;
+  background-color: #fff;
+  padding: 0;
+  border: 1px solid #ddd;
+}
+
+.editor{
+  height: 500px;
+  overflow-y: scroll;
+}
+
+.tool-container{
+  background: #ffffff;
+  padding: 10px 5px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+.edit-container{
+
+  padding: 1%;
+
+}
+
+.editor-btn {
+  border-radius: 5px;
+  padding: 5px 10px;
+  min-width: 35px;
+  font-size: 15px;
+  text-decoration: none;
+  margin: 1px;
+  color: #fff;
+  position: relative;
+  display: inline-block;
+}
+
+.editor-btn:active {
+  transform: translate(0px, 5px);
+  -webkit-transform: translate(0px, 5px);
+  box-shadow: 0px 1px 0px 0px;
+}
+
+.blue {
+  background-color: #55acee;
+  box-shadow: 0px 3px 0px 0px #3C93D5;
+}
+
+.blue:hover {
+  background-color: #6FC6FF;
+}
+

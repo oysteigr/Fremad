@@ -11,6 +11,7 @@ class ShowTeamPlayersComponent {
   int teamID;
   bool teamLoaded = false;
   bool playersLoaded = false;
+  bool showActive = true;
   Team team;
   PlayerList playerListObject;
   List<Player> playerList;
@@ -58,4 +59,15 @@ class ShowTeamPlayersComponent {
         html.window.console.info("Could not load rest/player/getPlayers.json");
       });
   } 
+  
+  String getShirtImage(Player player){
+    if(player.position == "goalkeeper"){
+      return "drakt_keeper.png";
+    }
+    return "drakt.png";
+  }
+  
+  bool filter(Player player){
+    return showActive == player.active;
+  }
 }

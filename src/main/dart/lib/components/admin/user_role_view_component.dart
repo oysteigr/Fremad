@@ -97,6 +97,7 @@ class ShowAdminUserRoleComponent {
       .then((HttpResponse response) {
         print(response);
         html.window.console.info("Success on updateUserRole");
+        MESSAGE.addSuccessMessage("User role updated");
         return true;
       })
       .catchError((HttpResponse response) {
@@ -114,6 +115,7 @@ class ShowAdminUserRoleComponent {
       .then((HttpResponse response) {
         print(response);
         html.window.console.info("Success on changeUp");
+        MESSAGE.addSuccessMessage("User role updated");
         return true;
       })
       .catchError((HttpResponse response) {
@@ -130,6 +132,7 @@ class ShowAdminUserRoleComponent {
       .then((HttpResponse response) {
         print(response);
         html.window.console.info("Success on changeUp");
+        MESSAGE.addSuccessMessage("User role updated");
         return true;
       })
       .catchError((HttpResponse response) {

@@ -10,22 +10,26 @@ part of fremad;
 class MainMenuComponent {
   final Http _http;
   bool teamsLoaded = false;
+  bool pagesLoaded = false;
+  
   bool showLogin = false;
   bool showSignup = false;
   bool registerSuccess = false;
   bool loginSuccess = false;
+  
   List<Team> teamList;
-  TeamList teamListObject;
+  List<Page> pageList;
   
   UserLogon userLogon;
 
-
+  bool hideMenuMobile = true;
 
 
   
   MainMenuComponent(this._http){
     getUserRole();
     loadTeams();
+    loadPages();
   }
   void getUserRole(){
     html.window.console.info("Is in getUserRole");
@@ -86,7 +90,7 @@ class MainMenuComponent {
     _http.get('rest/team/getTeams.json')
       .then((HttpResponse response) {
         print(response);
-        teamListObject = new TeamList.fromJson(response.data);
+        TeamList teamListObject = new TeamList.fromJson(response.data);
         teamList = teamListObject.teamList;
         teamsLoaded = true;
         html.window.console.info("Success on loading table");
@@ -98,7 +102,26 @@ class MainMenuComponent {
       });
   }
   
+  void loadPages() {
+    html.window.console.info("Is in loadPages");
+    pagesLoaded = false;
+    _http.get('rest/article/getPublishedPages.json')
+      .then((HttpResponse response) {
+        print(response);
+        PageList articleListObject = new PageList.fromJson(response.data);
+        pageList = articleListObject.pageList;
+        pagesLoaded = true;
+        html.window.console.info("Success on loading pages");
+      })
+      .catchError((e) {
+        print(e);
+        pagesLoaded = false;
+        html.window.console.info("Could not load rest/article/getPublishedPages.json");
+      });
+  } 
+  
   void setShowLogin(bool show){
+    hideMenuMobile = true;
     DateTime now = new DateTime.now();
     userLogon = new UserLogon("", "");
     showLogin = show;
@@ -150,6 +173,8 @@ class MainMenuComponent {
           if(!registerUserMeta()){
             html.window.console.info("User created, but could not add userMeta");
           }
+          MESSAGE.addSuccessMessage("You successfully created a new user");
+          MESSAGE.addInfoMessage("Check your inbox to validate your account");
           showSignup = false;
         }
       })
@@ -194,8 +219,10 @@ class MainMenuComponent {
           USER.setUserRole(role);
           getUserId();
           showLogin = false;
+          html.window.location.reload();
         } else{
           loginSuccess = false;
+          MESSAGE.addErrorMessage("Could not logg you in");
           html.window.console.info("user could not log in: " + userLogon.userName);
         }
         errorMessage = "";
@@ -356,5 +383,9 @@ class MainMenuComponent {
         html.window.console.info(response);
         html.window.console.info("Could not load rest/user/forgotPassword.json");
       }); 
+  }
+  
+  String getMobileClass(){
+    return hideMenuMobile ? "hiding" : "showing";
   }
 }

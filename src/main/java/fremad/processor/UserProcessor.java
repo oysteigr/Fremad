@@ -188,7 +188,7 @@ public class UserProcessor {
 		userService.loggUserLogin(registeredUser.getId());
 		userRole = UserRoleEnum.getUserRoleEnum(registeredUser.getRole());
 
-		securityContext.createSession(registeredUser.getUserName());
+		securityContext.createSession(registeredUser);
 		securityContext.setUserRole(userRole);
 		
 		LOG.debug("user " + registeredUser.getUserName() + " logged in with role " + userRole);

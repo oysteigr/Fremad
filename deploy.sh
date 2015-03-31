@@ -9,7 +9,7 @@ find $TARGET -name ".gitignore" | xargs rm
 
 cd $TARGET
 
-git add .
+git add -A 
 read -p "Commit description: " desc  
 
 git commit -m $desc  
