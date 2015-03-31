@@ -10,21 +10,19 @@ class ShowAdminEditEventComponent {
 
   final Http _http;
   
-  String _matchId(routeProvider) => routeProvider.parameters["matchId"];
-  
   MatchEntry match;
   List<Event> events;
   
   ShowAdminEditEventComponent(this._http, RouteProvider routeProvider){
     html.window.console.info("ShowAdminEditEventComponent()");
-    int matchId = int.parse(_matchId(routeProvider));
+    int matchId = int.parse(routeProvider.parameters["matchId"]);
     loadMatchEvents(matchId);
     loadMatch(matchId);
   }
   
   void loadMatchEvents(int matchId) {
       html.window.console.info("Is in loadMatchEvents");
-      _http.post('rest/event/getEvents.json', JSON.encode(matchId))
+      _http.post('rest/event/getEvents.json', matchId.toString())
         .then((HttpResponse response) {
           print(response);
           EventList eventListObject = new EventList.fromJson(response.data);
@@ -38,8 +36,8 @@ class ShowAdminEditEventComponent {
   } 
   
   void loadMatch(int matchId) {
-    html.window.console.info("locaMatch() called");
-    _http.post('rest/match/getMatch.json', JSON.encode(matchId))
+    html.window.console.info("loadMatch() called");
+    _http.post('rest/match/getMatch.json', matchId.toString())
       .then((HttpResponse response) {
         print(response);
         match = new MatchEntry.fromJson(response.data);
