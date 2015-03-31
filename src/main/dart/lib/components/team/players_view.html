@@ -1,11 +1,22 @@
+<div class="filters">
+  <form>
+    <div class="clearfix">
+      <input type="button" class="adminButton clearButton" value="inactive" ng-click="showActive = false">
+      <input type="button" class="adminButton clearButton" value="active" ng-click="showActive = true">
+    </div>
+  </form>
+</div>
 <div id="player-list">
-  <div class="player-item" ng-repeat="player in playerList">
+  <div class="player-item" ng-repeat="player in playerList" ng-show="filter(player)">
   <div class="player-image">
-    <img src="images/drakt.png" />
+    <img src="images/{{getShirtImage(player)}}" />
     <span class="player-number">{{player.number}}</span>
   </div>
     <div class="player-name" ng-click="selectPlayer(player.id)">
       {{player.getNameString()}}
+    </div>
+    <div class="player-pos" ng-click="selectPlayer(player.id)">
+      {{player.getPosString()}}
     </div>
     <div class="player-stats">
       <img src="images/icons/match.png" /> <span>0</span>

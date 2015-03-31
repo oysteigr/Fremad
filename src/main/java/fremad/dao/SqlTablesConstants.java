@@ -25,6 +25,7 @@ public interface SqlTablesConstants {
 	String SQL_TABLE_NAME_PLAYER_USER_REL = "rel_player_user";
 	String SQL_TABLE_NAME_ARTICLE = "article";
 	String SQL_TABLE_NAME_IMAGE = "image";
+	String SQL_TABLE_NAME_PAGE = "page";
 	
 	// Table values
 	

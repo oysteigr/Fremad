@@ -60,6 +60,7 @@ class ShowAdminArticlesComponent {
         print(response);
         currentArticle = new Article.fromJson(response.data);
         html.window.console.info("Success on adding article");
+        MESSAGE.addSuccessMessage("Article saved");
         articleList.add(currentArticle);
       })
       .catchError((e) {
@@ -69,11 +70,12 @@ class ShowAdminArticlesComponent {
   } 
   
   void updateArticle() {
-    html.window.console.info("Is in saveArticle");
+    html.window.console.info("Is in updateArticle");
     _http.post('rest/article/updateArticle.json', currentArticle)
       .then((HttpResponse response) {
         print(response);
-        html.window.console.info("Success on deleting article");
+        html.window.console.info("Success on updating article");
+        MESSAGE.addSuccessMessage("Article updated");
       })
       .catchError((e) {
         print(e);
@@ -90,6 +92,7 @@ class ShowAdminArticlesComponent {
         Article articleResponse = new Article.fromJson(response.data);
         articleList.removeWhere((Article) => Article.id == articleResponse.id);
         html.window.console.info("Success on deleting article");
+        MESSAGE.addSuccessMessage("Article deleted");
         
       })
       .catchError((e) {

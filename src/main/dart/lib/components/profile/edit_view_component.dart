@@ -56,7 +56,7 @@ class ShowProfileEditComponent {
         }
         print(response);
         userMeta = new UserMeta.fromJson(response.data);
-        success = true;
+        MESSAGE.addSuccessMessage("You have updated your info");
         html.window.console.info("Success on updating user meta");
       })
       .catchError((e) {
@@ -94,6 +94,7 @@ class ShowProfileEditComponent {
         clearPasswords();
         showErrorsPass = false;
         errorMessagePassword = "";
+        MESSAGE.addSuccessMessage("You have changed your password");
       })
       .catchError((HttpResponse response) {
         if(response.status == 400){

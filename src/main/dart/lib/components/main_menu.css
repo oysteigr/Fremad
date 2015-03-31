@@ -37,6 +37,7 @@ input#nav-trigger {
 
 #main-menu li ul {
   display: none;
+  position: absolute;
 }
 
 #main-menu ul li a {
@@ -58,7 +59,7 @@ input#nav-trigger {
 
 #main-menu li:hover ul {
   display: block;
-  position: absolute;
+  z-index: 10;
 }
 
 #main-menu li:hover li {

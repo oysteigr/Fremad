@@ -52,7 +52,7 @@ public class TaskScheduler {
 		int matchesAdded = 0;
 		for (LeagueObject league : leagueList.getList()) {
 			TeamObject team = teamService.getTeam(league.getTeam());
-			MatchListObject matches = UrlParser.getMatchListObject(team);
+			MatchListObject matches = UrlParser.getMatchListObject(team, league, false);
 			MatchListObject existingMatches = matchService.getMatches(league.getTeam());
 			matches = fillIdForExistingMatches (matches, existingMatches);
 			LOG.debug("Found " + matches.size() + " matches for team " + league.getTeam());
@@ -63,9 +63,10 @@ public class TaskScheduler {
 			}
 		}
 		LOG.debug("Updated or added " + matchesAdded + " matches");
+		checkIfOldMatchesIsEmpty();
 		
 	}
-	
+
 	@Scheduled(fixedRate = updateFrequency)
 	public void updateTableTask() {
 		LOG.debug("In updateTableTask");
@@ -89,7 +90,7 @@ public class TaskScheduler {
 			}
 		}
 		LOG.debug("Updated or added " + tableEntriesAdded + " tableEntries");
-		checkIfOldIsEmpty();
+		checkIfOldTableIsEmpty();
 	}
 	
 	private MatchListObject fillIdForExistingMatches(MatchListObject matches, MatchListObject existingMatches){
@@ -151,8 +152,8 @@ public class TaskScheduler {
 		}
 	}
 	
-	private void checkIfOldIsEmpty(){
-		LOG.debug("In checkIfOldIsEmpty");
+	private void checkIfOldTableIsEmpty(){
+		LOG.debug("In checkIfOldTableIsEmpty");
 		
 		LeagueListObject leagueList = leagueService.getLeagues();
 		
@@ -179,6 +180,33 @@ public class TaskScheduler {
 		LOG.debug("Updated or added " + tableEntriesAdded + " tableEntries");
 	}
 	
-
+	
+	private void checkIfOldMatchesIsEmpty() {
+		LOG.debug("In checkIfOldMatchesIsEmpty");
+		LeagueListObject leagueList = leagueService.getLeagues();
+		
+		LOG.debug("Found " + leagueList.size() + " leagues");
+		
+		int matchesAdded = 0;
+		for (LeagueObject league : leagueList.getList()) {
+			TeamObject team = teamService.getTeam(league.getTeam());
+			MatchListObject existingMatches = matchService.getMatchesByLeague(league.getId());
+			if(!existingMatches.isEmpty()){
+				continue;
+			}
+			MatchListObject matches = UrlParser.getMatchListObject(team, league, true);
+			LOG.debug("Found " + matches.size() + " matches for league " + league.getId());
+			for (MatchObject match : matches) {
+				match.setId(-1);
+				if (addOrUpdateMatch(match)) {
+					matchesAdded++;
+				} else {
+					LOG.error("Failed to tableentry match with leagueId " + match.getLeague());
+				}
+			}
+		}
+		LOG.debug("Updated or added " + matchesAdded + " tableEntries");
+		
+	}
 	
 }

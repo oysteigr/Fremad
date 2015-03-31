@@ -6,28 +6,46 @@ import org.springframework.stereotype.Service;
 
 import fremad.dao.ArticleDao;
 import fremad.domain.ArticleObject;
+import fremad.domain.PageObject;
 import fremad.domain.list.ArticleListObject;
+import fremad.domain.list.PageListObject;
 
 @Service
 @Scope("singleton")
 public class ArticleService {
 
 	@Autowired
-	private ArticleDao jdbcArticleDao;
+	private ArticleDao articleDao;
 
 	public ArticleListObject getArticles(String articleType) {
-		return jdbcArticleDao.getArticles(articleType);
+		return articleDao.getArticles(articleType);
 	}
-
+	public ArticleObject getArticle(int id) {
+		return articleDao.getArticle(id);
+	}
 	public ArticleObject addArticle(ArticleObject article) {
-		return jdbcArticleDao.addArticle(article);
+		return articleDao.addArticle(article);
 	}
-
 	public ArticleObject updateArticle(ArticleObject article) {
-		return jdbcArticleDao.updateArticle(article);
+		return articleDao.updateArticle(article);
+	}
+	public ArticleObject deleteArticle(ArticleObject article) {
+		return articleDao.deleteArticle(article);
+	}
+	public PageListObject getPages(){
+		return articleDao.getPages();
+	}
+	public PageListObject getPublishedPages() {
+		return articleDao.getPublishedPages();
+	}
+	public PageObject getPage(String urlName){
+		return articleDao.getPage(urlName);
+	}
+	public PageObject addPage(PageObject page){
+		return articleDao.addPage(page);
+	}
+	public  PageObject updatePage(PageObject page){
+		return articleDao.updatePage(page);
 	}
 
-	public ArticleObject deleteArticle(ArticleObject article) {
-		return jdbcArticleDao.deleteArticle(article);
-	}
 }

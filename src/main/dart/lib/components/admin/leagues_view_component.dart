@@ -75,6 +75,7 @@ class ShowAdminLeaguesComponent {
       year = 0;
       team = -1;
       isEditing = false;
+      MESSAGE.addSuccessMessage("League added");
     })
     .catchError((e) {
       print(e);
@@ -94,6 +95,7 @@ class ShowAdminLeaguesComponent {
       assert(leagueResponse.id == leagueList.where((League) => League.id == selectedLeague).first.id);
       assert(leagueResponse.year == leagueList.where((League) => League.id == selectedLeague).first.year);
       assert(leagueResponse.team == leagueList.where((League) => League.id == selectedLeague).first.team);
+      MESSAGE.addSuccessMessage("League updated");
     })
     .catchError((e) {
       print(e);
@@ -123,6 +125,7 @@ class ShowAdminLeaguesComponent {
       assert(leagueResponse.year == leagueList.where((League) => League.id == selectedLeague).first.year);
       assert(leagueResponse.team == leagueList.where((League) => League.id == selectedLeague).first.team);
       leagueList.removeAt(index);
+      MESSAGE.addSuccessMessage("League deleted");
     })
     .catchError((e) {
       print(e);

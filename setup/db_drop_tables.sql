@@ -1,0 +1,17 @@
+DROP TABLE `image`;
+DROP TABLE `article`;
+DROP TABLE `rel_player_user`;
+DROP TABLE `user_forgot_password`
+DROP TABLE `user_validation`;
+DROP TABLE `user_meta`;
+DROP TABLE `user_login`;
+DROP TABLE `user_role_request`;
+DROP TABLE `user`;
+DROP TABLE `table_entry`;
+DROP TABLE `player_note`;
+DROP TABLE `player`;
+DROP TABLE `event`;
+DROP TABLE `match`;
+DROP TABLE `league`;
+DROP TABLE `team`;
+

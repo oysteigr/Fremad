@@ -1,0 +1,39 @@
+.message-wrapper{
+  margin: 0 auto;
+  max-width: 960px;
+  width: 100%;
+  text-align: -webkit-center;
+  text-align: -moz-center;
+}
+
+#message-list{
+  list-style: none;
+  padding-left: 0px;
+  max-width: 960px;
+  width: 100%;
+  position: fixed;
+  top: 0px;
+  z-index: 100;
+}
+
+li.message{
+  border: solid;
+  border-width: 1px;
+  border-color: #AAAAAA;
+  border-top-style: none;
+  padding: 0.5%;
+  margin: 0 5%;
+}
+
+li.message:last-child{
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+@media screen and (max-width: 750px) {
+  li.message{
+    margin: 0 0;
+  }
+
+  
+}

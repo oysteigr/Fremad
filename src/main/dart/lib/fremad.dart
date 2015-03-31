@@ -18,6 +18,8 @@ import 'directives/ng_bind_divelement_rich.dart';
 import 'models/image.dart';
 import 'models/article.dart';
 import 'models/article_list.dart';
+import 'models/page.dart';
+import 'models/page_list.dart';
 import 'models/table_entry_list.dart';
 import 'models/table_entry.dart';
 import 'models/team.dart';
@@ -49,13 +51,15 @@ part 'components/header_component.dart';
 part 'components/main_menu_component.dart';
 part 'components/footer_component.dart';
 
-part 'components/club_view_component.dart';
+part 'components/about_view_component.dart';
 part 'components/home_view_component.dart';
 part 'components/loggin_view_component.dart';
-part 'components/sponsors_view_component.dart';
+part 'components/article_view_component.dart';
 part 'components/team_view_component.dart';
 part 'components/admin_view_component.dart';
 part 'components/profile_view_component.dart';
+part 'components/message_view_component.dart';
+
 
 part 'components/front/front_article_list_component.dart';
 part 'components/front/front_article_component.dart';
@@ -64,7 +68,12 @@ part 'components/team/players_view_component.dart';
 part 'components/team/fixture_view_component.dart';
 part 'components/team/table_view_component.dart';
 
+part 'components/article/article_list_component.dart';
+part 'components/article/article_news_component.dart';
+part 'components/article/article_match_component.dart';
+
 part 'components/admin/articles_view_component.dart';
+part 'components/admin/pages_view_component.dart';
 part 'components/admin/players_view_component.dart';
 part 'components/admin/player_user_rel_view_component.dart';
 part 'components/admin/squad_view_component.dart';
@@ -92,18 +101,19 @@ part 'components/utils/general_support_classes_util.dart';
 
 
 part 'services/user_handler.dart';
-part 'services/messages.dart';
+part 'services/message_handler.dart';
 
 part 'fremad_route_initializer.dart';
-part 'global_http_interceptors.dart';
 
-UserHandler USER = new UserHandler(); 
+UserHandler USER = new UserHandler();
+MessageHandler MESSAGE = new MessageHandler(); 
 
 class FremadApp extends Module {
   FremadApp(){
     
     
     bind(UserHandler);
+    bind(MessageHandler);
     
     bind(RichTextEditorComp);
     bind(RichTextDisplayComp);
@@ -120,10 +130,11 @@ class FremadApp extends Module {
     bind(ShowTheClubComponent);
     bind(ShowHomeComponent);
     bind(ShowLogginComponent);
-    bind(ShowSponsorsComponent);
+    bind(ShowArticleComponent);
     bind(ShowTeamComponent);
     bind(ShowAdminComponent);
     bind(ShowProfileComponent);
+    bind(ShowMessageComponent);
     
     bind(FrontArticleComponent);
     bind(FrontArticleListComponent);
@@ -132,7 +143,12 @@ class FremadApp extends Module {
     bind(ShowTeamFixtureComponent);
     bind(ShowTeamTableComponent);
     
+    bind(ShowArticleListComponent);
+    bind(ShowArticleNewsComponent);
+    bind(ShowArticleMatchComponent);
+    
     bind(ShowAdminArticlesComponent);
+    bind(ShowAdminPagesComponent);
     bind(ShowAdminTeamsComponent);
     bind(ShowAdminLeaguesComponent);
     bind(ShowAdminEventsComponent);
@@ -154,7 +170,6 @@ class FremadApp extends Module {
     
     bind(ShowUtilLoadingComponent);
         
-    bind(Messages);
     
     bind(RouteInitializerFn, toValue: fremadRouteInitializer);
     bind(NgRoutingUsePushState, toValue: new NgRoutingUsePushState.value(false));

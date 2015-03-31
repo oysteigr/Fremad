@@ -20,7 +20,7 @@ public class FileHandler {
 	public static String saveMultiparFile(MultipartFile file){
 
 		Date today =  new Date();
-		String localPath = new SimpleDateFormat("YYYY/MM/").format(today); 
+		String localPath = new SimpleDateFormat("YYYY/MM/").format(today);
 		String savePath = basePath + localPath;
 		String fileName = "" + today.getTime();
 		

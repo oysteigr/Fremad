@@ -117,6 +117,26 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 		
 		return matchList;
 	}
+	
+	@Override
+	public MatchListObject getMatchesByLeague(final int leagueId) {
+		LOG.debug("In getMatches(teamId)");
+		
+		String query = "select * from" + SqlTablesConstants.SQL_TABLE_NAME_MATCH + "where league = ?";
+		MatchListObject matchList = new MatchListObject();
+		
+		matchList.addAll(this.namedParameterJdbcTemplate.getJdbcOperations().query(query, new PreparedStatementSetter() {
+				@Override
+				public void setValues(java.sql.PreparedStatement ps)
+						throws SQLException {
+					ps.setInt(1, leagueId);
+				}
+			}, new BeanPropertyRowMapper<>(MatchObject.class)));
+		
+		LOG.debug("Found " + matchList.size() + " matches");
+		
+		return matchList;
+	}
 
 	@Override
 	public MatchListObject getThisYearsMatches() {
@@ -132,4 +152,5 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 		
 		return matchList;
 	}
+
 }

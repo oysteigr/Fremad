@@ -8,9 +8,9 @@ void fremadRouteInitializer(Router router, RouteViewFactory view) {
       viewHtml: '<home-view></home-view>',
       defaultRoute: true
       ),
-    'theClub': ngRoute(
-      path: '/theClub',
-      viewHtml: '<club-view></club-view>'
+    'about': ngRoute(
+      path: '/about/:articleUrl',
+      viewHtml: '<about-view></about-view>'
       ),
     'team': ngRoute(
       path: '/team/:teamId', 
@@ -30,10 +30,24 @@ void fremadRouteInitializer(Router router, RouteViewFactory view) {
            viewHtml: '<team-table-view></team-table-view>'
         )
       }),
-    'sponsors': ngRoute(
-      path: '/sponsors', 
-      viewHtml: '<sponsors-view></sponsors-view>'
-      ),
+    'article': ngRoute(
+      path: '/article', 
+      viewHtml: '<article-view></article-view>',
+        mount: {
+           "list" : ngRoute(
+              path: '/list',
+              viewHtml: '<article-list-view></article-list-view>',
+              defaultRoute: true
+           ),
+           "news" : ngRoute(
+              path: '/news/:articleId',
+              viewHtml: '<article-news-view></article-news-view>'
+           ),
+           "match" : ngRoute(
+              path: '/match/:articleId',
+              viewHtml: '<article-match-view></article-match-view>'
+           )
+         }),
     'loggIn': ngRoute(
       path: '/loggIn', 
       viewHtml: '<loggIn-view></loggIn-view>'
@@ -60,10 +74,14 @@ void fremadRouteInitializer(Router router, RouteViewFactory view) {
       path: '/admin', 
       viewHtml: '<admin-view></admin-view>',
       mount: {
-         "newsArticles" : ngRoute(
+         "newsArticles" : ngRoute( 
             path: '/newsArticles',
             viewHtml: '<admin-news-articles-view></admin-news-articles-view>',
             defaultRoute: true
+         ),
+         "pages" : ngRoute(
+            path: '/pages',
+            viewHtml: '<admin-pages-view></admin-pages-view>'
          ),
          "teams" : ngRoute(
             path: '/teams',

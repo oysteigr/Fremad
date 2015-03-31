@@ -1,0 +1,11 @@
+<div class="message-wrapper">
+   <ul id="message-list">
+      <li ng-repeat="message in messageList" class="message" ng-class="message.type">
+      <button type="button" class="close" ng-click="removeMessage(message)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        {{message.message}}
+    </li>
+  </ul>
+</div>
+
+
+

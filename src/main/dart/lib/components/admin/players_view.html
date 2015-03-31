@@ -10,7 +10,7 @@
 <ul id="player-list">
     <li ng-repeat="player in playerList" ng-show="filter(player)">
     <div class="item-name" ng-click="selectPlayer(player.id)">
-      {{player.lastName}}, {{player.firstName}}
+      <span class="number">{{player.number}}</span> {{player.lastName}}, {{player.firstName}} <span class="pos">{{player.getPosString()}}</span>
     </div>
     <div class="item-edit" ng-show="isActive(player.id)">
       <form>
@@ -31,7 +31,7 @@
   <div class="modal-dialog">
   <div class="modal-content">
       <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" ng-click="setShowLogin(false)" aria-hidden="true">×</button>
+          <button type="button" class="close" data-dismiss="modal" ng-click="cancel()" aria-hidden="true">×</button>
           <h1 class="text-center">Add player</h1>
       </div>
       <div class="modal-body">

@@ -209,10 +209,13 @@ footer {
     width: 100%;
   }
   .sidebar-item {
-    width: 50%;
+    width: 49%;
   }
   .sidebar-full {
     width: 100%;
+  }
+  aside:nth-of-type(2n) {
+    margin-right: 2%;
   }
 }
 
@@ -231,6 +234,9 @@ footer {
   }
   .sidebar-item {
     width: 100%;
+  }
+  aside:nth-of-type(2n) {
+    margin-right: 0;
   }
 }
 

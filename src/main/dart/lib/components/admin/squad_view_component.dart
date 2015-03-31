@@ -104,7 +104,7 @@ class ShowAdminSquadComponent {
     playerList.elementAt(index).active = !playerList.elementAt(index).active;
     _http.post('rest/player/updatePlayer.json', JSON.encode(playerList.elementAt(index)))
     .then((HttpResponse response) {
-
+      MESSAGE.addSuccessMessage("Player updated");
     })
     .catchError((e) {
       playerList.elementAt(index).active = !playerList.elementAt(index).active;
@@ -134,6 +134,7 @@ class ShowAdminSquadComponent {
         playerNoteResponse = new PlayerNote.fromJson(response.data);
         playerNoteList.removeAt(index);
         html.window.console.info("Success on adding playerNote");
+        MESSAGE.addSuccessMessage("Note deleted");
       })
       .catchError((HttpResponse response) {
         if(response.status == 400){
@@ -159,6 +160,7 @@ class ShowAdminSquadComponent {
         playerNoteTemp = new PlayerNote.fromJson(response.data);
         playerNoteList.add(playerNoteTemp);
         html.window.console.info("Success on adding playerNote");
+        MESSAGE.addSuccessMessage("Note added");
       })
       .catchError((HttpResponse response) {
         if(response.status == 400){

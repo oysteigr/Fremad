@@ -1,6 +1,7 @@
 #team-nav ul {
   padding-left: 0;
   text-align: -webkit-center;
+  text-align: -moz-center;
 }
 
 #team-nav ul li {

@@ -112,6 +112,7 @@ class ShowAdminUsersComponent {
       assert(userResponse.created == userList.where((User) => User.id == selectedUser).first.created);
       userList.removeAt(index);
       confirmDelete = false;
+      MESSAGE.addSuccessMessage("User deleted");
     })
     .catchError((e) {
       print(e);
@@ -222,6 +223,7 @@ class ShowAdminUsersComponent {
           userMetaList.add(currentMeta);
         }
         cancelMeta();
+        MESSAGE.addSuccessMessage("User updated");
         selectedUser = -1;
       })
       .catchError((e) {

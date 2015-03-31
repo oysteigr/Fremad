@@ -7,15 +7,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "articleObject")
 public class ArticleObject {
 
-	int id;
-	int authorId;
-	Timestamp date;
-	String articleType;
-	String header;
-	String context;
-	String content;
-	String imageUrl;
-	boolean published;
+	private int id;
+	private int authorId;
+	private Timestamp date;
+	private String articleType;
+	private String header;
+	private String context;
+	private String content;
+	private String imageUrl;
+	private boolean published;
 
 	public ArticleObject(int id, int authorId, Timestamp date,
 			String articleType, String header, String context, String content,

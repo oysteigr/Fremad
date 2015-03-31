@@ -39,15 +39,18 @@ public final class UrlParser  extends UrlConstants{
 		return tableEntryListObject;
 	}
 	
-	public static MatchListObject getMatchListObject(TeamObject teamObject){
+	public static MatchListObject getMatchListObject(TeamObject teamObject, LeagueObject leagueObject, boolean old){
 		LOG.info("In getMatchListObject");
 		
 		MatchListObject matchListObject = new MatchListObject();
 		
-		Elements rows = getRowsFromFixture(teamObject.getOnlineId());
+		Elements rows = getRowsFromFixture(leagueObject.getId());
 		
 		for (int i = 1; i < rows.size(); i++) { 
-			matchListObject.add(getMatchFromRow(rows.get(i), teamObject));
+			MatchObject tempMatch = getMatchFromRow(rows.get(i), teamObject, leagueObject.getId(), old);
+			if(tempMatch != null){
+				matchListObject.add(tempMatch);
+			}
 		}
 		
 		return matchListObject;
@@ -118,7 +121,7 @@ public final class UrlParser  extends UrlConstants{
 		return tableEntryObject;
 	}
 		
-	private static MatchObject getMatchFromRow(Element row, TeamObject teamObject){
+	private static MatchObject getMatchFromRow(Element row, TeamObject teamObject, int leagueId, boolean old){
 		
 		MatchObject matchObject = new MatchObject();
 		
@@ -132,17 +135,43 @@ public final class UrlParser  extends UrlConstants{
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		matchObject.setFremadTeam(teamObject.getId());
-		matchObject.setHomeMatch(teamObject.getOnlineId() == getTeamIdFromUrl(cols.get(URL_FIXTURES_HOMETEAM)));
-		matchObject.setField(cols.get(URL_FIXTURES_FIELD).text());
-		matchObject.setLeague(getTournementIdFromUrl(cols.get(URL_FIXTURES_TOURNEMENT)));
 		
-		if(matchObject.isHomeMatch()){
-			matchObject.setOpposingTeamId(getTeamIdFromUrl(cols.get(URL_FIXTURES_AWAYTEAM)));
-			matchObject.setOpposingTeamName(cols.get(URL_FIXTURES_AWAYTEAM).text());
+		if(old){
+			if(!teamObject.getName().equals(cols.get(URL_FIXTURES_HOMETEAM).text()) &&
+					!teamObject.getName().equals(cols.get(URL_FIXTURES_AWAYTEAM).text())){
+				return null;
+			}
 		}else{
-			matchObject.setOpposingTeamId(getTeamIdFromUrl(cols.get(URL_FIXTURES_HOMETEAM)));
-			matchObject.setOpposingTeamName(cols.get(URL_FIXTURES_HOMETEAM).text());		
+			if((teamObject.getOnlineId() != getTeamIdFromUrl(cols.get(URL_FIXTURES_HOMETEAM))) &&
+					(teamObject.getOnlineId() != getTeamIdFromUrl(cols.get(URL_FIXTURES_AWAYTEAM)))){
+				return null;
+			}
+		}
+		
+		matchObject.setFremadTeam(teamObject.getId());
+		if(old){
+			matchObject.setHomeMatch(teamObject.getName().equals(cols.get(URL_FIXTURES_HOMETEAM).text()));
+		}else{
+			matchObject.setHomeMatch(teamObject.getOnlineId() == getTeamIdFromUrl(cols.get(URL_FIXTURES_HOMETEAM)));
+		}
+		matchObject.setField(cols.get(URL_FIXTURES_FIELD).text());
+		matchObject.setLeague(leagueId);
+		
+		if(old){
+			matchObject.setOpposingTeamId(-1);
+			if(matchObject.isHomeMatch()){
+				matchObject.setOpposingTeamName(cols.get(URL_FIXTURES_AWAYTEAM).text());
+			}else{
+				matchObject.setOpposingTeamName(cols.get(URL_FIXTURES_HOMETEAM).text());		
+			}
+		}else{
+			if(matchObject.isHomeMatch()){
+				matchObject.setOpposingTeamId(getTeamIdFromUrl(cols.get(URL_FIXTURES_AWAYTEAM)));
+				matchObject.setOpposingTeamName(cols.get(URL_FIXTURES_AWAYTEAM).text());
+			}else{
+				matchObject.setOpposingTeamId(getTeamIdFromUrl(cols.get(URL_FIXTURES_HOMETEAM)));
+				matchObject.setOpposingTeamName(cols.get(URL_FIXTURES_HOMETEAM).text());		
+			}
 		}
 		LOG.debug("Before check result");
 		if(cols.get(URL_FIXTURES_RESULT).text().equals("Ikke klart")){
@@ -192,7 +221,7 @@ public final class UrlParser  extends UrlConstants{
 			URL url = new URL(URL_FIXTURE + teamId);
 			Document doc = Jsoup.parse(url, 1000000);
 			
-			Element table = doc.select("table").get(1); 
+			Element table = doc.select("table").get(0); 
 			rows = table.select("tr");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -207,9 +236,5 @@ public final class UrlParser  extends UrlConstants{
 		return Integer.parseInt(link.substring(link.lastIndexOf(pattern)+ pattern.length()));
 	}
 	
-	private static int getTournementIdFromUrl(Element col){
-		String link = col.select("a").first().attr("href");
-		String pattern = "tournamentId=";
-		return Integer.parseInt(link.substring(link.lastIndexOf(pattern)+ pattern.length()));
-	}
 }
+

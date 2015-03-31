@@ -1,8 +1,11 @@
 package fremad.dao;
 
+import java.sql.SQLException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -10,7 +13,9 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import fremad.domain.ArticleObject;
+import fremad.domain.PageObject;
 import fremad.domain.list.ArticleListObject;
+import fremad.domain.list.PageListObject;
 
 @Repository
 public class JdbcArticleDao extends JdbcConnection implements ArticleDao {
@@ -23,15 +28,31 @@ public class JdbcArticleDao extends JdbcConnection implements ArticleDao {
 	}
 
 	@Override
-	public ArticleListObject getArticles(String articleType) {
+	public ArticleListObject getArticles(final String articleType) {
 		LOG.debug("In getArticles(articleType)");
 		
-		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_ARTICLE;
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_ARTICLE + " where article_type = ?";
 		ArticleListObject articles = new ArticleListObject();
 		
-		articles.addAll(this.namedParameterJdbcTemplate.getJdbcOperations().query(query, new BeanPropertyRowMapper<>(ArticleObject.class)));
+		articles.addAll(this.namedParameterJdbcTemplate.getJdbcOperations().query(query, new PreparedStatementSetter() {
+				@Override
+				public void setValues(java.sql.PreparedStatement ps)
+						throws SQLException {
+					ps.setString(1, articleType);
+				}
+			}, new BeanPropertyRowMapper<>(ArticleObject.class)));
 
 		return articles;
+	}
+	
+	@Override
+	public ArticleObject getArticle(int id) {
+		LOG.debug("In getArticle(parseInt)");
+		
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_ARTICLE + " where id = :id";
+		SqlParameterSource parameters = new MapSqlParameterSource("id", id);
+		
+		return namedParameterJdbcTemplate.queryForObject(query, parameters, new UserBeanPropertyRowMapper<>(ArticleObject.class));
 	}
 
 	@Override
@@ -86,6 +107,72 @@ public class JdbcArticleDao extends JdbcConnection implements ArticleDao {
 		namedParameterJdbcTemplate.update(query, parameters);
 		
 		return article;
+	}
+	
+	@Override
+	public PageListObject getPages(){
+		LOG.debug("In getPages()");
+		
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_PAGE + " ORDER BY priority ASC;";
+		PageListObject pages = new PageListObject();
+		
+		pages.addAll(this.namedParameterJdbcTemplate.getJdbcOperations().query(query, new BeanPropertyRowMapper<>(PageObject.class)));
+		return pages;
+	}
+	
+	@Override
+	public PageListObject getPublishedPages() {
+		LOG.debug("In getPages()");
+		
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_PAGE + " WHERE published = 1 ORDER BY priority ASC;";
+		PageListObject pages = new PageListObject();
+		
+		pages.addAll(this.namedParameterJdbcTemplate.getJdbcOperations().query(query, new BeanPropertyRowMapper<>(PageObject.class)));
+		return pages;
+	}
+	
+	@Override
+	public PageObject getPage(String urlName){
+		LOG.debug("In getPages()");
+		
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_PAGE + " where url_name = :urlName";
+		SqlParameterSource parameters = new MapSqlParameterSource("urlName", urlName);
+		
+		return namedParameterJdbcTemplate.queryForObject(query, parameters, new UserBeanPropertyRowMapper<>(PageObject.class));
+	}
+	
+	@Override
+	public PageObject addPage(PageObject page) {
+		LOG.debug("In addPage(page)");
+		
+		LOG.debug("In addPage with title: " + page.getArticleTitle());
+		
+		SimpleJdbcInsert insertPage = new SimpleJdbcInsert(this.getDataSource())
+			.withTableName(SqlTablesConstants.SQL_TABLE_NAME_PAGE);
+		
+		SqlParameterSource parameters = new BeanPropertySqlParameterSource(page);
+		
+		insertPage.execute(parameters);
+		
+		return page;
+	}
+	
+	@Override
+	public PageObject updatePage(PageObject page){
+		LOG.debug("In updatePage(page)");
+		
+		String updateStatement = "update " + SqlTablesConstants.SQL_TABLE_NAME_PAGE + " set "
+				+ "article_title = :articleTitle, "
+				+ "url_name = :urlName, "
+				+ "priority = :priority, "
+				+ "published = :published "
+				+ "where article_id = :articleId";
+		
+		SqlParameterSource parameters = new BeanPropertySqlParameterSource(page);
+	
+		this.namedParameterJdbcTemplate.update(updateStatement, parameters);
+		
+		return page;
 	}
 
 }

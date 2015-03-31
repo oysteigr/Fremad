@@ -2,12 +2,15 @@
   <div id="nav-wrapper">
     <ul id="menu-row">
       <li class='active'><a href="#/home">Home</a></li>
-      <li><a href="#/theClub">The club</a></li>
-      <li><a href="#/team">Team</a>
+      <li><a>About</a>
+        <ul>
+          <li ng-repeat="page in pageList" ><a href="#/about/{{page.urlName}}">{{page.articleTitle}}</a></li>
+        </ul></li>
+      <li><a>Team</a>
         <ul>
           <li ng-repeat="team in teamList" ><a href="#/team/{{team.id}}">{{team.name}}</a></li>
         </ul></li>
-      <li><a href="#/sponsors">Sponsors</a></li>
+      <li><a href="#/article">News</a></li>
       <li ng-show="showBasedOnRole(2)"><a href="#/admin">Admin</a></li>
       <li ng-show="showBasedOnRole(1)"><a href="#/profile">Profile</a></li>
       <li ng-click="setShowLogin(true)" ng-hide="showBasedOnRole(1)"><a>Login</a></li>
@@ -33,12 +36,15 @@
 
   <ul class="menu-list">
       <li ng-click="hideMenuMobile = true"><a href="#/home">Home</a></li>
-      <li ng-click="hideMenuMobile = true"><a href="#/theClub">The club</a></li>
-      <li ng-click="hideMenuMobile = true"><a href="#/team">Team</a>
+      <li ng-click="hideMenuMobile = true"><a>About</a>
         <ul>
-          <li ng-repeat="team in teamList" ><a href="#/team/{{team.id}}/about">{{team.name}}</a></li>
+          <li ng-repeat="page in pageList" ><a href="#/about/{{page.urlName}}">{{page.articleTitle}}</a></li>
         </ul></li>
-      <li ng-click="hideMenuMobile = true"><a href="#/sponsors">Sponsors</a></li>
+      <li ng-click="hideMenuMobile = true"><a>Team</a>
+        <ul>
+          <li ng-repeat="team in teamList" ><a href="#/team/{{team.id}}">{{team.name}}</a></li>
+        </ul></li>
+      <li ng-click="hideMenuMobile = true"><a href="#/article">News</a></li>
       <li ng-click="hideMenuMobile = true" ng-show="showBasedOnRole(2)"><a href="#/admin">Admin</a></li>
       <li ng-click="hideMenuMobile = true" ng-show="showBasedOnRole(1)"><a href="#/profile">Profile</a></li>
       <li ng-click="hideMenuMobile = true"> -- </li>

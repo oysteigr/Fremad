@@ -28,5 +28,6 @@ class Article {
   Article.fromJson(Map<String, dynamic> json) : this(json['id'], json['authorId'],  
       new DateTime.fromMillisecondsSinceEpoch(json['date'], isUtc: false), json['articleType'], 
       json['header'], json['context'], json['content'], json['imageUrl'], json['published']);
-  
+ 
 }
+

@@ -24,6 +24,9 @@ public class MatchService {
 	public MatchListObject getMatches(int teamId){
 		return jdbcMatchDao.getMatches(teamId);
 	}
+	public MatchListObject getMatchesByLeague(int leagueId) {
+		return jdbcMatchDao.getMatchesByLeague(leagueId);
+	}
 	public MatchListObject getThisYearsMatches(){
 		return jdbcMatchDao.getThisYearsMatches();
 	}

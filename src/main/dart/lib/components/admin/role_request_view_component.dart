@@ -78,6 +78,7 @@ class ShowAdminRoleRequestComponent {
       assert(requestResponse.userId == roleRequestList.where((RoleRequest) => RoleRequest.id == roleRequestList).first.userId);
       assert(requestResponse.date == roleRequestList.where((RoleRequest) => RoleRequest.id == roleRequestList).first.date);
       roleRequestList.removeAt(index);
+      MESSAGE.addSuccessMessage("Request deleted");
     })
     .catchError((e) {
       print(e);
@@ -101,6 +102,7 @@ class ShowAdminRoleRequestComponent {
         html.window.console.info("Success on accepting user meta");
         roleRequestList.where((RoleRequest) => RoleRequest.id == selectedRequest).first.accepted = true;
         selectedRequest = -1;
+        MESSAGE.addSuccessMessage("Request accepted");
       })
       .catchError((e) {
         print(e);

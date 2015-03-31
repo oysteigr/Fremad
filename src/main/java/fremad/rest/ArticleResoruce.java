@@ -1,6 +1,7 @@
 package fremad.rest;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fremad.domain.ArticleObject;
+import fremad.domain.PageObject;
 import fremad.domain.list.ArticleListObject;
+import fremad.domain.list.PageListObject;
 import fremad.processor.ArticleProcessor;
 
 @RestController
@@ -35,6 +38,15 @@ public class ArticleResoruce {
 	public ArticleListObject getArticles(@RequestBody String articleType) {
 		LOG.debug("Getting articles of type: " + articleType);
 		return articleProcessor.getArticles(articleType);
+	}
+	
+	@RequestMapping("/getArticle")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public ArticleObject getArticle(@RequestBody String articleId) {
+		LOG.debug("Getting articles of type: " + articleId);
+		return articleProcessor.getArticle(Integer.parseInt(articleId));
 	}
 
 	@RequestMapping("/addArticle")
@@ -62,5 +74,48 @@ public class ArticleResoruce {
 	public ArticleObject deleteArticle(@RequestBody ArticleObject article) {
 		LOG.debug("Deleting article ' " + article.getHeader() + "'");
 		return articleProcessor.deleteArticle(article);
+	}
+	
+	@RequestMapping("/getArticleFromUrl")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public ArticleObject getArticleFromUrl(@RequestBody String url){
+		LOG.debug("Getting article from url: ' " + url + "'");
+		return articleProcessor.getArticleFromUrl(url);
+	}
+	
+	@RequestMapping("/getPages")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public PageListObject getPages(){
+		LOG.debug("Getting pages");
+		return articleProcessor.getPages();
+	}
+	
+	@RequestMapping("/getPublishedPages")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public PageListObject getPublishedPages(){
+		LOG.debug("Getting pages");
+		return articleProcessor.getPublishedPages();
+	}
+	
+	@RequestMapping("/addPage")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public PageObject addPage(@RequestBody PageObject page){
+		LOG.debug("Adding page: " + page.getArticleTitle());
+		return articleProcessor.addPage(page);
+	}
+	
+	@RequestMapping("/updatePage")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public  PageObject updatePage(@RequestBody PageObject page){
+		LOG.debug("Updating page: " + page.getArticleTitle());
+		return articleProcessor.updatePage(page);
 	}
 }
