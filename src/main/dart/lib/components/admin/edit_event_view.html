@@ -1,0 +1,10 @@
+<h1>Editing match</h1>
+<input type="button" class="clearButton" value="back" ng-click="back()">
+
+<ul id="event-list">
+    <li ng-repeat="event in events" ng-show="true">
+    <div class="item-name" ng-click="">
+      <span class="teams">{{event.matchId}} {{event.player}}</span>
+    </div> 
+  </li>
+</ul>
