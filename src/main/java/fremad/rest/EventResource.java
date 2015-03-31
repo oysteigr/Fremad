@@ -32,12 +32,13 @@ public class EventResource {
 	EventProcessor eventProcessor;
 
 	@RequestMapping("/getEvents")
-	@GET
+	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public EventListObject getEvents(int matchId) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	public EventListObject getEvents(@RequestBody String matchId) {
 		LOG.debug("Getting leagues..");
 
-		return eventProcessor.getEvents(matchId);
+		return eventProcessor.getEvents(Integer.parseInt(matchId));
 	}
 	
 	@RequestMapping("/addEvent")
