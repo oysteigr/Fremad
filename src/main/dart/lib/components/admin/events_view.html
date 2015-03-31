@@ -10,8 +10,12 @@
 </div>
 <ul id="match-list">
     <li ng-repeat="match in matchList" ng-show="filter(match)">
+    <a href="#/admin/event/edit/{{selectedMatch}}">
     <div class="item-name" ng-click="selectMatch(match)">
-      <span class="teams">{{getHomeTeamName(match)}} - {{getAwayTeamName(match)}}</span><span class="date">{{match.getDateAsString()}} {{match.getTimeAsString()}}</span>
-    </div> 
+      <span class="teams">{{getHomeTeamName(match)}} - {{getAwayTeamName(match)}}</span>
+      <span class="date">{{match.getDateAsString()}} {{match.getTimeAsString()}}</span>
+    </div>
+    </a>
   </li>
 </ul>
+<ng-view></ng-view>

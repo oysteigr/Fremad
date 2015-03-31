@@ -83,7 +83,13 @@ void fremadRouteInitializer(Router router, RouteViewFactory view) {
          ),
          "events" : ngRoute(
             path: '/events',
-            viewHtml: '<admin-events-view></admin-events-view>'
+            viewHtml: '<admin-events-view></admin-events-view>',
+            mount: {
+              "editevent" : ngRoute(
+                path: '/edit/:matchId',
+                viewHtml: '<admin-edit-event-view></admin-edit-event-view>'
+              )
+            }
          ),
          "leagues" : ngRoute(
             path: '/leagues',

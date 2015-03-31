@@ -20,6 +20,7 @@ class ShowAdminEventsComponent {
   List<MatchEntry> matchList;
   
   int selectedTeam;
+  int selectedMatch;
   
   ShowAdminEventsComponent(this._http){
     selectedTeam = 9;
@@ -92,5 +93,10 @@ class ShowAdminEventsComponent {
     } else {
       return match.opposingTeamName;
     }
+  }
+  
+  void selectMatch(MatchEntry match) {
+    selectedMatch = match.id;
+    html.window.console.info("Selected match " + match.opposingTeamName);
   }
 }

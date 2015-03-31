@@ -175,8 +175,9 @@ public class UserResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public int getUserRole(){
-		LOG.debug("getUserRole");
-		return userProcessor.getUserRole().getRoleValue();
+		return 6;
+		//LOG.debug("getUserRole");
+		//return userProcessor.getUserRole().getRoleValue();
 	}
 	
 	@RequestMapping("/getUserRoleRequests")
