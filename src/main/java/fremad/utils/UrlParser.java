@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -128,6 +129,7 @@ public final class UrlParser  extends UrlConstants{
 		Elements cols = row.select("td");
 				
 		SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");	
+		formatter.setTimeZone(TimeZone.getTimeZone("Europe/Oslo"));
 		
 		try {
 			Date date = formatter.parse(cols.get(URL_FIXTURES_DATE).text() + " " + cols.get(URL_FIXTURES_TIME).text());
