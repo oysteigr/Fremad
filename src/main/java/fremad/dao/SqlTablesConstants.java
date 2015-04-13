@@ -26,6 +26,8 @@ public interface SqlTablesConstants {
 	String SQL_TABLE_NAME_ARTICLE = "article";
 	String SQL_TABLE_NAME_IMAGE = "image";
 	String SQL_TABLE_NAME_PAGE = "page";
+	String SQL_TABLE_NAME_MATCH_REPORT = "match_report";
+	String SQL_TABLE_NAME_BUG = "bug";
 	
 	// Table values
 	

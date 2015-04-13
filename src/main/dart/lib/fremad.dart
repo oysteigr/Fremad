@@ -1,14 +1,12 @@
 library fremad;
 
 import 'dart:html' as html;
-
 import 'dart:async';
-
 import 'dart:convert';
-
 import 'dart:typed_data';
 
 import 'package:angular/angular.dart';
+import 'package:browser_detect/browser_detect.dart';
 
 import 'directives/ng_bind_html_unsafe.dart';
 import 'directives/ng_bind_divelement_html.dart';
@@ -16,6 +14,7 @@ import 'directives/ng_bind_divelement_rich.dart';
 
 
 import 'models/image.dart';
+import 'models/bug.dart';
 import 'models/article.dart';
 import 'models/article_list.dart';
 import 'models/page.dart';
@@ -32,6 +31,8 @@ import 'models/event_list.dart';
 import 'models/player_list.dart';
 import 'models/match_list.dart';
 import 'models/match_entry.dart';
+import 'models/match_report.dart';
+import 'models/match_report_list.dart';
 import 'models/user.dart';
 import 'models/user_list.dart';
 import 'models/user_logon.dart';
@@ -59,7 +60,7 @@ part 'components/loggin_view_component.dart';
 part 'components/article_view_component.dart';
 part 'components/team_view_component.dart';
 part 'components/admin_view_component.dart';
-part 'components/profile_view_component.dart';
+part 'components/my_page_view_component.dart';
 part 'components/message_view_component.dart';
 
 
@@ -74,7 +75,8 @@ part 'components/article/article_list_component.dart';
 part 'components/article/article_news_component.dart';
 part 'components/article/article_match_component.dart';
 
-part 'components/admin/articles_view_component.dart';
+part 'components/admin/news_view_component.dart';
+part 'components/admin/match_reports_view_component.dart';
 part 'components/admin/pages_view_component.dart';
 part 'components/admin/players_view_component.dart';
 part 'components/admin/player_user_rel_view_component.dart';
@@ -88,9 +90,13 @@ part 'components/admin/user_role_view_component.dart';
 part 'components/admin/role_request_view_component.dart';
 part 'components/admin/user_login_view_component.dart';
 
-part 'components/profile/edit_view_component.dart';
-part 'components/profile/validate_view_component.dart';
-part 'components/profile/reset_password_view_component.dart';
+part 'components/my_page/edit_view_component.dart';
+part 'components/my_page/validate_view_component.dart';
+part 'components/my_page/reset_password_view_component.dart';
+part 'components/my_page/bugs_view_component.dart';
+part 'components/my_page/development_plan_view_component.dart';
+part 'components/my_page/feature_request_view_component.dart';
+part 'components/my_page/updates_view_component.dart';
 
 part 'components/boxes/table_box_component.dart';
 part 'components/boxes/match_box_component.dart';
@@ -136,7 +142,7 @@ class FremadApp extends Module {
     bind(ShowArticleComponent);
     bind(ShowTeamComponent);
     bind(ShowAdminComponent);
-    bind(ShowProfileComponent);
+    bind(ShowMyPageComponent);
     bind(ShowMessageComponent);
     
     bind(FrontArticleComponent);
@@ -150,7 +156,8 @@ class FremadApp extends Module {
     bind(ShowArticleNewsComponent);
     bind(ShowArticleMatchComponent);
     
-    bind(ShowAdminArticlesComponent);
+    bind(ShowAdminNewsComponent);
+    bind(ShowAdminMatchReportsComponent);
     bind(ShowAdminPagesComponent);
     bind(ShowAdminTeamsComponent);
     bind(ShowAdminLeaguesComponent);
@@ -165,9 +172,13 @@ class FremadApp extends Module {
     bind(ShowAdminUserLoginComponent);
     
     
-    bind(ShowProfileEditComponent);
-    bind(ShowProfileValidateComponent);
-    bind(ShowProfileResetPasswordComponent);
+    bind(ShowMyPageEditComponent);
+    bind(ShowMyPageValidateComponent);
+    bind(ShowMyPageResetPasswordComponent);
+    bind(ShowMyPageBugsComponent);
+    bind(ShowMyPageDevelopmentPlanComponent);
+    bind(ShowMyPageFeatureRequestComponent);
+    bind(ShowMyPageUpdatesComponent);
     
     bind(ShowBoxTableComponent);
     bind(ShowBoxMatchComponent);

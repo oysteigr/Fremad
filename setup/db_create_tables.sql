@@ -188,3 +188,31 @@ CREATE TABLE `image` (
 	CONSTRAINT `fk_uploader_id` FOREIGN KEY (`uploader_id`) REFERENCES `user` (`id`),
 	PRIMARY KEY ( `id` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `match_report` (
+	`match_id` int(11) NOT NULL, 
+	`article_id` int(64) NOT NULL,
+	`home_score` int(8) NOT NULL,
+	`away_score` int(8) NOT NULL,
+	`home_score_pause` int(8) NOT NULL,
+	`away_score_pause` int(8) NOT NULL,
+	`supporters` int(11),
+	`published` tinyint(1) NOT NULL,
+	CONSTRAINT `fk_report_match` FOREIGN KEY (`match_id`) REFERENCES `match` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT `fk_report_article` FOREIGN KEY (`article_id`) REFERENCES `article` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `bug` (
+	`id` int(32) NOT NULL AUTO_INCREMENT, 
+	`user_id` int(11) NOT NULL,
+	`title` varchar(64) NOT NULL,
+	`priority` int(8) NOT NULL,
+	`os` varchar(64) NOT NULL,
+	`browser` varchar(64) NOT NULL,
+	`problem` text NOT NULL,
+	`date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`fixed` tinyint(1) NOT NULL DEFAULT 0,
+	CONSTRAINT `fk_reporter_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+	PRIMARY KEY ( `id` )
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

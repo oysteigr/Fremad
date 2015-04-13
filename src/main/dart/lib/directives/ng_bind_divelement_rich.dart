@@ -5,7 +5,7 @@ import "package:angular/directive/module.dart";
 import 'dart:html' as html;
 
 
-@Directive(
+@Decorator(
     selector: '[contenteditable=true][ng-model][rich]'
 )
 
@@ -17,6 +17,7 @@ class ContentEditableDirectiveRich extends InputTextLike{
                                                 validator: new html.NodeValidatorBuilder()
                                                  ..allowHtml5()
                                                  ..allowElement('a', attributes: ['href'])
+                                                 ..allowElement('div', attributes: ['contenteditable'])
                                                  ..allowElement('img', attributes: ['src']));
   
   ContentEditableDirectiveRich(html.Element inputElement, NgModel ngModel, Scope scope):

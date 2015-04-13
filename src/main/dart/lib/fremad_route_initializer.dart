@@ -52,33 +52,53 @@ void fremadRouteInitializer(Router router, RouteViewFactory view) {
       path: '/loggIn', 
       viewHtml: '<loggIn-view></loggIn-view>'
       ),
-    'profile': ngRoute(
-      path: '/profile', 
-      viewHtml: '<profile-view></profile-view>',
+    'myPage': ngRoute(
+      path: '/myPage', 
+      viewHtml: '<my-page-view></my-page-view>',
       mount: {
         "edit" : ngRoute(
            path: '/edit',
-           viewHtml: '<profile-edit-view></profile-edit-view>',
+           viewHtml: '<my-page-edit-view></my-page-edit-view>',
            defaultRoute: true
         ),
         "validate" : ngRoute(
            path: '/validate',
-           viewHtml: '<profile-validate-view></profile-validate-view>'
+           viewHtml: '<my-page-validate-view></my-page-validate-view>'
         ),
         "resetPassword" : ngRoute(
            path: '/resetPassword',
-           viewHtml: '<profile-reset-password-view></profile-reset-password-view>'
+           viewHtml: '<my-page-reset-password-view></my-page-reset-password-view>'
+        ),
+        "bugs" : ngRoute(
+           path: '/bugs',
+           viewHtml: '<my-page-bugs-view></my-page-bugs-view>'
+        ),
+        "featureRequest" : ngRoute(
+           path: '/featureRequest',
+           viewHtml: '<my-page-feature-request-view></my-page-feature-request-view>'
+        ),
+        "developmentPlan" : ngRoute(
+           path: '/developmentPlan',
+           viewHtml: '<my-page-development-plan-view></my-page-development-plan-view>'
+        ),
+        "updates" : ngRoute(
+           path: '/updates',
+           viewHtml: '<my-page-updates-view></my-page-updates-view>'
         )
       }),
     'admin': ngRoute(
       path: '/admin', 
       viewHtml: '<admin-view></admin-view>',
       mount: {
-         "newsArticles" : ngRoute( 
-            path: '/newsArticles',
-            viewHtml: '<admin-news-articles-view></admin-news-articles-view>',
+         "news" : ngRoute( 
+            path: '/news',
+            viewHtml: '<admin-news-view></admin-news-view>',
             defaultRoute: true
          ),
+         "matchReports" : ngRoute(
+             path: '/matchReports',
+             viewHtml: '<admin-match-reports-view></admin-match-reports-view>'
+          ),
          "pages" : ngRoute(
             path: '/pages',
             viewHtml: '<admin-pages-view></admin-pages-view>'

@@ -5,7 +5,7 @@ import "package:angular/directive/module.dart";
 import 'dart:html' as html;
 
 
-@Directive(
+@Decorator(
     selector: '[contenteditable=true][ng-model][html]'
 )
 
@@ -23,6 +23,14 @@ class ContentEditableDirectiveHtml extends InputTextLike{
       ..onBlur.listen((_) => ngModelOptions.executeBlurFunc(() {
         ngModel.markAsTouched();
       }));
-}
+  }
+  
+  void processValue([_]) {
+    var value = typedValue;
+
+    if (value != ngModel.viewValue) ngModel.viewValue = value;
+
+    ngModel.validate();
+  }
 
 }

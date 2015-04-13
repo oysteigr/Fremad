@@ -3,7 +3,7 @@ library ng_bind_html_unsafe;
 import 'dart:html' as html;
 import 'package:angular/angular.dart';
 
-@Directive(
+@Decorator(
     selector: '[ng-bind-html-unsafe]',
     map: const {'ng-bind-html-unsafe': '=>value'}    
 )

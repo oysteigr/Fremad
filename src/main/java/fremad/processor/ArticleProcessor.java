@@ -5,8 +5,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import fremad.domain.ArticleObject;
+import fremad.domain.MatchReportObject;
 import fremad.domain.PageObject;
 import fremad.domain.list.ArticleListObject;
+import fremad.domain.list.MatchReportListObject;
 import fremad.domain.list.PageListObject;
 import fremad.domain.user.UserRoleEnum;
 import fremad.security.SessionSecurityContext;
@@ -21,6 +23,8 @@ public class ArticleProcessor {
 	
 	@Autowired
 	SessionSecurityContext securityContext;
+	
+	//----------------------ARTICLE METHODS----------------------
 
 	public ArticleListObject getArticles(String articleType) {
 		return articleService.getArticles(articleType);
@@ -57,6 +61,8 @@ public class ArticleProcessor {
 		return articleService.getArticle(articleService.getPage(url).getArticleId());
 	}
 	
+	//----------------------PAGE METHODS----------------------	
+	
 	public PageListObject getPages(){
 		return articleService.getPages();
 	}
@@ -78,7 +84,26 @@ public class ArticleProcessor {
 		return articleService.updatePage(page);
 	}
 
-
+	//----------------------MATCH REPORT METHODS----------------------
+	
+	public MatchReportListObject getMatchReports(){
+		return articleService.getMatchReports();
+	}
+	public MatchReportObject getMatchReport(int articleId){
+		return articleService.getMatchReport(articleId);
+	}
+	public MatchReportObject addMatchReport(MatchReportObject report){
+		
+		securityContext.checkUserPremission(UserRoleEnum.EDITOR);
+		
+		return articleService.addMatchReport(report);
+	}
+	public  MatchReportObject updateMatchReport(MatchReportObject report){
+		
+		securityContext.checkUserPremission(UserRoleEnum.EDITOR);
+		
+		return articleService.updateMatchReport(report);
+	}
 
 
 }

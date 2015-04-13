@@ -1,0 +1,96 @@
+<div ng-hide="isEditing" class="article-edit-wrapper">
+  <div class="filters">
+    <form>
+      <div class="clearfix">
+        <input ng-repeat="team in teamList.reversed" type="button" class="adminButton clearButton" value="{{team.name}}" ng-click="setTeam(team.id)">
+        <input type="button" class="adminButton clearButton" value="all" ng-click="setTeam(9)">
+      </div>
+    </form>
+  </div>
+  <h1>Match reports</h1>
+
+  <ul id="match-list">
+      <li ng-repeat="match in matchList" ng-show="filter(match)">
+      <div class="item-name" ng-click="selectMatch(match)">
+        <span class="teams">{{getHomeTeamName(match)}} - {{getAwayTeamName(match)}}</span>
+        <span class="date">{{match.getDateAsString()}} {{match.getTimeAsString()}}</span>
+        <span class="published">{{getPublishedState(match)}}</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<div ng-show="isEditing" class="article-edit-wrapper">
+  <input type="button" class="adminButton greyButton" value="<< back" ng-click="back()">
+  <h1>Edit match report</h1>
+  
+  <div class="form-group">
+    <input type="text" class="form-control input-lg" ng-model="currentArticle.header" placeholder="Title">
+  </div>
+  <div class="form-group">
+    <span class="result">
+    {{getHomeTeamName(currentMatch)}} - {{getAwayTeamName(currentMatch)}}
+    <input type="text" class="form-control input-lg short-box" ng-model="currentReport.homeScore" placeholder="H"> - 
+    <input type="text" class="form-control input-lg short-box" ng-model="currentReport.awayScore" placeholder="A">
+    (<input type="text" class="form-control input-lg short-box" ng-model="currentReport.homeScorePause" placeholder="H P"> -
+    <input type="text" class="form-control input-lg short-box" ng-model="currentReport.awayScorePause" placeholder="A P">)
+    </span>
+  </div>
+  <rich-text-editor textSource="currentArticle.content"></rich-text-editor>
+  <div class="form-group">
+    <input type="text" class="form-control input-lg" ng-model="currentArticle.context" placeholder="Context">
+  </div>
+  <div class="form-group">
+    <input type="text" class="form-control input-lg" ng-model="currentArticle.imageUrl" placeholder="Image URL">
+    <button class="btn" data-dismiss="modal" ng-click="showImageEditor()" aria-hidden="true">Insert</button>
+  </div>
+  <div class="form-group">
+    <input type="number" class="form-control input-lg" ng-model="currentReport.supporters" placeholder="Supporters">
+  </div>
+  <div class="article-buttons">
+    <form>
+      <input ng-hide="currentArticle.published" type="button" class="adminButton redButton" value="delete" ng-click="deleteArticle()">
+      <input ng-show="currentArticle.published" type="button" class="adminButton redButton" value="unpublish" ng-click="unPublish()">
+      <input ng-hide="currentArticle.published || currentArticle.id == -1" type="button" class="adminButton greenButton" value="publish" ng-click="publish()">
+      <input ng-hide="currentArticle.id == -1" type="button" class="adminButton greenButton" value="update" ng-click="updateArticle()">
+      <input ng-show="currentArticle.id == -1" type="button" class="adminButton greenButton" value="save" ng-click="saveArticle()">
+    </form>
+  </div>
+  <div class="clearfix"></div>
+  <br>
+   <h3>Preview:</h3>
+  <br>
+  <h1>{{currentArticle.header}}</h1>
+  <div class="article-main-image">
+    <img class="article-main-image" src="{{currentArticle.imageUrl}}"/>
+  </div>
+  <div class="article-context">
+    {{getHomeTeamName(currentMatch).toUpperCase()}} - {{getAwayTeamName(currentMatch).toUpperCase()}} 
+    {{currentReport.homeScore}}-{{currentReport.awayScore}} ({{currentReport.homeScorePause}}-{{currentReport.awayScorePause}}):
+    {{currentArticle.context}}
+  </div>
+  <div class="article-info">
+    Supporters: {{currentReport.supporters}}
+  </div>
+  
+  <rich-text-display textSource="currentArticle.content"></rich-text-display>
+</div>
+
+<div id="loginModal" ng-show="showImageUpload" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content">
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" ng-click="cancelImage()" aria-hidden="true">×</button>
+          <h1 class="text-center">Upload image</h1>
+      </div>
+      <div class="modal-body">
+        <image-handler-editor imagePath="currentArticle.imageUrl" useRatio="useRatio" xRatio="xRatio" yRatio="yRatio" minWith="minWith" minHeight="minHeight" show="showImageUpload"></image-handler-editor>
+      </div>
+      <div class="modal-footer">
+          <div class="col-md-12">
+          <button class="btn" data-dismiss="modal" ng-click="cancelImage()" aria-hidden="true">Cancel</button>
+      </div>  
+      </div>
+  </div>
+  </div>
+</div>

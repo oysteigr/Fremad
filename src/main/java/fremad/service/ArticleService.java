@@ -6,8 +6,10 @@ import org.springframework.stereotype.Service;
 
 import fremad.dao.ArticleDao;
 import fremad.domain.ArticleObject;
+import fremad.domain.MatchReportObject;
 import fremad.domain.PageObject;
 import fremad.domain.list.ArticleListObject;
+import fremad.domain.list.MatchReportListObject;
 import fremad.domain.list.PageListObject;
 
 @Service
@@ -16,6 +18,8 @@ public class ArticleService {
 
 	@Autowired
 	private ArticleDao articleDao;
+	
+	//----------------------ARTICLE METHODS----------------------
 
 	public ArticleListObject getArticles(String articleType) {
 		return articleDao.getArticles(articleType);
@@ -32,6 +36,9 @@ public class ArticleService {
 	public ArticleObject deleteArticle(ArticleObject article) {
 		return articleDao.deleteArticle(article);
 	}
+	
+	//----------------------PAGE METHODS----------------------
+	
 	public PageListObject getPages(){
 		return articleDao.getPages();
 	}
@@ -47,5 +54,19 @@ public class ArticleService {
 	public  PageObject updatePage(PageObject page){
 		return articleDao.updatePage(page);
 	}
-
+	
+	//----------------------MATCH REPORT METHODS----------------------
+	
+	public MatchReportListObject getMatchReports(){
+		return articleDao.getMatchReports();
+	}
+	public MatchReportObject getMatchReport(int articleId){
+		return articleDao.getMatchReport(articleId);
+	}
+	public MatchReportObject addMatchReport(MatchReportObject report){
+		return articleDao.addMatchReport(report);
+	}
+	public  MatchReportObject updateMatchReport(MatchReportObject report){
+		return articleDao.updateMatchReport(report);
+	}
 }

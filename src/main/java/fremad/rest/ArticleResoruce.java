@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fremad.domain.ArticleObject;
+import fremad.domain.MatchReportObject;
 import fremad.domain.PageObject;
 import fremad.domain.list.ArticleListObject;
+import fremad.domain.list.MatchReportListObject;
 import fremad.domain.list.PageListObject;
 import fremad.processor.ArticleProcessor;
 
@@ -117,5 +119,36 @@ public class ArticleResoruce {
 	public  PageObject updatePage(@RequestBody PageObject page){
 		LOG.debug("Updating page: " + page.getArticleTitle());
 		return articleProcessor.updatePage(page);
+	}
+	
+	@RequestMapping("/getMatchReports")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public MatchReportListObject getMatchReports(){
+		return articleProcessor.getMatchReports();
+	}
+	
+	@RequestMapping("/getMatchReport")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public MatchReportObject getMatchReport(@RequestBody String articleId){
+		return articleProcessor.getMatchReport(Integer.parseInt(articleId));
+	}
+	
+	@RequestMapping("/addMatchReport")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public MatchReportObject addMatchReport(@RequestBody MatchReportObject report){
+		return articleProcessor.addMatchReport(report);
+	}
+	
+	@RequestMapping("/updateMatchReport")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public  MatchReportObject updateMatchReport(@RequestBody MatchReportObject report){
+		return articleProcessor.updateMatchReport(report);
 	}
 }

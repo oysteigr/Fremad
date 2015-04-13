@@ -13,8 +13,10 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import fremad.domain.ArticleObject;
+import fremad.domain.MatchReportObject;
 import fremad.domain.PageObject;
 import fremad.domain.list.ArticleListObject;
+import fremad.domain.list.MatchReportListObject;
 import fremad.domain.list.PageListObject;
 
 @Repository
@@ -26,6 +28,8 @@ public class JdbcArticleDao extends JdbcConnection implements ArticleDao {
 	public JdbcArticleDao() {
 		super();
 	}
+	
+	//----------------------ARTICLE METHODS----------------------
 
 	@Override
 	public ArticleListObject getArticles(final String articleType) {
@@ -109,6 +113,8 @@ public class JdbcArticleDao extends JdbcConnection implements ArticleDao {
 		return article;
 	}
 	
+	//----------------------PAGE METHODS----------------------
+	
 	@Override
 	public PageListObject getPages(){
 		LOG.debug("In getPages()");
@@ -133,7 +139,7 @@ public class JdbcArticleDao extends JdbcConnection implements ArticleDao {
 	
 	@Override
 	public PageObject getPage(String urlName){
-		LOG.debug("In getPages()");
+		LOG.debug("In getPage(urlName)");
 		
 		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_PAGE + " where url_name = :urlName";
 		SqlParameterSource parameters = new MapSqlParameterSource("urlName", urlName);
@@ -173,6 +179,64 @@ public class JdbcArticleDao extends JdbcConnection implements ArticleDao {
 		this.namedParameterJdbcTemplate.update(updateStatement, parameters);
 		
 		return page;
+	}
+	
+	//----------------------MATCH REPORT METHODS----------------------
+	
+	@Override
+	public MatchReportListObject getMatchReports(){
+		LOG.debug("In getMatchReports()");
+		
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_MATCH_REPORT;
+		MatchReportListObject reports = new MatchReportListObject();
+		
+		reports.addAll(this.namedParameterJdbcTemplate.getJdbcOperations().query(query, new BeanPropertyRowMapper<>(MatchReportObject.class)));
+		return reports;
+	}
+	
+	@Override
+	public MatchReportObject getMatchReport(int articleId){
+		LOG.debug("In getMatchReport(articleId)");
+		
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_MATCH_REPORT + " where article_id = :articleId";
+		SqlParameterSource parameters = new MapSqlParameterSource("articleId", articleId);
+		
+		return namedParameterJdbcTemplate.queryForObject(query, parameters, new UserBeanPropertyRowMapper<>(MatchReportObject.class));
+	}
+	
+	@Override
+	public MatchReportObject addMatchReport(MatchReportObject report) {
+		LOG.debug("In addPage(page)");
+		
+		SimpleJdbcInsert insertPage = new SimpleJdbcInsert(this.getDataSource())
+			.withTableName(SqlTablesConstants.SQL_TABLE_NAME_MATCH_REPORT);
+		
+		SqlParameterSource parameters = new BeanPropertySqlParameterSource(report);
+		
+		insertPage.execute(parameters);
+		
+		return report;
+	}
+	
+	@Override
+	public MatchReportObject updateMatchReport(MatchReportObject report){
+		LOG.debug("In updatePage(page)");
+		
+		String updateStatement = "update " + SqlTablesConstants.SQL_TABLE_NAME_MATCH_REPORT + " set "
+				+ "match_id = :matchId, "
+				+ "home_score = :homeScore, "
+				+ "away_score = :awayScore, "
+				+ "home_score_pause = :homeScorePause, "
+				+ "away_score_pause = :awayScorePause, "
+				+ "supporters = :supporters, "
+				+ "published = :published "
+				+ "where article_id = :articleId";
+		
+		SqlParameterSource parameters = new BeanPropertySqlParameterSource(report);
+	
+		this.namedParameterJdbcTemplate.update(updateStatement, parameters);
+		
+		return report;
 	}
 
 }

@@ -1,3 +1,6 @@
+DROP TABLE `bug`;
+DROP TABLE `match_report`;
+DROP TABLE `page`;
 DROP TABLE `image`;
 DROP TABLE `article`;
 DROP TABLE `rel_player_user`;
