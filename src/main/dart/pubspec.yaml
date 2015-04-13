@@ -1,10 +1,7 @@
 name: fremad
 version: 0.0.1
 dependencies:
-  browser: any
   angular: ">=1.0.0 <2.0.0"
-  web_components: any
-  html5lib: ">=0.10.0 <2.0.0"
-  intl: any
+  browser_detect: any
 transformers:
   - angular
