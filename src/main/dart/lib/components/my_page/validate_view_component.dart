@@ -1,37 +1,37 @@
 part of fremad;
 
 @Component(
-    selector: 'profile-reset-password-view',
-    templateUrl: 'packages/fremad/components/profile/reset_password_view.html',
-    cssUrl: 'packages/fremad/components/profile/reset_password_view.css',
+    selector: 'my-page-validate-view',
+    templateUrl: 'packages/fremad/components/my_page/validate_view.html',
+    cssUrl: 'packages/fremad/components/my_page/validate_view.css',
     useShadowDom: false
 )
-class ShowProfileResetPasswordComponent {
+class ShowMyPageValidateComponent {
   final Http _http;
   String querystring = "";
   String message = "";
   
   
-  ShowProfileResetPasswordComponent(this._http){
+  ShowMyPageValidateComponent(this._http){
     querystring = html.window.location.href;
     if(querystring.split("?").length == 1){
       message = "There is no point for you to be here...";
     }else{
       querystring = querystring.split("?")[1];
       html.window.console.info("querystring: " + querystring);
-      resetPasswordUser(querystring);
+      validateUser(querystring);
     }
     
   }
   
-  void resetPasswordUser(String querystring){
-    html.window.console.info("In resetUserPassword() with string: " + querystring);
+  void validateUser(String querystring){
+    html.window.console.info("In validateUser() with string: " + querystring);
     bool success;
-    _http.post('rest/user/resetUserPassword.json', querystring)
+    _http.post('rest/user/validateUser.json', querystring)
     .then((HttpResponse response) {
       String stringResponse = response.data.toString;
       success = response.data.toString() == 'true';
-      message = "Password for user account has been reset!";
+      message = "User account has been activated!";
     })
     .catchError((HttpResponse response) {
       if(response.status == 400){
@@ -39,7 +39,7 @@ class ShowProfileResetPasswordComponent {
       }else{
         message= "This account does not exist or something else went wrong. Try register again";
       }
-      html.window.console.info("Could not load rest/user/resetUserPassword.json");
+      html.window.console.info("Could not load rest/user/validateUser.json");
     });
   }
 }

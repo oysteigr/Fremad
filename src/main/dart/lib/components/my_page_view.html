@@ -1,0 +1,52 @@
+<div class="mobile-menu-button" ng-click="hideMenuMobile = false">myPage menu<span>&gt;&gt;</span></div>
+
+<div class="my-page-nav-wrapper">
+  <div id="my-page-nav" class="nav-collapse" >
+      <ul class="nav nav-tabs nav-stacked">
+        <div ng-show="showBasedOnRole(1)" class="editor-role">
+            <li><span>Profile</span></li>
+            <li><a href="#/myPage/edit"><img src="images/icons/app_window_shell&16.png" />Edit</a></li>
+        </div>
+         <div ng-show="showBasedOnRole(2)" class="editor-role">
+            <li><span>Fremad</span></li>     
+            <li><a href="#/myPage/updates"><img src="images/icons/attention_icon&16.png" />Updates</a></li> 
+        </div>
+        <div ng-show="showBasedOnRole(2)" class="editor-role">
+            <li><span>Page development</span></li>
+            <li><a href="#/myPage/bugs"><img src="images/icons/bug_icon&16.png" />Report bugs</a></li>
+            <li><a href="#/myPage/featureRequest"><img src="images/icons/magic_wand_2_icon&16.png" />Feature requests</a></li>
+            <li><a href="#/myPage/developmentPlan"><img src="images/icons/cogs_icon&16.png" />Development plan</a></li>          
+        </div>
+      </ul>
+  </div>
+</div>
+
+<div ng-class="getMobileClass()" class="nav-side">
+  <div class="fog" ng-hide="hideMenuMobile" ng-click="hideMenuMobile = true"></div>
+  <ul class="nav nav-tabs nav-stacked menu-list">
+
+      <div ng-show="showBasedOnRole(1)" class="editor-role">
+          <li><span>Profile</span></li>
+          <li><a href="#/myPage/edit" ng-click="hideMenuMobile = true"><img src="images/icons/app_window_shell&16.png" />Edit</a></li>
+      </div>
+       <div ng-show="showBasedOnRole(2)" class="editor-role">
+          <li><span>Fremad</span></li>      
+          <li><a href="#/myPage/updates" ng-click="hideMenuMobile = true"><img src="images/icons/attention_icon&16.png" />Updates</a></li> 
+      </div>
+      <div ng-show="showBasedOnRole(5)" class="editor-role">
+          <li><span>Page development</span></li> 
+          <li><a href="#/myPage/bugs" ng-click="hideMenuMobile = true"><img src="images/icons/bug_icon&16.png" />Report bugs</a></li>
+          <li><a href="#/myPage/featureRequest" ng-click="hideMenuMobile = true"><img src="images/icons/magic_wand_2_icon&16.png" />Feature requests</a></li>
+          <li><a href="#/myPage/developmentPlan" ng-click="hideMenuMobile = true"><img src="images/icons/cogs_icon&16.png" />Development plan</a></li>            
+      </div>
+      <li ng-click="hideMenuMobile = true"><a>Close</a></li>
+  </ul>
+</div>
+
+<aside  ng-show="showBasedOnRole(1)" class="my-page-page-wrapper">
+  <ng-view></ng-view>
+</aside>
+
+<div ng-show="!showBasedOnRole(1)" class="alert alert-danger">
+  <strong>Oh snap!</strong> You have to log in to see this..
+</div>

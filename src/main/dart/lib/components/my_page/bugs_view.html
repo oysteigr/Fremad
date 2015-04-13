@@ -1,0 +1,26 @@
+<h1>Report bugs</h1>
+
+<div class="form-group">
+  <input type="text" class="form-control input-lg" ng-model="currentBug.title" placeholder="Title">
+</div>
+<div class="form-group">
+  <input type="text" class="form-control input-lg" ng-model="currentBug.os" placeholder="Operation system">
+</div>
+<div class="form-group">
+  <input type="text" class="form-control input-lg" ng-model="currentBug.browser" placeholder="Browser">
+</div>
+<div class="form-group">
+  <textarea class="form-control" ng-model="currentBug.problem" placeholder="Bug description" rows="3"></textarea>
+</div>
+
+<div class="importance-select">
+  Importance:
+  <select name="importance" ng-model="currentBug.priority">
+    <option ng-value="1">Critical</option>
+    <option ng-value="2">Major</option>
+    <option ng-value="3">Normal</option>
+    <option ng-value="4">Minor</option>
+  </select>
+</div>
+
+<input type="button" class="adminButton greenButton" value="Report" ng-click="reportBug()"> 

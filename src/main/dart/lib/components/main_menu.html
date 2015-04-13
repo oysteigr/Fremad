@@ -12,7 +12,7 @@
         </ul></li>
       <li><a href="#/article">News</a></li>
       <li ng-show="showBasedOnRole(2)"><a href="#/admin">Admin</a></li>
-      <li ng-show="showBasedOnRole(1)"><a href="#/profile">Profile</a></li>
+      <li ng-show="showBasedOnRole(1)"><a href="#/myPage">My page</a></li>
       <li ng-click="setShowLogin(true)" ng-hide="showBasedOnRole(1)"><a>Login</a></li>
       <li ng-click="logoutUser()" ng-show="showBasedOnRole(1)"><a href="#/">Log out</a></li>
     </ul>
@@ -46,7 +46,7 @@
         </ul></li>
       <li ng-click="hideMenuMobile = true"><a href="#/article">News</a></li>
       <li ng-click="hideMenuMobile = true" ng-show="showBasedOnRole(2)"><a href="#/admin">Admin</a></li>
-      <li ng-click="hideMenuMobile = true" ng-show="showBasedOnRole(1)"><a href="#/profile">Profile</a></li>
+      <li ng-click="hideMenuMobile = true" ng-show="showBasedOnRole(1)"><a href="#/myPage">My page</a></li>
       <li ng-click="hideMenuMobile = true"> -- </li>
       <li ng-click="hideMenuMobile = true"><a>Close</a></li>
   </ul>

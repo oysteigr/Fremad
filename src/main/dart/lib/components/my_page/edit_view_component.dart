@@ -1,12 +1,12 @@
 part of fremad;
 
 @Component(
-    selector: 'profile-edit-view',
-    templateUrl: 'packages/fremad/components/profile/edit_view.html',
-    cssUrl: 'packages/fremad/components/profile/edit_view.css',
+    selector: 'my-page-edit-view',
+    templateUrl: 'packages/fremad/components/my_page/edit_view.html',
+    cssUrl: 'packages/fremad/components/my_page/edit_view.css',
     useShadowDom: false
 )
-class ShowProfileEditComponent {
+class ShowMyPageEditComponent {
   final Http _http;
   bool userMetaLoaded = false;
   bool showErrors = false;
@@ -21,7 +21,7 @@ class ShowProfileEditComponent {
   String errorMessagePassword = "";
   
   
-  ShowProfileEditComponent(this._http){
+  ShowMyPageEditComponent(this._http){
     loadUserMeta();
 
  //   leagueList.add(new League(2166, 2013, 0));
