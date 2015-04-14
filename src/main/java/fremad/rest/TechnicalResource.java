@@ -17,12 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fremad.domain.BugObject;
-import fremad.domain.TeamObject;
 import fremad.domain.list.BugListObject;
-import fremad.domain.list.TeamListObject;
-import fremad.processor.TeamProcessor;
 import fremad.processor.TechnicalProcessor;
-import fremad.utils.UrlParser;
 
  
 
