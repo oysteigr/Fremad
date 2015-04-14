@@ -1,7 +1,13 @@
 <h1>Feature request</h1>
 
-<div class="alert alert-info">
-  To be developed...
+<div class="form-group">
+  <input type="text" class="form-control input-lg" ng-model="currentRequest.title" placeholder="Title">
 </div>
+
+<div class="form-group">
+  <textarea class="form-control" ng-model="currentRequest.description" placeholder="Bug description" rows="5"></textarea>
+</div>
+
+<input type="button" class="adminButton greenButton" value="Request" ng-click="requestFeature()"> 
 
 

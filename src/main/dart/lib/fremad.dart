@@ -15,6 +15,9 @@ import 'directives/ng_bind_divelement_rich.dart';
 
 import 'models/image.dart';
 import 'models/bug.dart';
+import 'models/bug_list.dart';
+import 'models/feature_request.dart';
+import 'models/feature_request_list.dart';
 import 'models/article.dart';
 import 'models/article_list.dart';
 import 'models/page.dart';

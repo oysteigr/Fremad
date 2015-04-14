@@ -216,3 +216,14 @@ CREATE TABLE `bug` (
 	PRIMARY KEY ( `id` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `feature_request` (
+	`id` int(32) NOT NULL AUTO_INCREMENT, 
+	`user_id` int(11) NOT NULL,
+	`title` varchar(64) NOT NULL,
+	`description` text NOT NULL,
+	`date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`done` tinyint(1) NOT NULL DEFAULT 0,
+	CONSTRAINT `fk_requester_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+	PRIMARY KEY ( `id` )
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
