@@ -1,6 +1,10 @@
 <section class="front-article">
-  <img src="{{theArticle.imageUrl}}" />
-  <h4>{{theArticle.header}}</h4>
+  <a href="#/article/{{theArticle.articleType.toLowerCase()}}/{{theArticle.id}}">
+    <img src="{{theArticle.imageUrl}}" />
+  </a>
+  <a href="#/article/{{theArticle.articleType.toLowerCase()}}/{{theArticle.id}}">
+    <h4>{{theArticle.header}}</h4>
+  </a>
 
   
   <p>{{theArticle.context}}</p>

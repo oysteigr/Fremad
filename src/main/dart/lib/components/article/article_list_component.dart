@@ -22,7 +22,7 @@ class ShowArticleListComponent {
   void loadArticles() {
     html.window.console.info("Is in loadArticles");
     articlesLoaded = false;
-    _http.post('rest/article/getArticles.json', 'NEWS')
+    _http.get('rest/article/getArticleHeaders.json')
       .then((HttpResponse response) {
         print(response);
         ArticleList articleListObject = new ArticleList.fromJson(response.data);
@@ -33,7 +33,7 @@ class ShowArticleListComponent {
       .catchError((e) {
         print(e);
         articlesLoaded = false;
-        html.window.console.info("Could not load rest/article/getArticles.json");
+        html.window.console.info("Could not load rest/article/getArticleHeaders.json");
       });
   } 
   

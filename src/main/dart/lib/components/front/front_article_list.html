@@ -2,10 +2,13 @@
 <section class="article-teaser ng-binding">
   <div class="article-teaser-image">
    <div class="image-wrapper">
-    <img src="{{selectedArticle.imageUrl}}">
+     <a href="#/article/{{selectedArticle.articleType.toLowerCase()}}/{{selectedArticle.id}}">
+      <img src="{{selectedArticle.imageUrl}}">
+    </a>
    </div>
-    <h4>{{selectedArticle.header}}</h4>
-  
+    <a href="#/article/{{selectedArticle.articleType.toLowerCase()}}/{{selectedArticle.id}}">
+      <h4>{{selectedArticle.header}}</h4>
+    </a>
     
     <p>{{selectedArticle.context}}</p>
     

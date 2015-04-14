@@ -42,6 +42,24 @@ public class ArticleResoruce {
 		return articleProcessor.getArticles(articleType);
 	}
 	
+	@RequestMapping("/getArticleHeaders")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public ArticleListObject getArticleHeaders() {
+		LOG.debug("Getting article headers");
+		return articleProcessor.getArticleHeaders();
+	}
+	
+	@RequestMapping("/getArticleHeadersShort")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public ArticleListObject getArticleHeadersShort() {
+		LOG.debug("Getting article headers short");
+		return articleProcessor.getArticleHeadersShort();
+	}
+	
 	@RequestMapping("/getArticle")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)

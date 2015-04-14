@@ -1,0 +1,14 @@
+<section class="article-wrapper">
+  <h1>{{article.header}}</h1>
+  <div class="article-main-image">
+    <img class="article-main-image" src="{{article.imageUrl}}"/>
+  </div>
+  <div class="article-context">
+    {{getHomeTeamName(match).toUpperCase()}} - {{getAwayTeamName(match).toUpperCase()}} 
+    {{report.homeScore}}-{{report.awayScore}} ({{report.homeScorePause}}-{{report.awayScorePause}}):
+    {{article.context}}
+  </div>
+  
+  <div class="article-content" ng-bind-html-unsafe="article.content"></div>
+  
+</section>

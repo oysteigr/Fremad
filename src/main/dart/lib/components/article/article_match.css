@@ -1,0 +1,33 @@
+.article-wrapper {
+  font-size: 18px;
+  width: 70%;
+  background-color: #FFFFFF;
+  margin-bottom: 5px;
+  border-style: solid;
+  border-color: #AAAAAA;
+  border-width: 1px;
+  border-radius: 8px;
+  padding: 4%;
+}
+
+.article-main-image {
+  width: 100%;
+  padding: 1%;
+}
+
+.article-context {
+  font-weight: bold;
+  margin-bottom: 3%;
+}
+
+@media screen and (max-width: 750px) {
+  .article-wrapper {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .article-wrapper {
+    font-size: 14px;
+  }
+}
