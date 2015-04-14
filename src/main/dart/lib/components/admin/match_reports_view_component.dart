@@ -222,6 +222,9 @@ class ShowAdminMatchReportsComponent {
   }
   
   String getPublishedState(MatchEntry match){
+    if(!matcheReportsLoaded){
+      return "";
+    }
     if(reportList.where((Report) => Report.matchId == match.id).length != 0){
       return reportList.where((Report) => Report.matchId == match.id).first.published ? "published" : "unpublished"; 
     }
@@ -246,6 +249,9 @@ class ShowAdminMatchReportsComponent {
   }
   
   String getHomeTeamName(MatchEntry match) {
+    if(match.id == -1){
+      return "";
+    }
     if (match.homeMatch) {
       return teamList.where((Team) => Team.id == match.fremadTeam).first.name;
     } else {
@@ -254,6 +260,9 @@ class ShowAdminMatchReportsComponent {
   }
   
   String getAwayTeamName(MatchEntry match) {
+    if(match.id == -1){
+      return "";
+    }
     if (! match.homeMatch) {
       return teamList.where((Team) => Team.id == match.fremadTeam).first.name;
     } else {

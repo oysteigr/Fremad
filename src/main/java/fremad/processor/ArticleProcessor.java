@@ -61,8 +61,9 @@ public class ArticleProcessor {
 		if(maxSize > articleList.getList().size()){
 			maxSize = articleList.getList().size();
 		}
-		articleList.addAll(articleList.getList().subList(0, maxSize-1));
-		return articleList;
+		ArticleListObject shortList = new ArticleListObject();
+		shortList.addAll(articleList.getList().subList(0, maxSize));
+		return shortList;
 	}
 
 	public ArticleObject getArticle(int id) {
