@@ -142,12 +142,23 @@ public class JdbcMatchDao extends JdbcConnection implements MatchDao {
 	public MatchListObject getThisYearsMatches() {
 		LOG.debug("In getMatches(teamId)");
 		
-		//String query = "select * from" + SqlTablesConstants.SQL_TABLE_NAME_MATCH + "where YEAR(date) = YEAR(CURRENT_DATE())";
-		String query = "select * from" + SqlTablesConstants.SQL_TABLE_NAME_MATCH + "where YEAR(date) = 2014";
+		String query = "select * from" + SqlTablesConstants.SQL_TABLE_NAME_MATCH + "where YEAR(date) = YEAR(CURRENT_DATE())";
 		MatchListObject matchList = new MatchListObject();
 		matchList.addAll(this.namedParameterJdbcTemplate.getJdbcOperations().query(query, new BeanPropertyRowMapper<>(MatchObject.class)));
 
 		
+		LOG.debug("Found " + matchList.size() + " matches");
+		
+		return matchList;
+	}
+
+	public MatchListObject getMatches() {
+		LOG.debug("In getMatches(teamId)");
+		
+		String query = "select * from" + SqlTablesConstants.SQL_TABLE_NAME_MATCH + "ORDER BY date DESC";
+		MatchListObject matchList = new MatchListObject();
+		matchList.addAll(this.namedParameterJdbcTemplate.getJdbcOperations().query(query, new BeanPropertyRowMapper<>(MatchObject.class)));
+
 		LOG.debug("Found " + matchList.size() + " matches");
 		
 		return matchList;

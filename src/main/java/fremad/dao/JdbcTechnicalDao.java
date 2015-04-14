@@ -1,5 +1,7 @@
 package fremad.dao;
 
+import java.sql.Timestamp;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -10,7 +12,9 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import fremad.domain.BugObject;
+import fremad.domain.FeatureRequestObject;
 import fremad.domain.list.BugListObject;
+import fremad.domain.list.FeatureRequestListObject;
 
 @Repository
 public class JdbcTechnicalDao extends JdbcConnection implements TechnicalDao {
@@ -42,9 +46,7 @@ public class JdbcTechnicalDao extends JdbcConnection implements TechnicalDao {
 			bugObject.setId(newId.intValue());
 			return bugObject;
 		}
-		
 		return null;
-		
 	}
 	
 	@Override
@@ -81,4 +83,63 @@ public class JdbcTechnicalDao extends JdbcConnection implements TechnicalDao {
 		return bugObject;
 	}
 	
+	
+	
+	@Override
+	public FeatureRequestListObject getFeatureRequests(){
+		LOG.debug("In getFeatureRequests()");
+		
+		String query = "select * from " + SqlTablesConstants.SQL_TABLE_NAME_FEATURE_REQUEST;
+		FeatureRequestListObject features = new FeatureRequestListObject();
+		
+		features.addAll(this.namedParameterJdbcTemplate.getJdbcOperations().query(query, new BeanPropertyRowMapper<>(FeatureRequestObject.class)));
+		return features;
+	}
+	
+	@Override
+	public FeatureRequestObject addFeatureRequest(FeatureRequestObject featureRequestObject){
+		LOG.debug("In addFeatureRequest(featureRequestObject)");
+
+		SimpleJdbcInsert insertFeatureRequest = new SimpleJdbcInsert(this.getDataSource())
+			.withTableName(SqlTablesConstants.SQL_TABLE_NAME_FEATURE_REQUEST)
+			.usingGeneratedKeyColumns("id");
+		SqlParameterSource parameters = new BeanPropertySqlParameterSource(featureRequestObject);
+		Number newId = insertFeatureRequest.executeAndReturnKey(parameters);
+		
+		if(newId != null){
+			featureRequestObject.setId(newId.intValue());
+			return featureRequestObject;
+		}
+		return null;
+	}
+	
+	@Override
+	public FeatureRequestObject updateFeatureRequest(FeatureRequestObject featureRequestObject){
+		LOG.debug("In updateBug(bugObject)");
+		
+		String updateStatement = "update " + SqlTablesConstants.SQL_TABLE_NAME_FEATURE_REQUEST + " set "
+				+ "user_id = :userId, "
+				+ "title = :title, "
+				+ "description = :description, "
+				+ "date = :date, "
+				+ "done = :done "
+				+ "where id = :id";
+		
+		SqlParameterSource parameters = new BeanPropertySqlParameterSource(featureRequestObject);
+		this.namedParameterJdbcTemplate.update(updateStatement, parameters);
+		
+		return featureRequestObject;
+	}
+	
+	@Override
+	public FeatureRequestObject deleteFeatureRequest(FeatureRequestObject featureRequestObject){
+		LOG.debug("In deleteBug(bugObject)");
+		
+		String query = "delete from " + SqlTablesConstants.SQL_TABLE_NAME_FEATURE_REQUEST + " where id = :featureId";
+		SqlParameterSource parameters = new MapSqlParameterSource("featureId", featureRequestObject.getId());
+		
+		namedParameterJdbcTemplate.update(query, parameters);
+		
+		return featureRequestObject;
+	}
 }

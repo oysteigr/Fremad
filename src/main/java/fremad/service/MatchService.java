@@ -46,4 +46,7 @@ public class MatchService {
 		
 		return matchesAdded;
 	}
+	public MatchListObject getMatches() {
+		return jdbcMatchDao.getMatches();
+	}
 }
